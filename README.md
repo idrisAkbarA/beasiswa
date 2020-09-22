@@ -1,6 +1,7 @@
 ## Installing
 - composer install
 - npm install
+- npm run watch // build spa
 - buat env
 - buat db
 - php artisan migrate
