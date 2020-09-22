@@ -164,80 +164,116 @@
             <v-subheader>Buat Form</v-subheader>
           </v-row>
 
-  <!-- Form -->
+          <!-- Form -->
           <transition-group name="scale-transition">
-          
-          <v-card
-            v-for="field in fields"
-            :key="field.index"
-            elevation="10"
-            color="#388E3C"
-            class="mb-2"
-            style="padding-bottom:0 !important;"
-          >
 
-            <v-container style="padding-bottom:0 !important;">
-              <v-row style="padding-bottom:0 !important;">
-                <v-col
-                  cols="7"
-                  style="padding-bottom:0 !important;"
-                >
-                  <v-text-field
-                    color="white"
-                    dense
-                    label="Pertanyaan"
-                    v-model="field.pertanyaan"
-                  ></v-text-field>
-                </v-col>
-                <v-col
-                  cols="5"
-                  style="padding-bottom:0 !important;"
-                >
-                  <v-select
-                    v-model="field.type"
-                    dense
-                    :items="itemTypes"
-                    label="Tipe isian"
-                    color="white"
-                    outlined
-                  ></v-select>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col style="padding-bottom:0 !important;">
-                  <v-text-field
-                    dense
-                    disabled=""
-                    filled
-                    placeholder="Jawaban Pendek"
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-              <v-row
-                class="mb-2"
-                align="center"
-                justify="end"
-              >
+            <v-card
+              v-for="field in fields"
+              :key="field.index"
+              elevation="10"
+              color="#388E3C"
+              class="mb-2"
+              style="padding-bottom:0 !important;"
+            >
 
-                <v-btn
-                  icon
-                  color="white"
-                  @click="deleteField(field)"
+              <v-container style="padding-bottom:0 !important;">
+                <v-row style="padding-bottom:0 !important;">
+                  <v-col
+                    cols="7"
+                    style="padding-bottom:0 !important;"
+                  >
+                    <v-text-field
+                      color="white"
+                      dense
+                      label="Pertanyaan"
+                      v-model="field.pertanyaan"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col
+                    cols="5"
+                    style="padding-bottom:0 !important;"
+                  >
+                    <v-select
+                      v-model="field.type"
+                      dense
+                      :items="itemTypes"
+                      label="Tipe isian"
+                      color="white"
+                      outlined
+                    ></v-select>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col style="padding-bottom:0 !important;">
+                    <v-text-field
+                    prepend-icon="mdi-text-short"
+                      v-if="field.type == 'Jawaban Pendek'"
+                      dense
+                      disabled
+                      filled
+                      placeholder="Jawaban Pendek"
+                    ></v-text-field>
+                    <v-text-field
+                      prepend-icon="mdi-numeric"
+                      v-if="field.type == 'Jawaban Angka'"
+                      dense
+                      disabled
+                      filled
+                      type="number"
+                      placeholder="Jawaban Angka"
+                    ></v-text-field>
+                    <v-text-field
+                      prepend-icon="mdi-calendar"
+                      v-if="field.type == 'Tanggal'"
+                      dense
+                      disabled
+                      filled
+                      label="Tanggal"
+                    ></v-text-field>
+                    <v-file-input
+                      v-if="field.type == 'Upload File'"
+                      dense
+                      disabled
+                      filled
+                      placeholder="Upload File"
+                    ></v-file-input>
+                    <v-textarea
+                    prepend-icon="mdi-view-headline"
+                     v-if="field.type == 'Paragraf'"
+                      color="white"
+                      rows="1"
+                      disabled
+                      filled
+                      dense
+                      label="Paragraf"
+                    ></v-textarea>
+                  </v-col>
+                </v-row>
+                <v-row
+                  class="mb-2"
+                  align="center"
+                  justify="end"
                 >
-                  <v-icon>mdi-trash-can</v-icon>
-                </v-btn>
-                <span class="ml-2 mr-1">Wajib diisi</span>
-                <!-- v-model="switch1"
+
+                  <v-btn
+                    icon
+                    color="white"
+                    @click="deleteField(field)"
+                  >
+                    <v-icon>mdi-trash-can</v-icon>
+                  </v-btn>
+                  <span class="ml-2 mr-1">Wajib diisi</span>
+                  <!-- v-model="switch1"
                   :label="`Switch 1: ${switch1.toString()}`" -->
-                <v-switch
-                  v-model="field.required"
-                  color="white"
-                ></v-switch>
+                  <v-switch
+                    v-model="field.required"
+                    color="white"
+                  ></v-switch>
 
-              </v-row>
+                </v-row>
 
-            </v-container>
-          </v-card>
+              </v-container>
+            </v-card>
           </transition-group>
           <v-row justify="center">
             <v-btn
@@ -269,18 +305,23 @@ export default {
   methods: {
     ...mapMutations(["toggleOpenBeasiswa"]),
     ...mapActions(["getBeasiswa"]),
-    addField(){
+    compareType(a, b) {
+      a == b ? true : false;
+    },
+    addField() {
       // get the last array then add the order value
       this.fields.push({
-          type: "Jawaban Pendek",
-          pertanyaan: "",
-          index: (this.fields[0])?this.fields[this.fields.length-1].index+1 : 0,
-          required: true
-        });
-        console.log(this.fields)
+        type: "Jawaban Pendek",
+        pertanyaan: "",
+        index: this.fields[0]
+          ? this.fields[this.fields.length - 1].index + 1
+          : 0,
+        required: true
+      });
+      console.log(this.fields);
     },
-    deleteField(field){
-      this.fields.splice(this.fields.indexOf(field),1)
+    deleteField(field) {
+      this.fields.splice(this.fields.indexOf(field), 1);
     }
   },
   computed: {
@@ -306,6 +347,7 @@ export default {
       ],
       itemTypes: [
         "Jawaban Pendek",
+        "Jawaban Angka",
         "Paragraf",
         "Upload File",
         "Pilihan",

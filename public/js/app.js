@@ -2494,12 +2494,51 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
     this.getBeasiswa();
   },
   methods: _objectSpread(_objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(["toggleOpenBeasiswa"])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getBeasiswa"])), {}, {
+    compareType: function compareType(a, b) {
+      a == b ? true : false;
+    },
     addField: function addField() {
       // get the last array then add the order value
       this.fields.push({
@@ -2532,7 +2571,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         index: 0,
         required: true
       }],
-      itemTypes: ["Jawaban Pendek", "Paragraf", "Upload File", "Pilihan", "Tanggal"],
+      itemTypes: ["Jawaban Pendek", "Jawaban Angka", "Paragraf", "Upload File", "Pilihan", "Tanggal"],
       sheet: false,
       menuWawancara: false,
       menuberkas: false,
@@ -39962,14 +40001,68 @@ var render = function() {
                                       }
                                     },
                                     [
-                                      _c("v-text-field", {
-                                        attrs: {
-                                          dense: "",
-                                          disabled: "",
-                                          filled: "",
-                                          placeholder: "Jawaban Pendek"
-                                        }
-                                      })
+                                      field.type == "Jawaban Pendek"
+                                        ? _c("v-text-field", {
+                                            attrs: {
+                                              "prepend-icon": "mdi-text-short",
+                                              dense: "",
+                                              disabled: "",
+                                              filled: "",
+                                              placeholder: "Jawaban Pendek"
+                                            }
+                                          })
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      field.type == "Jawaban Angka"
+                                        ? _c("v-text-field", {
+                                            attrs: {
+                                              "prepend-icon": "mdi-numeric",
+                                              dense: "",
+                                              disabled: "",
+                                              filled: "",
+                                              type: "number",
+                                              placeholder: "Jawaban Angka"
+                                            }
+                                          })
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      field.type == "Tanggal"
+                                        ? _c("v-text-field", {
+                                            attrs: {
+                                              "prepend-icon": "mdi-calendar",
+                                              dense: "",
+                                              disabled: "",
+                                              filled: "",
+                                              label: "Tanggal"
+                                            }
+                                          })
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      field.type == "Upload File"
+                                        ? _c("v-file-input", {
+                                            attrs: {
+                                              dense: "",
+                                              disabled: "",
+                                              filled: "",
+                                              placeholder: "Upload File"
+                                            }
+                                          })
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      field.type == "Paragraf"
+                                        ? _c("v-textarea", {
+                                            attrs: {
+                                              "prepend-icon":
+                                                "mdi-view-headline",
+                                              color: "white",
+                                              rows: "1",
+                                              disabled: "",
+                                              filled: "",
+                                              dense: "",
+                                              label: "Paragraf"
+                                            }
+                                          })
+                                        : _vm._e()
                                     ],
                                     1
                                   )
