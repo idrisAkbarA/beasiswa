@@ -1,3 +1,11 @@
+## Installing
+composer install
+npm install
+buat env
+buat db
+php artisan migrate
+php artisan initAdmin //untuk buat user admin test
+php artisan initBeasiswa //untuk buat dummy data beasiswa
 <p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
 
 <p align="center">
