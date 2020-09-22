@@ -163,6 +163,10 @@
           <v-row>
             <v-subheader>Buat Form</v-subheader>
           </v-row>
+
+  <!-- Form -->
+          <transition-group name="scale-transition">
+          
           <v-card
             v-for="field in fields"
             :key="field.index"
@@ -218,6 +222,7 @@
                 <v-btn
                   icon
                   color="white"
+                  @click="deleteField(field)"
                 >
                   <v-icon>mdi-trash-can</v-icon>
                 </v-btn>
@@ -233,6 +238,7 @@
 
             </v-container>
           </v-card>
+          </transition-group>
           <v-row justify="center">
             <v-btn
               class="mt-2"
@@ -240,6 +246,7 @@
               dark
               small
               color="green"
+              @click="addField()"
             >
               <v-icon dark>
                 mdi-plus
@@ -249,28 +256,41 @@
         </v-card-text>
       </v-card>
     </v-bottom-sheet>
-    
+
   </v-container>
 </template>
 
 <script>
-import { mapActions,  mapMutations, mapState } from "vuex";
+import { mapActions, mapMutations, mapState } from "vuex";
 export default {
   created() {
     this.getBeasiswa();
   },
   methods: {
     ...mapMutations(["toggleOpenBeasiswa"]),
-    ...mapActions(["getBeasiswa",])
+    ...mapActions(["getBeasiswa"]),
+    addField(){
+      // get the last array then add the order value
+      this.fields.push({
+          type: "Jawaban Pendek",
+          pertanyaan: "",
+          index: (this.fields[0])?this.fields[this.fields.length-1].index+1 : 0,
+          required: true
+        });
+        console.log(this.fields)
+    },
+    deleteField(field){
+      this.fields.splice(this.fields.indexOf(field),1)
+    }
   },
   computed: {
-    ...mapState(["beasiswa","isOpenBeasiswa"]),
-    toggleBeasiswa:{
-      get:function(){
-        return this.isOpenBeasiswa
+    ...mapState(["beasiswa", "isOpenBeasiswa"]),
+    toggleBeasiswa: {
+      get: function() {
+        return this.isOpenBeasiswa;
       },
-      set:function(data){
-        this.toggleOpenBeasiswa(data)
+      set: function(data) {
+        this.toggleOpenBeasiswa(data);
       }
     }
   },
@@ -279,11 +299,10 @@ export default {
       fields: [
         {
           type: "Jawaban Pendek",
-          pertanyaan: "Tets",
+          pertanyaan: "",
           index: 0,
           required: true
-        },
-        { type: "Jawaban Pendek", pertanyaan: "", index: 1, required: false }
+        }
       ],
       itemTypes: [
         "Jawaban Pendek",

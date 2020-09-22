@@ -2487,12 +2487,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
     this.getBeasiswa();
   },
-  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(["toggleOpenBeasiswa"])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getBeasiswa"])),
+  methods: _objectSpread(_objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(["toggleOpenBeasiswa"])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getBeasiswa"])), {}, {
+    addField: function addField() {
+      // get the last array then add the order value
+      this.fields.push({
+        type: "Jawaban Pendek",
+        pertanyaan: "",
+        index: this.fields[0] ? this.fields[this.fields.length - 1].index + 1 : 0,
+        required: true
+      });
+      console.log(this.fields);
+    },
+    deleteField: function deleteField(field) {
+      this.fields.splice(this.fields.indexOf(field), 1);
+    }
+  }),
   computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["beasiswa", "isOpenBeasiswa"])), {}, {
     toggleBeasiswa: {
       get: function get() {
@@ -2507,14 +2528,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       fields: [{
         type: "Jawaban Pendek",
-        pertanyaan: "Tets",
+        pertanyaan: "",
         index: 0,
         required: true
-      }, {
-        type: "Jawaban Pendek",
-        pertanyaan: "",
-        index: 1,
-        required: false
       }],
       itemTypes: ["Jawaban Pendek", "Paragraf", "Upload File", "Pilihan", "Tanggal"],
       sheet: false,
@@ -39849,151 +39865,165 @@ var render = function() {
                   _vm._v(" "),
                   _c("v-row", [_c("v-subheader", [_vm._v("Buat Form")])], 1),
                   _vm._v(" "),
-                  _vm._l(_vm.fields, function(field) {
-                    return _c(
-                      "v-card",
-                      {
-                        key: field.index,
-                        staticClass: "mb-2",
-                        staticStyle: { "padding-bottom": "0 !important" },
-                        attrs: { elevation: "10", color: "#388E3C" }
-                      },
-                      [
-                        _c(
-                          "v-container",
-                          { staticStyle: { "padding-bottom": "0 !important" } },
-                          [
-                            _c(
-                              "v-row",
-                              {
-                                staticStyle: {
-                                  "padding-bottom": "0 !important"
-                                }
-                              },
-                              [
-                                _c(
-                                  "v-col",
-                                  {
-                                    staticStyle: {
-                                      "padding-bottom": "0 !important"
-                                    },
-                                    attrs: { cols: "7" }
-                                  },
-                                  [
-                                    _c("v-text-field", {
-                                      attrs: {
-                                        color: "white",
-                                        dense: "",
-                                        label: "Pertanyaan"
-                                      },
-                                      model: {
-                                        value: field.pertanyaan,
-                                        callback: function($$v) {
-                                          _vm.$set(field, "pertanyaan", $$v)
-                                        },
-                                        expression: "field.pertanyaan"
-                                      }
-                                    })
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-col",
-                                  {
-                                    staticStyle: {
-                                      "padding-bottom": "0 !important"
-                                    },
-                                    attrs: { cols: "5" }
-                                  },
-                                  [
-                                    _c("v-select", {
-                                      attrs: {
-                                        dense: "",
-                                        items: _vm.itemTypes,
-                                        label: "Tipe isian",
-                                        color: "white",
-                                        outlined: ""
-                                      },
-                                      model: {
-                                        value: field.type,
-                                        callback: function($$v) {
-                                          _vm.$set(field, "type", $$v)
-                                        },
-                                        expression: "field.type"
-                                      }
-                                    })
-                                  ],
-                                  1
-                                )
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "v-row",
-                              [
-                                _c(
-                                  "v-col",
-                                  {
-                                    staticStyle: {
-                                      "padding-bottom": "0 !important"
-                                    }
-                                  },
-                                  [
-                                    _c("v-text-field", {
-                                      attrs: {
-                                        dense: "",
-                                        disabled: "",
-                                        filled: "",
-                                        placeholder: "Jawaban Pendek"
-                                      }
-                                    })
-                                  ],
-                                  1
-                                )
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "v-row",
-                              {
-                                staticClass: "mb-2",
-                                attrs: { align: "center", justify: "end" }
-                              },
-                              [
-                                _c(
-                                  "v-btn",
-                                  { attrs: { icon: "", color: "white" } },
-                                  [_c("v-icon", [_vm._v("mdi-trash-can")])],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c("span", { staticClass: "ml-2 mr-1" }, [
-                                  _vm._v("Wajib diisi")
-                                ]),
-                                _vm._v(" "),
-                                _c("v-switch", {
-                                  attrs: { color: "white" },
-                                  model: {
-                                    value: field.required,
-                                    callback: function($$v) {
-                                      _vm.$set(field, "required", $$v)
-                                    },
-                                    expression: "field.required"
+                  _c(
+                    "transition-group",
+                    { attrs: { name: "scale-transition" } },
+                    _vm._l(_vm.fields, function(field) {
+                      return _c(
+                        "v-card",
+                        {
+                          key: field.index,
+                          staticClass: "mb-2",
+                          staticStyle: { "padding-bottom": "0 !important" },
+                          attrs: { elevation: "10", color: "#388E3C" }
+                        },
+                        [
+                          _c(
+                            "v-container",
+                            {
+                              staticStyle: { "padding-bottom": "0 !important" }
+                            },
+                            [
+                              _c(
+                                "v-row",
+                                {
+                                  staticStyle: {
+                                    "padding-bottom": "0 !important"
                                   }
-                                })
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    )
-                  }),
+                                },
+                                [
+                                  _c(
+                                    "v-col",
+                                    {
+                                      staticStyle: {
+                                        "padding-bottom": "0 !important"
+                                      },
+                                      attrs: { cols: "7" }
+                                    },
+                                    [
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          color: "white",
+                                          dense: "",
+                                          label: "Pertanyaan"
+                                        },
+                                        model: {
+                                          value: field.pertanyaan,
+                                          callback: function($$v) {
+                                            _vm.$set(field, "pertanyaan", $$v)
+                                          },
+                                          expression: "field.pertanyaan"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-col",
+                                    {
+                                      staticStyle: {
+                                        "padding-bottom": "0 !important"
+                                      },
+                                      attrs: { cols: "5" }
+                                    },
+                                    [
+                                      _c("v-select", {
+                                        attrs: {
+                                          dense: "",
+                                          items: _vm.itemTypes,
+                                          label: "Tipe isian",
+                                          color: "white",
+                                          outlined: ""
+                                        },
+                                        model: {
+                                          value: field.type,
+                                          callback: function($$v) {
+                                            _vm.$set(field, "type", $$v)
+                                          },
+                                          expression: "field.type"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-row",
+                                [
+                                  _c(
+                                    "v-col",
+                                    {
+                                      staticStyle: {
+                                        "padding-bottom": "0 !important"
+                                      }
+                                    },
+                                    [
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          dense: "",
+                                          disabled: "",
+                                          filled: "",
+                                          placeholder: "Jawaban Pendek"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-row",
+                                {
+                                  staticClass: "mb-2",
+                                  attrs: { align: "center", justify: "end" }
+                                },
+                                [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: { icon: "", color: "white" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.deleteField(field)
+                                        }
+                                      }
+                                    },
+                                    [_c("v-icon", [_vm._v("mdi-trash-can")])],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c("span", { staticClass: "ml-2 mr-1" }, [
+                                    _vm._v("Wajib diisi")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("v-switch", {
+                                    attrs: { color: "white" },
+                                    model: {
+                                      value: field.required,
+                                      callback: function($$v) {
+                                        _vm.$set(field, "required", $$v)
+                                      },
+                                      expression: "field.required"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    }),
+                    1
+                  ),
                   _vm._v(" "),
                   _c(
                     "v-row",
@@ -40008,6 +40038,11 @@ var render = function() {
                             dark: "",
                             small: "",
                             color: "green"
+                          },
+                          on: {
+                            click: function($event) {
+                              return _vm.addField()
+                            }
                           }
                         },
                         [
@@ -40021,7 +40056,7 @@ var render = function() {
                     1
                   )
                 ],
-                2
+                1
               )
             ],
             1
