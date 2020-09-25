@@ -205,8 +205,39 @@
                 </v-row>
                 <v-row>
                   <v-col style="padding-bottom:0 !important;">
+                    <v-radio-group
+                      v-if="field.type == 'Pilihan'"
+                      column
+                    >
+                      <v-radio
+                        value="red"
+                        color="white"
+                      >
+                        <template v-slot:label>
+                          <div>
+                            <v-text-field
+                              color="white"
+                              dense
+                              filled
+                              label="Label"
+                            ></v-text-field>
+                          </div>
+                        </template>
+                      </v-radio>
+                      <v-btn
+                        class="mt-2 grey darken-3"
+                        fab
+                        dark
+                        small
+
+                      >
+                        <v-icon dark>
+                          mdi-plus
+                        </v-icon>
+                      </v-btn>
+                    </v-radio-group>
                     <v-text-field
-                    prepend-icon="mdi-text-short"
+                      prepend-icon="mdi-text-short"
                       v-if="field.type == 'Jawaban Pendek'"
                       dense
                       disabled
@@ -238,8 +269,8 @@
                       placeholder="Upload File"
                     ></v-file-input>
                     <v-textarea
-                    prepend-icon="mdi-view-headline"
-                     v-if="field.type == 'Paragraf'"
+                      prepend-icon="mdi-view-headline"
+                      v-if="field.type == 'Paragraf'"
                       color="white"
                       rows="1"
                       disabled
@@ -263,8 +294,6 @@
                     <v-icon>mdi-trash-can</v-icon>
                   </v-btn>
                   <span class="ml-2 mr-1">Wajib diisi</span>
-                  <!-- v-model="switch1"
-                  :label="`Switch 1: ${switch1.toString()}`" -->
                   <v-switch
                     v-model="field.required"
                     color="white"
@@ -316,7 +345,7 @@ export default {
         index: this.fields[0]
           ? this.fields[this.fields.length - 1].index + 1
           : 0,
-        required: true
+        required: false
       });
       console.log(this.fields);
     },
@@ -342,6 +371,7 @@ export default {
           type: "Jawaban Pendek",
           pertanyaan: "",
           index: 0,
+          value:"",
           required: true
         }
       ],
@@ -371,7 +401,8 @@ export default {
         { text: "Actions", value: "actions", sortable: false }
       ]
     };
-  }
+  },
+  watch: {}
 };
 </script>
 

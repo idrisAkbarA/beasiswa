@@ -2530,6 +2530,35 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
@@ -2545,7 +2574,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         type: "Jawaban Pendek",
         pertanyaan: "",
         index: this.fields[0] ? this.fields[this.fields.length - 1].index + 1 : 0,
-        required: true
+        required: false
       });
       console.log(this.fields);
     },
@@ -2593,7 +2622,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         sortable: false
       }]
     };
-  }
+  },
+  watch: {}
 });
 
 /***/ }),
@@ -40001,6 +40031,80 @@ var render = function() {
                                       }
                                     },
                                     [
+                                      field.type == "Pilihan"
+                                        ? _c(
+                                            "v-radio-group",
+                                            { attrs: { column: "" } },
+                                            [
+                                              _c("v-radio", {
+                                                attrs: {
+                                                  value: "red",
+                                                  color: "white"
+                                                },
+                                                scopedSlots: _vm._u(
+                                                  [
+                                                    {
+                                                      key: "label",
+                                                      fn: function() {
+                                                        return [
+                                                          _c(
+                                                            "div",
+                                                            [
+                                                              _c(
+                                                                "v-text-field",
+                                                                {
+                                                                  attrs: {
+                                                                    color:
+                                                                      "white",
+                                                                    dense: "",
+                                                                    filled: "",
+                                                                    label:
+                                                                      "Label"
+                                                                  }
+                                                                }
+                                                              )
+                                                            ],
+                                                            1
+                                                          )
+                                                        ]
+                                                      },
+                                                      proxy: true
+                                                    }
+                                                  ],
+                                                  null,
+                                                  true
+                                                )
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-btn",
+                                                {
+                                                  staticClass:
+                                                    "mt-2 grey darken-3",
+                                                  attrs: {
+                                                    fab: "",
+                                                    dark: "",
+                                                    small: ""
+                                                  }
+                                                },
+                                                [
+                                                  _c(
+                                                    "v-icon",
+                                                    { attrs: { dark: "" } },
+                                                    [
+                                                      _vm._v(
+                                                        "\n                        mdi-plus\n                      "
+                                                      )
+                                                    ]
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        : _vm._e(),
+                                      _vm._v(" "),
                                       field.type == "Jawaban Pendek"
                                         ? _c("v-text-field", {
                                             attrs: {

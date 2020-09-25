@@ -23,21 +23,21 @@ Route::post('/authenticate', 'AuthAPIController@login');
 Route::post('/authenticate/petugas', 'AuthAPIController@loginPetugas');
 Route::get('/logout', 'AuthAPIController@logout');
 
-Route::post('/instansi','InstansiController@store');
-Route::put('/instansi/{id}','InstansiController@edit');
-Route::get('/instansi','InstansiController@getAll');
-Route::get('/instansi/{id}','InstansiController@get');
-Route::delete('/instansi/{id}','InstansiController@delete');
+Route::middleware('auth:petugas')->post('/instansi','InstansiController@store');
+Route::middleware('auth:petugas')->put('/instansi/{id}','InstansiController@edit');
+Route::middleware('auth:petugas')->get('/instansi','InstansiController@getAll');
+Route::middleware('auth:petugas')->get('/instansi/{id}','InstansiController@get');
+Route::middleware('auth:petugas')->delete('/instansi/{id}','InstansiController@delete');
 
-Route::post('/petugas','PetugasController@store');
-Route::put('/petugas/{id}','PetugasController@edit');
-Route::get('/petugas','PetugasController@getAll');
-Route::get('/petugas/{id}','PetugasController@get');
-Route::delete('/petugas/{id}','PetugasController@delete'); 
+Route::middleware('auth:petugas')->post('/petugas','PetugasController@store');
+Route::middleware('auth:petugas')->put('/petugas/{id}','PetugasController@edit');
+Route::middleware('auth:petugas')->get('/petugas','PetugasController@getAll');
+Route::middleware('auth:petugas')->get('/petugas/{id}','PetugasController@get');
+Route::middleware('auth:petugas')->delete('/petugas/{id}','PetugasController@delete'); 
 
-Route::post('/beasiswa','BeasiswaController@store');
-Route::put('/beasiswa/{id}','BeasiswaController@edit');
-Route::get('/beasiswa','BeasiswaController@getAll');
-Route::get('/beasiswa/{id}','BeasiswaController@get');
-Route::delete('/beasiswa/{id}','BeasiswaController@delete'); 
+Route::middleware('auth:petugas')->post('/beasiswa','BeasiswaController@store');
+Route::middleware('auth:petugas')->put('/beasiswa/{id}','BeasiswaController@edit');
+Route::middleware('auth:petugas')->get('/beasiswa','BeasiswaController@getAll');
+Route::middleware('auth:petugas')->get('/beasiswa/{id}','BeasiswaController@get');
+Route::middleware('auth:petugas')->delete('/beasiswa/{id}','BeasiswaController@delete'); 
 
