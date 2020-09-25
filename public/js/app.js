@@ -2559,6 +2559,29 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
@@ -2580,6 +2603,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     deleteField: function deleteField(field) {
       this.fields.splice(this.fields.indexOf(field), 1);
+    },
+    addPilihanItem: function addPilihanItem(field_index) {
+      this.fields[field_index].pilihan.items.push({
+        label: ""
+      });
+    },
+    deletePilihanItem: function deletePilihanItem(field, label) {
+      var item = this.fields[this.fields.indexOf(field)].pilihan.items;
+      item.splice(item.indexOf(label), 1);
     }
   }),
   computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["beasiswa", "isOpenBeasiswa"])), {}, {
@@ -2598,6 +2630,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         type: "Jawaban Pendek",
         pertanyaan: "",
         index: 0,
+        value: "",
+        required: true
+      }, {
+        type: "Pilihan",
+        pertanyaan: "",
+        index: 1,
+        value: "",
+        pilihan: {
+          required: true,
+          items: [{
+            label: "Ayam"
+          }, {
+            label: "Kucing"
+          }]
+        },
         required: true
       }],
       itemTypes: ["Jawaban Pendek", "Jawaban Angka", "Paragraf", "Upload File", "Pilihan", "Tanggal"],
@@ -40034,47 +40081,155 @@ var render = function() {
                                       field.type == "Pilihan"
                                         ? _c(
                                             "v-radio-group",
-                                            { attrs: { column: "" } },
+                                            {
+                                              attrs: {
+                                                column: "",
+                                                mandatory:
+                                                  field.pilihan.required
+                                              }
+                                            },
                                             [
-                                              _c("v-radio", {
-                                                attrs: {
-                                                  value: "red",
-                                                  color: "white"
-                                                },
-                                                scopedSlots: _vm._u(
-                                                  [
+                                              _c(
+                                                "v-row",
+                                                { attrs: { align: "center" } },
+                                                [
+                                                  _c(
+                                                    "span",
                                                     {
-                                                      key: "label",
-                                                      fn: function() {
-                                                        return [
-                                                          _c(
-                                                            "div",
-                                                            [
+                                                      staticClass: "ml-2 mr-1"
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "Pilihan wajib diisi"
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c("v-switch", {
+                                                    attrs: { color: "white" },
+                                                    model: {
+                                                      value:
+                                                        field.pilihan.required,
+                                                      callback: function($$v) {
+                                                        _vm.$set(
+                                                          field.pilihan,
+                                                          "required",
+                                                          $$v
+                                                        )
+                                                      },
+                                                      expression:
+                                                        "field.pilihan.required"
+                                                    }
+                                                  })
+                                                ],
+                                                1
+                                              ),
+                                              _vm._v(" "),
+                                              _vm._l(
+                                                field.pilihan.items,
+                                                function(item, index) {
+                                                  return _c("v-radio", {
+                                                    key: index,
+                                                    attrs: {
+                                                      value: item.label,
+                                                      color: "white"
+                                                    },
+                                                    scopedSlots: _vm._u(
+                                                      [
+                                                        {
+                                                          key: "label",
+                                                          fn: function() {
+                                                            return [
                                                               _c(
-                                                                "v-text-field",
+                                                                "v-row",
                                                                 {
                                                                   attrs: {
-                                                                    color:
-                                                                      "white",
-                                                                    dense: "",
-                                                                    filled: "",
-                                                                    label:
-                                                                      "Label"
+                                                                    align:
+                                                                      "center"
                                                                   }
-                                                                }
+                                                                },
+                                                                [
+                                                                  _c(
+                                                                    "v-text-field",
+                                                                    {
+                                                                      staticClass:
+                                                                        "ma-2",
+                                                                      attrs: {
+                                                                        color:
+                                                                          "white",
+                                                                        dense:
+                                                                          "",
+                                                                        filled:
+                                                                          "",
+                                                                        label:
+                                                                          "Label"
+                                                                      },
+                                                                      model: {
+                                                                        value:
+                                                                          item.label,
+                                                                        callback: function(
+                                                                          $$v
+                                                                        ) {
+                                                                          _vm.$set(
+                                                                            item,
+                                                                            "label",
+                                                                            $$v
+                                                                          )
+                                                                        },
+                                                                        expression:
+                                                                          "item.label"
+                                                                      }
+                                                                    }
+                                                                  ),
+                                                                  _vm._v(" "),
+                                                                  _c(
+                                                                    "v-btn",
+                                                                    {
+                                                                      staticClass:
+                                                                        "ma-2",
+                                                                      attrs: {
+                                                                        icon:
+                                                                          "",
+                                                                        color:
+                                                                          "white"
+                                                                      },
+                                                                      on: {
+                                                                        click: function(
+                                                                          $event
+                                                                        ) {
+                                                                          return _vm.deletePilihanItem(
+                                                                            field,
+                                                                            item.label
+                                                                          )
+                                                                        }
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _c(
+                                                                        "v-icon",
+                                                                        [
+                                                                          _vm._v(
+                                                                            "mdi-close"
+                                                                          )
+                                                                        ]
+                                                                      )
+                                                                    ],
+                                                                    1
+                                                                  )
+                                                                ],
+                                                                1
                                                               )
-                                                            ],
-                                                            1
-                                                          )
-                                                        ]
-                                                      },
-                                                      proxy: true
-                                                    }
-                                                  ],
-                                                  null,
-                                                  true
-                                                )
-                                              }),
+                                                            ]
+                                                          },
+                                                          proxy: true
+                                                        }
+                                                      ],
+                                                      null,
+                                                      true
+                                                    )
+                                                  })
+                                                }
+                                              ),
                                               _vm._v(" "),
                                               _c(
                                                 "v-btn",
@@ -40085,6 +40240,13 @@ var render = function() {
                                                     fab: "",
                                                     dark: "",
                                                     small: ""
+                                                  },
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.addPilihanItem(
+                                                        field.index
+                                                      )
+                                                    }
                                                   }
                                                 },
                                                 [
@@ -40101,7 +40263,7 @@ var render = function() {
                                                 1
                                               )
                                             ],
-                                            1
+                                            2
                                           )
                                         : _vm._e(),
                                       _vm._v(" "),

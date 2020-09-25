@@ -208,20 +208,43 @@
                     <v-radio-group
                       v-if="field.type == 'Pilihan'"
                       column
+                      :mandatory="field.pilihan.required"
                     >
+
+                      <v-row align="center">
+                        <span class="ml-2 mr-1">Pilihan wajib diisi</span>
+                        <v-switch
+                          v-model="field.pilihan.required"
+                          color="white"
+                        ></v-switch>
+
+                      </v-row>
+
                       <v-radio
-                        value="red"
+                        v-for="(item,index) in field.pilihan.items"
+                        :key="index"
+                        :value="item.label"
                         color="white"
                       >
                         <template v-slot:label>
-                          <div>
+                          <v-row align="center">
                             <v-text-field
+                              class="ma-2"
                               color="white"
                               dense
                               filled
                               label="Label"
+                              v-model="item.label"
                             ></v-text-field>
-                          </div>
+                            <v-btn
+                            class="ma-2"
+                              icon
+                              color="white"
+                              @click="deletePilihanItem(field,item.label)"
+                            >
+                              <v-icon>mdi-close</v-icon>
+                            </v-btn>
+                          </v-row>
                         </template>
                       </v-radio>
                       <v-btn
@@ -229,7 +252,7 @@
                         fab
                         dark
                         small
-
+                        @click="addPilihanItem(field.index)"
                       >
                         <v-icon dark>
                           mdi-plus
@@ -351,6 +374,13 @@ export default {
     },
     deleteField(field) {
       this.fields.splice(this.fields.indexOf(field), 1);
+    },
+    addPilihanItem(field_index) {
+      this.fields[field_index].pilihan.items.push({ label: "" });
+    },
+    deletePilihanItem(field,label){
+      var item = this.fields[this.fields.indexOf(field)].pilihan.items;
+      item.splice(item.indexOf(label),1)
     }
   },
   computed: {
@@ -371,7 +401,18 @@ export default {
           type: "Jawaban Pendek",
           pertanyaan: "",
           index: 0,
-          value:"",
+          value: "",
+          required: true
+        },
+        {
+          type: "Pilihan",
+          pertanyaan: "",
+          index: 1,
+          value: "",
+          pilihan: {
+            required: true,
+            items: [{ label: "Ayam" }, { label: "Kucing" }]
+          },
           required: true
         }
       ],
