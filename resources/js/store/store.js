@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Axios from 'axios'
+var pack = require("../../../package.json")
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    url:"http://beasiswa.test",
+    url: pack.baseUrl,
     name:"idris",
     beasiswa:[],
     instansi:[],

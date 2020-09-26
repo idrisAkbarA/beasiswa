@@ -101133,6 +101133,17 @@ module.exports = function(module) {
 
 /***/ }),
 
+/***/ "./package.json":
+/*!**********************!*\
+  !*** ./package.json ***!
+  \**********************/
+/*! exports provided: baseUrl, private, scripts, devDependencies, dependencies, default */
+/***/ (function(module) {
+
+module.exports = JSON.parse("{\"baseUrl\":\"http://beasiswa.test\",\"private\":true,\"scripts\":{\"dev\":\"npm run development\",\"development\":\"cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js\",\"watch\":\"npm run development -- --watch\",\"watch-poll\":\"npm run watch -- --watch-poll\",\"hot\":\"cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js\",\"prod\":\"npm run production\",\"production\":\"cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js\"},\"devDependencies\":{\"axios\":\"^0.19\",\"bootstrap\":\"^4.0.0\",\"cross-env\":\"^7.0\",\"jquery\":\"^3.2\",\"laravel-mix\":\"^5.0.1\",\"lodash\":\"^4.17.13\",\"popper.js\":\"^1.12\",\"resolve-url-loader\":\"^2.3.1\",\"sass\":\"^1.20.1\",\"sass-loader\":\"^8.0.0\",\"vue\":\"^2.5.17\",\"vue-template-compiler\":\"^2.6.10\"},\"dependencies\":{\"vue-router\":\"^3.4.3\",\"vuetify\":\"^2.3.10\",\"vuex\":\"^3.5.1\"}}");
+
+/***/ }),
+
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -101410,10 +101421,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+var pack = __webpack_require__(/*! ../../../package.json */ "./package.json");
+
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
-    url: "http://beasiswa.test",
+    url: pack.baseUrl,
     name: "idris",
     beasiswa: [],
     instansi: [],
