@@ -2081,7 +2081,7 @@ axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers.common['X-Requeste
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      name: "",
+      nim: "",
       pass: ""
     };
   },
@@ -2092,13 +2092,13 @@ axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers.common['X-Requeste
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("http://beasiswa.test/sanctum/csrf-cookie").then(function (response) {
         console.log(response);
         axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("http://beasiswa.test/api/authenticate", {
-          'name': _this.name,
+          'nim': _this.nim,
           'password': _this.pass
         }).then(function (response) {
           console.log(response);
 
           _this.$router.push({
-            path: "/".concat(response.data.user.name, "/dashboard")
+            path: "/".concat(response.data.user.nama, "/dashboard")
           });
         });
       });
@@ -39522,11 +39522,11 @@ var render = function() {
                               _c("v-text-field", {
                                 attrs: { label: "Username" },
                                 model: {
-                                  value: _vm.name,
+                                  value: _vm.nim,
                                   callback: function($$v) {
-                                    _vm.name = $$v
+                                    _vm.nim = $$v
                                   },
-                                  expression: "name"
+                                  expression: "nim"
                                 }
                               }),
                               _vm._v(" "),

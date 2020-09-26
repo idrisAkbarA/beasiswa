@@ -40,9 +40,15 @@ class initMhs extends Command
     public function handle()
     {
         $admin = new User;
-        $admin->name = "11751101939";
-        $admin->email = "11751101939@students.uin-suska.ac.id";
-        $admin->password = Hash::make("123");
+        $admin->nama        = "Idris Akbar Adyusman";
+        $admin->nim         = "11751101939";
+        $admin->email       = "11751101939@students.uin-suska.ac.id";
+        $admin->hp          = "081275553496";
+        $admin->semester    = 7;
+        $admin->ipk         = 3.02;
+        $admin->tgl_lahir   = "1998-12-07";
+        $admin->tmpt_lahir  = "11751101939@students.uin-suska.ac.id";
+        $admin->password    = Hash::make("123");
         $admin->save();
         echo "\nMhs Account Created\n\nNIM: 11751101939\nPass: 123";
     }

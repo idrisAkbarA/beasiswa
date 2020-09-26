@@ -21,7 +21,7 @@
                 Login
               </v-card-title>
               <v-card-text>
-                <v-text-field v-model="name" label="Username"></v-text-field>
+                <v-text-field v-model="nim" label="Username"></v-text-field>
                 <v-text-field v-model="pass" type="password" @keyup.enter="login" label="Password"></v-text-field>
 
                 <v-btn @click="login">login</v-btn>
@@ -43,7 +43,7 @@ axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 export default {
   data() {
     return {
-      name: "",
+      nim: "",
       pass: "",
     };
   },
@@ -52,11 +52,11 @@ export default {
         axios.get("http://beasiswa.test/sanctum/csrf-cookie").then(response=>{
           console.log(response)
           axios.post("http://beasiswa.test/api/authenticate",{
-              'name': this.name,
+              'nim': this.nim,
               'password': this.pass
           }).then(response=>{
             console.log(response)
-            this.$router.push({ path: `/${response.data.user.name}/dashboard` })
+            this.$router.push({ path: `/${response.data.user.nama}/dashboard` })
           })
         })
       }
