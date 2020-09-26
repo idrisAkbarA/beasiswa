@@ -2647,6 +2647,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2659,6 +2661,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       a == b ? true : false;
     },
     save: function save() {
+      var _this = this;
+
       var awal_wawancara = "";
       var akhir_wawancara = "";
       var awal_survey = "";
@@ -2700,7 +2704,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         akhir_berkas: akhir_berkas
       };
       console.log(data);
-      this.storeBeasiswa(data);
+      this.btnLoading = true;
+      this.storeBeasiswa(data).then(function (response) {
+        _this.btnLoading = false;
+        _this.toggleBeasiswa = false;
+      })["catch"](function (error) {
+        _this.btnLoading = false;
+      });
+    },
+    batal: function batal() {
+      this.toggleBeasiswa = false;
     },
     addField: function addField() {
       // get the last array then add the order value
@@ -2737,6 +2750,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   }),
   data: function data() {
     return {
+      btnLoading: false,
       nama: "",
       deskripsi: "",
       selected_instansi: "",
@@ -39830,16 +39844,34 @@ var render = function() {
                   _vm._v(" "),
                   _c("v-spacer"),
                   _vm._v(" "),
-                  _c("v-btn", { attrs: { text: "" } }, [_vm._v("batal")]),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { text: "" },
+                      on: {
+                        click: function($event) {
+                          return _vm.batal()
+                        }
+                      }
+                    },
+                    [_vm._v("batal")]
+                  ),
                   _vm._v(" "),
                   _c(
                     "v-btn",
                     {
-                      attrs: { color: "#2E7D32" },
+                      attrs: { color: "#2E7D32", loading: _vm.btnLoading },
                       on: {
                         click: function($event) {
                           return _vm.save()
                         }
+                      },
+                      model: {
+                        value: _vm.toggleBeasiswa,
+                        callback: function($$v) {
+                          _vm.toggleBeasiswa = $$v
+                        },
+                        expression: "toggleBeasiswa"
                       }
                     },
                     [_vm._v("Simpan")]
@@ -101489,10 +101521,15 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       var commit = _ref2.commit,
           dispatch = _ref2.dispatch,
           state = _ref2.state;
-      axios__WEBPACK_IMPORTED_MODULE_2___default.a.post(state.url + "/api/beasiswa", {
-        data: data
-      }).then(function (response) {
-        dispatch('getBeasiswa');
+      return new Promise(function (resolve, reject) {
+        axios__WEBPACK_IMPORTED_MODULE_2___default.a.post(state.url + "/api/beasiswa", {
+          data: data
+        }).then(function (response) {
+          dispatch('getBeasiswa');
+          resolve(response);
+        })["catch"](function (error) {
+          reject(error);
+        });
       });
     },
     getInstansi: function getInstansi(_ref3) {

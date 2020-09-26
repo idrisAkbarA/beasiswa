@@ -43,9 +43,11 @@
       <v-card>
         <v-card-title> <span>Buat Beasiswa</span>
           <v-spacer></v-spacer>
-          <v-btn text>batal</v-btn>
+          <v-btn @click="batal()" text>batal</v-btn>
           <v-btn
             color="#2E7D32"
+            :loading="btnLoading"
+            v-model="toggleBeasiswa"
             @click="save()"
           >Simpan</v-btn>
         </v-card-title>
@@ -473,7 +475,18 @@ export default {
         akhir_berkas
       };
       console.log(data);
-      this.storeBeasiswa(data);
+      this.btnLoading = true;
+      this.storeBeasiswa(data).then(response=>{
+        this.btnLoading = false;
+        this.toggleBeasiswa = false
+        
+      }).catch(error=>{
+        this.btnLoading = false;
+        
+      });
+    },
+    batal(){
+      this.toggleBeasiswa = false;
     },
     addField() {
       // get the last array then add the order value
@@ -511,6 +524,7 @@ export default {
   },
   data() {
     return {
+      btnLoading:false,
       nama: "",
       deskripsi: "",
       selected_instansi: "",

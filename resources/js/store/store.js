@@ -41,9 +41,15 @@ export default new Vuex.Store({
       })
     },
     storeBeasiswa({commit,dispatch,state},data){
-      Axios.post(state.url+"/api/beasiswa",{data}).then(response=>{
-        dispatch('getBeasiswa')
+      return new Promise((resolve,reject)=>{
+        Axios.post(state.url+"/api/beasiswa",{data}).then(response=>{
+          dispatch('getBeasiswa')
+          resolve(response)
+        }).catch(error=>{
+          reject(error)
+        })
       })
+      
     },
     getInstansi({commit,dispatch,state}){
       Axios.get(state.url+"/api/instansi").then(response=>{
