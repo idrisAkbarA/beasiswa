@@ -2638,6 +2638,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2716,7 +2725,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       item.splice(item.indexOf(label), 1);
     }
   }),
-  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["beasiswa", "isOpenBeasiswa", "instansi"])), {}, {
+  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["beasiswa", "isOpenBeasiswa", "instansi", "isTableLoading", "isLoading"])), {}, {
     toggleBeasiswa: {
       get: function get() {
         return this.isOpenBeasiswa;
@@ -39727,58 +39736,71 @@ var render = function() {
   return _c(
     "v-container",
     [
-      _c("v-data-table", {
-        staticClass: "elevation-10 mb-10",
-        staticStyle: { "background-color": "#2e7d323b" },
-        attrs: {
-          headers: _vm.headers,
-          items: _vm.beasiswa,
-          "items-per-page": 10
-        },
-        scopedSlots: _vm._u([
-          {
-            key: "item.actions",
-            fn: function(ref) {
-              var item = ref.item
-              return [
-                _c(
-                  "v-icon",
-                  {
-                    staticClass: "mr-2",
-                    attrs: { small: "" },
-                    on: {
-                      click: function($event) {
-                        return _vm.editItem(item)
-                      }
-                    }
-                  },
-                  [_vm._v("\n        mdi-pencil\n      ")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "v-icon",
-                  {
-                    attrs: { small: "" },
-                    on: {
-                      click: function($event) {
-                        return _vm.deleteItem(item)
-                      }
-                    }
-                  },
-                  [_vm._v("\n        mdi-delete\n      ")]
-                )
-              ]
-            }
-          },
-          {
-            key: "no-data",
-            fn: function() {
-              return [_vm._v("\n      no data\n    ")]
-            },
-            proxy: true
+      _c(
+        "v-skeleton-loader",
+        {
+          attrs: {
+            type: "table",
+            loading: _vm.isTableLoading,
+            transition: "fade-transition"
           }
-        ])
-      }),
+        },
+        [
+          _c("v-data-table", {
+            staticClass: "elevation-10 mb-10",
+            staticStyle: { "background-color": "#2e7d323b" },
+            attrs: {
+              headers: _vm.headers,
+              items: _vm.beasiswa,
+              "items-per-page": 10
+            },
+            scopedSlots: _vm._u([
+              {
+                key: "item.actions",
+                fn: function(ref) {
+                  var item = ref.item
+                  return [
+                    _c(
+                      "v-icon",
+                      {
+                        staticClass: "mr-2",
+                        attrs: { small: "" },
+                        on: {
+                          click: function($event) {
+                            return _vm.editItem(item)
+                          }
+                        }
+                      },
+                      [_vm._v("\n          mdi-pencil\n        ")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-icon",
+                      {
+                        attrs: { small: "" },
+                        on: {
+                          click: function($event) {
+                            return _vm.deleteItem(item)
+                          }
+                        }
+                      },
+                      [_vm._v("\n          mdi-delete\n        ")]
+                    )
+                  ]
+                }
+              },
+              {
+                key: "no-data",
+                fn: function() {
+                  return [_vm._v("\n        no data\n      ")]
+                },
+                proxy: true
+              }
+            ])
+          })
+        ],
+        1
+      ),
       _vm._v(" "),
       _c(
         "v-bottom-sheet",
@@ -101429,11 +101451,19 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
   state: {
     url: pack.baseUrl,
     name: "idris",
+    isLoading: false,
+    isTableLoading: false,
     beasiswa: [],
     instansi: [],
     isOpenBeasiswa: false
   },
   mutations: {
+    mutateLoading: function mutateLoading(state, data) {
+      state.isLoading = data;
+    },
+    mutateTableLoading: function mutateTableLoading(state, data) {
+      state.isTableLoading = data;
+    },
     mutateBeasiswa: function mutateBeasiswa(state, data) {
       state.beasiswa = data;
     },
@@ -101449,8 +101479,10 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       var commit = _ref.commit,
           dispatch = _ref.dispatch,
           state = _ref.state;
+      commit("mutateTableLoading", true);
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(state.url + "/api/beasiswa").then(function (response) {
         commit('mutateBeasiswa', response.data);
+        commit("mutateTableLoading", false);
       });
     },
     storeBeasiswa: function storeBeasiswa(_ref2, data) {

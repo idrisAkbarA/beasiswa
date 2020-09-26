@@ -1,32 +1,38 @@
 <template>
   <v-container>
-
-    <v-data-table
-      :headers="headers"
-      :items="beasiswa"
-      :items-per-page="10"
-      style="background-color: #2e7d323b"
-      class="elevation-10 mb-10"
+    <v-skeleton-loader
+      type="table"
+      :loading="isTableLoading"
+      transition="fade-transition"
     >
-      <template v-slot:item.actions="{ item }">
-        <v-icon
-          small
-          class="mr-2"
-          @click="editItem(item)"
-        >
-          mdi-pencil
-        </v-icon>
-        <v-icon
-          small
-          @click="deleteItem(item)"
-        >
-          mdi-delete
-        </v-icon>
-      </template>
-      <template v-slot:no-data>
-        no data
-      </template>
-    </v-data-table>
+
+      <v-data-table
+        :headers="headers"
+        :items="beasiswa"
+        :items-per-page="10"
+        style="background-color: #2e7d323b"
+        class="elevation-10 mb-10"
+      >
+        <template v-slot:item.actions="{ item }">
+          <v-icon
+            small
+            class="mr-2"
+            @click="editItem(item)"
+          >
+            mdi-pencil
+          </v-icon>
+          <v-icon
+            small
+            @click="deleteItem(item)"
+          >
+            mdi-delete
+          </v-icon>
+        </template>
+        <template v-slot:no-data>
+          no data
+        </template>
+      </v-data-table>
+    </v-skeleton-loader>
     <v-bottom-sheet
       scrollable
       width="60%"
@@ -38,7 +44,10 @@
         <v-card-title> <span>Buat Beasiswa</span>
           <v-spacer></v-spacer>
           <v-btn text>batal</v-btn>
-          <v-btn color="#2E7D32" @click="save()">Simpan</v-btn>
+          <v-btn
+            color="#2E7D32"
+            @click="save()"
+          >Simpan</v-btn>
         </v-card-title>
         <v-card-text style="height: 600px;">
           <v-row
@@ -421,26 +430,32 @@ export default {
       var akhir_survey = "";
       var awal_berkas = "";
       var akhir_berkas = "";
-      if(typeof(this.dateBerkas)=="object"){
-        console.log("sama")
+      if (typeof this.dateBerkas == "object") {
+        console.log("sama");
       }
-      console.log(typeof(this.dateBerkas))
-      awal_berkas = typeof(this.dateBerkas) == "object" ? this.dateBerkas[0] : null;
-      akhir_berkas = typeof(this.dateBerkas) == "object"
+      console.log(typeof this.dateBerkas);
+      awal_berkas =
+        typeof this.dateBerkas == "object" ? this.dateBerkas[0] : null;
+      akhir_berkas =
+        typeof this.dateBerkas == "object"
           ? this.dateBerkas[1]
           : this.dateBerkas;
 
       if (this.is_wawancara) {
-        awal_wawancara = typeof(this.dateWawancara) == "object" ? this.dateWawancara[0] : null;
-        akhir_wawancara = typeof(this.dateWawancara) == "object" 
-          ? this.dateWawancara[1]
-          : this.dateWawancara;
+        awal_wawancara =
+          typeof this.dateWawancara == "object" ? this.dateWawancara[0] : null;
+        akhir_wawancara =
+          typeof this.dateWawancara == "object"
+            ? this.dateWawancara[1]
+            : this.dateWawancara;
       }
       if (this.is_survey) {
-        awal_survey = typeof(this.dateSurvey) == "object" ? this.dateSurvey[0] : null;
-        akhir_survey = typeof(this.dateSurvey) == "object"
-          ? this.dateSurvey[1]
-          : this.dateSurvey;
+        awal_survey =
+          typeof this.dateSurvey == "object" ? this.dateSurvey[0] : null;
+        akhir_survey =
+          typeof this.dateSurvey == "object"
+            ? this.dateSurvey[1]
+            : this.dateSurvey;
       }
       var data = {
         nama: this.nama,
@@ -457,7 +472,7 @@ export default {
         awal_berkas,
         akhir_berkas
       };
-      console.log(data)
+      console.log(data);
       this.storeBeasiswa(data);
     },
     addField() {
@@ -484,7 +499,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["beasiswa", "isOpenBeasiswa", "instansi"]),
+    ...mapState(["beasiswa", "isOpenBeasiswa", "instansi","isTableLoading","isLoading"]),
     toggleBeasiswa: {
       get: function() {
         return this.isOpenBeasiswa;
@@ -492,7 +507,7 @@ export default {
       set: function(data) {
         this.toggleOpenBeasiswa(data);
       }
-    },
+    }
   },
   data() {
     return {

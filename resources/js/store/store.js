@@ -8,11 +8,19 @@ export default new Vuex.Store({
   state: {
     url: pack.baseUrl,
     name:"idris",
+    isLoading: false,
+    isTableLoading: false,
     beasiswa:[],
     instansi:[],
     isOpenBeasiswa:false,
   },
   mutations: {
+    mutateLoading(state,data){
+      state.isLoading = data;
+    },
+    mutateTableLoading(state,data){
+      state.isTableLoading = data;
+    },
     mutateBeasiswa(state,data){
       state.beasiswa = data;
     },
@@ -25,8 +33,11 @@ export default new Vuex.Store({
   },
   actions: {
     getBeasiswa({commit,dispatch,state}){
+      commit("mutateTableLoading",true);
       Axios.get(state.url+"/api/beasiswa").then(response=>{
         commit('mutateBeasiswa',response.data)
+        commit("mutateTableLoading",false);
+
       })
     },
     storeBeasiswa({commit,dispatch,state},data){
