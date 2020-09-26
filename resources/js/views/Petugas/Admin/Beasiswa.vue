@@ -421,23 +421,26 @@ export default {
       var akhir_survey = "";
       var awal_berkas = "";
       var akhir_berkas = "";
-
-      awal_berkas = this.dateBerkas[1] ? this.dateBerkas[0] : null;
-      akhir_berkas = this.dateBerkas[1]
+      if(typeof(this.dateBerkas)=="object"){
+        console.log("sama")
+      }
+      console.log(typeof(this.dateBerkas))
+      awal_berkas = typeof(this.dateBerkas) == "object" ? this.dateBerkas[0] : null;
+      akhir_berkas = typeof(this.dateBerkas) == "object"
           ? this.dateBerkas[1]
-          : this.dateBerkas[0];
+          : this.dateBerkas;
 
       if (this.is_wawancara) {
-        awal_wawancara = this.dateWawancara[1] ? this.dateWawancara[0] : null;
-        akhir_wawancara = this.dateWawancara[1]
+        awal_wawancara = typeof(this.dateWawancara) == "object" ? this.dateWawancara[0] : null;
+        akhir_wawancara = typeof(this.dateWawancara) == "object" 
           ? this.dateWawancara[1]
-          : this.dateWawancara[0];
+          : this.dateWawancara;
       }
       if (this.is_survey) {
-        awal_survey = this.dateSurvey[1] ? this.dateSurvey[0] : null;
-        akhir_survey = this.dateSurvey[1]
+        awal_survey = typeof(this.dateSurvey) == "object" ? this.dateSurvey[0] : null;
+        akhir_survey = typeof(this.dateSurvey) == "object"
           ? this.dateSurvey[1]
-          : this.dateSurvey[0];
+          : this.dateSurvey;
       }
       var data = {
         nama: this.nama,
@@ -490,13 +493,6 @@ export default {
         this.toggleOpenBeasiswa(data);
       }
     },
-    instansiNames() {
-      var names = [];
-      this.instansi.forEach(element => {
-        names.push(element.name);
-      });
-      return names;
-    }
   },
   data() {
     return {

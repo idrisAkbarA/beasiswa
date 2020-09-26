@@ -2228,6 +2228,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -2654,17 +2656,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var akhir_survey = "";
       var awal_berkas = "";
       var akhir_berkas = "";
-      awal_berkas = this.dateBerkas[1] ? this.dateBerkas[0] : null;
-      akhir_berkas = this.dateBerkas[1] ? this.dateBerkas[1] : this.dateBerkas[0];
+
+      if (_typeof(this.dateBerkas) == "object") {
+        console.log("sama");
+      }
+
+      console.log(_typeof(this.dateBerkas));
+      awal_berkas = _typeof(this.dateBerkas) == "object" ? this.dateBerkas[0] : null;
+      akhir_berkas = _typeof(this.dateBerkas) == "object" ? this.dateBerkas[1] : this.dateBerkas;
 
       if (this.is_wawancara) {
-        awal_wawancara = this.dateWawancara[1] ? this.dateWawancara[0] : null;
-        akhir_wawancara = this.dateWawancara[1] ? this.dateWawancara[1] : this.dateWawancara[0];
+        awal_wawancara = _typeof(this.dateWawancara) == "object" ? this.dateWawancara[0] : null;
+        akhir_wawancara = _typeof(this.dateWawancara) == "object" ? this.dateWawancara[1] : this.dateWawancara;
       }
 
       if (this.is_survey) {
-        awal_survey = this.dateSurvey[1] ? this.dateSurvey[0] : null;
-        akhir_survey = this.dateSurvey[1] ? this.dateSurvey[1] : this.dateSurvey[0];
+        awal_survey = _typeof(this.dateSurvey) == "object" ? this.dateSurvey[0] : null;
+        akhir_survey = _typeof(this.dateSurvey) == "object" ? this.dateSurvey[1] : this.dateSurvey;
       }
 
       var data = {
@@ -2716,13 +2724,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       set: function set(data) {
         this.toggleOpenBeasiswa(data);
       }
-    },
-    instansiNames: function instansiNames() {
-      var names = [];
-      this.instansi.forEach(function (element) {
-        names.push(element.name);
-      });
-      return names;
     }
   }),
   data: function data() {
@@ -101445,7 +101446,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.post(state.url + "/api/beasiswa", {
         data: data
       }).then(function (response) {
-        commit('mutateBeasiswa', response.data);
+        dispatch('getBeasiswa');
       });
     },
     getInstansi: function getInstansi(_ref3) {
