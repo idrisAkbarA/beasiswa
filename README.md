@@ -8,6 +8,7 @@
 - php artisan initAdmin //untuk buat user admin test
 - php artisan initBeasiswa //untuk buat dummy data beasiswa
 - set env laravel SESSION_DOMAIN = nama-domain.com
+- set package.json, set baseUrl: "nama-domain.com"
 
 <p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
 
