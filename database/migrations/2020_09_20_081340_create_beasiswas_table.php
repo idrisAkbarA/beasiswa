@@ -22,9 +22,11 @@ class CreateBeasiswasTable extends Migration
             $table->boolean('is_survey');
             $table->integer('quota')->nullable();
             $table->date('awal_berkas')->nullable();
-            $table->date('batas_berkas')->nullable();
+            $table->date('akhir_berkas')->nullable();
             $table->date('awal_interview')->nullable();
             $table->date('akhir_interview')->nullable();
+            $table->date('awal_survey')->nullable();
+            $table->date('akhir_survey')->nullable();
             $table->json('fields');
             $table->timestamps();
         });

@@ -2226,6 +2226,8 @@ axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers.common['X-Requeste
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -2582,14 +2584,106 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
     this.getBeasiswa();
+    this.getInstansi();
   },
-  methods: _objectSpread(_objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(["toggleOpenBeasiswa"])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getBeasiswa"])), {}, {
+  methods: _objectSpread(_objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(["toggleOpenBeasiswa"])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getBeasiswa", "getInstansi", "storeBeasiswa"])), {}, {
     compareType: function compareType(a, b) {
       a == b ? true : false;
+    },
+    save: function save() {
+      var awal_wawancara = "";
+      var akhir_wawancara = "";
+      var awal_survey = "";
+      var akhir_survey = "";
+      var awal_berkas = "";
+      var akhir_berkas = "";
+      awal_berkas = this.dateBerkas[1] ? this.dateBerkas[0] : null;
+      akhir_berkas = this.dateBerkas[1] ? this.dateBerkas[1] : this.dateBerkas[0];
+
+      if (this.is_wawancara) {
+        awal_wawancara = this.dateWawancara[1] ? this.dateWawancara[0] : null;
+        akhir_wawancara = this.dateWawancara[1] ? this.dateWawancara[1] : this.dateWawancara[0];
+      }
+
+      if (this.is_survey) {
+        awal_survey = this.dateSurvey[1] ? this.dateSurvey[0] : null;
+        akhir_survey = this.dateSurvey[1] ? this.dateSurvey[1] : this.dateSurvey[0];
+      }
+
+      var data = {
+        nama: this.nama,
+        deskripsi: this.deskripsi,
+        kuota: this.kuota,
+        instansi: this.selected_instansi.id,
+        fields: this.fields,
+        is_survey: this.is_survey,
+        is_wawancara: this.is_wawancara,
+        awal_wawancara: awal_wawancara,
+        akhir_wawancara: akhir_wawancara,
+        awal_survey: awal_survey,
+        akhir_survey: akhir_survey,
+        awal_berkas: awal_berkas,
+        akhir_berkas: akhir_berkas
+      };
+      console.log(data);
+      this.storeBeasiswa(data);
     },
     addField: function addField() {
       // get the last array then add the order value
@@ -2614,7 +2708,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       item.splice(item.indexOf(label), 1);
     }
   }),
-  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["beasiswa", "isOpenBeasiswa"])), {}, {
+  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["beasiswa", "isOpenBeasiswa", "instansi"])), {}, {
     toggleBeasiswa: {
       get: function get() {
         return this.isOpenBeasiswa;
@@ -2622,10 +2716,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       set: function set(data) {
         this.toggleOpenBeasiswa(data);
       }
+    },
+    instansiNames: function instansiNames() {
+      var names = [];
+      this.instansi.forEach(function (element) {
+        names.push(element.name);
+      });
+      return names;
     }
   }),
   data: function data() {
     return {
+      nama: "",
+      deskripsi: "",
+      selected_instansi: "",
       fields: [{
         type: "Jawaban Pendek",
         pertanyaan: "",
@@ -2650,11 +2754,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       itemTypes: ["Jawaban Pendek", "Jawaban Angka", "Paragraf", "Upload File", "Pilihan", "Tanggal"],
       sheet: false,
       menuWawancara: false,
+      menuSurvey: false,
       menuberkas: false,
       isBerkas: false,
-      isWawancara: false,
+      is_wawancara: false,
+      is_survey: false,
       dateBerkas: new Date().toISOString().substr(0, 10),
       dateWawancara: new Date().toISOString().substr(0, 10),
+      dateSurvey: new Date().toISOString().substr(0, 10),
+      kuota: 1,
       headers: [{
         text: "Beasiswa",
         align: "start",
@@ -2669,8 +2777,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         sortable: false
       }]
     };
-  },
-  watch: {}
+  }
 });
 
 /***/ }),
@@ -39702,9 +39809,18 @@ var render = function() {
                   _vm._v(" "),
                   _c("v-btn", { attrs: { text: "" } }, [_vm._v("batal")]),
                   _vm._v(" "),
-                  _c("v-btn", { attrs: { color: "#2E7D32" } }, [
-                    _vm._v("Simpan")
-                  ])
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "#2E7D32" },
+                      on: {
+                        click: function($event) {
+                          return _vm.save()
+                        }
+                      }
+                    },
+                    [_vm._v("Simpan")]
+                  )
                 ],
                 1
               ),
@@ -39721,7 +39837,14 @@ var render = function() {
                         "v-col",
                         [
                           _c("v-text-field", {
-                            attrs: { color: "#C8E6C9", label: "Nama Beasiswa" }
+                            attrs: { color: "#C8E6C9", label: "Nama Beasiswa" },
+                            model: {
+                              value: _vm.nama,
+                              callback: function($$v) {
+                                _vm.nama = $$v
+                              },
+                              expression: "nama"
+                            }
                           })
                         ],
                         1
@@ -39742,6 +39865,13 @@ var render = function() {
                               color: "white",
                               rows: "1",
                               label: "Deskripsi"
+                            },
+                            model: {
+                              value: _vm.deskripsi,
+                              callback: function($$v) {
+                                _vm.deskripsi = $$v
+                              },
+                              expression: "deskripsi"
                             }
                           })
                         ],
@@ -39760,7 +39890,35 @@ var render = function() {
                         { attrs: { cols: "8" } },
                         [
                           _c("v-combobox", {
-                            attrs: { color: "white", label: "Instansi" }
+                            attrs: {
+                              color: "white",
+                              label: "Instansi",
+                              items: _vm.instansi,
+                              "item-text": "name"
+                            },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "item",
+                                fn: function(ref) {
+                                  var index = ref.index
+                                  var item = ref.item
+                                  return [
+                                    _vm._v(
+                                      "\n                " +
+                                        _vm._s(item.name) +
+                                        "\n              "
+                                    )
+                                  ]
+                                }
+                              }
+                            ]),
+                            model: {
+                              value: _vm.selected_instansi,
+                              callback: function($$v) {
+                                _vm.selected_instansi = $$v
+                              },
+                              expression: "selected_instansi"
+                            }
                           })
                         ],
                         1
@@ -39771,7 +39929,14 @@ var render = function() {
                         { attrs: { cols: "4" } },
                         [
                           _c("v-text-field", {
-                            attrs: { label: "Kuota", type: "number" }
+                            attrs: { label: "Kuota", type: "number" },
+                            model: {
+                              value: _vm.kuota,
+                              callback: function($$v) {
+                                _vm.kuota = $$v
+                              },
+                              expression: "kuota"
+                            }
                           })
                         ],
                         1
@@ -39880,15 +40045,16 @@ var render = function() {
                         [
                           _c("v-checkbox", {
                             attrs: {
+                              color: "white",
                               label: "Tahap wawancara",
                               "hide-details": ""
                             },
                             model: {
-                              value: _vm.isWawancara,
+                              value: _vm.is_wawancara,
                               callback: function($$v) {
-                                _vm.isWawancara = $$v
+                                _vm.is_wawancara = $$v
                               },
-                              expression: "isWawancara"
+                              expression: "is_wawancara"
                             }
                           })
                         ],
@@ -39922,7 +40088,7 @@ var render = function() {
                                           _vm._b(
                                             {
                                               attrs: {
-                                                disabled: !_vm.isWawancara,
+                                                disabled: !_vm.is_wawancara,
                                                 label:
                                                   "Rentang Waktu Wawancara",
                                                 "prepend-icon": "event",
@@ -39965,6 +40131,113 @@ var render = function() {
                                     _vm.dateWawancara = $$v
                                   },
                                   expression: "dateWawancara"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-row",
+                    [
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "6" } },
+                        [
+                          _c("v-checkbox", {
+                            attrs: {
+                              color: "white",
+                              label: "Tahap Survey",
+                              "hide-details": ""
+                            },
+                            model: {
+                              value: _vm.is_survey,
+                              callback: function($$v) {
+                                _vm.is_survey = $$v
+                              },
+                              expression: "is_survey"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "6" } },
+                        [
+                          _c(
+                            "v-menu",
+                            {
+                              attrs: {
+                                "close-on-content-click": false,
+                                "nudge-right": 40,
+                                transition: "scale-transition",
+                                "offset-y": "",
+                                "min-width": "290px"
+                              },
+                              scopedSlots: _vm._u([
+                                {
+                                  key: "activator",
+                                  fn: function(ref) {
+                                    var on = ref.on
+                                    var attrs = ref.attrs
+                                    return [
+                                      _c(
+                                        "v-text-field",
+                                        _vm._g(
+                                          _vm._b(
+                                            {
+                                              attrs: {
+                                                disabled: !_vm.is_survey,
+                                                label:
+                                                  "Rentang Waktu Wawancara",
+                                                "prepend-icon": "event",
+                                                readonly: ""
+                                              },
+                                              model: {
+                                                value: _vm.dateSurvey,
+                                                callback: function($$v) {
+                                                  _vm.dateSurvey = $$v
+                                                },
+                                                expression: "dateSurvey"
+                                              }
+                                            },
+                                            "v-text-field",
+                                            attrs,
+                                            false
+                                          ),
+                                          on
+                                        )
+                                      )
+                                    ]
+                                  }
+                                }
+                              ]),
+                              model: {
+                                value: _vm.menuSurvey,
+                                callback: function($$v) {
+                                  _vm.menuSurvey = $$v
+                                },
+                                expression: "menuSurvey"
+                              }
+                            },
+                            [
+                              _vm._v(" "),
+                              _c("v-date-picker", {
+                                attrs: { range: "", locale: "id-ID" },
+                                model: {
+                                  value: _vm.dateSurvey,
+                                  callback: function($$v) {
+                                    _vm.dateSurvey = $$v
+                                  },
+                                  expression: "dateSurvey"
                                 }
                               })
                             ],
@@ -101142,11 +101415,15 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     url: "http://beasiswa.test",
     name: "idris",
     beasiswa: [],
+    instansi: [],
     isOpenBeasiswa: false
   },
   mutations: {
     mutateBeasiswa: function mutateBeasiswa(state, data) {
       state.beasiswa = data;
+    },
+    mutateInstansi: function mutateInstansi(state, data) {
+      state.instansi = data;
     },
     toggleOpenBeasiswa: function toggleOpenBeasiswa(state, data) {
       state.isOpenBeasiswa = data;
@@ -101159,6 +101436,24 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
           state = _ref.state;
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(state.url + "/api/beasiswa").then(function (response) {
         commit('mutateBeasiswa', response.data);
+      });
+    },
+    storeBeasiswa: function storeBeasiswa(_ref2, data) {
+      var commit = _ref2.commit,
+          dispatch = _ref2.dispatch,
+          state = _ref2.state;
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.post(state.url + "/api/beasiswa", {
+        data: data
+      }).then(function (response) {
+        commit('mutateBeasiswa', response.data);
+      });
+    },
+    getInstansi: function getInstansi(_ref3) {
+      var commit = _ref3.commit,
+          dispatch = _ref3.dispatch,
+          state = _ref3.state;
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(state.url + "/api/instansi").then(function (response) {
+        commit('mutateInstansi', response.data);
       });
     }
   },

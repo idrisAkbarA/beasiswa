@@ -38,7 +38,7 @@
         <v-card-title> <span>Buat Beasiswa</span>
           <v-spacer></v-spacer>
           <v-btn text>batal</v-btn>
-          <v-btn color="#2E7D32">Simpan</v-btn>
+          <v-btn color="#2E7D32" @click="save()">Simpan</v-btn>
         </v-card-title>
         <v-card-text style="height: 600px;">
           <v-row
@@ -50,6 +50,7 @@
               <v-text-field
                 color="#C8E6C9"
                 label="Nama Beasiswa"
+                v-model="nama"
               ></v-text-field>
             </v-col>
 
@@ -64,6 +65,7 @@
                 color="white"
                 rows="1"
                 label="Deskripsi"
+                v-model="deskripsi"
               ></v-textarea>
             </v-col>
 
@@ -78,13 +80,24 @@
               <v-combobox
                 color="white"
                 label="Instansi"
-              ></v-combobox>
+                :items="instansi"
+                item-text="name"
+                v-model="selected_instansi"
+              >
+                <template v-slot:item="{ index, item }">
+                  {{item.name}}
+                </template>
+                <!-- <template v-slot:selection="{ item,selected }">
+                  {{item.name}}
+                </template> -->
+              </v-combobox>
 
             </v-col>
             <v-col cols="4">
               <v-text-field
                 label="Kuota"
                 type="number"
+                v-model="kuota"
               ></v-text-field>
             </v-col>
           </v-row>
@@ -123,7 +136,8 @@
           <v-row>
             <v-col cols="6">
               <v-checkbox
-                v-model="isWawancara"
+                color="white"
+                v-model="is_wawancara"
                 label="Tahap wawancara"
                 hide-details
               ></v-checkbox>
@@ -139,7 +153,7 @@
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
-                    :disabled="!isWawancara"
+                    :disabled="!is_wawancara"
                     v-model="dateWawancara"
                     label="Rentang Waktu Wawancara"
                     prepend-icon="event"
@@ -151,6 +165,44 @@
                 <v-date-picker
                   range
                   v-model="dateWawancara"
+                  locale="id-ID"
+                >
+                </v-date-picker>
+              </v-menu>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="6">
+              <v-checkbox
+                color="white"
+                v-model="is_survey"
+                label="Tahap Survey"
+                hide-details
+              ></v-checkbox>
+            </v-col>
+            <v-col cols="6">
+              <v-menu
+                v-model="menuSurvey"
+                :close-on-content-click="false"
+                :nudge-right="40"
+                transition="scale-transition"
+                offset-y
+                min-width="290px"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    :disabled="!is_survey"
+                    v-model="dateSurvey"
+                    label="Rentang Waktu Wawancara"
+                    prepend-icon="event"
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-date-picker
+                  range
+                  v-model="dateSurvey"
                   locale="id-ID"
                 >
                 </v-date-picker>
@@ -237,7 +289,7 @@
                               v-model="item.label"
                             ></v-text-field>
                             <v-btn
-                            class="ma-2"
+                              class="ma-2"
                               icon
                               color="white"
                               @click="deletePilihanItem(field,item.label)"
@@ -350,15 +402,60 @@
 
 <script>
 import { mapActions, mapMutations, mapState } from "vuex";
+import Axios from "axios";
 export default {
   created() {
     this.getBeasiswa();
+    this.getInstansi();
   },
   methods: {
     ...mapMutations(["toggleOpenBeasiswa"]),
-    ...mapActions(["getBeasiswa"]),
+    ...mapActions(["getBeasiswa", "getInstansi", "storeBeasiswa"]),
     compareType(a, b) {
       a == b ? true : false;
+    },
+    save() {
+      var awal_wawancara = "";
+      var akhir_wawancara = "";
+      var awal_survey = "";
+      var akhir_survey = "";
+      var awal_berkas = "";
+      var akhir_berkas = "";
+
+      awal_berkas = this.dateBerkas[1] ? this.dateBerkas[0] : null;
+      akhir_berkas = this.dateBerkas[1]
+          ? this.dateBerkas[1]
+          : this.dateBerkas[0];
+
+      if (this.is_wawancara) {
+        awal_wawancara = this.dateWawancara[1] ? this.dateWawancara[0] : null;
+        akhir_wawancara = this.dateWawancara[1]
+          ? this.dateWawancara[1]
+          : this.dateWawancara[0];
+      }
+      if (this.is_survey) {
+        awal_survey = this.dateSurvey[1] ? this.dateSurvey[0] : null;
+        akhir_survey = this.dateSurvey[1]
+          ? this.dateSurvey[1]
+          : this.dateSurvey[0];
+      }
+      var data = {
+        nama: this.nama,
+        deskripsi: this.deskripsi,
+        kuota: this.kuota,
+        instansi: this.selected_instansi.id,
+        fields: this.fields,
+        is_survey: this.is_survey,
+        is_wawancara: this.is_wawancara,
+        awal_wawancara,
+        akhir_wawancara,
+        awal_survey,
+        akhir_survey,
+        awal_berkas,
+        akhir_berkas
+      };
+      console.log(data)
+      this.storeBeasiswa(data);
     },
     addField() {
       // get the last array then add the order value
@@ -378,13 +475,13 @@ export default {
     addPilihanItem(field_index) {
       this.fields[field_index].pilihan.items.push({ label: "" });
     },
-    deletePilihanItem(field,label){
+    deletePilihanItem(field, label) {
       var item = this.fields[this.fields.indexOf(field)].pilihan.items;
-      item.splice(item.indexOf(label),1)
+      item.splice(item.indexOf(label), 1);
     }
   },
   computed: {
-    ...mapState(["beasiswa", "isOpenBeasiswa"]),
+    ...mapState(["beasiswa", "isOpenBeasiswa", "instansi"]),
     toggleBeasiswa: {
       get: function() {
         return this.isOpenBeasiswa;
@@ -392,10 +489,20 @@ export default {
       set: function(data) {
         this.toggleOpenBeasiswa(data);
       }
+    },
+    instansiNames() {
+      var names = [];
+      this.instansi.forEach(element => {
+        names.push(element.name);
+      });
+      return names;
     }
   },
   data() {
     return {
+      nama: "",
+      deskripsi: "",
+      selected_instansi: "",
       fields: [
         {
           type: "Jawaban Pendek",
@@ -426,11 +533,15 @@ export default {
       ],
       sheet: false,
       menuWawancara: false,
+      menuSurvey: false,
       menuberkas: false,
       isBerkas: false,
-      isWawancara: false,
+      is_wawancara: false,
+      is_survey: false,
       dateBerkas: new Date().toISOString().substr(0, 10),
       dateWawancara: new Date().toISOString().substr(0, 10),
+      dateSurvey: new Date().toISOString().substr(0, 10),
+      kuota: 1,
       headers: [
         {
           text: "Beasiswa",
@@ -442,8 +553,7 @@ export default {
         { text: "Actions", value: "actions", sortable: false }
       ]
     };
-  },
-  watch: {}
+  }
 };
 </script>
 
