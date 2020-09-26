@@ -1,5 +1,9 @@
 <template>
-  <h1>home mahasiswa</h1>
+<div>
+    <h1>root mahasiswa</h1>
+    <router-view></router-view>
+
+</div>
 </template>
 
 <script>

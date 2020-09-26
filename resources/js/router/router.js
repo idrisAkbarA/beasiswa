@@ -6,6 +6,8 @@ import LoginPetugas from '../views/LoginPetugas.vue'
 import Petugas from '../views/Petugas/Petugas.vue'
 import Dashboard from '../views/Petugas/Admin/Dashboard.vue'
 import Beasiswa from '../views/Petugas/Admin/Beasiswa.vue'
+import Mahasiswa from '../views/Mahasiswa/Mahasiswa.vue'
+import MHSHome from '../views/Mahasiswa/Home.vue'
 
 // import Login from '../views/Login.vue'
 // import Loket from '../views/Loket.vue'
@@ -51,6 +53,22 @@ const routes = [
         path: "beasiswa",
         component: Beasiswa
       }, 
+    ]
+  },
+  {
+    path: '/mahasiswa',
+    component: Mahasiswa,
+    children: [
+      {
+        name: "Home",
+        path: "home",
+        component: MHSHome
+      }, 
+      // {
+      //   name: "Beasiswa",
+      //   path: "beasiswa",
+      //   component: Beasiswa
+      // }, 
     ]
   },
 ]
