@@ -142,8 +142,13 @@ export default {
         to: `/${petugas}/beasiswa`,
       },
       {
+        icon: "mdi-clipboard-check-multiple",
+        title: "Cek Berkas Permohonan",
+        to: `/${petugas}/cek-berkas-permohonan`,
+      },
+      {
         icon: "mdi-account-details",
-        title: "Permohonan",
+        title: "List Permohonan",
         to: `/${petugas}/permohonan`,
       },
       {

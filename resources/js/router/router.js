@@ -7,6 +7,7 @@ import Petugas from '../views/Petugas/Petugas.vue'
 import Dashboard from '../views/Petugas/Admin/Dashboard.vue'
 import Beasiswa from '../views/Petugas/Admin/Beasiswa.vue'
 import Permohonan from '../views/Petugas/Admin/Permohonan.vue'
+import CekPermohonan from '../views/Petugas/Admin/CekPermohonan.vue'
 import Mahasiswa from '../views/Mahasiswa/Mahasiswa.vue'
 import MHSHome from '../views/Mahasiswa/Home.vue'
 import MHSBeasiswa from '../views/Mahasiswa/Beasiswa.vue'
@@ -56,7 +57,12 @@ const routes = [
         component: Beasiswa
       }, 
       {
-        name: "Permohonan",
+        name: "Cek Berkas Permohonan",
+        path: "cek-berkas-permohonan",
+        component: CekPermohonan
+      }, 
+      {
+        name: "List Permohonan",
         path: "permohonan",
         component: Permohonan
       }, 
