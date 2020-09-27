@@ -33,6 +33,10 @@ class PemohonBeasiswaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function cekBerkas(){
+        $permohonan = PemohonBeasiswa::where("is_berkas_passed",NULL)->orderBy('id', 'desc')->get();
+        return response()->json([$permohonan]);
+    }
     public function store(Request $request)
     {
         $user = Auth::user();

@@ -9,6 +9,7 @@ export default new Vuex.Store({
     url: pack.baseUrl,
     name:"idris",
     nim:"",
+    cekBerkas:[],
     isLoading: false,
     isTableLoading: false,
     beasiswa:[],
@@ -17,6 +18,9 @@ export default new Vuex.Store({
     isOpenBeasiswa:false,
   },
   mutations: {
+    mutateCekBerkas(state,data){
+      state.cekBerkas = data;
+    },
     mutateNim(state,data){
       state.nim = data;
     },
@@ -40,6 +44,14 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    getCekBerkas({commit,dispatch,state}){
+      commit("mutateTableLoading",true);
+      Axios.get(state.url+"/api/pemohon/cek-berkas").then(response=>{
+        commit('mutateCekBerkas',response.data)
+        commit("mutateTableLoading",false);
+
+      })
+    },
     getBeasiswaSingle({commit,dispatch,state},id){
       commit("mutateTableLoading",true);
       return new Promise((resolve,reject)=>{

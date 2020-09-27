@@ -2762,8 +2762,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -3186,7 +3184,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 
-
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
     this.getBeasiswa();
@@ -3352,10 +3349,44 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 //
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({});
 
 /***/ }),
@@ -42798,7 +42829,71 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("h1", [_vm._v("cek permohonan")])
+  return _c(
+    "v-skeleton-loader",
+    {
+      attrs: {
+        type: "table",
+        loading: _vm.isTableLoading,
+        transition: "fade-transition"
+      }
+    },
+    [
+      _c("v-data-table", {
+        staticClass: "elevation-10 mb-10",
+        staticStyle: { "background-color": "#2e7d323b" },
+        attrs: {
+          headers: _vm.headers,
+          items: _vm.beasiswa,
+          "items-per-page": 10
+        },
+        scopedSlots: _vm._u([
+          {
+            key: "item.actions",
+            fn: function(ref) {
+              var item = ref.item
+              return [
+                _c(
+                  "v-icon",
+                  {
+                    staticClass: "mr-2",
+                    attrs: { small: "" },
+                    on: {
+                      click: function($event) {
+                        return _vm.editItem(item)
+                      }
+                    }
+                  },
+                  [_vm._v("\n        mdi-pencil\n      ")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-icon",
+                  {
+                    attrs: { small: "" },
+                    on: {
+                      click: function($event) {
+                        return _vm.deleteItem(item)
+                      }
+                    }
+                  },
+                  [_vm._v("\n        mdi-delete\n      ")]
+                )
+              ]
+            }
+          },
+          {
+            key: "no-data",
+            fn: function() {
+              return [_vm._v("\n      no data\n    ")]
+            },
+            proxy: true
+          }
+        ])
+      })
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -103583,6 +103678,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     url: pack.baseUrl,
     name: "idris",
     nim: "",
+    cekBerkas: [],
     isLoading: false,
     isTableLoading: false,
     beasiswa: [],
@@ -103591,6 +103687,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     isOpenBeasiswa: false
   },
   mutations: {
+    mutateCekBerkas: function mutateCekBerkas(state, data) {
+      state.cekBerkas = data;
+    },
     mutateNim: function mutateNim(state, data) {
       state.nim = data;
     },
@@ -103614,10 +103713,20 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     }
   },
   actions: {
-    getBeasiswaSingle: function getBeasiswaSingle(_ref, id) {
+    getCekBerkas: function getCekBerkas(_ref) {
       var commit = _ref.commit,
           dispatch = _ref.dispatch,
           state = _ref.state;
+      commit("mutateTableLoading", true);
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(state.url + "/api/pemohon/cek-berkas").then(function (response) {
+        commit('mutateCekBerkas', response.data);
+        commit("mutateTableLoading", false);
+      });
+    },
+    getBeasiswaSingle: function getBeasiswaSingle(_ref2, id) {
+      var commit = _ref2.commit,
+          dispatch = _ref2.dispatch,
+          state = _ref2.state;
       commit("mutateTableLoading", true);
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(state.url + "/api/beasiswa/" + id).then(function (response) {
@@ -103629,20 +103738,20 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         });
       });
     },
-    getBeasiswa: function getBeasiswa(_ref2) {
-      var commit = _ref2.commit,
-          dispatch = _ref2.dispatch,
-          state = _ref2.state;
+    getBeasiswa: function getBeasiswa(_ref3) {
+      var commit = _ref3.commit,
+          dispatch = _ref3.dispatch,
+          state = _ref3.state;
       commit("mutateTableLoading", true);
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(state.url + "/api/beasiswa").then(function (response) {
         commit('mutateBeasiswa', response.data);
         commit("mutateTableLoading", false);
       });
     },
-    storeBeasiswa: function storeBeasiswa(_ref3, data) {
-      var commit = _ref3.commit,
-          dispatch = _ref3.dispatch,
-          state = _ref3.state;
+    storeBeasiswa: function storeBeasiswa(_ref4, data) {
+      var commit = _ref4.commit,
+          dispatch = _ref4.dispatch,
+          state = _ref4.state;
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_2___default.a.post(state.url + "/api/beasiswa", {
           data: data
@@ -103654,10 +103763,10 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         });
       });
     },
-    getInstansi: function getInstansi(_ref4) {
-      var commit = _ref4.commit,
-          dispatch = _ref4.dispatch,
-          state = _ref4.state;
+    getInstansi: function getInstansi(_ref5) {
+      var commit = _ref5.commit,
+          dispatch = _ref5.dispatch,
+          state = _ref5.state;
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(state.url + "/api/instansi").then(function (response) {
         commit('mutateInstansi', response.data);
       });

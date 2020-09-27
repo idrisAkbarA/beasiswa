@@ -413,7 +413,6 @@
 
 <script>
 import { mapActions, mapMutations, mapState } from "vuex";
-import Axios from "axios";
 export default {
   created() {
     this.getBeasiswa();
