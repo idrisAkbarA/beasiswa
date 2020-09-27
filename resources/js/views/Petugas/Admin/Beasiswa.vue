@@ -536,25 +536,17 @@ export default {
       selected_instansi: "",
       fields: [
         {
-          type: "Jawaban Pendek",
-          pertanyaan: "",
-          index: 0,
-          date:false,
-          value: "",
-          required: true
-        },
-        {
-          type: "Pilihan",
+         type: "Jawaban Pendek",
           pertanyaan: "",
           index: 1,
           value: "",
           date:false,
           pilihan: {
             required: true,
-            items: [{ label: "Ayam" }, { label: "Kucing" }]
+            items: [{ label: "" }]
           },
           required: true
-        }
+        },
       ],
       itemTypes: [
         "Jawaban Pendek",

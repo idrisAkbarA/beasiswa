@@ -3219,22 +3219,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       fields: [{
         type: "Jawaban Pendek",
         pertanyaan: "",
-        index: 0,
-        date: false,
-        value: "",
-        required: true
-      }, {
-        type: "Pilihan",
-        pertanyaan: "",
         index: 1,
         value: "",
         date: false,
         pilihan: {
           required: true,
           items: [{
-            label: "Ayam"
-          }, {
-            label: "Kucing"
+            label: ""
           }]
         },
         required: true
