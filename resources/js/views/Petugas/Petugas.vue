@@ -142,6 +142,11 @@ export default {
         to: `/${petugas}/beasiswa`,
       },
       {
+        icon: "mdi-account-details",
+        title: "Permohonan",
+        to: `/${petugas}/permohonan`,
+      },
+      {
         icon: "mdi-account-group",
         title: "Petugas",
         to: `/${petugas}/petugas`,
