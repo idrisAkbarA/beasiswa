@@ -2734,7 +2734,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       }).then(function (response) {
         _this.$router.push({
-          name: "Login Petugas"
+          name: "Login"
         });
       })["catch"](function () {
         _this.$router.push({

@@ -94,7 +94,7 @@ export default {
           }
         })
         .then(response => {
-          this.$router.push({ name: "Login Petugas" });
+          this.$router.push({ name: "Login" });
         })
         .catch(() => {
           this.$router.push({ path: "/login" });
