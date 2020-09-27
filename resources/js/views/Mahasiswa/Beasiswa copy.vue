@@ -146,24 +146,22 @@ export default {
   },
   methods: {
     ...mapActions(["getBeasiswaSingle"]),
-    upload: async (data, url) => {
+    upload: async (data) => {
       return axios({
         method: "post",
-        url: url + "/api/pemohon/file",
+        url: this.url + "/api/pemohon/file",
         onUploadProgress: function(progressEvent) {
-          //   var percentage = progressEvent.loaded * (100 / progressEvent.total);
-          //   ini.loading = percentage;
-          //   ini.loadText = "Uploading " + Math.round(ini.loading) + "%";
+        //   var percentage = progressEvent.loaded * (100 / progressEvent.total);
+        //   ini.loading = percentage;
+        //   ini.loadText = "Uploading " + Math.round(ini.loading) + "%";
           //   console.log(ini.loading);
         },
         data
+      }).then(response=>{
+          console.log(response)
+      }).catch(error=>{
+          console.log(error)
       });
-      // .then(response => {
-      //   console.log(response.data);
-      // })
-      // .catch(error => {
-      //   console.log(error);
-      // });
     },
     async save() {
       var finalForm = [];
@@ -182,40 +180,88 @@ export default {
           files.push({ file: element.value, index });
         }
       });
-      for (let i = 0; i < files.length; i++) {
-        const element = files[i];
+        for (let i = 0; i < files.length; i++) {
+            const element = files[i];
+            await this.upload()
+        }
+      // iterate each files in array and upload it
+      files.forEach((element, index) => {
+        var ini = this;
         var data = new FormData();
         data.append("file", element.file);
         data.append("id", beasiswa_id);
-        await this.upload(data, this.url).then(response => {
-          fileNames.push({
-            index: element.index,
-            newName: response.data.file_name
-          });
-        });
-      }
-      var ini = this;
-      finalForm = JSON.parse(JSON.stringify(ini.fields));
-      for (let i = 0; i < fileNames.length; i++) {
-        const element = fileNames[i];
-        console.log(element.index);
-        finalForm[element.index].value = element.newName;
-        console.log(finalForm);
-      }
-      //   console.log("im next")
-      // iterate each files in array and upload it
+        axios({
+          method: "post",
+          url: this.url + "/api/pemohon/file",
+          onUploadProgress: function(progressEvent) {
+            var percentage = progressEvent.loaded * (100 / progressEvent.total);
+            ini.loading = percentage;
+            ini.loadText = "Uploading " + Math.round(ini.loading) + "%";
+            //   console.log(ini.loading);
+          },
+          data: data
+        })
+          .then(function(response) {
+            // console.log(response.data);
+            fileNames.push({
+              index: element.index,
+              newName: response.data.file_name
+            }); //get new names from server
 
-        axios
-          .post(`${this.url}/api/pemohon`, {
-            beasiswa_id,
-            form: finalForm
+            if (index == files.length - 1) {
+              //   console.log(index)
+              finalForm = JSON.parse(JSON.stringify(ini.fields));
+              for (let i = 0; i < fileNames.length; i++) {
+                const element = fileNames[i];
+                console.log(element.index);
+                finalForm[element.index].value = element.newName;
+                console.log(finalForm);
+                // if(i=fileNames.length-1){
+                //     axios.post(`${ini.url}/api/pemohon`,
+                //     {
+                //         beasiswa_id,
+                //         form: finalForm
+                //     }
+                //   ).then(response=>{
+                //       console.log(response.data)
+                //   }).catch(error=>{
+                //       console.log(error)
+                //   })
+                // }
+              }
+              //   fileNames.forEach(item => {
+              //       console.log(item.index)
+              //       finalForm = JSON.parse(JSON.stringify(ini.fields))
+              //       finalForm[item.index].value = item.newName
+              //       console.log(finalForm)
+              //       axios.post(`${ini.url}/api/pemohon`,
+              //         {
+              //             beasiswa_id,
+              //             form: finalForm
+              //         }
+              //       ).then(response=>{
+              //           console.log(response.data)
+              //       }).catch(error=>{
+              //           console.log(error)
+              //       })
+              //   });
+            }
           })
-          .then(response => {
-            console.log(response.data);
-          })
-          .catch(error => {
+          .catch(function(error) {
             console.log(error);
           });
+      });
+      axios
+        .post(`${this.url}/api/pemohon`, {
+          beasiswa_id,
+          form: finalForm
+        })
+        .then(response => {
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
 
       //   axios.all(reqs).then(result=>{
       //       console.log(fileNames)
