@@ -2382,58 +2382,86 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   created: function created() {
     var _this = this;
 
-    console.log(this.nim + "pe");
     this.getBeasiswaSingle(this.$route.params.id).then(function (response) {
-      _this.fields = JSON.parse(response.fields);
-      console.log(response);
-      console.log(_this.fields);
+      _this.fields = JSON.parse(response.fields); //   console.log(response);
+      //   console.log(this.fields);
     });
   },
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getBeasiswaSingle"])), {}, {
     save: function save() {
       var _this2 = this;
 
-      var nim = this.nim;
+      var finalForm = [];
+      this.fields.forEach(function (element) {
+        finalForm.push(element);
+      });
       var beasiswa_id = this.$route.params.id;
       var form = [];
       var files = [];
-      this.fields.forEach(function (element) {
+      var fileNames = [];
+      var reqs = []; // store all file to new array (files)
+
+      this.fields.forEach(function (element, index) {
         if (element.type == "Upload File") {
-          files.push(element.value);
+          files.push({
+            file: element.value,
+            index: index
+          });
         }
-      });
-      console.log(this.nim);
-      files.forEach(function (element) {
+      }); // iterate each files in array and upload it
+
+      files.forEach(function (element, index) {
+        var ini = _this2;
         var data = new FormData();
-        data.append("file", element);
+        data.append("file", element.file);
         data.append("id", beasiswa_id);
-        data.append("nim", nim);
-        axios({
+        return axios({
           method: "post",
           url: _this2.url + "/api/pemohon/file",
-          onUploadProgress: function onUploadProgress(progressEvent) {// var percentage = progressEvent.loaded * (100 / progressEvent.total);
-            // ini.loading = percentage;
-            // ini.loadText = "Uploading " + Math.round(ini.loading) + "%";
-            // console.log(ini.loading);
+          onUploadProgress: function onUploadProgress(progressEvent) {
+            var percentage = progressEvent.loaded * (100 / progressEvent.total);
+            ini.loading = percentage;
+            ini.loadText = "Uploading " + Math.round(ini.loading) + "%";
+            console.log(ini.loading);
           },
           data: data
         }).then(function (response) {
-          console.log(response.data); // console.log(response);
-          // ini.afterLoad = true;
-          // ini.loadText = "Setting up file... (1-3 menit) ";
-          // ini.setPermission(response.data.id);
-          // ini.fileId = response.data.id;
+          // console.log(response.data);
+          fileNames.push({
+            index: element.index,
+            newName: response.data.file_name
+          }); //get new names from server
+
+          if (index == files.length - 1) {
+            fileNames.forEach(function (item) {
+              console.log(item.index);
+              finalForm = JSON.parse(JSON.stringify(ini.fields));
+              finalForm[item.index].value = item.newName;
+              console.log(finalForm);
+              axios.post("".concat(ini.url, "/api/pemohon"), {
+                beasiswa_id: beasiswa_id,
+                form: finalForm
+              }).then(function (response) {
+                console.log(response.data);
+              })["catch"](function (error) {
+                console.log(error);
+              });
+            });
+          }
         })["catch"](function (error) {
           console.log(error);
         });
-      });
-      console.log(files);
+      }); //   axios.all(reqs).then(result=>{
+      //       console.log(fileNames)
+      //   })
     }
   }),
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["beasiswaSingle", "nim", "url"])),
   data: function data() {
     return {
-      fields: {}
+      fields: {},
+      loading: 0,
+      loadText: ""
     };
   }
 });

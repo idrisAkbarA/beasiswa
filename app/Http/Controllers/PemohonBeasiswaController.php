@@ -35,8 +35,16 @@ class PemohonBeasiswaController extends Controller
      */
     public function store(Request $request)
     {
-        $nim = Auth::user();
-        return $nim;
+        $user = Auth::user();
+        $permohonan = new PemohonBeasiswa;
+        $permohonan->mhs_id         = $user->nim;
+        $permohonan->beasiswa_id    = $request['beasiswa_id'];
+        $permohonan->form           = json_encode($request['form']);
+        $permohonan->save();
+
+        return response()->json([
+                'status' => 'Success: Permohonan added'
+            ]);
     }
     public function storeFile(Request $request)
     {   

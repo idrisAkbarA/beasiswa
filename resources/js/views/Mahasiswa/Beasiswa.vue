@@ -138,58 +138,86 @@
 import { mapActions, mapState } from "vuex";
 export default {
   created() {
-      console.log(this.nim+"pe")
     this.getBeasiswaSingle(this.$route.params.id).then(response => {
       this.fields = JSON.parse(response.fields);
-      console.log(response);
-      console.log(this.fields);
+      //   console.log(response);
+      //   console.log(this.fields);
     });
   },
   methods: {
     ...mapActions(["getBeasiswaSingle"]),
     save() {
-      var nim = this.nim;
+      var finalForm = [];
+      this.fields.forEach(element => {
+          finalForm.push(element);
+      });
       var beasiswa_id = this.$route.params.id;
       var form = [];
       var files = [];
-      this.fields.forEach(element => {
+      var fileNames = [];
+      var reqs = [];
+
+      // store all file to new array (files)
+      this.fields.forEach((element,index) => {
         if (element.type == "Upload File") {
-          files.push(element.value);
+          files.push({file:element.value,index});
         }
       });
 
-      console.log(this.nim);
-      files.forEach(element => {
-        var data = new FormData();
-        data.append("file", element);
-        data.append("id", beasiswa_id);
-        data.append("nim", nim);
-        axios({
-          method: "post",
-          url: this.url + "/api/pemohon/file",
-          onUploadProgress: function(progressEvent) {
-            // var percentage = progressEvent.loaded * (100 / progressEvent.total);
-            // ini.loading = percentage;
-            // ini.loadText = "Uploading " + Math.round(ini.loading) + "%";
-            // console.log(ini.loading);
-          },
-
-          data: data
-        })
-          .then(function(response) {
-            console.log(response.data);
-            // console.log(response);
-            // ini.afterLoad = true;
-            // ini.loadText = "Setting up file... (1-3 menit) ";
-            // ini.setPermission(response.data.id);
-            // ini.fileId = response.data.id;
+      // iterate each files in array and upload it
+      files.forEach((element,index) => {
+     
+          var ini = this;
+          var data = new FormData();
+          data.append("file", element.file);
+          data.append("id", beasiswa_id);
+          return axios({
+            method: "post",
+            url: this.url + "/api/pemohon/file",
+            onUploadProgress: function(progressEvent) {
+              var percentage =
+                progressEvent.loaded * (100 / progressEvent.total);
+              ini.loading = percentage;
+              ini.loadText = "Uploading " + Math.round(ini.loading) + "%";
+              console.log(ini.loading);
+            },
+            data: data
           })
-          .catch(function(error) {
-            console.log(error);
-          });
+            .then(function(response) {
+              // console.log(response.data);
+              fileNames.push({
+                index: element.index,
+                newName: response.data.file_name
+              }); //get new names from server
+
+              if(index==files.length-1){
+                  fileNames.forEach(item => {
+                      console.log(item.index)
+                      finalForm = JSON.parse(JSON.stringify(ini.fields))
+                      finalForm[item.index].value = item.newName
+                      console.log(finalForm)
+                      axios.post(`${ini.url}/api/pemohon`,
+                        {
+                            beasiswa_id,
+                            form: finalForm
+                        }
+                      ).then(response=>{
+                          console.log(response.data)
+                      }).catch(error=>{
+                          console.log(error)
+                      })
+                  });
+              }
+            })
+            .catch(function(error) {
+              console.log(error);
+            });
+        
       });
 
-      console.log(files);
+    //   axios.all(reqs).then(result=>{
+    //       console.log(fileNames)
+    //   })
     }
   },
   computed: {
@@ -197,7 +225,9 @@ export default {
   },
   data() {
     return {
-      fields: {}
+      fields: {},
+      loading: 0,
+      loadText: ""
     };
   }
 };
