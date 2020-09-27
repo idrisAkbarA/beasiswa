@@ -14,6 +14,6 @@ class PemohonBeasiswa extends Model
 
     public function mahasiswa()
     {
-        return $this->belongsTo('App\User','mhs_id');
+        return $this->belongsTo('App\User');
     }
 }

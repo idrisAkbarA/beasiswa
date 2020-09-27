@@ -3350,6 +3350,84 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3387,7 +3465,49 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  created: function created() {
+    this.getCekBerkas();
+    console.log("ttt");
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["cekBerkas", "beasiswaSingle", "nim", "url", "isTableLoading"])),
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getCekBerkas"])), {}, {
+    detail: function detail(item) {
+      console.log(item);
+      this.openSheet = true;
+      this.rincian = item;
+    },
+    link: function link(url) {
+      var a = this.url + "/" + url;
+      var link = a.replace(" ", "%20");
+      console.log(link);
+      location = link;
+    }
+  }),
+  data: function data() {
+    return {
+      rincian: {},
+      btnLoading: false,
+      openSheet: false,
+      headers: [{
+        text: "Beasiswa",
+        align: "start",
+        sortable: false,
+        value: "nama_beasiswa"
+      }, {
+        text: "Nama",
+        value: "nama"
+      }, {
+        text: "NIM",
+        value: "mhs_id"
+      }, {
+        text: "Actions",
+        value: "actions",
+        sortable: false
+      }]
+    };
+  }
+});
 
 /***/ }),
 
@@ -42830,67 +42950,272 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-skeleton-loader",
-    {
-      attrs: {
-        type: "table",
-        loading: _vm.isTableLoading,
-        transition: "fade-transition"
-      }
-    },
+    "v-container",
+    { attrs: { fluid: "" } },
     [
-      _c("v-data-table", {
-        staticClass: "elevation-10 mb-10",
-        staticStyle: { "background-color": "#2e7d323b" },
-        attrs: {
-          headers: _vm.headers,
-          items: _vm.beasiswa,
-          "items-per-page": 10
-        },
-        scopedSlots: _vm._u([
-          {
-            key: "item.actions",
-            fn: function(ref) {
-              var item = ref.item
-              return [
-                _c(
-                  "v-icon",
-                  {
-                    staticClass: "mr-2",
-                    attrs: { small: "" },
-                    on: {
-                      click: function($event) {
-                        return _vm.editItem(item)
-                      }
-                    }
-                  },
-                  [_vm._v("\n        mdi-pencil\n      ")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "v-icon",
-                  {
-                    attrs: { small: "" },
-                    on: {
-                      click: function($event) {
-                        return _vm.deleteItem(item)
-                      }
-                    }
-                  },
-                  [_vm._v("\n        mdi-delete\n      ")]
-                )
-              ]
-            }
-          },
-          {
-            key: "no-data",
-            fn: function() {
-              return [_vm._v("\n      no data\n    ")]
-            },
-            proxy: true
+      _c(
+        "v-skeleton-loader",
+        {
+          attrs: {
+            loading: _vm.isTableLoading,
+            type: "table",
+            transition: "fade-transition"
           }
-        ])
-      })
+        },
+        [
+          _c("v-data-table", {
+            staticClass: "elevation-10 mb-10",
+            staticStyle: { "background-color": "#2e7d323b" },
+            attrs: {
+              headers: _vm.headers,
+              items: _vm.cekBerkas,
+              "items-per-page": 10
+            },
+            scopedSlots: _vm._u([
+              {
+                key: "item.actions",
+                fn: function(ref) {
+                  var item = ref.item
+                  return [
+                    _c(
+                      "v-btn",
+                      {
+                        attrs: { small: "" },
+                        on: {
+                          click: function($event) {
+                            return _vm.detail(item)
+                          }
+                        }
+                      },
+                      [_vm._v("lihat rincian")]
+                    )
+                  ]
+                }
+              },
+              {
+                key: "no-data",
+                fn: function() {
+                  return [_vm._v("\n        no data\n      ")]
+                },
+                proxy: true
+              }
+            ])
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-bottom-sheet",
+        {
+          attrs: {
+            scrollable: "",
+            width: "60%",
+            inset: "",
+            "overlay-color": "#69F0AE"
+          },
+          model: {
+            value: _vm.openSheet,
+            callback: function($$v) {
+              _vm.openSheet = $$v
+            },
+            expression: "openSheet"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            [
+              _c(
+                "v-card-title",
+                [
+                  _c("span", [_vm._v("Cek Berkas")]),
+                  _vm._v(" "),
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { text: "" },
+                      on: {
+                        click: function($event) {
+                          return _vm.batal()
+                        }
+                      }
+                    },
+                    [_vm._v("Tidak Lulus")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "#2E7D32", loading: _vm.btnLoading },
+                      on: {
+                        click: function($event) {
+                          return _vm.save()
+                        }
+                      },
+                      model: {
+                        value: _vm.openSheet,
+                        callback: function($$v) {
+                          _vm.openSheet = $$v
+                        },
+                        expression: "openSheet"
+                      }
+                    },
+                    [_vm._v("Lulus")]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-card-text",
+                [
+                  _c(
+                    "v-row",
+                    { staticClass: "ma-5" },
+                    [
+                      _c("v-col", { attrs: { cols: "12" } }, [
+                        _c("table", { staticStyle: { width: "100%" } }, [
+                          _c("tr", [
+                            _c("td", { staticStyle: { width: "20px" } }, [
+                              _vm._v("Nama")
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(":")]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(_vm.rincian.nama))])
+                          ]),
+                          _vm._v(" "),
+                          _c("tr", [
+                            _c("td", { staticStyle: { width: "20px" } }, [
+                              _vm._v("NIM")
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(":")]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(_vm.rincian.mhs_id))])
+                          ])
+                        ])
+                      ])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _vm._l(_vm.rincian.form, function(field, index) {
+                    return _c(
+                      "v-row",
+                      { key: index, staticClass: "ma-5" },
+                      [
+                        _c(
+                          "v-col",
+                          { staticStyle: { "padding-bottom": "0 !important" } },
+                          [
+                            _c("p", [_vm._v(_vm._s(field.pertanyaan))]),
+                            _vm._v(" "),
+                            field.type == "Pilihan"
+                              ? _c("p", [
+                                  _c(
+                                    "span",
+                                    [
+                                      _c("v-icon", [_vm._v("mdi-text-short")]),
+                                      _vm._v(_vm._s(field.value))
+                                    ],
+                                    1
+                                  )
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            field.type == "Jawaban Pendek"
+                              ? _c("p", [
+                                  _c(
+                                    "span",
+                                    [
+                                      _c("v-icon", [_vm._v("mdi-text-short")]),
+                                      _vm._v(_vm._s(field.value))
+                                    ],
+                                    1
+                                  )
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            field.type == "Jawaban Angka"
+                              ? _c("p", [
+                                  _c(
+                                    "span",
+                                    [
+                                      _c("v-icon", [_vm._v("mdi-text-short")]),
+                                      _vm._v(_vm._s(field.value))
+                                    ],
+                                    1
+                                  )
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            field.type == "Tanggal"
+                              ? _c("p", [
+                                  _c(
+                                    "span",
+                                    [
+                                      _c("v-icon", [_vm._v("mdi-text-short")]),
+                                      _vm._v(_vm._s(field.value))
+                                    ],
+                                    1
+                                  )
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            field.type == "Upload File"
+                              ? _c(
+                                  "v-btn",
+                                  {
+                                    attrs: { small: "" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.link(field.value)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("lihat file")]
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            field.type == "Paragraf"
+                              ? _c("p", [
+                                  _c(
+                                    "span",
+                                    [
+                                      _c("v-icon", [_vm._v("mdi-text-short")]),
+                                      _vm._v(_vm._s(field.value))
+                                    ],
+                                    1
+                                  )
+                                ])
+                              : _vm._e()
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-col",
+                          { attrs: { cols: "12" } },
+                          [_c("v-divider")],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  })
+                ],
+                2
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
     ],
     1
   )
@@ -103563,7 +103888,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_Petugas_Admin_Dashboard_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/Petugas/Admin/Dashboard.vue */ "./resources/js/views/Petugas/Admin/Dashboard.vue");
 /* harmony import */ var _views_Petugas_Admin_Beasiswa_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/Petugas/Admin/Beasiswa.vue */ "./resources/js/views/Petugas/Admin/Beasiswa.vue");
 /* harmony import */ var _views_Petugas_Admin_Permohonan_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/Petugas/Admin/Permohonan.vue */ "./resources/js/views/Petugas/Admin/Permohonan.vue");
-/* harmony import */ var _views_Petugas_Admin_CekPermohonan_vue__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../views/Petugas/Admin/CekPermohonan.vue */ "./resources/js/views/Petugas/Admin/CekPermohonan.vue");
+/* harmony import */ var _views_Petugas_Admin_CekPermohonan_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/Petugas/Admin/CekPermohonan.vue */ "./resources/js/views/Petugas/Admin/CekPermohonan.vue");
 /* harmony import */ var _views_Mahasiswa_Mahasiswa_vue__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../views/Mahasiswa/Mahasiswa.vue */ "./resources/js/views/Mahasiswa/Mahasiswa.vue");
 /* harmony import */ var _views_Mahasiswa_Home_vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../views/Mahasiswa/Home.vue */ "./resources/js/views/Mahasiswa/Home.vue");
 /* harmony import */ var _views_Mahasiswa_Beasiswa_vue__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../views/Mahasiswa/Beasiswa.vue */ "./resources/js/views/Mahasiswa/Beasiswa.vue");
@@ -103619,7 +103944,7 @@ var routes = [{
   }, {
     name: "Cek Berkas Permohonan",
     path: "cek-berkas-permohonan",
-    component: _views_Petugas_Admin_CekPermohonan_vue__WEBPACK_IMPORTED_MODULE_13__["default"]
+    component: _views_Petugas_Admin_CekPermohonan_vue__WEBPACK_IMPORTED_MODULE_9__["default"]
   }, {
     name: "List Permohonan",
     path: "permohonan",

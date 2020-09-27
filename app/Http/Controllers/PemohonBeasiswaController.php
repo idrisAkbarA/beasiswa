@@ -34,8 +34,18 @@ class PemohonBeasiswaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function cekBerkas(){
-        $permohonan = PemohonBeasiswa::where("is_berkas_passed",NULL)->orderBy('id', 'desc')->get();
-        return response()->json([$permohonan]);
+        // $permohonan = PemohonBeasiswa::with("beasiswa")->where("is_berkas_passed",NULL)->orderBy('id', 'desc')->get();
+        // return response()->json([$permohonan]);
+        // $permohonan = PemohonBeasiswa::with('beasiswas')->get();
+        // return $permohonan;
+        // $permohonan = PemohonBeasiswa::where("is_berkas_passed",null)->with(["beasiswa","mahasiswa"])->get();
+        // return $permohonan;
+        
+        $permohonan = PemohonBeasiswa::where("is_berkas_passed",null)->join("beasiswas","beasiswas.id","=","pemohon_beasiswas.beasiswa_id")->join("users","users.nim","=","pemohon_beasiswas.mhs_id")->select(["pemohon_beasiswas.*","beasiswas.nama AS nama_beasiswa","users.nama"])->get();
+        foreach ($permohonan as $key => $value) {
+            $value['form'] = json_decode($value['form']);
+        }
+        return $permohonan;
     }
     public function store(Request $request)
     {
@@ -53,7 +63,7 @@ class PemohonBeasiswaController extends Controller
     public function storeFile(Request $request)
     {   
         $user = Auth::user();
-        $fileName = Carbon::now()->format("Y-m-d-H-i-s").$request->file->getClientOriginalName();
+        $fileName = "files/".$request['id'].'/'.$user['nim']."/".Carbon::now()->format("Y-m-d-H-i-s").$request->file->getClientOriginalName();
         $request->file->move(public_path('files/'.$request['id'].'/'.$user['nim']), $fileName);
          
     	return response()->json(['success'=>'You have successfully upload file.','file_name'=>$fileName]);    }
