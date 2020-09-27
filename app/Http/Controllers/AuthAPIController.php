@@ -30,7 +30,7 @@ class authAPIController extends Controller
     }
 
     public function login(Request $request){
-        $credentials = $request->only('name', 'password');
+        $credentials = $request->only('nim', 'password');
         if (Auth::attempt($credentials)) {
             // Authentication passed...
 

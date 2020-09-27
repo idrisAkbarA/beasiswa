@@ -2364,6 +2364,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
@@ -2375,7 +2376,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       console.log(_this.fields);
     });
   },
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getBeasiswaSingle"])),
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getBeasiswaSingle"])), {}, {
+    save: function save() {
+      var nim = this.$route.params.nim;
+      var beasiswa_id = this.$route.params.id;
+      var form = [];
+      var files = [];
+      this.fields.forEach(function (element) {
+        if (element.type == "Upload File") {
+          files.push(element.value);
+        }
+      });
+      console.log(files);
+    }
+  }),
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["beasiswaSingle"])),
   data: function data() {
     return {
@@ -40471,6 +40485,13 @@ var render = function() {
                                 dense: "",
                                 color: "white",
                                 placeholder: "Upload File"
+                              },
+                              model: {
+                                value: field.value,
+                                callback: function($$v) {
+                                  _vm.$set(field, "value", $$v)
+                                },
+                                expression: "field.value"
                               }
                             })
                           : _vm._e(),
@@ -40500,9 +40521,18 @@ var render = function() {
                   _c(
                     "v-col",
                     [
-                      _c("v-btn", { attrs: { color: "#2E7D32" } }, [
-                        _vm._v("Daftar")
-                      ])
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "#2E7D32" },
+                          on: {
+                            click: function($event) {
+                              return _vm.save()
+                            }
+                          }
+                        },
+                        [_vm._v("Daftar")]
+                      )
                     ],
                     1
                   )
@@ -102471,7 +102501,7 @@ var routes = [{
     component: _views_Petugas_Admin_Beasiswa_vue__WEBPACK_IMPORTED_MODULE_7__["default"]
   }]
 }, {
-  path: '/mahasiswa',
+  path: '/mahasiswa/:nim',
   component: _views_Mahasiswa_Mahasiswa_vue__WEBPACK_IMPORTED_MODULE_8__["default"],
   children: [{
     name: "Home",

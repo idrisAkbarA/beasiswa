@@ -57,7 +57,7 @@ const routes = [
     ]
   },
   {
-    path: '/mahasiswa',
+    path: '/mahasiswa/:nim',
     component: Mahasiswa,
     children: [
       {

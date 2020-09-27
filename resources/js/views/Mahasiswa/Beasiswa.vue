@@ -106,6 +106,7 @@
             <v-file-input
               v-if="field.type == 'Upload File'"
               dense
+              v-model="field.value"
               color="white"
               placeholder="Upload File"
             ></v-file-input>
@@ -121,7 +122,7 @@
         </v-row>
         <v-row>
           <v-col>
-            <v-btn color="#2E7D32">Daftar</v-btn>
+            <v-btn @click="save()" color="#2E7D32">Daftar</v-btn>
           </v-col>
         </v-row>
       </v-sheet>
@@ -141,7 +142,19 @@ export default {
     });
   },
   methods: {
-    ...mapActions(["getBeasiswaSingle"])
+    ...mapActions(["getBeasiswaSingle"]),
+    save(){
+        var nim = this.$route.params.nim;
+        var beasiswa_id = this.$route.params.id;
+        var form = [];
+        var files = [];
+        this.fields.forEach(element => {
+            if(element.type == "Upload File"){
+                files.push(element.value)
+            }
+        });
+        console.log(files)
+    },
   },
   computed: {
     ...mapState(["beasiswaSingle"])
