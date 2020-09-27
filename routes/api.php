@@ -37,10 +37,8 @@ Route::middleware('auth:petugas')->delete('/petugas/{id}','PetugasController@del
 
 Route::middleware('auth:petugas')->post('/beasiswa','BeasiswaController@store');
 Route::middleware('auth:petugas')->put('/beasiswa/{id}','BeasiswaController@edit');
-Route::middleware('auth:petugas')->get('/beasiswa','BeasiswaController@getAll');
-Route::middleware('auth:petugas')->get('/beasiswa/{id}','BeasiswaController@get');
-Route::middleware('auth:sanctum')->get('/beasiswa','BeasiswaController@getAll');
-Route::middleware('auth:sanctum')->get('/beasiswa/{id}','BeasiswaController@get');
+Route::middleware('auth:petugas,sanctum')->get('/beasiswa','BeasiswaController@getAll');
+Route::middleware('auth:petugas,sanctum')->get('/beasiswa/{id}','BeasiswaController@get');
 Route::middleware('auth:petugas')->delete('/beasiswa/{id}','BeasiswaController@delete'); 
 
 Route::post('/pemohon/file', 'PemohonBeasiswaController@storeFile');

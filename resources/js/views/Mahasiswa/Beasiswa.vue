@@ -122,7 +122,10 @@
         </v-row>
         <v-row>
           <v-col>
-            <v-btn @click="save()" color="#2E7D32">Daftar</v-btn>
+            <v-btn
+              @click="save()"
+              color="#2E7D32"
+            >Daftar</v-btn>
           </v-col>
         </v-row>
       </v-sheet>
@@ -135,6 +138,7 @@
 import { mapActions, mapState } from "vuex";
 export default {
   created() {
+      console.log(this.nim+"pe")
     this.getBeasiswaSingle(this.$route.params.id).then(response => {
       this.fields = JSON.parse(response.fields);
       console.log(response);
@@ -143,21 +147,53 @@ export default {
   },
   methods: {
     ...mapActions(["getBeasiswaSingle"]),
-    save(){
-        var nim = this.$route.params.nim;
-        var beasiswa_id = this.$route.params.id;
-        var form = [];
-        var files = [];
-        this.fields.forEach(element => {
-            if(element.type == "Upload File"){
-                files.push(element.value)
-            }
-        });
-        console.log(files)
-    },
+    save() {
+      var nim = this.nim;
+      var beasiswa_id = this.$route.params.id;
+      var form = [];
+      var files = [];
+      this.fields.forEach(element => {
+        if (element.type == "Upload File") {
+          files.push(element.value);
+        }
+      });
+
+      console.log(this.nim);
+      files.forEach(element => {
+        var data = new FormData();
+        data.append("file", element);
+        data.append("id", beasiswa_id);
+        data.append("nim", nim);
+        axios({
+          method: "post",
+          url: this.url + "/api/pemohon/file",
+          onUploadProgress: function(progressEvent) {
+            // var percentage = progressEvent.loaded * (100 / progressEvent.total);
+            // ini.loading = percentage;
+            // ini.loadText = "Uploading " + Math.round(ini.loading) + "%";
+            // console.log(ini.loading);
+          },
+
+          data: data
+        })
+          .then(function(response) {
+            console.log(response.data);
+            // console.log(response);
+            // ini.afterLoad = true;
+            // ini.loadText = "Setting up file... (1-3 menit) ";
+            // ini.setPermission(response.data.id);
+            // ini.fileId = response.data.id;
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      });
+
+      console.log(files);
+    }
   },
   computed: {
-    ...mapState(["beasiswaSingle"])
+    ...mapState(["beasiswaSingle", "nim", "url"])
   },
   data() {
     return {

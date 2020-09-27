@@ -39,9 +39,10 @@ class PemohonBeasiswaController extends Controller
         return $nim;
     }
     public function storeFile(Request $request)
-    {
+    {   
+        $user = Auth::user();
         $fileName = Carbon::now()->format("Y-m-d-H-i-s").$request->file->getClientOriginalName();
-        $request->file->move(public_path('files/'.$request['id'].'/'.$request['nim']), $fileName);
+        $request->file->move(public_path('files/'.$request['id'].'/'.$user['nim']), $fileName);
          
     	return response()->json(['success'=>'You have successfully upload file.','file_name'=>$fileName]);    }
 

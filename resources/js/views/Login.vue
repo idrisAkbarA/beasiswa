@@ -38,8 +38,7 @@
 
 <script>
 import axios from 'axios'
-axios.defaults.withCredentials = true;
-axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+import {mapMutations} from 'vuex'
 export default {
   data() {
     return {
@@ -48,6 +47,7 @@ export default {
     };
   },
   methods:{
+    ...mapMutations(['mutateNim']),
       login(){
         axios.get("http://beasiswa.test/sanctum/csrf-cookie").then(response=>{
           console.log(response)
@@ -56,7 +56,9 @@ export default {
               'password': this.pass
           }).then(response=>{
             console.log(response)
-            this.$router.push({ path: `/${response.data.user.nama}/dashboard` })
+            this.mutateNim(this.nim);
+            this.$router.push({ path: `/mahasiswa/home` })
+            // this.$router.push({ path: `/${response.data.user.nama}/dashboard` })
           })
         })
       }

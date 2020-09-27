@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     url: pack.baseUrl,
     name:"idris",
+    nim:"",
     isLoading: false,
     isTableLoading: false,
     beasiswa:[],
@@ -16,6 +17,9 @@ export default new Vuex.Store({
     isOpenBeasiswa:false,
   },
   mutations: {
+    mutateNim(state,data){
+      state.nim = data;
+    },
     mutateLoading(state,data){
       state.isLoading = data;
     },

@@ -2037,6 +2037,13 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2076,8 +2083,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
-axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.withCredentials = true;
-axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2085,7 +2091,7 @@ axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers.common['X-Requeste
       pass: ""
     };
   },
-  methods: {
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])(['mutateNim'])), {}, {
     login: function login() {
       var _this = this;
 
@@ -2097,13 +2103,16 @@ axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers.common['X-Requeste
         }).then(function (response) {
           console.log(response);
 
+          _this.mutateNim(_this.nim);
+
           _this.$router.push({
-            path: "/".concat(response.data.user.nama, "/dashboard")
-          });
+            path: "/mahasiswa/home"
+          }); // this.$router.push({ path: `/${response.data.user.nama}/dashboard` })
+
         });
       });
     }
-  },
+  }),
   created: function created() {
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("http://beasiswa.test/sanctum/csrf-cookie").then(function (response) {
       console.log(response);
@@ -2365,11 +2374,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
     var _this = this;
 
+    console.log(this.nim + "pe");
     this.getBeasiswaSingle(this.$route.params.id).then(function (response) {
       _this.fields = JSON.parse(response.fields);
       console.log(response);
@@ -2378,7 +2391,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getBeasiswaSingle"])), {}, {
     save: function save() {
-      var nim = this.$route.params.nim;
+      var _this2 = this;
+
+      var nim = this.nim;
       var beasiswa_id = this.$route.params.id;
       var form = [];
       var files = [];
@@ -2387,10 +2402,35 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           files.push(element.value);
         }
       });
+      console.log(this.nim);
+      files.forEach(function (element) {
+        var data = new FormData();
+        data.append("file", element);
+        data.append("id", beasiswa_id);
+        data.append("nim", nim);
+        axios({
+          method: "post",
+          url: _this2.url + "/api/pemohon/file",
+          onUploadProgress: function onUploadProgress(progressEvent) {// var percentage = progressEvent.loaded * (100 / progressEvent.total);
+            // ini.loading = percentage;
+            // ini.loadText = "Uploading " + Math.round(ini.loading) + "%";
+            // console.log(ini.loading);
+          },
+          data: data
+        }).then(function (response) {
+          console.log(response.data); // console.log(response);
+          // ini.afterLoad = true;
+          // ini.loadText = "Setting up file... (1-3 menit) ";
+          // ini.setPermission(response.data.id);
+          // ini.fileId = response.data.id;
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      });
       console.log(files);
     }
   }),
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["beasiswaSingle"])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["beasiswaSingle", "nim", "url"])),
   data: function data() {
     return {
       fields: {}
@@ -102501,7 +102541,7 @@ var routes = [{
     component: _views_Petugas_Admin_Beasiswa_vue__WEBPACK_IMPORTED_MODULE_7__["default"]
   }]
 }, {
-  path: '/mahasiswa/:nim',
+  path: '/mahasiswa/',
   component: _views_Mahasiswa_Mahasiswa_vue__WEBPACK_IMPORTED_MODULE_8__["default"],
   children: [{
     name: "Home",
@@ -102552,6 +102592,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
   state: {
     url: pack.baseUrl,
     name: "idris",
+    nim: "",
     isLoading: false,
     isTableLoading: false,
     beasiswa: [],
@@ -102560,6 +102601,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     isOpenBeasiswa: false
   },
   mutations: {
+    mutateNim: function mutateNim(state, data) {
+      state.nim = data;
+    },
     mutateLoading: function mutateLoading(state, data) {
       state.isLoading = data;
     },
