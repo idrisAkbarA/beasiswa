@@ -67,12 +67,14 @@
               prepend-icon="mdi-text-short"
               v-if="field.type == 'Jawaban Pendek'"
               dense
+              color="white"
               placeholder="Jawaban Anda"
             ></v-text-field>
             <v-text-field
               prepend-icon="mdi-numeric"
               v-if="field.type == 'Jawaban Angka'"
               dense
+              color="white"
               type="number"
               placeholder="Jawaban Anda"
             ></v-text-field>
@@ -104,6 +106,7 @@
             <v-file-input
               v-if="field.type == 'Upload File'"
               dense
+              color="white"
               placeholder="Upload File"
             ></v-file-input>
             <v-textarea

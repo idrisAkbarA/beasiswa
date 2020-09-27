@@ -37,6 +37,12 @@ class PemohonBeasiswaController extends Controller
     {
         //
     }
+    public function storeFile(Request $request)
+    {
+        $fileName = $request->file->getClientOriginalName();
+        $request->file->move(public_path('files/'.$request['id']), $fileName);
+         
+    	return response()->json(['success'=>'You have successfully upload file.']);    }
 
     /**
      * Display the specified resource.

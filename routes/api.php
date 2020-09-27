@@ -41,3 +41,4 @@ Route::middleware('auth:petugas')->get('/beasiswa','BeasiswaController@getAll');
 Route::middleware('auth:petugas')->get('/beasiswa/{id}','BeasiswaController@get');
 Route::middleware('auth:petugas')->delete('/beasiswa/{id}','BeasiswaController@delete'); 
 
+Route::post('/pemohon/file', 'PemohonBeasiswaController@storeFile');

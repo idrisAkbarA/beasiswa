@@ -2361,6 +2361,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
@@ -40358,6 +40361,7 @@ var render = function() {
                               attrs: {
                                 "prepend-icon": "mdi-text-short",
                                 dense: "",
+                                color: "white",
                                 placeholder: "Jawaban Anda"
                               }
                             })
@@ -40368,6 +40372,7 @@ var render = function() {
                               attrs: {
                                 "prepend-icon": "mdi-numeric",
                                 dense: "",
+                                color: "white",
                                 type: "number",
                                 placeholder: "Jawaban Anda"
                               }
@@ -40462,7 +40467,11 @@ var render = function() {
                         _vm._v(" "),
                         field.type == "Upload File"
                           ? _c("v-file-input", {
-                              attrs: { dense: "", placeholder: "Upload File" }
+                              attrs: {
+                                dense: "",
+                                color: "white",
+                                placeholder: "Upload File"
+                              }
                             })
                           : _vm._e(),
                         _vm._v(" "),
