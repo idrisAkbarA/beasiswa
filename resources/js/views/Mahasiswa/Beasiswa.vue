@@ -53,6 +53,7 @@
               v-if="field.type == 'Pilihan'"
               column
               :mandatory="field.pilihan.required"
+              v-model="field.value"
             >
               <v-radio
                 v-for="(item,index) in field.pilihan.items"
@@ -68,12 +69,14 @@
               v-if="field.type == 'Jawaban Pendek'"
               dense
               color="white"
+              v-model="field.value"
               placeholder="Jawaban Anda"
             ></v-text-field>
             <v-text-field
               prepend-icon="mdi-numeric"
               v-if="field.type == 'Jawaban Angka'"
               dense
+              v-model="field.value"
               color="white"
               type="number"
               placeholder="Jawaban Anda"
@@ -111,6 +114,7 @@
               placeholder="Upload File"
             ></v-file-input>
             <v-textarea
+              v-model="field.value"
               prepend-icon="mdi-view-headline"
               v-if="field.type == 'Paragraf'"
               color="white"
@@ -140,8 +144,6 @@ export default {
   created() {
     this.getBeasiswaSingle(this.$route.params.id).then(response => {
       this.fields = JSON.parse(response.fields);
-      //   console.log(response);
-      //   console.log(this.fields);
     });
   },
   methods: {
@@ -151,19 +153,9 @@ export default {
         method: "post",
         url: url + "/api/pemohon/file",
         onUploadProgress: function(progressEvent) {
-          //   var percentage = progressEvent.loaded * (100 / progressEvent.total);
-          //   ini.loading = percentage;
-          //   ini.loadText = "Uploading " + Math.round(ini.loading) + "%";
-          //   console.log(ini.loading);
         },
         data
       });
-      // .then(response => {
-      //   console.log(response.data);
-      // })
-      // .catch(error => {
-      //   console.log(error);
-      // });
     },
     async save() {
       var finalForm = [];
@@ -202,9 +194,6 @@ export default {
         finalForm[element.index].value = element.newName;
         console.log(finalForm);
       }
-      //   console.log("im next")
-      // iterate each files in array and upload it
-
         axios
           .post(`${this.url}/api/pemohon`, {
             beasiswa_id,
@@ -216,10 +205,6 @@ export default {
           .catch(error => {
             console.log(error);
           });
-
-      //   axios.all(reqs).then(result=>{
-      //       console.log(fileNames)
-      //   })
     }
   },
   computed: {

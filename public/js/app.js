@@ -2397,14 +2397,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
     var _this = this;
 
     this.getBeasiswaSingle(this.$route.params.id).then(function (response) {
-      _this.fields = JSON.parse(response.fields); //   console.log(response);
-      //   console.log(this.fields);
+      _this.fields = JSON.parse(response.fields);
     });
   },
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])(["getBeasiswaSingle"])), {}, {
@@ -2417,11 +2420,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 return _context.abrupt("return", axios({
                   method: "post",
                   url: url + "/api/pemohon/file",
-                  onUploadProgress: function onUploadProgress(progressEvent) {//   var percentage = progressEvent.loaded * (100 / progressEvent.total);
-                    //   ini.loading = percentage;
-                    //   ini.loadText = "Uploading " + Math.round(ini.loading) + "%";
-                    //   console.log(ini.loading);
-                  },
+                  onUploadProgress: function onUploadProgress(progressEvent) {},
                   data: data
                 }));
 
@@ -2519,9 +2518,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                   console.log(element.index);
                   finalForm[element.index].value = element.newName;
                   console.log(finalForm);
-                } //   console.log("im next")
-                // iterate each files in array and upload it
-
+                }
 
                 axios.post("".concat(_this2.url, "/api/pemohon"), {
                   beasiswa_id: beasiswa_id,
@@ -2530,9 +2527,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                   console.log(response.data);
                 })["catch"](function (error) {
                   console.log(error);
-                }); //   axios.all(reqs).then(result=>{
-                //       console.log(fileNames)
-                //   })
+                });
 
               case 19:
               case "end":
@@ -41256,6 +41251,13 @@ var render = function() {
                                 attrs: {
                                   column: "",
                                   mandatory: field.pilihan.required
+                                },
+                                model: {
+                                  value: field.value,
+                                  callback: function($$v) {
+                                    _vm.$set(field, "value", $$v)
+                                  },
+                                  expression: "field.value"
                                 }
                               },
                               _vm._l(field.pilihan.items, function(
@@ -41282,6 +41284,13 @@ var render = function() {
                                 dense: "",
                                 color: "white",
                                 placeholder: "Jawaban Anda"
+                              },
+                              model: {
+                                value: field.value,
+                                callback: function($$v) {
+                                  _vm.$set(field, "value", $$v)
+                                },
+                                expression: "field.value"
                               }
                             })
                           : _vm._e(),
@@ -41294,6 +41303,13 @@ var render = function() {
                                 color: "white",
                                 type: "number",
                                 placeholder: "Jawaban Anda"
+                              },
+                              model: {
+                                value: field.value,
+                                callback: function($$v) {
+                                  _vm.$set(field, "value", $$v)
+                                },
+                                expression: "field.value"
                               }
                             })
                           : _vm._e(),
@@ -41409,6 +41425,13 @@ var render = function() {
                                 rows: "1",
                                 dense: "",
                                 label: "Paragraf"
+                              },
+                              model: {
+                                value: field.value,
+                                callback: function($$v) {
+                                  _vm.$set(field, "value", $$v)
+                                },
+                                expression: "field.value"
                               }
                             })
                           : _vm._e()
