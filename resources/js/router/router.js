@@ -8,6 +8,7 @@ import Dashboard from '../views/Petugas/Admin/Dashboard.vue'
 import Beasiswa from '../views/Petugas/Admin/Beasiswa.vue'
 import Mahasiswa from '../views/Mahasiswa/Mahasiswa.vue'
 import MHSHome from '../views/Mahasiswa/Home.vue'
+import MHSBeasiswa from '../views/Mahasiswa/Beasiswa.vue'
 
 // import Login from '../views/Login.vue'
 // import Loket from '../views/Loket.vue'
@@ -64,11 +65,11 @@ const routes = [
         path: "home",
         component: MHSHome
       }, 
-      // {
-      //   name: "Beasiswa",
-      //   path: "beasiswa",
-      //   component: Beasiswa
-      // }, 
+      {
+        name: "Daftar Beasiswa",
+        path: "daftar-beasiswa/:id",
+        component: MHSBeasiswa
+      }, 
     ]
   },
 ]

@@ -11,6 +11,7 @@ export default new Vuex.Store({
     isLoading: false,
     isTableLoading: false,
     beasiswa:[],
+    beasiswaSingle:{},
     instansi:[],
     isOpenBeasiswa:false,
   },
@@ -24,6 +25,9 @@ export default new Vuex.Store({
     mutateBeasiswa(state,data){
       state.beasiswa = data;
     },
+    mutateBeasiswaSingle(state,data){
+      state.beasiswaSingle = data;
+    },
     mutateInstansi(state,data){
       state.instansi = data;
     },
@@ -32,6 +36,19 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    getBeasiswaSingle({commit,dispatch,state},id){
+      commit("mutateTableLoading",true);
+      return new Promise((resolve,reject)=>{
+        Axios.get(state.url+"/api/beasiswa/"+id).then(response=>{
+          commit('mutateBeasiswaSingle',response.data)
+          commit("mutateTableLoading",false);
+          resolve(response.data)
+        }).catch(error=>{
+          reject(error)
+        })
+      })
+     
+    },
     getBeasiswa({commit,dispatch,state}){
       commit("mutateTableLoading",true);
       Axios.get(state.url+"/api/beasiswa").then(response=>{

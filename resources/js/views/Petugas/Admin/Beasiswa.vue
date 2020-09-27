@@ -496,7 +496,13 @@ export default {
         index: this.fields[0]
           ? this.fields[this.fields.length - 1].index + 1
           : 0,
-        required: false
+        value: "",
+        date:false,
+        pilihan: {
+            required: false,
+            items: [{ label: "" }]
+          },
+        required: true
       });
       console.log(this.fields);
     },
@@ -533,6 +539,7 @@ export default {
           type: "Jawaban Pendek",
           pertanyaan: "",
           index: 0,
+          date:false,
           value: "",
           required: true
         },
@@ -541,6 +548,7 @@ export default {
           pertanyaan: "",
           index: 1,
           value: "",
+          date:false,
           pilihan: {
             required: true,
             items: [{ label: "Ayam" }, { label: "Kucing" }]

@@ -2216,6 +2216,173 @@ axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers.common['X-Requeste
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Mahasiswa/Beasiswa.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Mahasiswa/Beasiswa.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  created: function created() {
+    var _this = this;
+
+    this.getBeasiswaSingle(this.$route.params.id).then(function (response) {
+      _this.fields = JSON.parse(response.fields);
+      console.log(response);
+      console.log(_this.fields);
+    });
+  },
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getBeasiswaSingle"])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["beasiswaSingle"])),
+  data: function data() {
+    return {
+      fields: {}
+    };
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Mahasiswa/Home.vue?vue&type=script&lang=js&":
 /*!********************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Mahasiswa/Home.vue?vue&type=script&lang=js& ***!
@@ -2306,6 +2473,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
 //
 //
 //
@@ -2921,7 +3090,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         type: "Jawaban Pendek",
         pertanyaan: "",
         index: this.fields[0] ? this.fields[this.fields.length - 1].index + 1 : 0,
-        required: false
+        value: "",
+        date: false,
+        pilihan: {
+          required: false,
+          items: [{
+            label: ""
+          }]
+        },
+        required: true
       });
       console.log(this.fields);
     },
@@ -2958,6 +3135,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         type: "Jawaban Pendek",
         pertanyaan: "",
         index: 0,
+        date: false,
         value: "",
         required: true
       }, {
@@ -2965,6 +3143,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         pertanyaan: "",
         index: 1,
         value: "",
+        date: false,
         pilihan: {
           required: true,
           items: [{
@@ -40030,6 +40209,314 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Mahasiswa/Beasiswa.vue?vue&type=template&id=10f66e9d&":
+/*!****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Mahasiswa/Beasiswa.vue?vue&type=template&id=10f66e9d& ***!
+  \****************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "v-sheet",
+    { attrs: { color: "transparent" } },
+    [
+      _c(
+        "v-row",
+        { attrs: { align: "center", justify: "start" } },
+        [
+          _c(
+            "v-col",
+            { attrs: { cols: "4" } },
+            [
+              _c(
+                "v-card",
+                {
+                  staticClass: "ma-3 item",
+                  attrs: { ripple: "", height: 300, width: 200 }
+                },
+                [
+                  _c("v-img", {
+                    attrs: {
+                      gradient:
+                        "to top right, rgba(58, 231, 87, 0.33), rgba(25,32,72,.7)",
+                      src: "https://picsum.photos/200/300?random"
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            [
+              _c("v-row", [
+                _c("h1", [_vm._v(_vm._s(_vm.beasiswaSingle.nama))])
+              ]),
+              _vm._v(" "),
+              _c("v-row", [
+                _c("p", [_vm._v(_vm._s(_vm.beasiswaSingle.deskripsi))])
+              ]),
+              _vm._v(" "),
+              _c("v-row", [
+                _c("p", [
+                  _vm._v("Batas upload berkas "),
+                  _vm.beasiswaSingle.awal_berkas
+                    ? _c("span", [
+                        _vm._v(
+                          _vm._s(_vm.beasiswaSingle.awal_berkas) + " sampai "
+                        )
+                      ])
+                    : _vm._e(),
+                  _vm._v(" " + _vm._s(_vm.beasiswaSingle.akhir_berkas) + " ")
+                ])
+              ]),
+              _vm._v(" "),
+              _vm.beasiswaSingle.is_interview
+                ? _c("v-row", [
+                    _c("p", [
+                      _vm._v("Waktu wawancara "),
+                      _vm.beasiswaSingle.awal_interview
+                        ? _c("span", [
+                            _vm._v(
+                              _vm._s(_vm.beasiswaSingle.awal_interview) +
+                                " sampai "
+                            )
+                          ])
+                        : _vm._e(),
+                      _vm._v(
+                        " " + _vm._s(_vm.beasiswaSingle.akhir_interview) + " "
+                      )
+                    ])
+                  ])
+                : _vm._e()
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-row",
+        [
+          _c(
+            "v-sheet",
+            { staticClass: "pa-5", attrs: { width: "100%", hight: "100%" } },
+            [
+              _c("h3", [_vm._v("Form Pendaftaran")]),
+              _vm._v(" "),
+              _vm._l(_vm.fields, function(field, index) {
+                return _c(
+                  "v-row",
+                  { key: index, staticClass: "ma-5" },
+                  [
+                    _c(
+                      "v-col",
+                      { staticStyle: { "padding-bottom": "0 !important" } },
+                      [
+                        _c("p", [_vm._v(_vm._s(field.pertanyaan))]),
+                        _vm._v(" "),
+                        field.type == "Pilihan"
+                          ? _c(
+                              "v-radio-group",
+                              {
+                                attrs: {
+                                  column: "",
+                                  mandatory: field.pilihan.required
+                                }
+                              },
+                              _vm._l(field.pilihan.items, function(
+                                item,
+                                index
+                              ) {
+                                return _c("v-radio", {
+                                  key: index,
+                                  attrs: {
+                                    value: item.label,
+                                    color: "white",
+                                    label: item.label
+                                  }
+                                })
+                              }),
+                              1
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        field.type == "Jawaban Pendek"
+                          ? _c("v-text-field", {
+                              attrs: {
+                                "prepend-icon": "mdi-text-short",
+                                dense: "",
+                                placeholder: "Jawaban Anda"
+                              }
+                            })
+                          : _vm._e(),
+                        _vm._v(" "),
+                        field.type == "Jawaban Angka"
+                          ? _c("v-text-field", {
+                              attrs: {
+                                "prepend-icon": "mdi-numeric",
+                                dense: "",
+                                type: "number",
+                                placeholder: "Jawaban Anda"
+                              }
+                            })
+                          : _vm._e(),
+                        _vm._v(" "),
+                        field.type == "Tanggal"
+                          ? _c(
+                              "v-menu",
+                              {
+                                attrs: {
+                                  "close-on-content-click": false,
+                                  "nudge-right": 40,
+                                  transition: "scale-transition",
+                                  "offset-y": "",
+                                  "min-width": "290px"
+                                },
+                                scopedSlots: _vm._u(
+                                  [
+                                    {
+                                      key: "activator",
+                                      fn: function(ref) {
+                                        var on = ref.on
+                                        var attrs = ref.attrs
+                                        return [
+                                          _c(
+                                            "v-text-field",
+                                            _vm._g(
+                                              _vm._b(
+                                                {
+                                                  attrs: {
+                                                    label: "Tanggal",
+                                                    "prepend-icon":
+                                                      "mdi-calendar",
+                                                    readonly: "",
+                                                    color: "white"
+                                                  },
+                                                  model: {
+                                                    value: field.value,
+                                                    callback: function($$v) {
+                                                      _vm.$set(
+                                                        field,
+                                                        "value",
+                                                        $$v
+                                                      )
+                                                    },
+                                                    expression: "field.value"
+                                                  }
+                                                },
+                                                "v-text-field",
+                                                attrs,
+                                                false
+                                              ),
+                                              on
+                                            )
+                                          )
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  null,
+                                  true
+                                ),
+                                model: {
+                                  value: field.date,
+                                  callback: function($$v) {
+                                    _vm.$set(field, "date", $$v)
+                                  },
+                                  expression: "field.date"
+                                }
+                              },
+                              [
+                                _vm._v(" "),
+                                _c("v-date-picker", {
+                                  on: {
+                                    input: function($event) {
+                                      _vm.menu2 = false
+                                    }
+                                  },
+                                  model: {
+                                    value: field.value,
+                                    callback: function($$v) {
+                                      _vm.$set(field, "value", $$v)
+                                    },
+                                    expression: "field.value"
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        field.type == "Upload File"
+                          ? _c("v-file-input", {
+                              attrs: { dense: "", placeholder: "Upload File" }
+                            })
+                          : _vm._e(),
+                        _vm._v(" "),
+                        field.type == "Paragraf"
+                          ? _c("v-textarea", {
+                              attrs: {
+                                "prepend-icon": "mdi-view-headline",
+                                color: "white",
+                                rows: "1",
+                                dense: "",
+                                label: "Paragraf"
+                              }
+                            })
+                          : _vm._e()
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              }),
+              _vm._v(" "),
+              _c(
+                "v-row",
+                [
+                  _c(
+                    "v-col",
+                    [
+                      _c("v-btn", { attrs: { color: "#2E7D32" } }, [
+                        _vm._v("Daftar")
+                      ])
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            2
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Mahasiswa/Home.vue?vue&type=template&id=45c0085a&scoped=true&":
 /*!************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Mahasiswa/Home.vue?vue&type=template&id=45c0085a&scoped=true& ***!
@@ -40240,7 +40727,12 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c("v-main", { staticClass: "bg-pattern" }, [_c("router-view")], 1)
+      _c(
+        "v-main",
+        { staticClass: "bg-pattern" },
+        [_c("v-container", { attrs: { fluid: "" } }, [_c("router-view")], 1)],
+        1
+      )
     ],
     1
   )
@@ -101920,6 +102412,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_Petugas_Admin_Beasiswa_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/Petugas/Admin/Beasiswa.vue */ "./resources/js/views/Petugas/Admin/Beasiswa.vue");
 /* harmony import */ var _views_Mahasiswa_Mahasiswa_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/Mahasiswa/Mahasiswa.vue */ "./resources/js/views/Mahasiswa/Mahasiswa.vue");
 /* harmony import */ var _views_Mahasiswa_Home_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/Mahasiswa/Home.vue */ "./resources/js/views/Mahasiswa/Home.vue");
+/* harmony import */ var _views_Mahasiswa_Beasiswa_vue__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../views/Mahasiswa/Beasiswa.vue */ "./resources/js/views/Mahasiswa/Beasiswa.vue");
+
 
 
 
@@ -101974,12 +102468,11 @@ var routes = [{
     name: "Home",
     path: "home",
     component: _views_Mahasiswa_Home_vue__WEBPACK_IMPORTED_MODULE_9__["default"]
-  } // {
-  //   name: "Beasiswa",
-  //   path: "beasiswa",
-  //   component: Beasiswa
-  // }, 
-  ]
+  }, {
+    name: "Daftar Beasiswa",
+    path: "daftar-beasiswa/:id",
+    component: _views_Mahasiswa_Beasiswa_vue__WEBPACK_IMPORTED_MODULE_10__["default"]
+  }]
 }];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   mode: 'history',
@@ -102023,6 +102516,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     isLoading: false,
     isTableLoading: false,
     beasiswa: [],
+    beasiswaSingle: {},
     instansi: [],
     isOpenBeasiswa: false
   },
@@ -102036,6 +102530,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     mutateBeasiswa: function mutateBeasiswa(state, data) {
       state.beasiswa = data;
     },
+    mutateBeasiswaSingle: function mutateBeasiswaSingle(state, data) {
+      state.beasiswaSingle = data;
+    },
     mutateInstansi: function mutateInstansi(state, data) {
       state.instansi = data;
     },
@@ -102044,20 +102541,35 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     }
   },
   actions: {
-    getBeasiswa: function getBeasiswa(_ref) {
+    getBeasiswaSingle: function getBeasiswaSingle(_ref, id) {
       var commit = _ref.commit,
           dispatch = _ref.dispatch,
           state = _ref.state;
+      commit("mutateTableLoading", true);
+      return new Promise(function (resolve, reject) {
+        axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(state.url + "/api/beasiswa/" + id).then(function (response) {
+          commit('mutateBeasiswaSingle', response.data);
+          commit("mutateTableLoading", false);
+          resolve(response.data);
+        })["catch"](function (error) {
+          reject(error);
+        });
+      });
+    },
+    getBeasiswa: function getBeasiswa(_ref2) {
+      var commit = _ref2.commit,
+          dispatch = _ref2.dispatch,
+          state = _ref2.state;
       commit("mutateTableLoading", true);
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(state.url + "/api/beasiswa").then(function (response) {
         commit('mutateBeasiswa', response.data);
         commit("mutateTableLoading", false);
       });
     },
-    storeBeasiswa: function storeBeasiswa(_ref2, data) {
-      var commit = _ref2.commit,
-          dispatch = _ref2.dispatch,
-          state = _ref2.state;
+    storeBeasiswa: function storeBeasiswa(_ref3, data) {
+      var commit = _ref3.commit,
+          dispatch = _ref3.dispatch,
+          state = _ref3.state;
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_2___default.a.post(state.url + "/api/beasiswa", {
           data: data
@@ -102069,10 +102581,10 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         });
       });
     },
-    getInstansi: function getInstansi(_ref3) {
-      var commit = _ref3.commit,
-          dispatch = _ref3.dispatch,
-          state = _ref3.state;
+    getInstansi: function getInstansi(_ref4) {
+      var commit = _ref4.commit,
+          dispatch = _ref4.dispatch,
+          state = _ref4.state;
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(state.url + "/api/instansi").then(function (response) {
         commit('mutateInstansi', response.data);
       });
@@ -102390,6 +102902,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_LoginPetugas_vue_vue_type_template_id_9919984e_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_LoginPetugas_vue_vue_type_template_id_9919984e_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/views/Mahasiswa/Beasiswa.vue":
+/*!***************************************************!*\
+  !*** ./resources/js/views/Mahasiswa/Beasiswa.vue ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Beasiswa_vue_vue_type_template_id_10f66e9d___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Beasiswa.vue?vue&type=template&id=10f66e9d& */ "./resources/js/views/Mahasiswa/Beasiswa.vue?vue&type=template&id=10f66e9d&");
+/* harmony import */ var _Beasiswa_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Beasiswa.vue?vue&type=script&lang=js& */ "./resources/js/views/Mahasiswa/Beasiswa.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Beasiswa_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Beasiswa_vue_vue_type_template_id_10f66e9d___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Beasiswa_vue_vue_type_template_id_10f66e9d___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/views/Mahasiswa/Beasiswa.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/views/Mahasiswa/Beasiswa.vue?vue&type=script&lang=js&":
+/*!****************************************************************************!*\
+  !*** ./resources/js/views/Mahasiswa/Beasiswa.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Beasiswa_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./Beasiswa.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Mahasiswa/Beasiswa.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Beasiswa_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/views/Mahasiswa/Beasiswa.vue?vue&type=template&id=10f66e9d&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/views/Mahasiswa/Beasiswa.vue?vue&type=template&id=10f66e9d& ***!
+  \**********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Beasiswa_vue_vue_type_template_id_10f66e9d___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./Beasiswa.vue?vue&type=template&id=10f66e9d& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Mahasiswa/Beasiswa.vue?vue&type=template&id=10f66e9d&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Beasiswa_vue_vue_type_template_id_10f66e9d___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Beasiswa_vue_vue_type_template_id_10f66e9d___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
