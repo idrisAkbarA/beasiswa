@@ -10,6 +10,9 @@ class BeasiswaController extends Controller
     public function getAll(){
         return response()->json( Beasiswa::all());
     }
+    public function countBeasiswa(){
+        return count(Beasiswa::all());
+    }
     public function get($id){
         return response()->json( Beasiswa::find($id));
     }

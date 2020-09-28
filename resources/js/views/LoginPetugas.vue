@@ -49,21 +49,26 @@ export default {
   methods:{
       login(){
         axios.get("http://beasiswa.test/sanctum/csrf-cookie").then(response=>{
-          console.log(response)
+          // console.log(response)
           axios.post("http://beasiswa.test/api/authenticate/petugas",{
               'name': this.name,
               'password': this.pass
           }).then(response=>{
             window.localStorage.setItem("user",response.data.role )
-            console.log(response)
-            this.$router.push({ path: `/${response.data.user.name}/dashboard` })
+            console.log(response.data)
+            if(response.data.user.role==1){
+              this.$router.push({ path: `/${response.data.user.name}/dashboard`})
+            }else if(response.data.user.role==2){
+              console.log("interviewer")
+              this.$router.push({ path: `/interviewer/${response.data.user.name}/home`})
+            }
           })
         })
       }
   },
   created() {
     axios.get("http://beasiswa.test/sanctum/csrf-cookie").then((response) => {
-      console.log(response)
+      // console.log(response)
 
       axios
         .get("http://beasiswa.test/api/user/petugas")

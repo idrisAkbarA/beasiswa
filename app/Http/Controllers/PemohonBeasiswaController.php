@@ -33,19 +33,44 @@ class PemohonBeasiswaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function countBerkas(){
+        $berkas = $this->cekBerkas();
+        return count($berkas);
+    }
     public function cekBerkas(){
-        // $permohonan = PemohonBeasiswa::with("beasiswa")->where("is_berkas_passed",NULL)->orderBy('id', 'desc')->get();
-        // return response()->json([$permohonan]);
-        // $permohonan = PemohonBeasiswa::with('beasiswas')->get();
-        // return $permohonan;
-        // $permohonan = PemohonBeasiswa::where("is_berkas_passed",null)->with(["beasiswa","mahasiswa"])->get();
-        // return $permohonan;
         
         $permohonan = PemohonBeasiswa::where("is_berkas_passed",null)
                                     ->where("akhir_berkas",">=",Carbon::now())
                                     ->join("beasiswas","beasiswas.id","=","pemohon_beasiswas.beasiswa_id")
                                     ->join("users","users.nim","=","pemohon_beasiswas.mhs_id")
                                     ->select(["pemohon_beasiswas.*","beasiswas.nama AS nama_beasiswa","beasiswas.akhir_berkas","users.nama"])
+                                    ->get();
+        
+                                    
+        foreach ($permohonan as $key => $value) {
+            $value['form'] = json_decode($value['form']);
+        }
+        return $permohonan;
+    }
+    public function countInterview(){
+        $interview = $this->cekInterview();
+        return count($interview);
+    }
+    public function countLulus(){
+        $permohonan = PemohonBeasiswa::where("is_selection_passed",1)->get();
+        return count($permohonan);
+    }
+    public function lulus(){
+        $permohonan = PemohonBeasiswa::where("is_selection_passed",1)->get();
+        return response()->json($permohonan);
+    }
+    public function cekInterview(){
+        
+        $permohonan = PemohonBeasiswa::where("is_interview_passed",null)
+                                    ->where("akhir_interview",">=",Carbon::now())
+                                    ->join("beasiswas","beasiswas.id","=","pemohon_beasiswas.beasiswa_id")
+                                    ->join("users","users.nim","=","pemohon_beasiswas.mhs_id")
+                                    ->select(["pemohon_beasiswas.*","beasiswas.nama AS nama_beasiswa","beasiswas.akhir_interview","users.nama"])
                                     ->get();
         
                                     

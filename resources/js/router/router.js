@@ -12,10 +12,13 @@ import Akun from '../views/Petugas/Admin/Akun.vue'
 import AkunPetugas from '../views/Petugas/Admin/AkunPetugas.vue'
 import KelolaMhs from '../views/Petugas/Admin/Mahasiswa.vue'
 import CekPermohonan from '../views/Petugas/Admin/CekPermohonan.vue'
+
 import Mahasiswa from '../views/Mahasiswa/Mahasiswa.vue'
 import MHSHome from '../views/Mahasiswa/Home.vue'
 import MHSBeasiswa from '../views/Mahasiswa/Beasiswa.vue'
 
+import Interviewer from '../views/Petugas/Interviewer/Interviewer.vue'
+import InterviewerHome from '../views/Petugas/Interviewer/Home.vue'
 // import Login from '../views/Login.vue'
 // import Loket from '../views/Loket.vue'
 // import Dashboard from '../views/Dashboard.vue'
@@ -93,6 +96,7 @@ const routes = [
 
     ]
   },
+
   {
     path: '/mahasiswa/',
     component: Mahasiswa,
@@ -101,6 +105,22 @@ const routes = [
         name: "Home",
         path: "home",
         component: MHSHome
+      }, 
+      {
+        name: "Daftar Beasiswa",
+        path: "daftar-beasiswa/:id",
+        component: MHSBeasiswa
+      }, 
+    ]
+  },
+  {
+    path: '/interviewer/:petugas',
+    component: Interviewer,
+    children: [
+      {
+        name: "Home",
+        path: "home",
+        component: InterviewerHome
       }, 
       {
         name: "Daftar Beasiswa",
