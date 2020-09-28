@@ -1,6 +1,6 @@
 <template>
   <v-app id="inspire">
-      <!-- :src="require('../drawer-bg.jpg')" -->
+    <!-- :src="require('../drawer-bg.jpg')" -->
     <v-navigation-drawer
       :src="'/images/drawer-bg.jpg'"
       v-model="drawer"
@@ -48,17 +48,37 @@
         </v-toolbar-title>
       </div>
       <v-slide-y-transition>
-      <v-btn
-      v-if="isBeasiswa"
-      small
-      class="green darken-3"
-      @click="toggleBeasiswa()"
-      >
-        <v-icon>mdi-plus</v-icon>tambah beasiswa
-      </v-btn>
+        <v-btn
+          v-if="isBeasiswa"
+          small
+          class="green darken-3"
+          @click="toggleBeasiswa()"
+        >
+          <v-icon>mdi-plus</v-icon>tambah beasiswa
+        </v-btn>
+      </v-slide-y-transition>
+      <v-slide-y-transition>
+        <v-btn
+          v-if="isInstansi"
+          small
+          class="green darken-3"
+          @click="toggleBeasiswa()"
+        >
+          <v-icon>mdi-plus</v-icon>tambah instansi
+        </v-btn>
+      </v-slide-y-transition>
+      <v-slide-y-transition>
+        <v-btn
+          v-if="isAkunPetugas"
+          small
+          class="green darken-3"
+          @click="toggleBeasiswa()"
+        >
+          <v-icon>mdi-plus</v-icon>tambah akun petugas
+        </v-btn>
       </v-slide-y-transition>
       <v-btn
-      small
+        small
         text
         @click="logout"
       >
@@ -66,10 +86,7 @@
       </v-btn>
     </v-app-bar>
 
-    <v-main
-      class="bg-pattern"
-      
-    >
+    <v-main class="bg-pattern">
       <transition
         name="slide-fade"
         mode="out-in"
@@ -85,96 +102,110 @@
 </template>
 
 <script>
-
-import {mapMutations, mapState } from "vuex";
+import { mapMutations, mapState } from "vuex";
 export default {
   methods: {
     ...mapMutations(["toggleOpenBeasiswa"]),
-    toggleBeasiswa(){
-      console.log(this.isOpenBeasiswa)
-      this.toggleOpenBeasiswa(true)
+    toggleBeasiswa() {
+      console.log(this.isOpenBeasiswa);
+      this.toggleOpenBeasiswa(true);
     },
     logout() {
       axios
-        .get("http://beasiswa.test/api/logout",{params:{
-          user: window.localStorage.getItem('user')
-        }})
-        .then((response) => {
-          this.$router.push({name:"Login Petugas"});
+        .get("http://beasiswa.test/api/logout", {
+          params: {
+            user: window.localStorage.getItem("user")
+          }
+        })
+        .then(response => {
+          this.$router.push({ name: "Login Petugas" });
         })
         .catch(() => {
           this.$router.push({ path: "/login" });
         });
-    },
-   
+    }
   },
   props: {
-    source: String,
+    source: String
   },
-  computed:{
+  computed: {
     ...mapState(["isOpenBeasiswa"]),
-    nama(){
-      return this.$store.state.name
+    nama() {
+      return this.$store.state.name;
     },
-    isBeasiswa(){
-      if(this.$route.name=="Beasiswa"){
+    isBeasiswa() {
+      if (this.$route.name == "Beasiswa") {
         return true;
-      }else{
-        false
+      } else {
+        false;
       }
     },
-    pages(){
-      let petugas = this.$route.params.petugas
-      return [ {
-        icon: "mdi-account",
-        title: "Akun",
-        subtitle: `${this.$route.params.petugas}`, // change this dynamicly later
-        to: `/${petugas}/akun`,
-      },
-      {
-        icon: "mdi-view-dashboard",
-        title: "Dashboard",
-        to: `/${petugas}/dashboard`,
-      },
-      {
-        icon: "mdi-school",
-        title: "Beasiswa",
-        to: `/${petugas}/beasiswa`,
-      },
-      {
-        icon: "mdi-clipboard-check-multiple",
-        title: "Cek Berkas Permohonan",
-        to: `/${petugas}/cek-berkas-permohonan`,
-      },
-      {
-        icon: "mdi-account-details",
-        title: "List Permohonan",
-        to: `/${petugas}/permohonan`,
-      },
-      {
-        icon: "mdi-account-group",
-        title: "Petugas",
-        to: `/${petugas}/petugas`,
-      },
-      {
-        icon: "mdi-office-building",
-        title: "Instansi",
-        to: `/${petugas}/instansi`,
-      },
-      
-      ]
+    isInstansi() {
+      if (this.$route.name == "Instansi") {
+        return true;
+      } else {
+        false;
+      }
+    },
+    isAkunPetugas() {
+      if (this.$route.name == "Akun Petugas") {
+        return true;
+      } else {
+        false;
+      }
+    },
+    pages() {
+      let petugas = this.$route.params.petugas;
+      return [
+        {
+          icon: "mdi-account",
+          title: "Akun",
+          subtitle: `${this.$route.params.petugas}`, // change this dynamicly later
+          to: `/${petugas}/akun`
+        },
+        {
+          icon: "mdi-view-dashboard",
+          title: "Dashboard",
+          to: `/${petugas}/dashboard`
+        },
+        {
+          icon: "mdi-school",
+          title: "Beasiswa",
+          to: `/${petugas}/beasiswa`
+        },
+        {
+          icon: "mdi-clipboard-check-multiple",
+          title: "Cek Berkas Permohonan",
+          to: `/${petugas}/cek-berkas-permohonan`
+        },
+        {
+          icon: "mdi-account-details",
+          title: "List Permohonan",
+          to: `/${petugas}/permohonan`
+        },
+        {
+          icon: "mdi-account-group",
+          title: "Petugas",
+          to: `/${petugas}/petugas`
+        },
+        {
+          icon: "mdi-office-building",
+          title: "Instansi",
+          to: `/${petugas}/instansi`
+        }
+      ];
     }
   },
   data: () => ({
     drawer: false,
     permanent: true,
     miniVariant: true,
-    expandOnHover: true,
+    expandOnHover: true
   }),
   mounted() {
     console.log(this.$route);
     // this.$vuetify.theme.dark = true;
-  },
+  }
 };
 </script>
 
