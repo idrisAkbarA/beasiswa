@@ -35,14 +35,14 @@
         <v-card-title> <span>Cek Berkas</span>
           <v-spacer></v-spacer>
           <v-btn
-            @click="batal()"
+            @click="tidakLulusButton"
             text
           >Tidak Lulus</v-btn>
           <v-btn
             color="#2E7D32"
             :loading="btnLoading"
             v-model="openSheet"
-            @click="save()"
+            @click="lulusButton"
           >Lulus</v-btn>
         </v-card-title>
         <v-card-text>
@@ -70,39 +70,66 @@
 
             <v-col style="padding-bottom:0 !important;">
               <p>{{field.pertanyaan}}</p>
-               <p
-              
-                v-if="field.type == 'Pilihan'"
-              ><span><v-icon>mdi-text-short</v-icon>{{field.value}}</span></p>
-              <p
-              
-                v-if="field.type == 'Jawaban Pendek'"
-              ><span><v-icon>mdi-text-short</v-icon>{{field.value}}</span></p>
-               <p
-              
-                v-if="field.type == 'Jawaban Angka'"
-              ><span><v-icon>mdi-text-short</v-icon>{{field.value}}</span></p>
-               <p
-              
-                v-if="field.type == 'Tanggal'"
-              ><span><v-icon>mdi-text-short</v-icon>{{field.value}}</span></p>
+              <p v-if="field.type == 'Pilihan'"><span>
+                  <v-icon>mdi-text-short</v-icon>{{field.value}}
+                </span></p>
+              <p v-if="field.type == 'Jawaban Pendek'"><span>
+                  <v-icon>mdi-text-short</v-icon>{{field.value}}
+                </span></p>
+              <p v-if="field.type == 'Jawaban Angka'"><span>
+                  <v-icon>mdi-text-short</v-icon>{{field.value}}
+                </span></p>
+              <p v-if="field.type == 'Tanggal'"><span>
+                  <v-icon>mdi-text-short</v-icon>{{field.value}}
+                </span></p>
               <v-btn
                 v-if="field.type == 'Upload File'"
                 small
                 @click="link(field.value)"
               >lihat file</v-btn>
-               <p
-              
-                v-if="field.type == 'Paragraf'"
-              ><span><v-icon>mdi-text-short</v-icon>{{field.value}}</span></p>
+              <p v-if="field.type == 'Paragraf'"><span>
+                  <v-icon>mdi-text-short</v-icon>{{field.value}}
+                </span></p>
             </v-col>
             <v-col cols="12">
-                <v-divider></v-divider>
+              <v-divider></v-divider>
             </v-col>
           </v-row>
         </v-card-text>
       </v-card>
     </v-bottom-sheet>
+    <v-dialog
+      width="400"
+      overlay-color="#69F0AE"
+      v-model="dialog"
+    >
+      <v-card>
+        <v-card-title class="mt-2">
+          {{msg}}
+          <p style="font-weight:bold">
+            <!-- {{itemtoDelete.nama}}? -->
+          </p>
+        </v-card-title>
+        <v-card-actions>
+
+          <v-btn
+            text
+            @click="dialog = false"
+          >
+            Batal
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn
+            dark
+            class="green"
+            @click="setBerkas"
+          >
+            <v-icon left>mdi-check</v-icon>
+            iya
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -119,19 +146,45 @@ export default {
   methods: {
     ...mapActions(["getCekBerkas"]),
     detail(item) {
-        console.log(item)
+      console.log(item);
       this.openSheet = true;
       this.rincian = item;
     },
-    link(url){
-        var a = this.url+"/"+url;
-        var link = a.replace(" ", "%20");
-        console.log(link);
-        location = link;
+    link(url) {
+      var a = this.url + "/" + url;
+      var link = a.replace(" ", "%20");
+      console.log(link);
+      location = link;
+    },
+    lulusButton() {
+      this.dialog = true;
+      this.bool = 1;
+      this.msg = "Apakah anda yakin bahwa berkas ini lulus tahap cek berkas?";
+    },
+    tidakLulusButton() {
+      this.dialog = true;
+      this.bool = 0;
+      this.msg = "Apakah anda yakin bahwa berkas ini didiskualifikasi?";
+    },
+    setBerkas() {
+      axios
+        .put(`${this.url}/api/pemohon/set-berkas`, {
+          bool: this.bool,
+          id: this.rincian.id
+        })
+        .then(response => {
+            this.getCekBerkas();
+          console.log(response.data);
+          this.dialog = false;
+          this.openSheet=false
+        });
     }
   },
   data() {
     return {
+      bool: null,
+      dialog: false,
+      msg: "",
       rincian: {},
       btnLoading: false,
       openSheet: false,
@@ -151,5 +204,10 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.delete-header {
+  background: linear-gradient(-90deg, rgb(255, 70, 70), rgb(255, 255, 255));
+  background-position: 50px 0px;
+  background-repeat: no-repeat;
+}
 </style>

@@ -2752,6 +2752,40 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/Admin/Akun.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Petugas/Admin/Akun.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/Admin/AkunPetugas.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Petugas/Admin/AkunPetugas.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/Admin/Beasiswa.vue?vue&type=script&lang=js&":
 /*!****************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Petugas/Admin/Beasiswa.vue?vue&type=script&lang=js& ***!
@@ -3464,6 +3498,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
@@ -3482,10 +3543,37 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var link = a.replace(" ", "%20");
       console.log(link);
       location = link;
+    },
+    lulusButton: function lulusButton() {
+      this.dialog = true;
+      this.bool = 1;
+      this.msg = "Apakah anda yakin bahwa berkas ini lulus tahap cek berkas?";
+    },
+    tidakLulusButton: function tidakLulusButton() {
+      this.dialog = true;
+      this.bool = 0;
+      this.msg = "Apakah anda yakin bahwa berkas ini didiskualifikasi?";
+    },
+    setBerkas: function setBerkas() {
+      var _this = this;
+
+      axios.put("".concat(this.url, "/api/pemohon/set-berkas"), {
+        bool: this.bool,
+        id: this.rincian.id
+      }).then(function (response) {
+        _this.getCekBerkas();
+
+        console.log(response.data);
+        _this.dialog = false;
+        _this.openSheet = false;
+      });
     }
   }),
   data: function data() {
     return {
+      bool: null,
+      dialog: false,
+      msg: "",
       rincian: {},
       btnLoading: false,
       openSheet: false,
@@ -3520,6 +3608,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/Admin/Instansi.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Petugas/Admin/Instansi.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
 //
 //
 //
@@ -3693,7 +3800,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         title: "Akun",
         subtitle: "".concat(this.$route.params.petugas),
         // change this dynamicly later
-        to: "/".concat(petugas, "/account")
+        to: "/".concat(petugas, "/akun")
       }, {
         icon: "mdi-view-dashboard",
         title: "Dashboard",
@@ -3714,6 +3821,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         icon: "mdi-account-group",
         title: "Petugas",
         to: "/".concat(petugas, "/petugas")
+      }, {
+        icon: "mdi-office-building",
+        title: "Instansi",
+        to: "/".concat(petugas, "/instansi")
       }];
     }
   }),
@@ -8241,6 +8352,25 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 // module
 exports.push([module.i, "\n.fab[data-v-3e929a98] {\r\n  color: #2e7d323b;\r\n  position: fixed;\r\n  bottom: 20px;\r\n  right: 20px;\n}\n.floating[data-v-3e929a98] {\r\n  width: 100%;\r\n  position: fixed;\r\n  bottom: 20px;\r\n  z-index: 10;\n}\r\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/Admin/CekPermohonan.vue?vue&type=style&index=0&id=1b707d43&scoped=true&lang=css&":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Petugas/Admin/CekPermohonan.vue?vue&type=style&index=0&id=1b707d43&scoped=true&lang=css& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.delete-header[data-v-1b707d43] {\r\n  background: linear-gradient(-90deg, rgb(255, 70, 70), rgb(255, 255, 255));\r\n  background-position: 50px 0px;\r\n  background-repeat: no-repeat;\n}\r\n", ""]);
 
 // exports
 
@@ -40334,6 +40464,36 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/Admin/CekPermohonan.vue?vue&type=style&index=0&id=1b707d43&scoped=true&lang=css&":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Petugas/Admin/CekPermohonan.vue?vue&type=style&index=0&id=1b707d43&scoped=true&lang=css& ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../../node_modules/css-loader??ref--6-1!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/src??ref--6-2!../../../../../node_modules/vue-loader/lib??vue-loader-options!./CekPermohonan.vue?vue&type=style&index=0&id=1b707d43&scoped=true&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/Admin/CekPermohonan.vue?vue&type=style&index=0&id=1b707d43&scoped=true&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/Petugas.vue?vue&type=style&index=0&id=edc1cd70&scoped=true&lang=css&":
 /*!********************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Petugas/Petugas.vue?vue&type=style&index=0&id=edc1cd70&scoped=true&lang=css& ***!
@@ -41904,6 +42064,54 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/Admin/Akun.vue?vue&type=template&id=b37f5664&":
+/*!****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Petugas/Admin/Akun.vue?vue&type=template&id=b37f5664& ***!
+  \****************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("h1", [_vm._v("akun")])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/Admin/AkunPetugas.vue?vue&type=template&id=90e7e436&":
+/*!***********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Petugas/Admin/AkunPetugas.vue?vue&type=template&id=90e7e436& ***!
+  \***********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("h1", [_vm._v("petugas")])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/Admin/Beasiswa.vue?vue&type=template&id=3e929a98&scoped=true&":
 /*!********************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Petugas/Admin/Beasiswa.vue?vue&type=template&id=3e929a98&scoped=true& ***!
@@ -42934,10 +43142,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/Admin/CekPermohonan.vue?vue&type=template&id=1b707d43&":
-/*!*************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Petugas/Admin/CekPermohonan.vue?vue&type=template&id=1b707d43& ***!
-  \*************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/Admin/CekPermohonan.vue?vue&type=template&id=1b707d43&scoped=true&":
+/*!*************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Petugas/Admin/CekPermohonan.vue?vue&type=template&id=1b707d43&scoped=true& ***!
+  \*************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -43037,11 +43245,7 @@ var render = function() {
                     "v-btn",
                     {
                       attrs: { text: "" },
-                      on: {
-                        click: function($event) {
-                          return _vm.batal()
-                        }
-                      }
+                      on: { click: _vm.tidakLulusButton }
                     },
                     [_vm._v("Tidak Lulus")]
                   ),
@@ -43050,11 +43254,7 @@ var render = function() {
                     "v-btn",
                     {
                       attrs: { color: "#2E7D32", loading: _vm.btnLoading },
-                      on: {
-                        click: function($event) {
-                          return _vm.save()
-                        }
-                      },
+                      on: { click: _vm.lulusButton },
                       model: {
                         value: _vm.openSheet,
                         callback: function($$v) {
@@ -43120,7 +43320,9 @@ var render = function() {
                                     "span",
                                     [
                                       _c("v-icon", [_vm._v("mdi-text-short")]),
-                                      _vm._v(_vm._s(field.value))
+                                      _vm._v(
+                                        _vm._s(field.value) + "\n              "
+                                      )
                                     ],
                                     1
                                   )
@@ -43133,7 +43335,9 @@ var render = function() {
                                     "span",
                                     [
                                       _c("v-icon", [_vm._v("mdi-text-short")]),
-                                      _vm._v(_vm._s(field.value))
+                                      _vm._v(
+                                        _vm._s(field.value) + "\n              "
+                                      )
                                     ],
                                     1
                                   )
@@ -43146,7 +43350,9 @@ var render = function() {
                                     "span",
                                     [
                                       _c("v-icon", [_vm._v("mdi-text-short")]),
-                                      _vm._v(_vm._s(field.value))
+                                      _vm._v(
+                                        _vm._s(field.value) + "\n              "
+                                      )
                                     ],
                                     1
                                   )
@@ -43159,7 +43365,9 @@ var render = function() {
                                     "span",
                                     [
                                       _c("v-icon", [_vm._v("mdi-text-short")]),
-                                      _vm._v(_vm._s(field.value))
+                                      _vm._v(
+                                        _vm._s(field.value) + "\n              "
+                                      )
                                     ],
                                     1
                                   )
@@ -43187,7 +43395,9 @@ var render = function() {
                                     "span",
                                     [
                                       _c("v-icon", [_vm._v("mdi-text-short")]),
-                                      _vm._v(_vm._s(field.value))
+                                      _vm._v(
+                                        _vm._s(field.value) + "\n              "
+                                      )
                                     ],
                                     1
                                   )
@@ -43209,6 +43419,70 @@ var render = function() {
                   })
                 ],
                 2
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { width: "400", "overlay-color": "#69F0AE" },
+          model: {
+            value: _vm.dialog,
+            callback: function($$v) {
+              _vm.dialog = $$v
+            },
+            expression: "dialog"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            [
+              _c("v-card-title", { staticClass: "mt-2" }, [
+                _vm._v("\n        " + _vm._s(_vm.msg) + "\n        "),
+                _c("p", { staticStyle: { "font-weight": "bold" } })
+              ]),
+              _vm._v(" "),
+              _c(
+                "v-card-actions",
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { text: "" },
+                      on: {
+                        click: function($event) {
+                          _vm.dialog = false
+                        }
+                      }
+                    },
+                    [_vm._v("\n          Batal\n        ")]
+                  ),
+                  _vm._v(" "),
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      staticClass: "green",
+                      attrs: { dark: "" },
+                      on: { click: _vm.setBerkas }
+                    },
+                    [
+                      _c("v-icon", { attrs: { left: "" } }, [
+                        _vm._v("mdi-check")
+                      ]),
+                      _vm._v("\n          iya\n        ")
+                    ],
+                    1
+                  )
+                ],
+                1
               )
             ],
             1
@@ -43243,6 +43517,30 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("h1", [_vm._v("dashboard")])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/Admin/Instansi.vue?vue&type=template&id=73c0a2d8&":
+/*!********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Petugas/Admin/Instansi.vue?vue&type=template&id=73c0a2d8& ***!
+  \********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("h1", [_vm._v("\n    instansi\n")])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -103888,10 +104186,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_Petugas_Admin_Dashboard_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/Petugas/Admin/Dashboard.vue */ "./resources/js/views/Petugas/Admin/Dashboard.vue");
 /* harmony import */ var _views_Petugas_Admin_Beasiswa_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/Petugas/Admin/Beasiswa.vue */ "./resources/js/views/Petugas/Admin/Beasiswa.vue");
 /* harmony import */ var _views_Petugas_Admin_Permohonan_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/Petugas/Admin/Permohonan.vue */ "./resources/js/views/Petugas/Admin/Permohonan.vue");
-/* harmony import */ var _views_Petugas_Admin_CekPermohonan_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/Petugas/Admin/CekPermohonan.vue */ "./resources/js/views/Petugas/Admin/CekPermohonan.vue");
-/* harmony import */ var _views_Mahasiswa_Mahasiswa_vue__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../views/Mahasiswa/Mahasiswa.vue */ "./resources/js/views/Mahasiswa/Mahasiswa.vue");
-/* harmony import */ var _views_Mahasiswa_Home_vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../views/Mahasiswa/Home.vue */ "./resources/js/views/Mahasiswa/Home.vue");
-/* harmony import */ var _views_Mahasiswa_Beasiswa_vue__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../views/Mahasiswa/Beasiswa.vue */ "./resources/js/views/Mahasiswa/Beasiswa.vue");
+/* harmony import */ var _views_Petugas_Admin_Instansi_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/Petugas/Admin/Instansi.vue */ "./resources/js/views/Petugas/Admin/Instansi.vue");
+/* harmony import */ var _views_Petugas_Admin_Akun_vue__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../views/Petugas/Admin/Akun.vue */ "./resources/js/views/Petugas/Admin/Akun.vue");
+/* harmony import */ var _views_Petugas_Admin_AkunPetugas_vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../views/Petugas/Admin/AkunPetugas.vue */ "./resources/js/views/Petugas/Admin/AkunPetugas.vue");
+/* harmony import */ var _views_Petugas_Admin_CekPermohonan_vue__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../views/Petugas/Admin/CekPermohonan.vue */ "./resources/js/views/Petugas/Admin/CekPermohonan.vue");
+/* harmony import */ var _views_Mahasiswa_Mahasiswa_vue__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../views/Mahasiswa/Mahasiswa.vue */ "./resources/js/views/Mahasiswa/Mahasiswa.vue");
+/* harmony import */ var _views_Mahasiswa_Home_vue__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../views/Mahasiswa/Home.vue */ "./resources/js/views/Mahasiswa/Home.vue");
+/* harmony import */ var _views_Mahasiswa_Beasiswa_vue__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../views/Mahasiswa/Beasiswa.vue */ "./resources/js/views/Mahasiswa/Beasiswa.vue");
+
+
+
 
 
 
@@ -103944,23 +104248,35 @@ var routes = [{
   }, {
     name: "Cek Berkas Permohonan",
     path: "cek-berkas-permohonan",
-    component: _views_Petugas_Admin_CekPermohonan_vue__WEBPACK_IMPORTED_MODULE_9__["default"]
+    component: _views_Petugas_Admin_CekPermohonan_vue__WEBPACK_IMPORTED_MODULE_12__["default"]
   }, {
     name: "List Permohonan",
     path: "permohonan",
     component: _views_Petugas_Admin_Permohonan_vue__WEBPACK_IMPORTED_MODULE_8__["default"]
+  }, {
+    name: "Instansi",
+    path: "instansi",
+    component: _views_Petugas_Admin_Instansi_vue__WEBPACK_IMPORTED_MODULE_9__["default"]
+  }, {
+    name: "Akun Petugas",
+    path: "petugas",
+    component: _views_Petugas_Admin_AkunPetugas_vue__WEBPACK_IMPORTED_MODULE_11__["default"]
+  }, {
+    name: "Akun",
+    path: "akun",
+    component: _views_Petugas_Admin_Akun_vue__WEBPACK_IMPORTED_MODULE_16__["default"]
   }]
 }, {
   path: '/mahasiswa/',
-  component: _views_Mahasiswa_Mahasiswa_vue__WEBPACK_IMPORTED_MODULE_10__["default"],
+  component: _views_Mahasiswa_Mahasiswa_vue__WEBPACK_IMPORTED_MODULE_13__["default"],
   children: [{
     name: "Home",
     path: "home",
-    component: _views_Mahasiswa_Home_vue__WEBPACK_IMPORTED_MODULE_11__["default"]
+    component: _views_Mahasiswa_Home_vue__WEBPACK_IMPORTED_MODULE_14__["default"]
   }, {
     name: "Daftar Beasiswa",
     path: "daftar-beasiswa/:id",
-    component: _views_Mahasiswa_Beasiswa_vue__WEBPACK_IMPORTED_MODULE_12__["default"]
+    component: _views_Mahasiswa_Beasiswa_vue__WEBPACK_IMPORTED_MODULE_15__["default"]
   }]
 }];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
@@ -104657,6 +104973,144 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/views/Petugas/Admin/Akun.vue":
+/*!***************************************************!*\
+  !*** ./resources/js/views/Petugas/Admin/Akun.vue ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Akun_vue_vue_type_template_id_b37f5664___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Akun.vue?vue&type=template&id=b37f5664& */ "./resources/js/views/Petugas/Admin/Akun.vue?vue&type=template&id=b37f5664&");
+/* harmony import */ var _Akun_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Akun.vue?vue&type=script&lang=js& */ "./resources/js/views/Petugas/Admin/Akun.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Akun_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Akun_vue_vue_type_template_id_b37f5664___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Akun_vue_vue_type_template_id_b37f5664___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/views/Petugas/Admin/Akun.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/views/Petugas/Admin/Akun.vue?vue&type=script&lang=js&":
+/*!****************************************************************************!*\
+  !*** ./resources/js/views/Petugas/Admin/Akun.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Akun_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Akun.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/Admin/Akun.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Akun_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/views/Petugas/Admin/Akun.vue?vue&type=template&id=b37f5664&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/views/Petugas/Admin/Akun.vue?vue&type=template&id=b37f5664& ***!
+  \**********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Akun_vue_vue_type_template_id_b37f5664___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Akun.vue?vue&type=template&id=b37f5664& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/Admin/Akun.vue?vue&type=template&id=b37f5664&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Akun_vue_vue_type_template_id_b37f5664___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Akun_vue_vue_type_template_id_b37f5664___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/views/Petugas/Admin/AkunPetugas.vue":
+/*!**********************************************************!*\
+  !*** ./resources/js/views/Petugas/Admin/AkunPetugas.vue ***!
+  \**********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _AkunPetugas_vue_vue_type_template_id_90e7e436___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AkunPetugas.vue?vue&type=template&id=90e7e436& */ "./resources/js/views/Petugas/Admin/AkunPetugas.vue?vue&type=template&id=90e7e436&");
+/* harmony import */ var _AkunPetugas_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AkunPetugas.vue?vue&type=script&lang=js& */ "./resources/js/views/Petugas/Admin/AkunPetugas.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _AkunPetugas_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _AkunPetugas_vue_vue_type_template_id_90e7e436___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _AkunPetugas_vue_vue_type_template_id_90e7e436___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/views/Petugas/Admin/AkunPetugas.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/views/Petugas/Admin/AkunPetugas.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/views/Petugas/Admin/AkunPetugas.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AkunPetugas_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./AkunPetugas.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/Admin/AkunPetugas.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AkunPetugas_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/views/Petugas/Admin/AkunPetugas.vue?vue&type=template&id=90e7e436&":
+/*!*****************************************************************************************!*\
+  !*** ./resources/js/views/Petugas/Admin/AkunPetugas.vue?vue&type=template&id=90e7e436& ***!
+  \*****************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AkunPetugas_vue_vue_type_template_id_90e7e436___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./AkunPetugas.vue?vue&type=template&id=90e7e436& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/Admin/AkunPetugas.vue?vue&type=template&id=90e7e436&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AkunPetugas_vue_vue_type_template_id_90e7e436___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AkunPetugas_vue_vue_type_template_id_90e7e436___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/views/Petugas/Admin/Beasiswa.vue":
 /*!*******************************************************!*\
   !*** ./resources/js/views/Petugas/Admin/Beasiswa.vue ***!
@@ -104753,9 +105207,11 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _CekPermohonan_vue_vue_type_template_id_1b707d43___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CekPermohonan.vue?vue&type=template&id=1b707d43& */ "./resources/js/views/Petugas/Admin/CekPermohonan.vue?vue&type=template&id=1b707d43&");
+/* harmony import */ var _CekPermohonan_vue_vue_type_template_id_1b707d43_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CekPermohonan.vue?vue&type=template&id=1b707d43&scoped=true& */ "./resources/js/views/Petugas/Admin/CekPermohonan.vue?vue&type=template&id=1b707d43&scoped=true&");
 /* harmony import */ var _CekPermohonan_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CekPermohonan.vue?vue&type=script&lang=js& */ "./resources/js/views/Petugas/Admin/CekPermohonan.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _CekPermohonan_vue_vue_type_style_index_0_id_1b707d43_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CekPermohonan.vue?vue&type=style&index=0&id=1b707d43&scoped=true&lang=css& */ "./resources/js/views/Petugas/Admin/CekPermohonan.vue?vue&type=style&index=0&id=1b707d43&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -104763,13 +105219,13 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _CekPermohonan_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _CekPermohonan_vue_vue_type_template_id_1b707d43___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _CekPermohonan_vue_vue_type_template_id_1b707d43___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _CekPermohonan_vue_vue_type_template_id_1b707d43_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _CekPermohonan_vue_vue_type_template_id_1b707d43_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
-  null,
+  "1b707d43",
   null
   
 )
@@ -104795,19 +105251,35 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/views/Petugas/Admin/CekPermohonan.vue?vue&type=template&id=1b707d43&":
-/*!*******************************************************************************************!*\
-  !*** ./resources/js/views/Petugas/Admin/CekPermohonan.vue?vue&type=template&id=1b707d43& ***!
-  \*******************************************************************************************/
+/***/ "./resources/js/views/Petugas/Admin/CekPermohonan.vue?vue&type=style&index=0&id=1b707d43&scoped=true&lang=css&":
+/*!*********************************************************************************************************************!*\
+  !*** ./resources/js/views/Petugas/Admin/CekPermohonan.vue?vue&type=style&index=0&id=1b707d43&scoped=true&lang=css& ***!
+  \*********************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CekPermohonan_vue_vue_type_style_index_0_id_1b707d43_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader!../../../../../node_modules/css-loader??ref--6-1!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/src??ref--6-2!../../../../../node_modules/vue-loader/lib??vue-loader-options!./CekPermohonan.vue?vue&type=style&index=0&id=1b707d43&scoped=true&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/Admin/CekPermohonan.vue?vue&type=style&index=0&id=1b707d43&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CekPermohonan_vue_vue_type_style_index_0_id_1b707d43_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CekPermohonan_vue_vue_type_style_index_0_id_1b707d43_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CekPermohonan_vue_vue_type_style_index_0_id_1b707d43_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CekPermohonan_vue_vue_type_style_index_0_id_1b707d43_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CekPermohonan_vue_vue_type_style_index_0_id_1b707d43_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/views/Petugas/Admin/CekPermohonan.vue?vue&type=template&id=1b707d43&scoped=true&":
+/*!*******************************************************************************************************!*\
+  !*** ./resources/js/views/Petugas/Admin/CekPermohonan.vue?vue&type=template&id=1b707d43&scoped=true& ***!
+  \*******************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CekPermohonan_vue_vue_type_template_id_1b707d43___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./CekPermohonan.vue?vue&type=template&id=1b707d43& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/Admin/CekPermohonan.vue?vue&type=template&id=1b707d43&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CekPermohonan_vue_vue_type_template_id_1b707d43___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CekPermohonan_vue_vue_type_template_id_1b707d43_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./CekPermohonan.vue?vue&type=template&id=1b707d43&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/Admin/CekPermohonan.vue?vue&type=template&id=1b707d43&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CekPermohonan_vue_vue_type_template_id_1b707d43_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CekPermohonan_vue_vue_type_template_id_1b707d43___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CekPermohonan_vue_vue_type_template_id_1b707d43_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -104877,6 +105349,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Dashboard_vue_vue_type_template_id_580cc0ce___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Dashboard_vue_vue_type_template_id_580cc0ce___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/views/Petugas/Admin/Instansi.vue":
+/*!*******************************************************!*\
+  !*** ./resources/js/views/Petugas/Admin/Instansi.vue ***!
+  \*******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Instansi_vue_vue_type_template_id_73c0a2d8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Instansi.vue?vue&type=template&id=73c0a2d8& */ "./resources/js/views/Petugas/Admin/Instansi.vue?vue&type=template&id=73c0a2d8&");
+/* harmony import */ var _Instansi_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Instansi.vue?vue&type=script&lang=js& */ "./resources/js/views/Petugas/Admin/Instansi.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Instansi_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Instansi_vue_vue_type_template_id_73c0a2d8___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Instansi_vue_vue_type_template_id_73c0a2d8___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/views/Petugas/Admin/Instansi.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/views/Petugas/Admin/Instansi.vue?vue&type=script&lang=js&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/views/Petugas/Admin/Instansi.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Instansi_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Instansi.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/Admin/Instansi.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Instansi_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/views/Petugas/Admin/Instansi.vue?vue&type=template&id=73c0a2d8&":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/views/Petugas/Admin/Instansi.vue?vue&type=template&id=73c0a2d8& ***!
+  \**************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Instansi_vue_vue_type_template_id_73c0a2d8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Instansi.vue?vue&type=template&id=73c0a2d8& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/Admin/Instansi.vue?vue&type=template&id=73c0a2d8&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Instansi_vue_vue_type_template_id_73c0a2d8___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Instansi_vue_vue_type_template_id_73c0a2d8___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

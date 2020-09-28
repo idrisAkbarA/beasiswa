@@ -41,11 +41,26 @@ class PemohonBeasiswaController extends Controller
         // $permohonan = PemohonBeasiswa::where("is_berkas_passed",null)->with(["beasiswa","mahasiswa"])->get();
         // return $permohonan;
         
-        $permohonan = PemohonBeasiswa::where("is_berkas_passed",null)->join("beasiswas","beasiswas.id","=","pemohon_beasiswas.beasiswa_id")->join("users","users.nim","=","pemohon_beasiswas.mhs_id")->select(["pemohon_beasiswas.*","beasiswas.nama AS nama_beasiswa","users.nama"])->get();
+        $permohonan = PemohonBeasiswa::where("is_berkas_passed",null)
+                                    ->where("akhir_berkas",">=",Carbon::now())
+                                    ->join("beasiswas","beasiswas.id","=","pemohon_beasiswas.beasiswa_id")
+                                    ->join("users","users.nim","=","pemohon_beasiswas.mhs_id")
+                                    ->select(["pemohon_beasiswas.*","beasiswas.nama AS nama_beasiswa","beasiswas.akhir_berkas","users.nama"])
+                                    ->get();
+        
+                                    
         foreach ($permohonan as $key => $value) {
             $value['form'] = json_decode($value['form']);
         }
         return $permohonan;
+    }
+    public function setBerkas(Request $request){
+        $permohonan = PemohonBeasiswa::find($request['id']);
+        $permohonan->is_berkas_passed = $request['bool'];
+        $permohonan->save();
+        return response()->json([
+            'status' => 'Success: berkas set'
+        ]);
     }
     public function store(Request $request)
     {
