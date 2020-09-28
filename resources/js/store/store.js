@@ -98,7 +98,7 @@ export default new Vuex.Store({
     },
     storeInstansi({commit,dispatch,state},data){
       return new Promise((resolve,reject)=>{
-        Axios.post(state.url+"/api/instansi",{data}).then(response=>{
+        Axios.post(state.url+"/api/instansi",data).then(response=>{
           dispatch('getInstansi')
           resolve(response)
         }).catch(error=>{
