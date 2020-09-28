@@ -69,6 +69,16 @@
       </v-slide-y-transition>
       <v-slide-y-transition>
         <v-btn
+          v-if="isKelolaMahasiswa"
+          small
+          class="green darken-3"
+          @click="toggleBeasiswa()"
+        >
+          <v-icon>mdi-plus</v-icon>tambah mahasiswa
+        </v-btn>
+      </v-slide-y-transition>
+      <v-slide-y-transition>
+        <v-btn
           v-if="isAkunPetugas"
           small
           class="green darken-3"
@@ -142,6 +152,13 @@ export default {
     },
     isInstansi() {
       if (this.$route.name == "Instansi") {
+        return true;
+      } else {
+        false;
+      }
+    },
+    isKelolaMahasiswa() {
+      if (this.$route.name == "Kelola Mahasiswa") {
         return true;
       } else {
         false;

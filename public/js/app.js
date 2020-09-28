@@ -4168,11 +4168,392 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  created: function created() {
+    this.getMahasiswa();
+  },
+  methods: _objectSpread(_objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(["toggleOpenBeasiswa"])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getMahasiswa", "storeMahasiswa", "editMahasiswa", "deleteMahasiswa", "editPassword"])), {}, {
+    save: function save() {
+      var _this = this;
+
+      var data = this.form;
+      console.log(data);
+      this.btnLoading = true;
+      this.storeMahasiswa(data).then(function (response) {
+        _this.btnLoading = false;
+        _this.toggleMahasiswa = false;
+        _this.form = {};
+      })["catch"](function (error) {
+        _this.btnLoading = false;
+      });
+    },
+    deleteItem: function deleteItem(item) {
+      this.dialogDelete = true;
+      this.id = item.id;
+    },
+    deleteConfirmed: function deleteConfirmed() {
+      var _this2 = this;
+
+      this.btnLoading = true;
+      this.deleteMahasiswa(this.id).then(function (response) {
+        _this2.btnLoading = false;
+        _this2.toggleMahasiswa = false;
+      })["catch"](function (error) {
+        _this2.btnLoading = false;
+      });
+    },
+    editItem: function editItem(item) {
+      this.toggleMahasiswaEdit = true;
+      this.form = item;
+    },
+    saveEdit: function saveEdit() {
+      var _this3 = this;
+
+      var data = this.form;
+      this.btnLoading = true;
+      this.editMahasiswa(data).then(function (response) {
+        _this3.btnLoading = false;
+        _this3.toggleMahasiswaEdit = false;
+        _this3.form = {};
+      })["catch"](function (error) {
+        _this3.btnLoading = false;
+      });
+    },
+    showChangePass: function showChangePass(item) {
+      this.toggleChangePass = true;
+      this.form = item;
+      this.id = item.id;
+    },
+    changePass: function changePass() {
+      var _this4 = this;
+
+      var data = this.form;
+
+      if (data.password == data.password2) {
+        this.btnLoading = true;
+        this.editMahasiswa(data).then(function (response) {
+          _this4.btnLoading = false;
+          _this4.toggleChangePass = false;
+          _this4.form = {};
+          _this4.snackbar.show = true;
+          _this4.snackbar.color = "blue";
+          _this4.snackbar.message = "Ubah password berhasil!";
+        })["catch"](function (error) {
+          _this4.btnLoading = false;
+        });
+      } else {
+        this.snackbar.show = true;
+        this.snackbar.color = "red";
+        this.snackbar.message = "Konfirmasi password harus sama!";
+      }
+    }
+  }),
+  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["isOpenBeasiswa", "mhs", "isTableLoading", "isLoading"])), {}, {
+    toggleMahasiswa: {
+      get: function get() {
+        return this.isOpenBeasiswa;
+      },
+      set: function set(data) {
+        this.toggleOpenBeasiswa(data);
+      }
+    }
+  }),
+  data: function data() {
+    return {
+      btnLoading: false,
+      id: "",
+      form: {},
+      tglLahir: false,
+      sheet: false,
+      toggleMahasiswaEdit: false,
+      toggleChangePass: false,
+      dialogDelete: false,
+      snackbar: {
+        show: false,
+        message: ""
+      },
+      headers: [{
+        text: "Nama Mahasiswa",
+        align: "start",
+        sortable: false,
+        value: "nama"
+      }, {
+        text: "NIM",
+        align: "center",
+        sortable: false,
+        value: "nim"
+      }, {
+        text: "Semester",
+        align: "center",
+        sortable: false,
+        value: "semester"
+      }, {
+        text: "Actions",
+        value: "actions",
+        sortable: false
+      }]
+    };
+  }
+});
 
 /***/ }),
 
@@ -4209,6 +4590,16 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -4353,6 +4744,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     isInstansi: function isInstansi() {
       if (this.$route.name == "Instansi") {
+        return true;
+      } else {
+        false;
+      }
+    },
+    isKelolaMahasiswa: function isKelolaMahasiswa() {
+      if (this.$route.name == "Kelola Mahasiswa") {
         return true;
       } else {
         false;
@@ -8965,7 +9363,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.slide-fade-enter-active[data-v-edc1cd70] {\r\n  transition: all 0.2s ease-out;\n}\n.slide-fade-leave-active[data-v-edc1cd70] {\r\n  transition: all 0.2s ease-in;\n}\n.slide-fade-enter[data-v-edc1cd70]\r\n/* .slide-fade-leave-active below version 2.1.8 */ {\r\n  transform: scale(1.1);\r\n\r\n  opacity: 0;\n}\n.slide-fade-leave-to[data-v-edc1cd70]\r\n/* .slide-fade-leave-active below version 2.1.8 */ {\r\n  transform: scale(0.9);\r\n\r\n  opacity: 0;\n}\r\n/* The emerging W3C standard\r\n   that is currently Firefox-only */\n*[data-v-edc1cd70]::-webkit-scrollbar {\r\n  width: 7px;\r\n\r\n  margin: 10px;\r\n  -webkit-transition: 1s ease;\r\n  transition: 1s ease;\n}\r\n\r\n/* Track */\n*[data-v-edc1cd70]::-webkit-scrollbar-track {\r\n  background: transparent;\r\n  /* background: #F9F9F9; */\r\n\r\n  margin: 10px;\n}\r\n\r\n/* Handle */\n*[data-v-edc1cd70]::-webkit-scrollbar-thumb {\r\n  -webkit-transition: 1s ease;\r\n  transition: 1s ease;\r\n  background: #f79593;\r\n  opacity: 0.5;\r\n  border-radius: 25px;\r\n\r\n  margin: 10px;\n}\r\n\r\n/* Handle on hover */\n*[data-v-edc1cd70]::-webkit-scrollbar-thumb:hover {\r\n  -webkit-transition: 1s ease;\r\n  transition: 1s ease;\r\n  background: #ff8481;\n}\n.bg-pattern[data-v-edc1cd70] {\r\n  background: url(\"/pattern.svg\") repeat;\r\n  background-size: 400px;\n}\na[data-v-edc1cd70] {\r\n  text-decoration: none !important;\n}\r\n", ""]);
+exports.push([module.i, "\n.slide-fade-enter-active[data-v-edc1cd70] {\n  transition: all 0.2s ease-out;\n}\n.slide-fade-leave-active[data-v-edc1cd70] {\n  transition: all 0.2s ease-in;\n}\n.slide-fade-enter[data-v-edc1cd70]\n/* .slide-fade-leave-active below version 2.1.8 */ {\n  transform: scale(1.1);\n\n  opacity: 0;\n}\n.slide-fade-leave-to[data-v-edc1cd70]\n/* .slide-fade-leave-active below version 2.1.8 */ {\n  transform: scale(0.9);\n\n  opacity: 0;\n}\n/* The emerging W3C standard\n   that is currently Firefox-only */\n*[data-v-edc1cd70]::-webkit-scrollbar {\n  width: 7px;\n\n  margin: 10px;\n  -webkit-transition: 1s ease;\n  transition: 1s ease;\n}\n\n/* Track */\n*[data-v-edc1cd70]::-webkit-scrollbar-track {\n  background: transparent;\n  /* background: #F9F9F9; */\n\n  margin: 10px;\n}\n\n/* Handle */\n*[data-v-edc1cd70]::-webkit-scrollbar-thumb {\n  -webkit-transition: 1s ease;\n  transition: 1s ease;\n  background: #f79593;\n  opacity: 0.5;\n  border-radius: 25px;\n\n  margin: 10px;\n}\n\n/* Handle on hover */\n*[data-v-edc1cd70]::-webkit-scrollbar-thumb:hover {\n  -webkit-transition: 1s ease;\n  transition: 1s ease;\n  background: #ff8481;\n}\n.bg-pattern[data-v-edc1cd70] {\n  background: url(\"/pattern.svg\") repeat;\n  background-size: 400px;\n}\na[data-v-edc1cd70] {\n  text-decoration: none !important;\n}\n", ""]);
 
 // exports
 
@@ -44954,7 +45352,1042 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("h1", [_vm._v("crud mahasiswa")])
+  return _c(
+    "v-container",
+    [
+      _c(
+        "v-skeleton-loader",
+        {
+          attrs: {
+            type: "table",
+            loading: _vm.isTableLoading,
+            transition: "fade-transition"
+          }
+        },
+        [
+          _c("v-data-table", {
+            staticClass: "elevation-10 mb-10",
+            staticStyle: { "background-color": "#2e7d323b" },
+            attrs: {
+              headers: _vm.headers,
+              items: _vm.mhs.mahasiswa,
+              "items-per-page": 10
+            },
+            scopedSlots: _vm._u([
+              {
+                key: "item.actions",
+                fn: function(ref) {
+                  var item = ref.item
+                  return [
+                    _c(
+                      "v-icon",
+                      {
+                        staticClass: "mr-2",
+                        attrs: { small: "", title: "Ganti Pasword" },
+                        on: {
+                          click: function($event) {
+                            return _vm.showChangePass(item)
+                          }
+                        }
+                      },
+                      [_vm._v("mdi-textbox-password")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-icon",
+                      {
+                        staticClass: "mr-2",
+                        attrs: { small: "", title: "Edit" },
+                        on: {
+                          click: function($event) {
+                            return _vm.editItem(item)
+                          }
+                        }
+                      },
+                      [_vm._v("mdi-pencil")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-icon",
+                      {
+                        attrs: { small: "", title: "Delete" },
+                        on: {
+                          click: function($event) {
+                            return _vm.deleteItem(item)
+                          }
+                        }
+                      },
+                      [_vm._v("mdi-delete")]
+                    )
+                  ]
+                }
+              },
+              {
+                key: "no-data",
+                fn: function() {
+                  return [_vm._v("no data")]
+                },
+                proxy: true
+              }
+            ])
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-bottom-sheet",
+        {
+          attrs: {
+            scrollable: "",
+            width: "60%",
+            inset: "",
+            "overlay-color": "#69F0AE"
+          },
+          model: {
+            value: _vm.toggleMahasiswa,
+            callback: function($$v) {
+              _vm.toggleMahasiswa = $$v
+            },
+            expression: "toggleMahasiswa"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            [
+              _c(
+                "v-card-title",
+                [
+                  _c("span", [_vm._v("Tambah Mahasiswa")]),
+                  _vm._v(" "),
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { text: "" },
+                      on: {
+                        click: function($event) {
+                          _vm.toggleMahasiswa = false
+                        }
+                      }
+                    },
+                    [_vm._v("batal")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "#2E7D32", loading: _vm.btnLoading },
+                      on: {
+                        click: function($event) {
+                          return _vm.save()
+                        }
+                      },
+                      model: {
+                        value: _vm.toggleMahasiswa,
+                        callback: function($$v) {
+                          _vm.toggleMahasiswa = $$v
+                        },
+                        expression: "toggleMahasiswa"
+                      }
+                    },
+                    [_vm._v("Simpan")]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-card-text",
+                { staticStyle: { height: "600px" } },
+                [
+                  _c(
+                    "v-row",
+                    { staticClass: "mx-1", attrs: { dense: "" } },
+                    [
+                      _c(
+                        "v-col",
+                        [
+                          _c("v-text-field", {
+                            attrs: { color: "#C8E6C9", label: "Nama" },
+                            model: {
+                              value: _vm.form.nama,
+                              callback: function($$v) {
+                                _vm.$set(_vm.form, "nama", $$v)
+                              },
+                              expression: "form.nama"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-row",
+                    { staticClass: "mx-1", attrs: { dense: "" } },
+                    [
+                      _c(
+                        "v-col",
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              color: "#C8E6C9",
+                              label: "Password",
+                              type: "password"
+                            },
+                            model: {
+                              value: _vm.form.password,
+                              callback: function($$v) {
+                                _vm.$set(_vm.form, "password", $$v)
+                              },
+                              expression: "form.password"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-row",
+                    { staticClass: "mx-1", attrs: { dense: "" } },
+                    [
+                      _c(
+                        "v-col",
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              color: "#C8E6C9",
+                              label: "NIM",
+                              type: "number",
+                              min: "0"
+                            },
+                            model: {
+                              value: _vm.form.nim,
+                              callback: function($$v) {
+                                _vm.$set(_vm.form, "nim", $$v)
+                              },
+                              expression: "form.nim"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-row",
+                    { staticClass: "mx-1", attrs: { dense: "" } },
+                    [
+                      _c(
+                        "v-col",
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              color: "#C8E6C9",
+                              label: "Email",
+                              type: "email"
+                            },
+                            model: {
+                              value: _vm.form.email,
+                              callback: function($$v) {
+                                _vm.$set(_vm.form, "email", $$v)
+                              },
+                              expression: "form.email"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-row",
+                    { staticClass: "mx-1", attrs: { dense: "" } },
+                    [
+                      _c(
+                        "v-col",
+                        [
+                          _c("v-text-field", {
+                            attrs: { color: "#C8E6C9", label: "Tempat Lahir" },
+                            model: {
+                              value: _vm.form.tmpt_lahir,
+                              callback: function($$v) {
+                                _vm.$set(_vm.form, "tmpt_lahir", $$v)
+                              },
+                              expression: "form.tmpt_lahir"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "6" } },
+                        [
+                          _c(
+                            "v-menu",
+                            {
+                              attrs: {
+                                "close-on-content-click": false,
+                                "nudge-right": 40,
+                                transition: "scale-transition",
+                                "offset-y": "",
+                                "min-width": "290px"
+                              },
+                              scopedSlots: _vm._u([
+                                {
+                                  key: "activator",
+                                  fn: function(ref) {
+                                    var on = ref.on
+                                    var attrs = ref.attrs
+                                    return [
+                                      _c(
+                                        "v-text-field",
+                                        _vm._g(
+                                          _vm._b(
+                                            {
+                                              attrs: {
+                                                label: "Tanggal Lahir",
+                                                "prepend-icon": "event",
+                                                readonly: ""
+                                              },
+                                              model: {
+                                                value: _vm.form.tgl_lahir,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.form,
+                                                    "tgl_lahir",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression: "form.tgl_lahir"
+                                              }
+                                            },
+                                            "v-text-field",
+                                            attrs,
+                                            false
+                                          ),
+                                          on
+                                        )
+                                      )
+                                    ]
+                                  }
+                                }
+                              ]),
+                              model: {
+                                value: _vm.tglLahir,
+                                callback: function($$v) {
+                                  _vm.tglLahir = $$v
+                                },
+                                expression: "tglLahir"
+                              }
+                            },
+                            [
+                              _vm._v(" "),
+                              _c("v-date-picker", {
+                                attrs: { locale: "id-ID" },
+                                model: {
+                                  value: _vm.form.tgl_lahir,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.form, "tgl_lahir", $$v)
+                                  },
+                                  expression: "form.tgl_lahir"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-row",
+                    { staticClass: "mx-1", attrs: { dense: "" } },
+                    [
+                      _c(
+                        "v-col",
+                        [
+                          _c("v-text-field", {
+                            attrs: { color: "#C8E6C9", label: "No. Handphone" },
+                            model: {
+                              value: _vm.form.hp,
+                              callback: function($$v) {
+                                _vm.$set(_vm.form, "hp", $$v)
+                              },
+                              expression: "form.hp"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-row",
+                    { staticClass: "mx-1", attrs: { dense: "" } },
+                    [
+                      _c(
+                        "v-col",
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              color: "#C8E6C9",
+                              label: "Semester",
+                              type: "number",
+                              min: "0",
+                              max: "14"
+                            },
+                            model: {
+                              value: _vm.form.semester,
+                              callback: function($$v) {
+                                _vm.$set(_vm.form, "semester", $$v)
+                              },
+                              expression: "form.semester"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              color: "#C8E6C9",
+                              label: "IPK",
+                              type: "number",
+                              min: "0",
+                              max: "4"
+                            },
+                            model: {
+                              value: _vm.form.ipk,
+                              callback: function($$v) {
+                                _vm.$set(_vm.form, "ipk", $$v)
+                              },
+                              expression: "form.ipk"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-bottom-sheet",
+        {
+          attrs: {
+            scrollable: "",
+            width: "60%",
+            inset: "",
+            "overlay-color": "#69F0AE"
+          },
+          model: {
+            value: _vm.toggleMahasiswaEdit,
+            callback: function($$v) {
+              _vm.toggleMahasiswaEdit = $$v
+            },
+            expression: "toggleMahasiswaEdit"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            [
+              _c(
+                "v-card-title",
+                [
+                  _c("span", [_vm._v("Edit Mahasiswa")]),
+                  _vm._v(" "),
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { text: "" },
+                      on: {
+                        click: function($event) {
+                          _vm.toggleMahasiswaEdit = false
+                        }
+                      }
+                    },
+                    [_vm._v("batal")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "#2E7D32", loading: _vm.btnLoading },
+                      on: {
+                        click: function($event) {
+                          return _vm.saveEdit()
+                        }
+                      }
+                    },
+                    [_vm._v("Simpan")]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-card-text",
+                { staticStyle: { height: "600px" } },
+                [
+                  _c(
+                    "v-row",
+                    { staticClass: "mx-1", attrs: { dense: "" } },
+                    [
+                      _c(
+                        "v-col",
+                        [
+                          _c("v-text-field", {
+                            attrs: { color: "#C8E6C9", label: "Nama" },
+                            model: {
+                              value: _vm.form.nama,
+                              callback: function($$v) {
+                                _vm.$set(_vm.form, "nama", $$v)
+                              },
+                              expression: "form.nama"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-row",
+                    { staticClass: "mx-1", attrs: { dense: "" } },
+                    [
+                      _c(
+                        "v-col",
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              color: "#C8E6C9",
+                              label: "NIM",
+                              type: "number",
+                              min: "0"
+                            },
+                            model: {
+                              value: _vm.form.nim,
+                              callback: function($$v) {
+                                _vm.$set(_vm.form, "nim", $$v)
+                              },
+                              expression: "form.nim"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-row",
+                    { staticClass: "mx-1", attrs: { dense: "" } },
+                    [
+                      _c(
+                        "v-col",
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              color: "#C8E6C9",
+                              label: "Email",
+                              type: "email"
+                            },
+                            model: {
+                              value: _vm.form.email,
+                              callback: function($$v) {
+                                _vm.$set(_vm.form, "email", $$v)
+                              },
+                              expression: "form.email"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-row",
+                    { staticClass: "mx-1", attrs: { dense: "" } },
+                    [
+                      _c(
+                        "v-col",
+                        [
+                          _c("v-text-field", {
+                            attrs: { color: "#C8E6C9", label: "Tempat Lahir" },
+                            model: {
+                              value: _vm.form.tmpt_lahir,
+                              callback: function($$v) {
+                                _vm.$set(_vm.form, "tmpt_lahir", $$v)
+                              },
+                              expression: "form.tmpt_lahir"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "6" } },
+                        [
+                          _c(
+                            "v-menu",
+                            {
+                              attrs: {
+                                "close-on-content-click": false,
+                                "nudge-right": 40,
+                                transition: "scale-transition",
+                                "offset-y": "",
+                                "min-width": "290px"
+                              },
+                              scopedSlots: _vm._u([
+                                {
+                                  key: "activator",
+                                  fn: function(ref) {
+                                    var on = ref.on
+                                    var attrs = ref.attrs
+                                    return [
+                                      _c(
+                                        "v-text-field",
+                                        _vm._g(
+                                          _vm._b(
+                                            {
+                                              attrs: {
+                                                label: "Tanggal Lahir",
+                                                "prepend-icon": "event",
+                                                readonly: ""
+                                              },
+                                              model: {
+                                                value: _vm.form.tgl_lahir,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.form,
+                                                    "tgl_lahir",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression: "form.tgl_lahir"
+                                              }
+                                            },
+                                            "v-text-field",
+                                            attrs,
+                                            false
+                                          ),
+                                          on
+                                        )
+                                      )
+                                    ]
+                                  }
+                                }
+                              ]),
+                              model: {
+                                value: _vm.tglLahir,
+                                callback: function($$v) {
+                                  _vm.tglLahir = $$v
+                                },
+                                expression: "tglLahir"
+                              }
+                            },
+                            [
+                              _vm._v(" "),
+                              _c("v-date-picker", {
+                                attrs: { locale: "id-ID" },
+                                model: {
+                                  value: _vm.form.tgl_lahir,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.form, "tgl_lahir", $$v)
+                                  },
+                                  expression: "form.tgl_lahir"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-row",
+                    { staticClass: "mx-1", attrs: { dense: "" } },
+                    [
+                      _c(
+                        "v-col",
+                        [
+                          _c("v-text-field", {
+                            attrs: { color: "#C8E6C9", label: "No. Handphone" },
+                            model: {
+                              value: _vm.form.hp,
+                              callback: function($$v) {
+                                _vm.$set(_vm.form, "hp", $$v)
+                              },
+                              expression: "form.hp"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-row",
+                    { staticClass: "mx-1", attrs: { dense: "" } },
+                    [
+                      _c(
+                        "v-col",
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              color: "#C8E6C9",
+                              label: "Semester",
+                              type: "number",
+                              min: "0",
+                              max: "14"
+                            },
+                            model: {
+                              value: _vm.form.semester,
+                              callback: function($$v) {
+                                _vm.$set(_vm.form, "semester", $$v)
+                              },
+                              expression: "form.semester"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              color: "#C8E6C9",
+                              label: "IPK",
+                              type: "number",
+                              min: "0",
+                              max: "4"
+                            },
+                            model: {
+                              value: _vm.form.ipk,
+                              callback: function($$v) {
+                                _vm.$set(_vm.form, "ipk", $$v)
+                              },
+                              expression: "form.ipk"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "text-center" },
+        [
+          _c(
+            "v-dialog",
+            {
+              attrs: { width: "400" },
+              model: {
+                value: _vm.dialogDelete,
+                callback: function($$v) {
+                  _vm.dialogDelete = $$v
+                },
+                expression: "dialogDelete"
+              }
+            },
+            [
+              _c(
+                "v-card",
+                [
+                  _c(
+                    "v-card-title",
+                    {
+                      staticClass: "headline white--text",
+                      attrs: { "primary-title": "" }
+                    },
+                    [
+                      _c(
+                        "v-icon",
+                        { staticClass: "mr-2", attrs: { color: "white" } },
+                        [_vm._v("delete")]
+                      ),
+                      _vm._v("Hapus Mahasiswa\n        ")
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("v-card-text", { staticClass: "mt-2 white--text" }, [
+                    _vm._v(
+                      "\n          Apakah anda yakin akan menghapus Mahasiswa\n          "
+                    ),
+                    _c("span", { staticClass: "font-weight-bold" }),
+                    _vm._v("?\n        ")
+                  ]),
+                  _vm._v(" "),
+                  _c("v-divider"),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-actions",
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "white", text: "" },
+                          on: {
+                            click: function($event) {
+                              _vm.dialogDelete = false
+                            }
+                          }
+                        },
+                        [_vm._v("batal")]
+                      ),
+                      _vm._v(" "),
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "red", dark: "" },
+                          on: {
+                            click: function($event) {
+                              ;(_vm.dialogDelete = false), _vm.deleteConfirmed()
+                            }
+                          }
+                        },
+                        [
+                          _c("v-icon", [_vm._v("delete")]),
+                          _vm._v("Hapus\n          ")
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-bottom-sheet",
+        {
+          attrs: { width: "60%", inset: "", "overlay-color": "#69F0AE" },
+          model: {
+            value: _vm.toggleChangePass,
+            callback: function($$v) {
+              _vm.toggleChangePass = $$v
+            },
+            expression: "toggleChangePass"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            [
+              _c(
+                "v-card-title",
+                [
+                  _c("span", [_vm._v("Ubah Password")]),
+                  _vm._v(" "),
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { text: "" },
+                      on: {
+                        click: function($event) {
+                          _vm.toggleChangePass = false
+                        }
+                      }
+                    },
+                    [_vm._v("batal")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "#2E7D32", loading: _vm.btnLoading },
+                      on: {
+                        click: function($event) {
+                          return _vm.changePass()
+                        }
+                      }
+                    },
+                    [_vm._v("Simpan")]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-card-text",
+                { staticStyle: { height: "100px" } },
+                [
+                  _c(
+                    "v-row",
+                    { staticClass: "mx-1", attrs: { dense: "" } },
+                    [
+                      _c(
+                        "v-col",
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              color: "#C8E6C9",
+                              label: "Password Baru",
+                              type: "password"
+                            },
+                            model: {
+                              value: _vm.form.password,
+                              callback: function($$v) {
+                                _vm.$set(_vm.form, "password", $$v)
+                              },
+                              expression: "form.password"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              color: "#C8E6C9",
+                              label: "Konfirmasi Password Baru",
+                              type: "password"
+                            },
+                            model: {
+                              value: _vm.form.password2,
+                              callback: function($$v) {
+                                _vm.$set(_vm.form, "password2", $$v)
+                              },
+                              expression: "form.password2"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-snackbar",
+        {
+          attrs: { timeout: 2000 },
+          scopedSlots: _vm._u([
+            {
+              key: "action",
+              fn: function(ref) {
+                var attrs = ref.attrs
+                return [
+                  _c(
+                    "v-btn",
+                    _vm._b(
+                      {
+                        attrs: { color: _vm.snackbar.color, text: "" },
+                        on: {
+                          click: function($event) {
+                            _vm.snackbar.show = false
+                          }
+                        }
+                      },
+                      "v-btn",
+                      attrs,
+                      false
+                    ),
+                    [_vm._v("\n        Close\n      ")]
+                  )
+                ]
+              }
+            }
+          ]),
+          model: {
+            value: _vm.snackbar.show,
+            callback: function($$v) {
+              _vm.$set(_vm.snackbar, "show", $$v)
+            },
+            expression: "snackbar.show"
+          }
+        },
+        [_vm._v("\n    " + _vm._s(_vm.snackbar.message) + "\n\n    ")]
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -45146,6 +46579,32 @@ var render = function() {
                     [
                       _c("v-icon", [_vm._v("mdi-plus")]),
                       _vm._v("tambah instansi\n      ")
+                    ],
+                    1
+                  )
+                : _vm._e()
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-slide-y-transition",
+            [
+              _vm.isKelolaMahasiswa
+                ? _c(
+                    "v-btn",
+                    {
+                      staticClass: "green darken-3",
+                      attrs: { small: "" },
+                      on: {
+                        click: function($event) {
+                          return _vm.toggleBeasiswa()
+                        }
+                      }
+                    },
+                    [
+                      _c("v-icon", [_vm._v("mdi-plus")]),
+                      _vm._v("tambah mahasiswa\n      ")
                     ],
                     1
                   )
@@ -105774,12 +107233,66 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: function state() {
-    return {};
+    return {
+      mahasiswa: []
+    };
   },
-  mutations: {},
-  actions: {},
+  mutations: {
+    mutateMahasiswa: function mutateMahasiswa(state, data) {
+      state.mahasiswa = data;
+    }
+  },
+  actions: {
+    getMahasiswa: function getMahasiswa(_ref) {
+      var commit = _ref.commit,
+          dispatch = _ref.dispatch,
+          rootState = _ref.rootState;
+      commit("mutateTableLoading", true);
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(rootState.url + "/api/user").then(function (response) {
+        commit('mutateMahasiswa', response.data);
+        commit("mutateTableLoading", false);
+      });
+    },
+    storeMahasiswa: function storeMahasiswa(_ref2, data) {
+      var commit = _ref2.commit,
+          dispatch = _ref2.dispatch,
+          rootState = _ref2.rootState;
+      return new Promise(function (resolve, reject) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(rootState.url + "/api/user", data).then(function (response) {
+          dispatch('getMahasiswa');
+          resolve(response);
+        })["catch"](function (error) {
+          reject(error);
+        });
+      });
+    },
+    editMahasiswa: function editMahasiswa(_ref3, data) {
+      var commit = _ref3.commit,
+          dispatch = _ref3.dispatch,
+          rootState = _ref3.rootState;
+      return new Promise(function (resolve, reject) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.put(rootState.url + "/api/user/" + data.id, data).then(function (response) {
+          dispatch('getMahasiswa');
+          resolve(response);
+        })["catch"](function (error) {
+          reject(error);
+        });
+      });
+    },
+    deleteMahasiswa: function deleteMahasiswa(_ref4, id) {
+      var commit = _ref4.commit,
+          dispatch = _ref4.dispatch,
+          rootState = _ref4.rootState;
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"](rootState.url + "/api/user/" + id).then(function (response) {
+        dispatch('getMahasiswa');
+      });
+    }
+  },
   getters: {}
 });
 
@@ -107240,8 +108753,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! A:\Programming\Web-Root\beasiswa\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! A:\Programming\Web-Root\beasiswa\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\beasiswa\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\beasiswa\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
