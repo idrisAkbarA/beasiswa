@@ -105765,6 +105765,26 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
 
 /***/ }),
 
+/***/ "./resources/js/store/modules/mhsModule.js":
+/*!*************************************************!*\
+  !*** ./resources/js/store/modules/mhsModule.js ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: function state() {
+    return {};
+  },
+  mutations: {},
+  actions: {},
+  getters: {}
+});
+
+/***/ }),
+
 /***/ "./resources/js/store/store.js":
 /*!*************************************!*\
   !*** ./resources/js/store/store.js ***!
@@ -105779,6 +105799,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _modules_mhsModule__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/mhsModule */ "./resources/js/store/modules/mhsModule.js");
+
 
 
 
@@ -105963,7 +105985,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       });
     }
   },
-  modules: {}
+  modules: {
+    mhs: _modules_mhsModule__WEBPACK_IMPORTED_MODULE_3__["default"]
+  }
 }));
 
 /***/ }),
