@@ -12,6 +12,7 @@ export default new Vuex.Store({
     akunPetugas:[],
     nim:"",
     cekBerkas:[],
+    cekInterview:[],
     isLoading: false,
     isTableLoading: false,
     beasiswa:[],
@@ -25,6 +26,9 @@ export default new Vuex.Store({
     },
     mutateCekBerkas(state,data){
       state.cekBerkas = data;
+    },
+    mutateCekInterview(state,data){
+      state.cekInterview = data;
     },
     mutateNim(state,data){
       state.nim = data;
@@ -61,6 +65,14 @@ export default new Vuex.Store({
       commit("mutateTableLoading",true);
       Axios.get(state.url+"/api/pemohon/cek-berkas").then(response=>{
         commit('mutateCekBerkas',response.data)
+        commit("mutateTableLoading",false);
+
+      })
+    },
+    getCekInterview({commit,dispatch,state}){
+      commit("mutateTableLoading",true);
+      Axios.get(state.url+"/api/pemohon/cek-interview").then(response=>{
+        commit('mutateCekInterview',response.data)
         commit("mutateTableLoading",false);
 
       })

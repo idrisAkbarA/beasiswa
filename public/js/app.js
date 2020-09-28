@@ -4210,6 +4210,13 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -4241,9 +4248,179 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  created: function created() {
+    this.getCekInterview();
+  },
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getCekInterview"])), {}, {
+    lulusButton: function lulusButton(item) {
+      this.dialog = true;
+      this.id = item.id;
+      this.bool = 1;
+      this.msg = "Apakah anda yakin bahwa pemohon <strong>lulus</strong> tahap wawancara?";
+    },
+    tidakLulusButton: function tidakLulusButton(item) {
+      this.dialog = true;
+      this.id = item.id;
+      this.bool = 0;
+      this.msg = "Apakah anda yakin bahwa pemohon <strong>tidak lulus</strong> tahap wawancara?";
+    },
+    link: function link(url) {
+      var a = this.url + "/" + url;
+      var link = a.replace(" ", "%20");
+      console.log(link);
+      location = link;
+    },
+    setInterview: function setInterview() {
+      var _this = this;
+
+      this.btnLoading = true;
+      axios.put("".concat(this.url, "/api/pemohon/set-interview"), {
+        bool: this.bool,
+        id: this.id
+      }).then(function (response) {
+        _this.getCekInterview();
+
+        console.log(response.data);
+        _this.dialog = false;
+        _this.btnLoading = false;
+      });
+    }
+  }),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["cekInterview", "url"])),
   data: function data() {
     return {
+      btnLoading: false,
+      dialog: false,
+      msg: "",
+      bool: 0,
+      id: 0,
       headers: [{
         text: "Nama Instansi",
         align: "start",
@@ -45251,7 +45428,7 @@ var render = function() {
     {
       staticClass: "fill-height mx-auto",
       staticStyle: { "overflow-y": "auto" },
-      attrs: { light: "", elevation: "20", width: "70%" }
+      attrs: { color: "#E8F5E9", light: "", elevation: "20", width: "70%" }
     },
     [
       _c(
@@ -45261,27 +45438,339 @@ var render = function() {
           _vm._v(" "),
           _c(
             "v-row",
+            { staticClass: "pl-8 pr-8" },
             [
+              _c("v-text-field", {
+                attrs: {
+                  "prepend-inner-icon": "mdi-magnify",
+                  clearable: "",
+                  label: "Pencarian"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-row",
+            [
+              _vm.cekInterview == []
+                ? _c("p", [_vm._v("Tidak ada peserta wawancara")])
+                : _vm._e(),
+              _vm._v(" "),
               _c(
                 "v-expansion-panels",
-                _vm._l(5, function(item, i) {
+                { attrs: { hover: "", inset: "" } },
+                _vm._l(_vm.cekInterview, function(item, i) {
                   return _c(
                     "v-expansion-panel",
                     { key: i },
                     [
-                      _c("v-expansion-panel-header", [
-                        _vm._v("\n              Item\n          ")
-                      ]),
+                      _c(
+                        "v-expansion-panel-header",
+                        [
+                          _c(
+                            "v-row",
+                            {
+                              attrs: {
+                                "no-gutters": "",
+                                justify: "space-between"
+                              }
+                            },
+                            [
+                              _c("v-col", { attrs: { cols: "4" } }, [
+                                _vm._v(_vm._s(item.nama))
+                              ]),
+                              _vm._v(" "),
+                              _c("v-col", { attrs: { cols: "4" } }, [
+                                _vm._v(_vm._s(item.nama_beasiswa))
+                              ])
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
                       _vm._v(" "),
-                      _c("v-expansion-panel-content", [
-                        _vm._v(
-                          "\n              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n          "
-                        )
-                      ])
+                      _c(
+                        "v-expansion-panel-content",
+                        [
+                          _c("p", [_vm._v("Rincian")]),
+                          _vm._v(" "),
+                          _c("table", [
+                            _c("tr", [
+                              _c("td", [_vm._v("Nama")]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(":")]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(item.nama))])
+                            ]),
+                            _vm._v(" "),
+                            _c("tr", [
+                              _c("td", [_vm._v("NIM")]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(":")]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(item.mhs_id))])
+                            ]),
+                            _vm._v(" "),
+                            _c("tr", [
+                              _c("td", [_vm._v("Beasiswa")]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(":")]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(item.nama_beasiswa))])
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("v-row", [_c("v-divider")], 1),
+                          _vm._v(" "),
+                          _c("p", [_vm._v("Berkas")]),
+                          _vm._v(" "),
+                          _vm._l(item.form, function(field, index) {
+                            return _c(
+                              "v-row",
+                              {
+                                key: index,
+                                staticClass: "ma-5",
+                                attrs: { "no-gutters": "" }
+                              },
+                              [
+                                _c(
+                                  "v-col",
+                                  {
+                                    staticStyle: {
+                                      "padding-bottom": "0 !important"
+                                    }
+                                  },
+                                  [
+                                    _c("p", [_vm._v(_vm._s(field.pertanyaan))]),
+                                    _vm._v(" "),
+                                    field.type == "Pilihan"
+                                      ? _c("p", [
+                                          _c(
+                                            "span",
+                                            [
+                                              _c("v-icon", [
+                                                _vm._v("mdi-text-short")
+                                              ]),
+                                              _vm._v(
+                                                _vm._s(field.value) +
+                                                  "\n                  "
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ])
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    field.type == "Jawaban Pendek"
+                                      ? _c("p", [
+                                          _c(
+                                            "span",
+                                            [
+                                              _c("v-icon", [
+                                                _vm._v("mdi-text-short")
+                                              ]),
+                                              _vm._v(
+                                                _vm._s(field.value) +
+                                                  "\n                  "
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ])
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    field.type == "Jawaban Angka"
+                                      ? _c("p", [
+                                          _c(
+                                            "span",
+                                            [
+                                              _c("v-icon", [
+                                                _vm._v("mdi-text-short")
+                                              ]),
+                                              _vm._v(
+                                                _vm._s(field.value) +
+                                                  "\n                  "
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ])
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    field.type == "Tanggal"
+                                      ? _c("p", [
+                                          _c(
+                                            "span",
+                                            [
+                                              _c("v-icon", [
+                                                _vm._v("mdi-text-short")
+                                              ]),
+                                              _vm._v(
+                                                _vm._s(field.value) +
+                                                  "\n                  "
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ])
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    field.type == "Upload File"
+                                      ? _c(
+                                          "v-btn",
+                                          {
+                                            attrs: { small: "" },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.link(field.value)
+                                              }
+                                            }
+                                          },
+                                          [_vm._v("lihat file")]
+                                        )
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    field.type == "Paragraf"
+                                      ? _c("p", [
+                                          _c(
+                                            "span",
+                                            [
+                                              _c("v-icon", [
+                                                _vm._v("mdi-text-short")
+                                              ]),
+                                              _vm._v(
+                                                _vm._s(field.value) +
+                                                  "\n                  "
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ])
+                                      : _vm._e()
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-col",
+                                  { attrs: { cols: "12" } },
+                                  [_c("v-divider")],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c("v-col", { attrs: { cols: "12" } })
+                              ],
+                              1
+                            )
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "v-row",
+                            { attrs: { justify: "end" } },
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { text: "" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.tidakLulusButton(item)
+                                    }
+                                  }
+                                },
+                                [_vm._v("Tidak Lulus")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { dark: "", color: "#2E7D32" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.lulusButton(item)
+                                    }
+                                  }
+                                },
+                                [_vm._v("Lulus")]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        2
+                      )
                     ],
                     1
                   )
                 }),
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { width: "460", "overlay-color": "#69F0AE" },
+          model: {
+            value: _vm.dialog,
+            callback: function($$v) {
+              _vm.dialog = $$v
+            },
+            expression: "dialog"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            [
+              _c("v-card-title", { staticClass: "mt-2" }, [
+                _c("span", { domProps: { innerHTML: _vm._s(_vm.msg) } }),
+                _vm._v(" "),
+                _c("p", { staticStyle: { "font-weight": "bold" } })
+              ]),
+              _vm._v(" "),
+              _c(
+                "v-card-actions",
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { text: "" },
+                      on: {
+                        click: function($event) {
+                          _vm.dialog = false
+                        }
+                      }
+                    },
+                    [_vm._v("\n          Batal\n        ")]
+                  ),
+                  _vm._v(" "),
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      staticClass: "green",
+                      attrs: { dark: "", loading: _vm.btnLoading },
+                      on: { click: _vm.setInterview }
+                    },
+                    [
+                      _c("v-icon", { attrs: { left: "" } }, [
+                        _vm._v("mdi-check")
+                      ]),
+                      _vm._v("\n          iya\n        ")
+                    ],
+                    1
+                  )
+                ],
                 1
               )
             ],
@@ -106234,6 +106723,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     akunPetugas: [],
     nim: "",
     cekBerkas: [],
+    cekInterview: [],
     isLoading: false,
     isTableLoading: false,
     beasiswa: [],
@@ -106247,6 +106737,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     },
     mutateCekBerkas: function mutateCekBerkas(state, data) {
       state.cekBerkas = data;
+    },
+    mutateCekInterview: function mutateCekInterview(state, data) {
+      state.cekInterview = data;
     },
     mutateNim: function mutateNim(state, data) {
       state.nim = data;
@@ -106291,10 +106784,20 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         commit("mutateTableLoading", false);
       });
     },
-    getBeasiswaSingle: function getBeasiswaSingle(_ref3, id) {
+    getCekInterview: function getCekInterview(_ref3) {
       var commit = _ref3.commit,
           dispatch = _ref3.dispatch,
           state = _ref3.state;
+      commit("mutateTableLoading", true);
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(state.url + "/api/pemohon/cek-interview").then(function (response) {
+        commit('mutateCekInterview', response.data);
+        commit("mutateTableLoading", false);
+      });
+    },
+    getBeasiswaSingle: function getBeasiswaSingle(_ref4, id) {
+      var commit = _ref4.commit,
+          dispatch = _ref4.dispatch,
+          state = _ref4.state;
       commit("mutateTableLoading", true);
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(state.url + "/api/beasiswa/" + id).then(function (response) {
@@ -106306,20 +106809,20 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         });
       });
     },
-    getBeasiswa: function getBeasiswa(_ref4) {
-      var commit = _ref4.commit,
-          dispatch = _ref4.dispatch,
-          state = _ref4.state;
+    getBeasiswa: function getBeasiswa(_ref5) {
+      var commit = _ref5.commit,
+          dispatch = _ref5.dispatch,
+          state = _ref5.state;
       commit("mutateTableLoading", true);
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(state.url + "/api/beasiswa").then(function (response) {
         commit('mutateBeasiswa', response.data);
         commit("mutateTableLoading", false);
       });
     },
-    storeAkunPetugas: function storeAkunPetugas(_ref5, data) {
-      var commit = _ref5.commit,
-          dispatch = _ref5.dispatch,
-          state = _ref5.state;
+    storeAkunPetugas: function storeAkunPetugas(_ref6, data) {
+      var commit = _ref6.commit,
+          dispatch = _ref6.dispatch,
+          state = _ref6.state;
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_2___default.a.post(state.url + "/api/petugas", data).then(function (response) {
           dispatch('getAkunPetugas');
@@ -106329,10 +106832,10 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         });
       });
     },
-    editAkunPetugas: function editAkunPetugas(_ref6, data) {
-      var commit = _ref6.commit,
-          dispatch = _ref6.dispatch,
-          state = _ref6.state;
+    editAkunPetugas: function editAkunPetugas(_ref7, data) {
+      var commit = _ref7.commit,
+          dispatch = _ref7.dispatch,
+          state = _ref7.state;
       return new Promise(function (resolve, reject) {
         console.log(data);
         axios__WEBPACK_IMPORTED_MODULE_2___default.a.put(state.url + "/api/petugas/" + data.id, {
@@ -106347,10 +106850,10 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         });
       });
     },
-    storeBeasiswa: function storeBeasiswa(_ref7, data) {
-      var commit = _ref7.commit,
-          dispatch = _ref7.dispatch,
-          state = _ref7.state;
+    storeBeasiswa: function storeBeasiswa(_ref8, data) {
+      var commit = _ref8.commit,
+          dispatch = _ref8.dispatch,
+          state = _ref8.state;
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_2___default.a.post(state.url + "/api/beasiswa", {
           data: data
@@ -106362,10 +106865,10 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         });
       });
     },
-    storeInstansi: function storeInstansi(_ref8, data) {
-      var commit = _ref8.commit,
-          dispatch = _ref8.dispatch,
-          state = _ref8.state;
+    storeInstansi: function storeInstansi(_ref9, data) {
+      var commit = _ref9.commit,
+          dispatch = _ref9.dispatch,
+          state = _ref9.state;
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_2___default.a.post(state.url + "/api/instansi", data).then(function (response) {
           dispatch('getInstansi');
@@ -106375,28 +106878,28 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         });
       });
     },
-    getInstansi: function getInstansi(_ref9) {
-      var commit = _ref9.commit,
-          dispatch = _ref9.dispatch,
-          state = _ref9.state;
+    getInstansi: function getInstansi(_ref10) {
+      var commit = _ref10.commit,
+          dispatch = _ref10.dispatch,
+          state = _ref10.state;
       commit("mutateTableLoading", true);
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(state.url + "/api/instansi").then(function (response) {
         commit('mutateInstansi', response.data);
         commit("mutateTableLoading", false);
       });
     },
-    deleteInstansi: function deleteInstansi(_ref10, id) {
-      var commit = _ref10.commit,
-          dispatch = _ref10.dispatch,
-          state = _ref10.state;
+    deleteInstansi: function deleteInstansi(_ref11, id) {
+      var commit = _ref11.commit,
+          dispatch = _ref11.dispatch,
+          state = _ref11.state;
       axios__WEBPACK_IMPORTED_MODULE_2___default.a["delete"](state.url + "/api/instansi/" + id).then(function (response) {
         dispatch('getInstansi');
       });
     },
-    editInstansi: function editInstansi(_ref11, data) {
-      var commit = _ref11.commit,
-          dispatch = _ref11.dispatch,
-          state = _ref11.state;
+    editInstansi: function editInstansi(_ref12, data) {
+      var commit = _ref12.commit,
+          dispatch = _ref12.dispatch,
+          state = _ref12.state;
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.put(state.url + "/api/instansi/" + data.id, {
         name: data.name
       }).then(function (response) {

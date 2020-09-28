@@ -87,6 +87,14 @@ class PemohonBeasiswaController extends Controller
             'status' => 'Success: berkas set'
         ]);
     }
+    public function setInterview(Request $request){
+        $permohonan = PemohonBeasiswa::find($request['id']);
+        $permohonan->is_interview_passed = $request['bool'];
+        $permohonan->save();
+        return response()->json([
+            'status' => 'Success: berkas set'
+        ]);
+    }
     public function store(Request $request)
     {
         $user = Auth::user();
