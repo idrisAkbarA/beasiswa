@@ -101,7 +101,7 @@ class PemohonBeasiswaController extends Controller
         $permohonan = PemohonBeasiswa::where("is_selection_passed",null)
                                     ->join("beasiswas","beasiswas.id","=","pemohon_beasiswas.beasiswa_id")
                                     ->join("users","users.nim","=","pemohon_beasiswas.mhs_id")
-                                    ->select(["pemohon_beasiswas.*","beasiswas.nama AS nama_beasiswa","beasiswas.akhir_selection","users.nama"])
+                                    ->select(["pemohon_beasiswas.*","beasiswas.nama AS nama_beasiswa","users.nama"])
                                     ->get();
         
                                     
