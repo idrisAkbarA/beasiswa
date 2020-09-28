@@ -8,16 +8,32 @@
 
       <v-data-table
         :headers="headers"
-        :items="cekBerkas"
+        :items="akunPetugas"
         :items-per-page="10"
         style="background-color: #2e7d323b"
         class="elevation-10 mb-10"
       >
         <template v-slot:item.actions="{ item }">
-          <v-btn
+          <v-icon
             small
-            @click="detail(item)"
-          >lihat rincian</v-btn>
+            class="mr-2"
+            @click="editItem(item)"
+          >
+            mdi-pencil
+          </v-icon>
+          <v-icon
+            small
+            @click="deleteItem(item)"
+          >
+            mdi-delete
+          </v-icon>
+        </template>
+        <template v-slot:item.role="{ item }">
+          <v-chip
+            color="green"
+          >
+            {{ convertRole(item.role) }}
+          </v-chip>
         </template>
         <template v-slot:no-data>
           no data
@@ -79,7 +95,6 @@
           <v-btn
             dark
             class="green"
-            @click="setBerkas"
           >
             <v-icon left>mdi-check</v-icon>
             iya
@@ -93,11 +108,30 @@
 <script>
 import { mapActions, mapMutations, mapState } from "vuex";
 export default {
+  created() {
+    this.getAkunPetugas();
+  },
   computed: {
-    ...mapState(["nim", "url", "isTableLoading"])
+    ...mapState(["nim", "url", "isTableLoading", "akunPetugas"])
+  },
+  methods: {
+    ...mapActions(["getAkunPetugas"]),
+    convertRole(role){
+        if(role==1){
+            return "Administrator"
+        }else if(role==2){
+            return "Pewawancara"
+        }else if(role==3){
+            return "Surveyor"
+        }else if(Role==4){
+            return "Petinggi"
+        }
+    }
   },
   data() {
     return {
+      lulusButton: false,
+      tidakLulusButton: false,
       opensheet: false,
       dialog: false,
       msg: "",
@@ -106,13 +140,12 @@ export default {
       openSheet: false,
       headers: [
         {
-          text: "Beasiswa",
+          text: "Username",
           align: "start",
           sortable: false,
-          value: "nama_beasiswa"
+          value: "name"
         },
-        { text: "Nama", value: "nama" },
-        { text: "NIM", value: "mhs_id" },
+        { text: "Role", value: "role" },
         { text: "Actions", value: "actions", sortable: false }
       ]
     };

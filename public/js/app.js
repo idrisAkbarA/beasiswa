@@ -2877,11 +2877,44 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["nim", "url", "isTableLoading"])),
+  created: function created() {
+    this.getAkunPetugas();
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["nim", "url", "isTableLoading", "akunPetugas"])),
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getAkunPetugas"])), {}, {
+    convertRole: function convertRole(role) {
+      if (role == 1) {
+        return "Administrator";
+      } else if (role == 2) {
+        return "Pewawancara";
+      } else if (role == 3) {
+        return "Surveyor";
+      } else if (Role == 4) {
+        return "Petinggi";
+      }
+    }
+  }),
   data: function data() {
     return {
+      lulusButton: false,
+      tidakLulusButton: false,
       opensheet: false,
       dialog: false,
       msg: "",
@@ -2889,16 +2922,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       btnLoading: false,
       openSheet: false,
       headers: [{
-        text: "Beasiswa",
+        text: "Username",
         align: "start",
         sortable: false,
-        value: "nama_beasiswa"
+        value: "name"
       }, {
-        text: "Nama",
-        value: "nama"
-      }, {
-        text: "NIM",
-        value: "mhs_id"
+        text: "Role",
+        value: "role"
       }, {
         text: "Actions",
         value: "actions",
@@ -3878,6 +3908,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(["toggleOpenBeasiswa"])), {}, {
@@ -3890,7 +3937,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       axios.get("http://beasiswa.test/api/logout", {
         params: {
-          user: window.localStorage.getItem('user')
+          user: window.localStorage.getItem("user")
         }
       }).then(function (response) {
         _this.$router.push({
@@ -3912,6 +3959,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     isBeasiswa: function isBeasiswa() {
       if (this.$route.name == "Beasiswa") {
+        return true;
+      } else {
+        false;
+      }
+    },
+    isInstansi: function isInstansi() {
+      if (this.$route.name == "Instansi") {
+        return true;
+      } else {
+        false;
+      }
+    },
+    isAkunPetugas: function isAkunPetugas() {
+      if (this.$route.name == "Akun Petugas") {
         return true;
       } else {
         false;
@@ -42246,7 +42307,7 @@ var render = function() {
             staticStyle: { "background-color": "#2e7d323b" },
             attrs: {
               headers: _vm.headers,
-              items: _vm.cekBerkas,
+              items: _vm.akunPetugas,
               "items-per-page": 10
             },
             scopedSlots: _vm._u([
@@ -42256,17 +42317,46 @@ var render = function() {
                   var item = ref.item
                   return [
                     _c(
-                      "v-btn",
+                      "v-icon",
+                      {
+                        staticClass: "mr-2",
+                        attrs: { small: "" },
+                        on: {
+                          click: function($event) {
+                            return _vm.editItem(item)
+                          }
+                        }
+                      },
+                      [_vm._v("\n          mdi-pencil\n        ")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-icon",
                       {
                         attrs: { small: "" },
                         on: {
                           click: function($event) {
-                            return _vm.detail(item)
+                            return _vm.deleteItem(item)
                           }
                         }
                       },
-                      [_vm._v("lihat rincian")]
+                      [_vm._v("\n          mdi-delete\n        ")]
                     )
+                  ]
+                }
+              },
+              {
+                key: "item.role",
+                fn: function(ref) {
+                  var item = ref.item
+                  return [
+                    _c("v-chip", { attrs: { color: "green" } }, [
+                      _vm._v(
+                        "\n          " +
+                          _vm._s(_vm.convertRole(item.role)) +
+                          "\n        "
+                      )
+                    ])
                   ]
                 }
               },
@@ -42399,11 +42489,7 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "v-btn",
-                    {
-                      staticClass: "green",
-                      attrs: { dark: "" },
-                      on: { click: _vm.setBerkas }
-                    },
+                    { staticClass: "green", attrs: { dark: "" } },
                     [
                       _c("v-icon", { attrs: { left: "" } }, [
                         _vm._v("mdi-check")
@@ -44025,7 +44111,59 @@ var render = function() {
                     },
                     [
                       _c("v-icon", [_vm._v("mdi-plus")]),
-                      _vm._v("tambah beasiswa\n    ")
+                      _vm._v("tambah beasiswa\n      ")
+                    ],
+                    1
+                  )
+                : _vm._e()
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-slide-y-transition",
+            [
+              _vm.isInstansi
+                ? _c(
+                    "v-btn",
+                    {
+                      staticClass: "green darken-3",
+                      attrs: { small: "" },
+                      on: {
+                        click: function($event) {
+                          return _vm.toggleBeasiswa()
+                        }
+                      }
+                    },
+                    [
+                      _c("v-icon", [_vm._v("mdi-plus")]),
+                      _vm._v("tambah instansi\n      ")
+                    ],
+                    1
+                  )
+                : _vm._e()
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-slide-y-transition",
+            [
+              _vm.isAkunPetugas
+                ? _c(
+                    "v-btn",
+                    {
+                      staticClass: "green darken-3",
+                      attrs: { small: "" },
+                      on: {
+                        click: function($event) {
+                          return _vm.toggleBeasiswa()
+                        }
+                      }
+                    },
+                    [
+                      _c("v-icon", [_vm._v("mdi-plus")]),
+                      _vm._v("tambah akun petugas\n      ")
                     ],
                     1
                   )
