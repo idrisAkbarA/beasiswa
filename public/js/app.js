@@ -3952,7 +3952,95 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      interview: "",
+      berkas: "",
+      lulus: "",
+      beasiswa: ""
+    };
+  },
+  created: function created() {
+    var _this = this;
+
+    axios.get("http://beasiswa.test/api/pemohon/count-interview").then(function (response) {
+      _this.interview = response.data;
+    });
+    axios.get("http://beasiswa.test/api/pemohon/count-berkas").then(function (response) {
+      _this.berkas = response.data;
+    });
+    axios.get("http://beasiswa.test/api/pemohon/count-lulus").then(function (response) {
+      _this.lulus = response.data;
+    });
+    axios.get("http://beasiswa.test/api/pemohon/count-beasiswa").then(function (response) {
+      _this.beasiswa = response.data; // console.log(response.data);
+    });
+  }
+});
 
 /***/ }),
 
@@ -44968,7 +45056,159 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("h1", [_vm._v("dashboard")])
+  return _c(
+    "v-container",
+    [
+      _c(
+        "v-row",
+        [
+          _c(
+            "v-col",
+            [
+              _c(
+                "v-card",
+                { attrs: { height: 100 * 1.2, width: 200 * 1.2 } },
+                [
+                  _c(
+                    "v-img",
+                    {
+                      attrs: {
+                        gradient:
+                          "to top right, rgba(58, 231, 87, 0.33), rgba(25,32,72,.7)",
+                        src: "https://picsum.photos/200/100?random="
+                      }
+                    },
+                    [
+                      _c("v-card-title", [
+                        _c("span", { staticClass: "body 2" }, [
+                          _vm._v("Belum Interview")
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("v-card-text", [
+                        _c("h1", [_vm._v(_vm._s(_vm.interview))])
+                      ])
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            [
+              _c(
+                "v-card",
+                { attrs: { height: 100 * 1.2, width: 200 * 1.2 } },
+                [
+                  _c(
+                    "v-img",
+                    {
+                      attrs: {
+                        gradient:
+                          "to top right, rgba(58, 231, 87, 0.33), rgba(25,32,72,.7)",
+                        src: "https://picsum.photos/200/100?random="
+                      }
+                    },
+                    [
+                      _c("v-card-title", [
+                        _c("span", { staticClass: "body 2" }, [
+                          _vm._v("Belum Cek Berkas")
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("v-card-text", [
+                        _c("h1", [_vm._v(_vm._s(_vm.berkas))])
+                      ])
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            [
+              _c(
+                "v-card",
+                { attrs: { height: 100 * 1.2, width: 200 * 1.2 } },
+                [
+                  _c(
+                    "v-img",
+                    {
+                      attrs: {
+                        gradient:
+                          "to top right, rgba(58, 231, 87, 0.33), rgba(25,32,72,.7)",
+                        src: "https://picsum.photos/200/100?random="
+                      }
+                    },
+                    [
+                      _c("v-card-title", [
+                        _c("span", { staticClass: "body 2" }, [
+                          _vm._v("Lulus Seleksi")
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("v-card-text", [_c("h1", [_vm._v(_vm._s(_vm.lulus))])])
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            [
+              _c(
+                "v-card",
+                { attrs: { height: 100 * 1.2, width: 200 * 1.2 } },
+                [
+                  _c(
+                    "v-img",
+                    {
+                      attrs: {
+                        gradient:
+                          "to top right, rgba(58, 231, 87, 0.33), rgba(25,32,72,.7)",
+                        src: "https://picsum.photos/200/100?random="
+                      }
+                    },
+                    [
+                      _c("v-card-title", [
+                        _c("span", { staticClass: "body 2" }, [
+                          _vm._v("Beasiswa")
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("v-card-text", [
+                        _c("h1", [_vm._v(_vm._s(_vm.beasiswa))])
+                      ])
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -108336,8 +108576,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! A:\Programming\Web-Root\beasiswa\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! A:\Programming\Web-Root\beasiswa\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\pemrograman\APK\Web-Root\beasiswa\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\pemrograman\APK\Web-Root\beasiswa\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
