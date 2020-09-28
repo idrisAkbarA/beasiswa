@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     url: pack.baseUrl,
     name:"idris",
+    akunPetugas:[],
     nim:"",
     cekBerkas:[],
     isLoading: false,
@@ -18,6 +19,9 @@ export default new Vuex.Store({
     isOpenBeasiswa:false,
   },
   mutations: {
+    mutateAkunPetugas(state,data){
+      state.akunPetugas = data;
+    },
     mutateCekBerkas(state,data){
       state.cekBerkas = data;
     },
@@ -44,6 +48,14 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    getAkunPetugas({commit,dispatch,state}){
+      commit("mutateTableLoading",true);
+      Axios.get(state.url+"/api/petugas").then(response=>{
+        commit('mutateAkunPetugas',response.data)
+        commit("mutateTableLoading",false);
+
+      })
+    },
     getCekBerkas({commit,dispatch,state}){
       commit("mutateTableLoading",true);
       Axios.get(state.url+"/api/pemohon/cek-berkas").then(response=>{
@@ -84,9 +96,31 @@ export default new Vuex.Store({
       })
       
     },
+    storeInstansi({commit,dispatch,state},data){
+      return new Promise((resolve,reject)=>{
+        Axios.post(state.url+"/api/instansi",{data}).then(response=>{
+          dispatch('getInstansi')
+          resolve(response)
+        }).catch(error=>{
+          reject(error)
+        })
+      })
+    },
     getInstansi({commit,dispatch,state}){
+      commit("mutateTableLoading",true);
       Axios.get(state.url+"/api/instansi").then(response=>{
         commit('mutateInstansi',response.data)
+        commit("mutateTableLoading",false);
+      })
+    },
+    deleteInstansi({commit,dispatch,state},id){
+      Axios.delete(state.url+"/api/instansi/"+id).then(response=>{
+        dispatch('getInstansi')
+      })
+    },
+    editInstansi({commit,dispatch,state},id,data){
+      Axios.put(state.url+"/api/instansi/"+id).then(response=>{
+        dispatch('getInstansi')
       })
     },
   },

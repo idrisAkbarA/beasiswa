@@ -2778,11 +2778,135 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["nim", "url", "isTableLoading"])),
+  data: function data() {
+    return {
+      opensheet: false,
+      dialog: false,
+      msg: "",
+      rincian: {},
+      btnLoading: false,
+      openSheet: false,
+      headers: [{
+        text: "Beasiswa",
+        align: "start",
+        sortable: false,
+        value: "nama_beasiswa"
+      }, {
+        text: "Nama",
+        value: "nama"
+      }, {
+        text: "NIM",
+        value: "mhs_id"
+      }, {
+        text: "Actions",
+        value: "actions",
+        sortable: false
+      }]
+    };
+  }
+});
 
 /***/ }),
 
@@ -42103,7 +42227,203 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("h1", [_vm._v("petugas")])
+  return _c(
+    "v-container",
+    { attrs: { fluid: "" } },
+    [
+      _c(
+        "v-skeleton-loader",
+        {
+          attrs: {
+            loading: _vm.isTableLoading,
+            type: "table",
+            transition: "fade-transition"
+          }
+        },
+        [
+          _c("v-data-table", {
+            staticClass: "elevation-10 mb-10",
+            staticStyle: { "background-color": "#2e7d323b" },
+            attrs: {
+              headers: _vm.headers,
+              items: _vm.cekBerkas,
+              "items-per-page": 10
+            },
+            scopedSlots: _vm._u([
+              {
+                key: "item.actions",
+                fn: function(ref) {
+                  var item = ref.item
+                  return [
+                    _c(
+                      "v-btn",
+                      {
+                        attrs: { small: "" },
+                        on: {
+                          click: function($event) {
+                            return _vm.detail(item)
+                          }
+                        }
+                      },
+                      [_vm._v("lihat rincian")]
+                    )
+                  ]
+                }
+              },
+              {
+                key: "no-data",
+                fn: function() {
+                  return [_vm._v("\n        no data\n      ")]
+                },
+                proxy: true
+              }
+            ])
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-bottom-sheet",
+        {
+          attrs: {
+            scrollable: "",
+            width: "60%",
+            inset: "",
+            "overlay-color": "#69F0AE"
+          },
+          model: {
+            value: _vm.openSheet,
+            callback: function($$v) {
+              _vm.openSheet = $$v
+            },
+            expression: "openSheet"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            [
+              _c(
+                "v-card-title",
+                [
+                  _c("span", [_vm._v("Cek Berkas")]),
+                  _vm._v(" "),
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { text: "" },
+                      on: { click: _vm.tidakLulusButton }
+                    },
+                    [_vm._v("Tidak Lulus")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "#2E7D32", loading: _vm.btnLoading },
+                      on: { click: _vm.lulusButton },
+                      model: {
+                        value: _vm.openSheet,
+                        callback: function($$v) {
+                          _vm.openSheet = $$v
+                        },
+                        expression: "openSheet"
+                      }
+                    },
+                    [_vm._v("Lulus")]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-card-text",
+                [
+                  _c(
+                    "v-row",
+                    { staticClass: "ma-5" },
+                    [_c("v-col", { attrs: { cols: "12" } })],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { width: "400", "overlay-color": "#69F0AE" },
+          model: {
+            value: _vm.dialog,
+            callback: function($$v) {
+              _vm.dialog = $$v
+            },
+            expression: "dialog"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            [
+              _c("v-card-title", { staticClass: "mt-2" }, [
+                _vm._v("\n        " + _vm._s(_vm.msg) + "\n        "),
+                _c("p", { staticStyle: { "font-weight": "bold" } })
+              ]),
+              _vm._v(" "),
+              _c(
+                "v-card-actions",
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { text: "" },
+                      on: {
+                        click: function($event) {
+                          _vm.dialog = false
+                        }
+                      }
+                    },
+                    [_vm._v("\n          Batal\n        ")]
+                  ),
+                  _vm._v(" "),
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      staticClass: "green",
+                      attrs: { dark: "" },
+                      on: { click: _vm.setBerkas }
+                    },
+                    [
+                      _c("v-icon", { attrs: { left: "" } }, [
+                        _vm._v("mdi-check")
+                      ]),
+                      _vm._v("\n          iya\n        ")
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -104318,6 +104638,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
   state: {
     url: pack.baseUrl,
     name: "idris",
+    akunPetugas: [],
     nim: "",
     cekBerkas: [],
     isLoading: false,
@@ -104328,6 +104649,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     isOpenBeasiswa: false
   },
   mutations: {
+    mutateAkunPetugas: function mutateAkunPetugas(state, data) {
+      state.akunPetugas = data;
+    },
     mutateCekBerkas: function mutateCekBerkas(state, data) {
       state.cekBerkas = data;
     },
@@ -104354,20 +104678,30 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     }
   },
   actions: {
-    getCekBerkas: function getCekBerkas(_ref) {
+    getAkunPetugas: function getAkunPetugas(_ref) {
       var commit = _ref.commit,
           dispatch = _ref.dispatch,
           state = _ref.state;
+      commit("mutateTableLoading", true);
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(state.url + "/api/petugas").then(function (response) {
+        commit('mutateAkunPetugas', response.data);
+        commit("mutateTableLoading", false);
+      });
+    },
+    getCekBerkas: function getCekBerkas(_ref2) {
+      var commit = _ref2.commit,
+          dispatch = _ref2.dispatch,
+          state = _ref2.state;
       commit("mutateTableLoading", true);
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(state.url + "/api/pemohon/cek-berkas").then(function (response) {
         commit('mutateCekBerkas', response.data);
         commit("mutateTableLoading", false);
       });
     },
-    getBeasiswaSingle: function getBeasiswaSingle(_ref2, id) {
-      var commit = _ref2.commit,
-          dispatch = _ref2.dispatch,
-          state = _ref2.state;
+    getBeasiswaSingle: function getBeasiswaSingle(_ref3, id) {
+      var commit = _ref3.commit,
+          dispatch = _ref3.dispatch,
+          state = _ref3.state;
       commit("mutateTableLoading", true);
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(state.url + "/api/beasiswa/" + id).then(function (response) {
@@ -104379,20 +104713,20 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         });
       });
     },
-    getBeasiswa: function getBeasiswa(_ref3) {
-      var commit = _ref3.commit,
-          dispatch = _ref3.dispatch,
-          state = _ref3.state;
+    getBeasiswa: function getBeasiswa(_ref4) {
+      var commit = _ref4.commit,
+          dispatch = _ref4.dispatch,
+          state = _ref4.state;
       commit("mutateTableLoading", true);
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(state.url + "/api/beasiswa").then(function (response) {
         commit('mutateBeasiswa', response.data);
         commit("mutateTableLoading", false);
       });
     },
-    storeBeasiswa: function storeBeasiswa(_ref4, data) {
-      var commit = _ref4.commit,
-          dispatch = _ref4.dispatch,
-          state = _ref4.state;
+    storeBeasiswa: function storeBeasiswa(_ref5, data) {
+      var commit = _ref5.commit,
+          dispatch = _ref5.dispatch,
+          state = _ref5.state;
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_2___default.a.post(state.url + "/api/beasiswa", {
           data: data
@@ -104404,12 +104738,45 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         });
       });
     },
-    getInstansi: function getInstansi(_ref5) {
-      var commit = _ref5.commit,
-          dispatch = _ref5.dispatch,
-          state = _ref5.state;
+    storeInstansi: function storeInstansi(_ref6, data) {
+      var commit = _ref6.commit,
+          dispatch = _ref6.dispatch,
+          state = _ref6.state;
+      return new Promise(function (resolve, reject) {
+        axios__WEBPACK_IMPORTED_MODULE_2___default.a.post(state.url + "/api/instansi", {
+          data: data
+        }).then(function (response) {
+          dispatch('getInstansi');
+          resolve(response);
+        })["catch"](function (error) {
+          reject(error);
+        });
+      });
+    },
+    getInstansi: function getInstansi(_ref7) {
+      var commit = _ref7.commit,
+          dispatch = _ref7.dispatch,
+          state = _ref7.state;
+      commit("mutateTableLoading", true);
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(state.url + "/api/instansi").then(function (response) {
         commit('mutateInstansi', response.data);
+        commit("mutateTableLoading", false);
+      });
+    },
+    deleteInstansi: function deleteInstansi(_ref8, id) {
+      var commit = _ref8.commit,
+          dispatch = _ref8.dispatch,
+          state = _ref8.state;
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a["delete"](state.url + "/api/instansi/" + id).then(function (response) {
+        dispatch('getInstansi');
+      });
+    },
+    editInstansi: function editInstansi(_ref9, id, data) {
+      var commit = _ref9.commit,
+          dispatch = _ref9.dispatch,
+          state = _ref9.state;
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.put(state.url + "/api/instansi/" + id).then(function (response) {
+        dispatch('getInstansi');
       });
     }
   },
