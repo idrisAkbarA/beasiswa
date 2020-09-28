@@ -22,12 +22,16 @@ class PetugasController extends Controller
         return response()->json(['status'=>"Success: User Added"]);
     }
     public function edit(Request $request, $id){
-        $petugas = UserPetugas::find($id);
-        // return $request['name'];
-        $petugas->name = $request['name'];
-        $petugas->role = $request['role'];
-        $petugas->save();
-        return response()->json(['status'=>"Success: User Updated"]);
+        // $petugas = UserPetugas::find($id);
+        // // return $request['name'];
+        // $petugas->name = $request['name'];
+        // $petugas->role = $request['role'];
+        // // if(isset($request['password'])){
+        // // }
+        // $petugas->password = Hash::make($request['password']);
+        // $petugas->save();
+        // return response()->json(['status'=>"Success: User Updated"]);
+        return $request['password'];
     }
     public function delete(Request $request, $id){
         $petugas = UserPetugas::find($id);

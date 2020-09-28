@@ -2892,13 +2892,166 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
     this.getAkunPetugas();
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["nim", "url", "isTableLoading", "akunPetugas"])),
-  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getAkunPetugas"])), {}, {
+  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["nim", "url", "isTableLoading", "akunPetugas", "isOpenBeasiswa"])), {}, {
+    toggleAkunPetugas: {
+      get: function get() {
+        return this.isOpenBeasiswa;
+      },
+      set: function set(data) {
+        this.toggleOpenBeasiswa(data);
+      }
+    }
+  }),
+  methods: _objectSpread(_objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(["toggleOpenBeasiswa"])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getAkunPetugas", "storeAkunPetugas", "editAkunPetugas"])), {}, {
+    edit: function edit(item) {
+      this.toggleEdit = true;
+      this.editItem.name = item.name;
+      this.editItem.role = item.role;
+      this.editItem.id = item.id;
+    },
+    storeEdit: function storeEdit() {
+      var data = {
+        name: this.editItem.name,
+        password: this.editItem.password,
+        role: this.editItem.role
+      };
+      this.editAkunPetugas(this.editItem).then(function (response) {
+        console.log(response.data);
+      });
+    },
+    store: function store() {
+      var _this = this;
+
+      console.log(this.storeItem);
+      this.storeAkunPetugas(this.storeItem).then(function (response) {
+        _this.storeItem = {};
+      });
+    },
     convertRole: function convertRole(role) {
       if (role == 1) {
         return "Administrator";
@@ -2906,13 +3059,38 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return "Pewawancara";
       } else if (role == 3) {
         return "Surveyor";
-      } else if (Role == 4) {
+      } else if (role == 4) {
         return "Petinggi";
       }
     }
   }),
   data: function data() {
     return {
+      editItem: {
+        name: "",
+        role: "",
+        password: ""
+      },
+      storeItem: {
+        name: "",
+        role: "",
+        password: ""
+      },
+      role: [{
+        id: 1,
+        role: "Administrator"
+      }, {
+        id: 2,
+        role: "Pewawancara"
+      }, {
+        id: 3,
+        role: "Surveyor"
+      }, {
+        id: 4,
+        role: "Petinggi"
+      }],
+      toggleEdit: false,
+      sheetMsg: "",
       lulusButton: false,
       tidakLulusButton: false,
       opensheet: false,
@@ -42515,7 +42693,7 @@ var render = function() {
                         attrs: { small: "" },
                         on: {
                           click: function($event) {
-                            return _vm.editItem(item)
+                            return _vm.edit(item)
                           }
                         }
                       },
@@ -42542,13 +42720,45 @@ var render = function() {
                 fn: function(ref) {
                   var item = ref.item
                   return [
-                    _c("v-chip", { attrs: { color: "green" } }, [
-                      _vm._v(
-                        "\n          " +
-                          _vm._s(_vm.convertRole(item.role)) +
-                          "\n        "
-                      )
-                    ])
+                    item.role == 1
+                      ? _c("v-chip", { attrs: { color: "red" } }, [
+                          _vm._v(
+                            "\n          " +
+                              _vm._s(_vm.convertRole(item.role)) +
+                              "\n        "
+                          )
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    item.role == 2
+                      ? _c("v-chip", { attrs: { color: "green" } }, [
+                          _vm._v(
+                            "\n          " +
+                              _vm._s(_vm.convertRole(item.role)) +
+                              "\n        "
+                          )
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    item.role == 3
+                      ? _c("v-chip", { attrs: { color: "blue" } }, [
+                          _vm._v(
+                            "\n          " +
+                              _vm._s(_vm.convertRole(item.role)) +
+                              "\n        "
+                          )
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    item.role == 4
+                      ? _c("v-chip", { attrs: { color: "orange" } }, [
+                          _vm._v(
+                            "\n          " +
+                              _vm._s(_vm.convertRole(item.role)) +
+                              "\n        "
+                          )
+                        ])
+                      : _vm._e()
                   ]
                 }
               },
@@ -42575,11 +42785,11 @@ var render = function() {
             "overlay-color": "#69F0AE"
           },
           model: {
-            value: _vm.openSheet,
+            value: _vm.toggleEdit,
             callback: function($$v) {
-              _vm.openSheet = $$v
+              _vm.toggleEdit = $$v
             },
-            expression: "openSheet"
+            expression: "toggleEdit"
           }
         },
         [
@@ -42589,7 +42799,7 @@ var render = function() {
               _c(
                 "v-card-title",
                 [
-                  _c("span", [_vm._v("Cek Berkas")]),
+                  _c("span", [_vm._v("Edit Petugas")]),
                   _vm._v(" "),
                   _c("v-spacer"),
                   _vm._v(" "),
@@ -42599,23 +42809,16 @@ var render = function() {
                       attrs: { text: "" },
                       on: { click: _vm.tidakLulusButton }
                     },
-                    [_vm._v("Tidak Lulus")]
+                    [_vm._v("Batal")]
                   ),
                   _vm._v(" "),
                   _c(
                     "v-btn",
                     {
                       attrs: { color: "#2E7D32", loading: _vm.btnLoading },
-                      on: { click: _vm.lulusButton },
-                      model: {
-                        value: _vm.openSheet,
-                        callback: function($$v) {
-                          _vm.openSheet = $$v
-                        },
-                        expression: "openSheet"
-                      }
+                      on: { click: _vm.storeEdit }
                     },
-                    [_vm._v("Lulus")]
+                    [_vm._v("Simpan")]
                   )
                 ],
                 1
@@ -42627,7 +42830,216 @@ var render = function() {
                   _c(
                     "v-row",
                     { staticClass: "ma-5" },
-                    [_c("v-col", { attrs: { cols: "12" } })],
+                    [
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "4", xs: "12" } },
+                        [
+                          _c("v-text-field", {
+                            attrs: { color: "white", label: "Username" },
+                            model: {
+                              value: _vm.editItem.name,
+                              callback: function($$v) {
+                                _vm.$set(_vm.editItem, "name", $$v)
+                              },
+                              expression: "editItem.name"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "4", xs: "12" } },
+                        [
+                          _c("v-select", {
+                            attrs: {
+                              label: "Role",
+                              color: "white",
+                              items: _vm.role,
+                              "item-text": "role",
+                              "item-value": "id"
+                            },
+                            model: {
+                              value: _vm.editItem.role,
+                              callback: function($$v) {
+                                _vm.$set(_vm.editItem, "role", $$v)
+                              },
+                              expression: "editItem.role"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "4", xs: "12" } },
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              color: "white",
+                              label: "Password",
+                              type: "password",
+                              hint: "Isi untuk ganti password",
+                              "persistent-hint": ""
+                            },
+                            model: {
+                              value: _vm.editItem.password,
+                              callback: function($$v) {
+                                _vm.$set(_vm.editItem, "password", $$v)
+                              },
+                              expression: "editItem.password"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-bottom-sheet",
+        {
+          attrs: {
+            scrollable: "",
+            width: "60%",
+            inset: "",
+            "overlay-color": "#69F0AE"
+          },
+          model: {
+            value: _vm.toggleAkunPetugas,
+            callback: function($$v) {
+              _vm.toggleAkunPetugas = $$v
+            },
+            expression: "toggleAkunPetugas"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            [
+              _c(
+                "v-card-title",
+                [
+                  _c("span", [_vm._v("Tambah Petugas")]),
+                  _vm._v(" "),
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { text: "" },
+                      on: { click: _vm.tidakLulusButton }
+                    },
+                    [_vm._v("Batal")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "#2E7D32", loading: _vm.btnLoading },
+                      on: {
+                        click: function($event) {
+                          return _vm.store()
+                        }
+                      },
+                      model: {
+                        value: _vm.openSheet,
+                        callback: function($$v) {
+                          _vm.openSheet = $$v
+                        },
+                        expression: "openSheet"
+                      }
+                    },
+                    [_vm._v("Tambah Petugas")]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-card-text",
+                [
+                  _c(
+                    "v-row",
+                    { staticClass: "ma-5" },
+                    [
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "4", xs: "12" } },
+                        [
+                          _c("v-text-field", {
+                            attrs: { color: "white", label: "Username" },
+                            model: {
+                              value: _vm.storeItem.name,
+                              callback: function($$v) {
+                                _vm.$set(_vm.storeItem, "name", $$v)
+                              },
+                              expression: "storeItem.name"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "4", xs: "12" } },
+                        [
+                          _c("v-select", {
+                            attrs: {
+                              label: "Role",
+                              color: "white",
+                              items: _vm.role,
+                              "item-text": "role",
+                              "item-value": "id"
+                            },
+                            model: {
+                              value: _vm.storeItem.role,
+                              callback: function($$v) {
+                                _vm.$set(_vm.storeItem, "role", $$v)
+                              },
+                              expression: "storeItem.role"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "4", xs: "12" } },
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              color: "white",
+                              label: "Password",
+                              type: "password"
+                            },
+                            model: {
+                              value: _vm.storeItem.password,
+                              callback: function($$v) {
+                                _vm.$set(_vm.storeItem, "password", $$v)
+                              },
+                              expression: "storeItem.password"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
                     1
                   )
                 ],
@@ -105412,10 +105824,41 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         commit("mutateTableLoading", false);
       });
     },
-    storeBeasiswa: function storeBeasiswa(_ref5, data) {
+    storeAkunPetugas: function storeAkunPetugas(_ref5, data) {
       var commit = _ref5.commit,
           dispatch = _ref5.dispatch,
           state = _ref5.state;
+      return new Promise(function (resolve, reject) {
+        axios__WEBPACK_IMPORTED_MODULE_2___default.a.post(state.url + "/api/petugas", data).then(function (response) {
+          dispatch('getAkunPetugas');
+          resolve(response);
+        })["catch"](function (error) {
+          reject(error);
+        });
+      });
+    },
+    editAkunPetugas: function editAkunPetugas(_ref6, data) {
+      var commit = _ref6.commit,
+          dispatch = _ref6.dispatch,
+          state = _ref6.state;
+      return new Promise(function (resolve, reject) {
+        console.log(data);
+        axios__WEBPACK_IMPORTED_MODULE_2___default.a.put(state.url + "/api/petugas/" + data.id, {
+          name: data.name,
+          password: data.password,
+          role: data.role
+        }).then(function (response) {
+          dispatch('getAkunPetugas');
+          resolve(response);
+        })["catch"](function (error) {
+          reject(error);
+        });
+      });
+    },
+    storeBeasiswa: function storeBeasiswa(_ref7, data) {
+      var commit = _ref7.commit,
+          dispatch = _ref7.dispatch,
+          state = _ref7.state;
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_2___default.a.post(state.url + "/api/beasiswa", {
           data: data
@@ -105427,10 +105870,10 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         });
       });
     },
-    storeInstansi: function storeInstansi(_ref6, data) {
-      var commit = _ref6.commit,
-          dispatch = _ref6.dispatch,
-          state = _ref6.state;
+    storeInstansi: function storeInstansi(_ref8, data) {
+      var commit = _ref8.commit,
+          dispatch = _ref8.dispatch,
+          state = _ref8.state;
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_2___default.a.post(state.url + "/api/instansi", data).then(function (response) {
           dispatch('getInstansi');
@@ -105440,28 +105883,28 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         });
       });
     },
-    getInstansi: function getInstansi(_ref7) {
-      var commit = _ref7.commit,
-          dispatch = _ref7.dispatch,
-          state = _ref7.state;
+    getInstansi: function getInstansi(_ref9) {
+      var commit = _ref9.commit,
+          dispatch = _ref9.dispatch,
+          state = _ref9.state;
       commit("mutateTableLoading", true);
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(state.url + "/api/instansi").then(function (response) {
         commit('mutateInstansi', response.data);
         commit("mutateTableLoading", false);
       });
     },
-    deleteInstansi: function deleteInstansi(_ref8, id) {
-      var commit = _ref8.commit,
-          dispatch = _ref8.dispatch,
-          state = _ref8.state;
+    deleteInstansi: function deleteInstansi(_ref10, id) {
+      var commit = _ref10.commit,
+          dispatch = _ref10.dispatch,
+          state = _ref10.state;
       axios__WEBPACK_IMPORTED_MODULE_2___default.a["delete"](state.url + "/api/instansi/" + id).then(function (response) {
         dispatch('getInstansi');
       });
     },
-    editInstansi: function editInstansi(_ref9, data) {
-      var commit = _ref9.commit,
-          dispatch = _ref9.dispatch,
-          state = _ref9.state;
+    editInstansi: function editInstansi(_ref11, data) {
+      var commit = _ref11.commit,
+          dispatch = _ref11.dispatch,
+          state = _ref11.state;
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.put(state.url + "/api/instansi/" + data.id, {
         name: data.name
       }).then(function (response) {
