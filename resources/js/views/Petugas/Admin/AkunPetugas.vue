@@ -29,16 +29,28 @@
           </v-icon>
         </template>
         <template v-slot:item.role="{ item }">
-          <v-chip v-if="item.role==1" color="red">
+          <v-chip
+            v-if="item.role==1"
+            color="red"
+          >
             {{ convertRole(item.role) }}
           </v-chip>
-          <v-chip v-if="item.role==2" color="green">
+          <v-chip
+            v-if="item.role==2"
+            color="green"
+          >
             {{ convertRole(item.role) }}
           </v-chip>
-          <v-chip v-if="item.role==3" color="blue">
+          <v-chip
+            v-if="item.role==3"
+            color="blue"
+          >
             {{ convertRole(item.role) }}
           </v-chip>
-          <v-chip v-if="item.role==4" color="orange">
+          <v-chip
+            v-if="item.role==4"
+            color="orange"
+          >
             {{ convertRole(item.role) }}
           </v-chip>
         </template>
@@ -69,7 +81,10 @@
         </v-card-title>
         <v-card-text>
           <v-row class="ma-5">
-            <v-col cols="4" xs="12">
+            <v-col
+              cols="4"
+              xs="12"
+            >
               <v-text-field
                 color="white"
                 label="Username"
@@ -77,7 +92,10 @@
               >
               </v-text-field>
             </v-col>
-            <v-col cols="4" xs="12">
+            <v-col
+              cols="4"
+              xs="12"
+            >
               <v-select
                 label="Role"
                 color="white"
@@ -87,17 +105,20 @@
                 v-model="editItem.role"
               ></v-select>
             </v-col>
-            <v-col cols="4" xs="12">
-                <v-text-field
+            <v-col
+              cols="4"
+              xs="12"
+            >
+              <v-text-field
                 color="white"
                 label="Password"
                 type="password"
                 hint="Isi untuk ganti password"
                 persistent-hint
                 v-model="editItem.password"
-                >
+              >
 
-                </v-text-field>
+              </v-text-field>
             </v-col>
           </v-row>
 
@@ -128,7 +149,10 @@
         </v-card-title>
         <v-card-text>
           <v-row class="ma-5">
-            <v-col cols="4" xs="12">
+            <v-col
+              cols="4"
+              xs="12"
+            >
               <v-text-field
                 color="white"
                 label="Username"
@@ -136,7 +160,10 @@
               >
               </v-text-field>
             </v-col>
-            <v-col cols="4" xs="12">
+            <v-col
+              cols="4"
+              xs="12"
+            >
               <v-select
                 label="Role"
                 color="white"
@@ -146,15 +173,18 @@
                 v-model="storeItem.role"
               ></v-select>
             </v-col>
-            <v-col cols="4" xs="12">
-                <v-text-field
+            <v-col
+              cols="4"
+              xs="12"
+            >
+              <v-text-field
                 color="white"
                 label="Password"
                 type="password"
                 v-model="storeItem.password"
-                >
+              >
 
-                </v-text-field>
+              </v-text-field>
             </v-col>
           </v-row>
 
@@ -202,32 +232,40 @@ export default {
     this.getAkunPetugas();
   },
   computed: {
-    ...mapState(["nim", "url", "isTableLoading", "akunPetugas"])
+    ...mapState(["nim", "url", "isTableLoading", "akunPetugas", "isOpenBeasiswa"]),
+    toggleAkunPetugas: {
+      get: function() {
+        return this.isOpenBeasiswa;
+      },
+      set: function(data) {
+        this.toggleOpenBeasiswa(data);
+      }
+    }
   },
   methods: {
     ...mapMutations(["toggleOpenBeasiswa"]),
-    ...mapActions(["getAkunPetugas","storeAkunPetugas","editAkunPetugas"]),
-    edit(item){
-        this.toggleEdit = true;
-        this.editItem.name = item.name;
-        this.editItem.role = item.role;
-        this.editItem.id = item.id;
+    ...mapActions(["getAkunPetugas", "storeAkunPetugas", "editAkunPetugas"]),
+    edit(item) {
+      this.toggleEdit = true;
+      this.editItem.name = item.name;
+      this.editItem.role = item.role;
+      this.editItem.id = item.id;
     },
-    storeEdit(){
-        var data={
-            name: this.editItem.name,
-            password: this.editItem.password,
-            role: this.editItem.role
-        }
-        this.editAkunPetugas(this.editItem).then(response=>{
-            console.log(response.data)
-        })
+    storeEdit() {
+      var data = {
+        name: this.editItem.name,
+        password: this.editItem.password,
+        role: this.editItem.role
+      };
+      this.editAkunPetugas(this.editItem).then(response => {
+        console.log(response.data);
+      });
     },
-    store(){
-        console.log(this.storeItem)
-        this.storeAkunPetugas(this.storeItem).then(response=>{
-            this.storeItem = {};
-        })
+    store() {
+      console.log(this.storeItem);
+      this.storeAkunPetugas(this.storeItem).then(response => {
+        this.storeItem = {};
+      });
     },
     convertRole(role) {
       if (role == 1) {
@@ -243,23 +281,23 @@ export default {
   },
   data() {
     return {
-        editItem:{
-            name:"",
-            role:"",
-            password:""
-        },
-        storeItem:{
-            name:"",
-            role:"",
-            password:""
-        },
-        role:[
-            {id:1,role:"Administrator"},
-            {id:2,role:"Pewawancara"},
-            {id:3,role:"Surveyor"},
-            {id:4,role:"Petinggi"},
-        ],
-        toggleEdit:false,
+      editItem: {
+        name: "",
+        role: "",
+        password: ""
+      },
+      storeItem: {
+        name: "",
+        role: "",
+        password: ""
+      },
+      role: [
+        { id: 1, role: "Administrator" },
+        { id: 2, role: "Pewawancara" },
+        { id: 3, role: "Surveyor" },
+        { id: 4, role: "Petinggi" }
+      ],
+      toggleEdit: false,
       sheetMsg: "",
       lulusButton: false,
       tidakLulusButton: false,

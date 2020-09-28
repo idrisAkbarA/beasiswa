@@ -2982,12 +2982,51 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
     this.getAkunPetugas();
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["nim", "url", "isTableLoading", "akunPetugas"])),
+  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["nim", "url", "isTableLoading", "akunPetugas", "isOpenBeasiswa"])), {}, {
+    toggleAkunPetugas: {
+      get: function get() {
+        return this.isOpenBeasiswa;
+      },
+      set: function set(data) {
+        this.toggleOpenBeasiswa(data);
+      }
+    }
+  }),
   methods: _objectSpread(_objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(["toggleOpenBeasiswa"])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getAkunPetugas", "storeAkunPetugas", "editAkunPetugas"])), {}, {
     edit: function edit(item) {
       this.toggleEdit = true;
@@ -105281,7 +105320,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_Petugas_Admin_Beasiswa_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/Petugas/Admin/Beasiswa.vue */ "./resources/js/views/Petugas/Admin/Beasiswa.vue");
 /* harmony import */ var _views_Petugas_Admin_Permohonan_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/Petugas/Admin/Permohonan.vue */ "./resources/js/views/Petugas/Admin/Permohonan.vue");
 /* harmony import */ var _views_Petugas_Admin_Instansi_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/Petugas/Admin/Instansi.vue */ "./resources/js/views/Petugas/Admin/Instansi.vue");
-/* harmony import */ var _views_Petugas_Admin_Akun_vue__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../views/Petugas/Admin/Akun.vue */ "./resources/js/views/Petugas/Admin/Akun.vue");
+/* harmony import */ var _views_Petugas_Admin_Akun_vue__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../views/Petugas/Admin/Akun.vue */ "./resources/js/views/Petugas/Admin/Akun.vue");
 /* harmony import */ var _views_Petugas_Admin_AkunPetugas_vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../views/Petugas/Admin/AkunPetugas.vue */ "./resources/js/views/Petugas/Admin/AkunPetugas.vue");
 /* harmony import */ var _views_Petugas_Admin_CekPermohonan_vue__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../views/Petugas/Admin/CekPermohonan.vue */ "./resources/js/views/Petugas/Admin/CekPermohonan.vue");
 /* harmony import */ var _views_Mahasiswa_Mahasiswa_vue__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../views/Mahasiswa/Mahasiswa.vue */ "./resources/js/views/Mahasiswa/Mahasiswa.vue");
@@ -105358,7 +105397,7 @@ var routes = [{
   }, {
     name: "Akun",
     path: "akun",
-    component: _views_Petugas_Admin_Akun_vue__WEBPACK_IMPORTED_MODULE_16__["default"]
+    component: _views_Petugas_Admin_Akun_vue__WEBPACK_IMPORTED_MODULE_10__["default"]
   }]
 }, {
   path: '/mahasiswa/',
