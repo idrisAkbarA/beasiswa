@@ -26,9 +26,9 @@ class PetugasController extends Controller
         // // return $request['name'];
         $petugas->name = $request['name'];
         $petugas->role = $request['role'];
-        if(isset($request['password'])){
+        if($request['password'] != ""){
+            $petugas->password = Hash::make($request['password']);
         }
-        $petugas->password = Hash::make($request['password']);
         $petugas->save();
         return response()->json(['status'=>"Success: User Updated"]);
         // return $request['password'];
