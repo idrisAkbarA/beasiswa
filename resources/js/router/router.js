@@ -22,6 +22,9 @@ import InterviewerHome from '../views/Petugas/Interviewer/Home.vue'
 
 import Surveyor from '../views/Petugas/Surveyor/Surveyor.vue'
 import SurveyorHome from '../views/Petugas/Surveyor/Home.vue'
+
+import Petinggi from '../views/Petugas/Petinggi/Petinggi.vue'
+import PetinggiHome from '../views/Petugas/Petinggi/Home.vue'
 // import Login from '../views/Login.vue'
 // import Loket from '../views/Loket.vue'
 // import Dashboard from '../views/Dashboard.vue'
@@ -135,6 +138,17 @@ const routes = [
         name: "Home",
         path: "home",
         component: SurveyorHome
+      }, 
+    ]
+  },
+  {
+    path: '/petinggi/:petugas',
+    component: Petinggi,
+    children: [
+      {
+        name: "Home",
+        path: "home",
+        component: PetinggiHome
       }, 
     ]
   },

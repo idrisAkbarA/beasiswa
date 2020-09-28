@@ -436,27 +436,27 @@ export default {
       }
       console.log(typeof this.dateBerkas);
       awal_berkas =
-        typeof this.dateBerkas == "object" ? this.dateBerkas[0] : null;
+        this.dateBerkas[1] ? this.dateBerkas[0] : null;
       akhir_berkas =
-        typeof this.dateBerkas == "object"
+        this.dateBerkas[1]
           ? this.dateBerkas[1]
-          : this.dateBerkas;
+          : this.dateBerkas[0];
 
       if (this.is_wawancara) {
         awal_wawancara =
-          typeof this.dateWawancara == "object" ? this.dateWawancara[0] : null;
+         this.dateWawancara[1]? this.dateWawancara[0] : null;
         akhir_wawancara =
-          typeof this.dateWawancara == "object"
+          this.dateWawancara[1]
             ? this.dateWawancara[1]
-            : this.dateWawancara;
+            : this.dateWawancara[0];
       }
       if (this.is_survey) {
         awal_survey =
-          typeof this.dateSurvey == "object" ? this.dateSurvey[0] : null;
+          this.dateSurvey[1]? this.dateSurvey[0] : null;
         akhir_survey =
-          typeof this.dateSurvey == "object"
+       this.dateSurvey[1]
             ? this.dateSurvey[1]
-            : this.dateSurvey;
+            : this.dateSurvey[0];
       }
       var data = {
         nama: this.nama,
@@ -562,9 +562,9 @@ export default {
       isBerkas: false,
       is_wawancara: false,
       is_survey: false,
-      dateBerkas: new Date().toISOString().substr(0, 10),
-      dateWawancara: new Date().toISOString().substr(0, 10),
-      dateSurvey: new Date().toISOString().substr(0, 10),
+      dateBerkas: [new Date().toISOString().substr(0, 10)],
+      dateWawancara: [new Date().toISOString().substr(0, 10)],
+      dateSurvey: [new Date().toISOString().substr(0, 10)],
       kuota: 1,
       headers: [
         {

@@ -67,7 +67,7 @@ export default {
               console.log("interviewer")
               this.$router.push({ path: `/surveyor/${response.data.user.name}/home`})
             }
-            else if(response.data.user.role==2){
+            else if(response.data.user.role==4){
               console.log("interviewer")
               this.$router.push({ path: `/petinggi/${response.data.user.name}/home`})
             }

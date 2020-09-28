@@ -17,13 +17,13 @@
         ></v-text-field>
       </v-row>
       <v-row>
-          <p v-if="cekSurvey ==[]">Tidak ada peserta survey</p>
+          <p v-if="cekInterview ==[]">Tidak ada peserta wawancara</p>
         <v-expansion-panels
           hover
           inset
         >
           <v-expansion-panel
-            v-for="(item,i) in cekSurvey"
+            v-for="(item,i) in cekInterview"
             :key="i"
           >
             <v-expansion-panel-header>
@@ -143,7 +143,7 @@
             dark
             class="green"
                 :loading="btnLoading"
-            @click="setSurvey"
+            @click="setInterview"
           >
             <v-icon left>mdi-check</v-icon>
             iya
@@ -158,24 +158,24 @@
 import { mapActions, mapMutations, mapState } from "vuex";
 export default {
   created() {
-    this.getCekSurvey();
+    this.getCekInterview();
 
   },
   methods: {
-    ...mapActions(["getCekSurvey"]),
+    ...mapActions(["getCekInterview"]),
     lulusButton(item) {
       this.dialog = true;
       this.id = item.id;
       this.bool = 1;
       this.msg =
-        "Apakah anda yakin bahwa pemohon <strong>lulus</strong> tahap survey?";
+        "Apakah anda yakin bahwa pemohon <strong>lulus</strong> tahap wawancara?";
     },
     tidakLulusButton(item) {
       this.dialog = true;
       this.id = item.id;
       this.bool = 0;
       this.msg =
-        "Apakah anda yakin bahwa pemohon <strong>tidak lulus</strong> tahap survey?";
+        "Apakah anda yakin bahwa pemohon <strong>tidak lulus</strong> tahap wawancara?";
     },
     link(url) {
       var a = this.url + "/" + url;
@@ -183,15 +183,15 @@ export default {
       console.log(link);
       location = link;
     },
-    setSurvey() {
+    setInterview() {
         this.btnLoading = true;
       axios
-        .put(`${this.url}/api/pemohon/set-survey`, {
+        .put(`${this.url}/api/pemohon/set-interview`, {
           bool: this.bool,
           id: this.id
         })
         .then(response => {
-          this.getCekSurvey();
+          this.getCekInterview();
           console.log(response.data);
           this.dialog = false;
           this.btnLoading = false;
@@ -199,7 +199,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["cekSurvey","url"])
+    ...mapState(["cekInterview","url"])
   },
   data() {
     return {

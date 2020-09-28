@@ -14,6 +14,6 @@ class Beasiswa extends Model
 
     public function pemohon()
     {
-        return $this->hasMany('App\PemohonMahasiswa','beasiswa_id');
+        return $this->hasMany('App\PemohonBeasiswa','beasiswa_id');
     }
 }
