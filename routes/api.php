@@ -46,6 +46,8 @@ Route::middleware('auth:petugas,sanctum')->put('/user/{id}','UserController@edit
 Route::middleware('auth:petugas')->get('/user','UserController@getAll');
 Route::middleware('auth:petugas,sanctum')->get('/user/{id}','UserController@get');
 Route::middleware('auth:petugas')->delete('/user/{id}','UserController@delete');
+Route::middleware('auth:petugas')->post('/user/import','UserController@import');
+
 Route::middleware('auth:petugas')->delete('/beasiswa/{id}','BeasiswaController@delete');
 Route::get('/pemohon/count-beasiswa', 'BeasiswaController@countBeasiswa');
 

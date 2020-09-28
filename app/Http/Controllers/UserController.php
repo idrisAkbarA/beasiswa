@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Imports\UserImport;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -25,6 +27,11 @@ class UserController extends Controller
     public function delete(Request $request, $id){
         $user = User::find($id);
         $user->delete();
-        return response()->json(['status'=>"Success: User Deleted"]);
+        return response()->json(['status'=>"Success: Mahasiswa Deleted"]);
+    }
+    public function import(Request $request)
+    {
+        Excel::import(new UserImport, $request->file('file'));
+        return response()->json(['status'=>"Success: Mahasiswa Added"]);
     }
 }

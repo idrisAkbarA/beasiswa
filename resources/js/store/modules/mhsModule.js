@@ -40,6 +40,15 @@ export default{
             Axios.delete(rootState.url+"/api/user/"+id).then(response=>{
               dispatch('getMahasiswa')
             })
+        },
+        importMahasiswa({commit,dispatch,rootState},data){
+            Axios.post(rootState.url+"/api/user/import",data,{
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }).then(response=>{
+              dispatch('getMahasiswa')
+            })
         }
      },
     getters: {  }
