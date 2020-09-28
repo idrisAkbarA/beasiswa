@@ -156,6 +156,11 @@ export default {
         title: "Petugas",
         to: `/${petugas}/petugas`,
       },
+      {
+        icon: "mdi-office-building",
+        title: "Instansi",
+        to: `/${petugas}/instansi`,
+      },
       ]
     }
   },

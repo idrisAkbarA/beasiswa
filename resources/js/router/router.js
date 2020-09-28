@@ -7,6 +7,7 @@ import Petugas from '../views/Petugas/Petugas.vue'
 import Dashboard from '../views/Petugas/Admin/Dashboard.vue'
 import Beasiswa from '../views/Petugas/Admin/Beasiswa.vue'
 import Permohonan from '../views/Petugas/Admin/Permohonan.vue'
+import Instansi from '../views/Petugas/Admin/Instansi.vue'
 import CekPermohonan from '../views/Petugas/Admin/CekPermohonan.vue'
 import Mahasiswa from '../views/Mahasiswa/Mahasiswa.vue'
 import MHSHome from '../views/Mahasiswa/Home.vue'
@@ -66,6 +67,12 @@ const routes = [
         path: "permohonan",
         component: Permohonan
       }, 
+      {
+        name: "Instansi",
+        path: "instansi",
+        component: Instansi
+      }, 
+
     ]
   },
   {
