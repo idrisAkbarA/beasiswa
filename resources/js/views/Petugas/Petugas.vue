@@ -192,6 +192,11 @@ export default {
           icon: "mdi-office-building",
           title: "Instansi",
           to: `/${petugas}/instansi`
+        },
+        {
+          icon: "mdi-account-supervisor-circle",
+          title: "Mahasiswa",
+          to: `/${petugas}/mahasiswa`
         }
       ];
     }

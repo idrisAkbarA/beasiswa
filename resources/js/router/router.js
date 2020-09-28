@@ -10,6 +10,7 @@ import Permohonan from '../views/Petugas/Admin/Permohonan.vue'
 import Instansi from '../views/Petugas/Admin/Instansi.vue'
 import Akun from '../views/Petugas/Admin/Akun.vue'
 import AkunPetugas from '../views/Petugas/Admin/AkunPetugas.vue'
+import KelolaMhs from '../views/Petugas/Admin/Mahasiswa.vue'
 import CekPermohonan from '../views/Petugas/Admin/CekPermohonan.vue'
 import Mahasiswa from '../views/Mahasiswa/Mahasiswa.vue'
 import MHSHome from '../views/Mahasiswa/Home.vue'
@@ -83,6 +84,11 @@ const routes = [
         name: "Akun",
         path: "akun",
         component: Akun
+      }, 
+      {
+        name: "Kelola Mahasiswa",
+        path: "mahasiswa",
+        component: KelolaMhs
       }, 
 
     ]
