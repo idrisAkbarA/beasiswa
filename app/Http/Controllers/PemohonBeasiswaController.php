@@ -66,11 +66,42 @@ class PemohonBeasiswaController extends Controller
     }
     public function cekInterview(){
         
-        $permohonan = PemohonBeasiswa::where("is_interview_passed",null)
+        $permohonan = PemohonBeasiswa::where("beasiswas.is_interview","=",1)
+                                    ->where("is_interview_passed",null)
                                     ->where("akhir_interview",">=",Carbon::now())
                                     ->join("beasiswas","beasiswas.id","=","pemohon_beasiswas.beasiswa_id")
                                     ->join("users","users.nim","=","pemohon_beasiswas.mhs_id")
                                     ->select(["pemohon_beasiswas.*","beasiswas.nama AS nama_beasiswa","beasiswas.akhir_interview","users.nama"])
+                                    ->get();
+        
+                                    
+        foreach ($permohonan as $key => $value) {
+            $value['form'] = json_decode($value['form']);
+        }
+        return $permohonan;
+    }
+    public function cekSurvey(){
+        
+        $permohonan = PemohonBeasiswa::where("beasiswas.is_survey","=",1)
+                                    ->where("is_survey_passed",null)
+                                    ->where("akhir_survey",">=",Carbon::now())
+                                    ->join("beasiswas","beasiswas.id","=","pemohon_beasiswas.beasiswa_id")
+                                    ->join("users","users.nim","=","pemohon_beasiswas.mhs_id")
+                                    ->select(["pemohon_beasiswas.*","beasiswas.nama AS nama_beasiswa","beasiswas.akhir_survey","users.nama"])
+                                    ->get();
+        
+                                    
+        foreach ($permohonan as $key => $value) {
+            $value['form'] = json_decode($value['form']);
+        }
+        return $permohonan;
+    }
+    public function cekSelection(){
+        
+        $permohonan = PemohonBeasiswa::where("is_selection_passed",null)
+                                    ->join("beasiswas","beasiswas.id","=","pemohon_beasiswas.beasiswa_id")
+                                    ->join("users","users.nim","=","pemohon_beasiswas.mhs_id")
+                                    ->select(["pemohon_beasiswas.*","beasiswas.nama AS nama_beasiswa","beasiswas.akhir_selection","users.nama"])
                                     ->get();
         
                                     
@@ -87,12 +118,28 @@ class PemohonBeasiswaController extends Controller
             'status' => 'Success: berkas set'
         ]);
     }
+    public function setSurvey(Request $request){
+        $permohonan = PemohonBeasiswa::find($request['id']);
+        $permohonan->is_Survey_passed = $request['bool'];
+        $permohonan->save();
+        return response()->json([
+            'status' => 'Success: Survey set'
+        ]);
+    }
     public function setInterview(Request $request){
         $permohonan = PemohonBeasiswa::find($request['id']);
         $permohonan->is_interview_passed = $request['bool'];
         $permohonan->save();
         return response()->json([
-            'status' => 'Success: berkas set'
+            'status' => 'Success: interview set'
+        ]);
+    }
+    public function setSelection(Request $request){
+        $permohonan = PemohonBeasiswa::find($request['id']);
+        $permohonan->is_selection_passed = $request['bool'];
+        $permohonan->save();
+        return response()->json([
+            'status' => 'Success: selection set'
         ]);
     }
     public function store(Request $request)
