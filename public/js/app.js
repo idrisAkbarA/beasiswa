@@ -3888,6 +3888,178 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({});
 
 /***/ }),
@@ -44226,7 +44398,608 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("h1", [_vm._v("\n    instansi\n")])
+  return _c(
+    "v-container",
+    [
+      _c(
+        "v-skeleton-loader",
+        {
+          attrs: {
+            type: "table",
+            loading: _vm.isTableLoading,
+            transition: "fade-transition"
+          }
+        },
+        [
+          _c("v-data-table", {
+            staticClass: "elevation-10 mb-10",
+            staticStyle: { "background-color": "#2e7d323b" },
+            attrs: {
+              headers: _vm.headers,
+              items: _vm.instansi,
+              "items-per-page": 10
+            },
+            scopedSlots: _vm._u([
+              {
+                key: "item.actions",
+                fn: function(ref) {
+                  var item = ref.item
+                  return [
+                    _c(
+                      "v-icon",
+                      {
+                        staticClass: "mr-2",
+                        attrs: { small: "" },
+                        on: {
+                          click: function($event) {
+                            return _vm.editItem(item)
+                          }
+                        }
+                      },
+                      [_vm._v("mdi-pencil")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-icon",
+                      {
+                        attrs: { small: "" },
+                        on: {
+                          click: function($event) {
+                            return _vm.deleteItem(item)
+                          }
+                        }
+                      },
+                      [_vm._v("mdi-delete")]
+                    )
+                  ]
+                }
+              },
+              {
+                key: "no-data",
+                fn: function() {
+                  return [_vm._v("no data")]
+                },
+                proxy: true
+              }
+            ])
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-bottom-sheet",
+        {
+          attrs: {
+            scrollable: "",
+            width: "60%",
+            inset: "",
+            "overlay-color": "#69F0AE"
+          },
+          model: {
+            value: _vm.toggleBeasiswa,
+            callback: function($$v) {
+              _vm.toggleBeasiswa = $$v
+            },
+            expression: "toggleBeasiswa"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            [
+              _c(
+                "v-card-title",
+                [
+                  _c("span", [_vm._v("Tambah Instansi")]),
+                  _vm._v(" "),
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { text: "" },
+                      on: {
+                        click: function($event) {
+                          return _vm.batal()
+                        }
+                      }
+                    },
+                    [_vm._v("batal")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "#2E7D32", loading: _vm.btnLoading },
+                      on: {
+                        click: function($event) {
+                          return _vm.save()
+                        }
+                      },
+                      model: {
+                        value: _vm.toggleBeasiswa,
+                        callback: function($$v) {
+                          _vm.toggleBeasiswa = $$v
+                        },
+                        expression: "toggleBeasiswa"
+                      }
+                    },
+                    [_vm._v("Simpan")]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-card-text",
+                { staticStyle: { height: "600px" } },
+                [
+                  _c(
+                    "v-row",
+                    { staticClass: "ml-1 mr-1", attrs: { dense: "" } },
+                    [
+                      _c(
+                        "v-col",
+                        [
+                          _c("v-text-field", {
+                            attrs: { color: "#C8E6C9", label: "Nama Beasiswa" },
+                            model: {
+                              value: _vm.nama,
+                              callback: function($$v) {
+                                _vm.nama = $$v
+                              },
+                              expression: "nama"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "transition-group",
+                    { attrs: { name: "scale-transition" } },
+                    _vm._l(_vm.fields, function(field) {
+                      return _c(
+                        "v-card",
+                        {
+                          key: field.index,
+                          staticClass: "mb-2",
+                          staticStyle: { "padding-bottom": "0 !important" },
+                          attrs: { elevation: "10", color: "#388E3C" }
+                        },
+                        [
+                          _c(
+                            "v-container",
+                            {
+                              staticStyle: { "padding-bottom": "0 !important" }
+                            },
+                            [
+                              _c(
+                                "v-row",
+                                {
+                                  staticStyle: {
+                                    "padding-bottom": "0 !important"
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "v-col",
+                                    {
+                                      staticStyle: {
+                                        "padding-bottom": "0 !important"
+                                      },
+                                      attrs: { cols: "7" }
+                                    },
+                                    [
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          color: "white",
+                                          dense: "",
+                                          label: "Pertanyaan"
+                                        },
+                                        model: {
+                                          value: field.pertanyaan,
+                                          callback: function($$v) {
+                                            _vm.$set(field, "pertanyaan", $$v)
+                                          },
+                                          expression: "field.pertanyaan"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-col",
+                                    {
+                                      staticStyle: {
+                                        "padding-bottom": "0 !important"
+                                      },
+                                      attrs: { cols: "5" }
+                                    },
+                                    [
+                                      _c("v-select", {
+                                        attrs: {
+                                          dense: "",
+                                          items: _vm.itemTypes,
+                                          label: "Tipe isian",
+                                          color: "white",
+                                          outlined: ""
+                                        },
+                                        model: {
+                                          value: field.type,
+                                          callback: function($$v) {
+                                            _vm.$set(field, "type", $$v)
+                                          },
+                                          expression: "field.type"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-row",
+                                [
+                                  _c(
+                                    "v-col",
+                                    {
+                                      staticStyle: {
+                                        "padding-bottom": "0 !important"
+                                      }
+                                    },
+                                    [
+                                      field.type == "Pilihan"
+                                        ? _c(
+                                            "v-radio-group",
+                                            {
+                                              attrs: {
+                                                column: "",
+                                                mandatory:
+                                                  field.pilihan.required
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "v-row",
+                                                { attrs: { align: "center" } },
+                                                [
+                                                  _c(
+                                                    "span",
+                                                    {
+                                                      staticClass: "ml-2 mr-1"
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "Pilihan wajib diisi"
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c("v-switch", {
+                                                    attrs: { color: "white" },
+                                                    model: {
+                                                      value:
+                                                        field.pilihan.required,
+                                                      callback: function($$v) {
+                                                        _vm.$set(
+                                                          field.pilihan,
+                                                          "required",
+                                                          $$v
+                                                        )
+                                                      },
+                                                      expression:
+                                                        "field.pilihan.required"
+                                                    }
+                                                  })
+                                                ],
+                                                1
+                                              ),
+                                              _vm._v(" "),
+                                              _vm._l(
+                                                field.pilihan.items,
+                                                function(item, index) {
+                                                  return _c("v-radio", {
+                                                    key: index,
+                                                    attrs: {
+                                                      value: item.label,
+                                                      color: "white"
+                                                    },
+                                                    scopedSlots: _vm._u(
+                                                      [
+                                                        {
+                                                          key: "label",
+                                                          fn: function() {
+                                                            return [
+                                                              _c(
+                                                                "v-row",
+                                                                {
+                                                                  attrs: {
+                                                                    align:
+                                                                      "center"
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _c(
+                                                                    "v-text-field",
+                                                                    {
+                                                                      staticClass:
+                                                                        "ma-2",
+                                                                      attrs: {
+                                                                        color:
+                                                                          "white",
+                                                                        dense:
+                                                                          "",
+                                                                        filled:
+                                                                          "",
+                                                                        label:
+                                                                          "Label"
+                                                                      },
+                                                                      model: {
+                                                                        value:
+                                                                          item.label,
+                                                                        callback: function(
+                                                                          $$v
+                                                                        ) {
+                                                                          _vm.$set(
+                                                                            item,
+                                                                            "label",
+                                                                            $$v
+                                                                          )
+                                                                        },
+                                                                        expression:
+                                                                          "item.label"
+                                                                      }
+                                                                    }
+                                                                  ),
+                                                                  _vm._v(" "),
+                                                                  _c(
+                                                                    "v-btn",
+                                                                    {
+                                                                      staticClass:
+                                                                        "ma-2",
+                                                                      attrs: {
+                                                                        icon:
+                                                                          "",
+                                                                        color:
+                                                                          "white"
+                                                                      },
+                                                                      on: {
+                                                                        click: function(
+                                                                          $event
+                                                                        ) {
+                                                                          return _vm.deletePilihanItem(
+                                                                            field,
+                                                                            item.label
+                                                                          )
+                                                                        }
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _c(
+                                                                        "v-icon",
+                                                                        [
+                                                                          _vm._v(
+                                                                            "mdi-close"
+                                                                          )
+                                                                        ]
+                                                                      )
+                                                                    ],
+                                                                    1
+                                                                  )
+                                                                ],
+                                                                1
+                                                              )
+                                                            ]
+                                                          },
+                                                          proxy: true
+                                                        }
+                                                      ],
+                                                      null,
+                                                      true
+                                                    )
+                                                  })
+                                                }
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-btn",
+                                                {
+                                                  staticClass:
+                                                    "mt-2 grey darken-3",
+                                                  attrs: {
+                                                    fab: "",
+                                                    dark: "",
+                                                    small: ""
+                                                  },
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.addPilihanItem(
+                                                        field.index
+                                                      )
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _c(
+                                                    "v-icon",
+                                                    { attrs: { dark: "" } },
+                                                    [_vm._v("mdi-plus")]
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                            ],
+                                            2
+                                          )
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      field.type == "Jawaban Pendek"
+                                        ? _c("v-text-field", {
+                                            attrs: {
+                                              "prepend-icon": "mdi-text-short",
+                                              dense: "",
+                                              disabled: "",
+                                              filled: "",
+                                              placeholder: "Jawaban Pendek"
+                                            }
+                                          })
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      field.type == "Jawaban Angka"
+                                        ? _c("v-text-field", {
+                                            attrs: {
+                                              "prepend-icon": "mdi-numeric",
+                                              dense: "",
+                                              disabled: "",
+                                              filled: "",
+                                              type: "number",
+                                              placeholder: "Jawaban Angka"
+                                            }
+                                          })
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      field.type == "Tanggal"
+                                        ? _c("v-text-field", {
+                                            attrs: {
+                                              "prepend-icon": "mdi-calendar",
+                                              dense: "",
+                                              disabled: "",
+                                              filled: "",
+                                              label: "Tanggal"
+                                            }
+                                          })
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      field.type == "Upload File"
+                                        ? _c("v-file-input", {
+                                            attrs: {
+                                              dense: "",
+                                              disabled: "",
+                                              filled: "",
+                                              placeholder: "Upload File"
+                                            }
+                                          })
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      field.type == "Paragraf"
+                                        ? _c("v-textarea", {
+                                            attrs: {
+                                              "prepend-icon":
+                                                "mdi-view-headline",
+                                              color: "white",
+                                              rows: "1",
+                                              disabled: "",
+                                              filled: "",
+                                              dense: "",
+                                              label: "Paragraf"
+                                            }
+                                          })
+                                        : _vm._e()
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-row",
+                                {
+                                  staticClass: "mb-2",
+                                  attrs: { align: "center", justify: "end" }
+                                },
+                                [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: { icon: "", color: "white" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.deleteField(field)
+                                        }
+                                      }
+                                    },
+                                    [_c("v-icon", [_vm._v("mdi-trash-can")])],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c("span", { staticClass: "ml-2 mr-1" }, [
+                                    _vm._v("Wajib diisi")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("v-switch", {
+                                    attrs: { color: "white" },
+                                    model: {
+                                      value: field.required,
+                                      callback: function($$v) {
+                                        _vm.$set(field, "required", $$v)
+                                      },
+                                      expression: "field.required"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    }),
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-row",
+                    { attrs: { justify: "center" } },
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          staticClass: "mt-2",
+                          attrs: {
+                            fab: "",
+                            dark: "",
+                            small: "",
+                            color: "green"
+                          },
+                          on: {
+                            click: function($event) {
+                              return _vm.addField()
+                            }
+                          }
+                        },
+                        [
+                          _c("v-icon", { attrs: { dark: "" } }, [
+                            _vm._v("mdi-plus")
+                          ])
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -104925,7 +105698,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_Petugas_Admin_Beasiswa_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/Petugas/Admin/Beasiswa.vue */ "./resources/js/views/Petugas/Admin/Beasiswa.vue");
 /* harmony import */ var _views_Petugas_Admin_Permohonan_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/Petugas/Admin/Permohonan.vue */ "./resources/js/views/Petugas/Admin/Permohonan.vue");
 /* harmony import */ var _views_Petugas_Admin_Instansi_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/Petugas/Admin/Instansi.vue */ "./resources/js/views/Petugas/Admin/Instansi.vue");
-/* harmony import */ var _views_Petugas_Admin_Akun_vue__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../views/Petugas/Admin/Akun.vue */ "./resources/js/views/Petugas/Admin/Akun.vue");
+/* harmony import */ var _views_Petugas_Admin_Akun_vue__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../views/Petugas/Admin/Akun.vue */ "./resources/js/views/Petugas/Admin/Akun.vue");
 /* harmony import */ var _views_Petugas_Admin_AkunPetugas_vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../views/Petugas/Admin/AkunPetugas.vue */ "./resources/js/views/Petugas/Admin/AkunPetugas.vue");
 /* harmony import */ var _views_Petugas_Admin_CekPermohonan_vue__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../views/Petugas/Admin/CekPermohonan.vue */ "./resources/js/views/Petugas/Admin/CekPermohonan.vue");
 /* harmony import */ var _views_Mahasiswa_Mahasiswa_vue__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../views/Mahasiswa/Mahasiswa.vue */ "./resources/js/views/Mahasiswa/Mahasiswa.vue");
@@ -105002,7 +105775,7 @@ var routes = [{
   }, {
     name: "Akun",
     path: "akun",
-    component: _views_Petugas_Admin_Akun_vue__WEBPACK_IMPORTED_MODULE_10__["default"]
+    component: _views_Petugas_Admin_Akun_vue__WEBPACK_IMPORTED_MODULE_16__["default"]
   }]
 }, {
   path: '/mahasiswa/',
@@ -106395,8 +107168,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\pemrograman\APK\Web-Root\beasiswa\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\pemrograman\APK\Web-Root\beasiswa\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! A:\Programming\Web-Root\beasiswa\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! A:\Programming\Web-Root\beasiswa\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
