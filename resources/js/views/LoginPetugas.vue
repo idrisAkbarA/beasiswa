@@ -58,9 +58,18 @@ export default {
             console.log(response.data)
             if(response.data.user.role==1){
               this.$router.push({ path: `/${response.data.user.name}/dashboard`})
-            }else if(response.data.user.role==2){
+            }
+            else if(response.data.user.role==2){
               console.log("interviewer")
               this.$router.push({ path: `/interviewer/${response.data.user.name}/home`})
+            }
+            else if(response.data.user.role==3){
+              console.log("interviewer")
+              this.$router.push({ path: `/surveyor/${response.data.user.name}/home`})
+            }
+            else if(response.data.user.role==2){
+              console.log("interviewer")
+              this.$router.push({ path: `/petinggi/${response.data.user.name}/home`})
             }
           })
         })

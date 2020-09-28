@@ -5,7 +5,7 @@
         <v-card :height="100*1.2" :width="200*1.2">
           <v-img
             gradient="to top right, rgba(58, 231, 87, 0.33), rgba(25,32,72,.7)"
-            :src="'https://picsum.photos/200/100?random='"
+            :src="'https://picsum.photos/200/100?random=1'"
           >
             <v-card-title>
               <span class="body 2">Belum Interview</span>
@@ -20,7 +20,7 @@
         <v-card :height="100*1.2" :width="200*1.2">
           <v-img
             gradient="to top right, rgba(58, 231, 87, 0.33), rgba(25,32,72,.7)"
-            :src="'https://picsum.photos/200/100?random='"
+            :src="'https://picsum.photos/200/100?random=2'"
           >
             <v-card-title>
               <span class="body 2">Belum Cek Berkas</span>
@@ -35,7 +35,7 @@
         <v-card :height="100*1.2" :width="200*1.2">
           <v-img
             gradient="to top right, rgba(58, 231, 87, 0.33), rgba(25,32,72,.7)"
-            :src="'https://picsum.photos/200/100?random='"
+            :src="'https://picsum.photos/200/100?random=3'"
           >
             <v-card-title>
               <span class="body 2">Lulus Seleksi</span>
@@ -50,7 +50,7 @@
         <v-card :height="100*1.2" :width="200*1.2">
           <v-img
             gradient="to top right, rgba(58, 231, 87, 0.33), rgba(25,32,72,.7)"
-            :src="'https://picsum.photos/200/100?random='"
+            :src="'https://picsum.photos/200/100?random=4'"
           >
             <v-card-title>
               <span class="body 2">Beasiswa</span>

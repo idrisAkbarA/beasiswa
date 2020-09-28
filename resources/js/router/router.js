@@ -19,6 +19,9 @@ import MHSBeasiswa from '../views/Mahasiswa/Beasiswa.vue'
 
 import Interviewer from '../views/Petugas/Interviewer/Interviewer.vue'
 import InterviewerHome from '../views/Petugas/Interviewer/Home.vue'
+
+import Surveyor from '../views/Petugas/Surveyor/Surveyor.vue'
+import SurveyorHome from '../views/Petugas/Surveyor/Home.vue'
 // import Login from '../views/Login.vue'
 // import Loket from '../views/Loket.vue'
 // import Dashboard from '../views/Dashboard.vue'
@@ -122,10 +125,16 @@ const routes = [
         path: "home",
         component: InterviewerHome
       }, 
+    ]
+  },
+  {
+    path: '/surveyor/:petugas',
+    component: Surveyor,
+    children: [
       {
-        name: "Daftar Beasiswa",
-        path: "daftar-beasiswa/:id",
-        component: MHSBeasiswa
+        name: "Home",
+        path: "home",
+        component: SurveyorHome
       }, 
     ]
   },

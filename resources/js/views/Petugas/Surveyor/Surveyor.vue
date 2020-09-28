@@ -22,7 +22,7 @@
               App Beasiswa
             </span>
             <!-- Change this automaticly later usig VUEX -->
-            <span> | Wawancara</span>
+            <span> | Survey</span>
           </v-toolbar-title>
         </div>
         <v-btn
