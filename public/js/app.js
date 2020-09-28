@@ -3828,12 +3828,63 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
     this.getInstansi();
   },
-  methods: _objectSpread(_objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(["toggleOpenBeasiswa"])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getBeasiswa", "getInstansi", "storeInstansi"])), {}, {
+  methods: _objectSpread(_objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(["toggleOpenBeasiswa"])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getBeasiswa", "getInstansi", "storeInstansi", "deleteInstansi", "editInstansi"])), {}, {
     save: function save() {
       var _this = this;
 
@@ -3847,6 +3898,50 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this.toggleInstansi = false;
       })["catch"](function (error) {
         _this.btnLoading = false;
+      });
+    },
+    batal: function batal() {
+      this.toggleInstansi = false;
+    },
+    batalDelete: function batalDelete() {
+      this.dialogDelete = false;
+    },
+    deleteItem: function deleteItem(item) {
+      this.dialogDelete = true;
+      this.id = item.id;
+    },
+    deleteConfirmed: function deleteConfirmed() {
+      var _this2 = this;
+
+      this.btnLoading = true;
+      this.deleteInstansi(this.id).then(function (response) {
+        _this2.btnLoading = false;
+        _this2.toggleInstansi = false;
+      })["catch"](function (error) {
+        _this2.btnLoading = false;
+      });
+    },
+    editItem: function editItem(item) {
+      this.toggleInstansiEdit = true;
+      this.nameEdit = item.name;
+      this.idEdit = item.id;
+    },
+    batalEdit: function batalEdit() {
+      this.toggleInstansiEdit = false;
+    },
+    saveEdit: function saveEdit() {
+      var _this3 = this;
+
+      var data = {
+        id: this.idEdit,
+        name: this.nameEdit
+      };
+      this.btnLoading = true;
+      this.editInstansi(data).then(function (response) {
+        _this3.btnLoading = false;
+        _this3.toggleInstansi = false;
+      })["catch"](function (error) {
+        _this3.btnLoading = false;
       });
     }
   }),
@@ -3863,8 +3958,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   data: function data() {
     return {
       btnLoading: false,
+      id: "",
       name: "",
+      nameEdit: "",
+      idEdit: "",
       sheet: false,
+      toggleInstansiEdit: false,
+      dialogDelete: false,
       headers: [{
         text: "Nama Instansi",
         align: "start",
@@ -44192,6 +44292,194 @@ var render = function() {
                               expression: "name"
                             }
                           })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-bottom-sheet",
+        {
+          attrs: {
+            scrollable: "",
+            width: "60%",
+            inset: "",
+            "overlay-color": "#69F0AE"
+          },
+          model: {
+            value: _vm.toggleInstansiEdit,
+            callback: function($$v) {
+              _vm.toggleInstansiEdit = $$v
+            },
+            expression: "toggleInstansiEdit"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            [
+              _c(
+                "v-card-title",
+                [
+                  _c("span", [_vm._v("Edit Instansi")]),
+                  _vm._v(" "),
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { text: "" },
+                      on: {
+                        click: function($event) {
+                          return _vm.batalEdit()
+                        }
+                      }
+                    },
+                    [_vm._v("batal")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "#2E7D32", loading: _vm.btnLoading },
+                      on: {
+                        click: function($event) {
+                          return _vm.saveEdit()
+                        }
+                      }
+                    },
+                    [_vm._v("Simpan")]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-card-text",
+                { staticStyle: { height: "600px" } },
+                [
+                  _c(
+                    "v-row",
+                    { staticClass: "ml-1 mr-1", attrs: { dense: "" } },
+                    [
+                      _c(
+                        "v-col",
+                        [
+                          _c("v-text-field", {
+                            attrs: { color: "#C8E6C9", label: "Nama Instansi" },
+                            model: {
+                              value: _vm.nameEdit,
+                              callback: function($$v) {
+                                _vm.nameEdit = $$v
+                              },
+                              expression: "nameEdit"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "text-center" },
+        [
+          _c(
+            "v-dialog",
+            {
+              attrs: { width: "400" },
+              model: {
+                value: _vm.dialogDelete,
+                callback: function($$v) {
+                  _vm.dialogDelete = $$v
+                },
+                expression: "dialogDelete"
+              }
+            },
+            [
+              _c(
+                "v-card",
+                [
+                  _c(
+                    "v-card-title",
+                    {
+                      staticClass: "headline white--text",
+                      attrs: { "primary-title": "" }
+                    },
+                    [
+                      _c(
+                        "v-icon",
+                        { staticClass: "mr-2", attrs: { color: "white" } },
+                        [_vm._v("delete")]
+                      ),
+                      _vm._v("Hapus Instansi\n        ")
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("v-card-text", { staticClass: "mt-2 white--text" }, [
+                    _vm._v(
+                      "\n          Apakah anda yakin akan menghapus Instansi\n          "
+                    ),
+                    _c("span", { staticClass: "font-weight-bold" }),
+                    _vm._v("?\n        ")
+                  ]),
+                  _vm._v(" "),
+                  _c("v-divider"),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-actions",
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "white", text: "" },
+                          on: {
+                            click: function($event) {
+                              return _vm.batalDelete()
+                            }
+                          }
+                        },
+                        [_vm._v("batal")]
+                      ),
+                      _vm._v(" "),
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "red", dark: "" },
+                          on: {
+                            click: function($event) {
+                              ;(_vm.dialogDelete = false), _vm.deleteConfirmed()
+                            }
+                          }
+                        },
+                        [
+                          _c("v-icon", [_vm._v("delete")]),
+                          _vm._v("Hapus\n          ")
                         ],
                         1
                       )
@@ -105170,11 +105458,13 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         dispatch('getInstansi');
       });
     },
-    editInstansi: function editInstansi(_ref9, id, data) {
+    editInstansi: function editInstansi(_ref9, data) {
       var commit = _ref9.commit,
           dispatch = _ref9.dispatch,
           state = _ref9.state;
-      axios__WEBPACK_IMPORTED_MODULE_2___default.a.put(state.url + "/api/instansi/" + id).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.put(state.url + "/api/instansi/" + data.id, {
+        name: data.name
+      }).then(function (response) {
         dispatch('getInstansi');
       });
     }

@@ -118,8 +118,8 @@ export default new Vuex.Store({
         dispatch('getInstansi')
       })
     },
-    editInstansi({commit,dispatch,state},id,data){
-      Axios.put(state.url+"/api/instansi/"+id).then(response=>{
+    editInstansi({commit,dispatch,state},data){
+      Axios.put(state.url+"/api/instansi/"+data.id,{name:data.name}).then(response=>{
         dispatch('getInstansi')
       })
     },
