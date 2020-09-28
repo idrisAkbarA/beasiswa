@@ -5,6 +5,7 @@
       type="table"
       transition="fade-transition"
     >
+
       <v-data-table
         :headers="headers"
         :items="akunPetugas"
@@ -173,6 +174,7 @@
           </p>
         </v-card-title>
         <v-card-actions>
+
           <v-btn
             text
             @click="dialog = false"
@@ -200,22 +202,7 @@ export default {
     this.getAkunPetugas();
   },
   computed: {
-    ...mapState([
-      "nim",
-      "url",
-      "isOpenBeasiswa",
-      "isTableLoading",
-      "akunPetugas"
-    ]),
-    // ...mapState(["beasiswa", "isOpenBeasiswa", "instansi","isTableLoading","isLoading"]),
-    toggleAkunPetugas: {
-      get: function() {
-        return this.isOpenBeasiswa;
-      },
-      set: function(data) {
-        this.toggleOpenBeasiswa(data);
-      }
-    }
+    ...mapState(["nim", "url", "isTableLoading", "akunPetugas"])
   },
   methods: {
     ...mapMutations(["toggleOpenBeasiswa"]),
