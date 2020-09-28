@@ -85,16 +85,26 @@ export default new Vuex.Store({
 
       })
     },
-    storeInstansi({commit,dispatch,state},data){
+    storeAkunPetugas({commit,dispatch,state},data){
       return new Promise((resolve,reject)=>{
-        Axios.post(state.url+"/api/instansi",{data}).then(response=>{
-          dispatch('getInstansi')
+        Axios.post(state.url+"/api/petugas",data).then(response=>{
+          dispatch('getAkunPetugas')
           resolve(response)
         }).catch(error=>{
           reject(error)
         })
       })
       
+    },
+    editAkunPetugas({commit,dispatch,state},data){
+      return new Promise((resolve,reject)=>{
+        console.log(data)
+      Axios.put(state.url+"/api/petugas/"+data.id,{ name: data.name, password: data.password, role: data.role}).then(response=>{
+        dispatch('getAkunPetugas')
+        resolve(response)
+      }).catch(error=>{
+        reject(error)
+      })})
     },
     storeBeasiswa({commit,dispatch,state},data){
       return new Promise((resolve,reject)=>{

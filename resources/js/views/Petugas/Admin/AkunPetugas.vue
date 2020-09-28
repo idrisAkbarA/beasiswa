@@ -16,7 +16,7 @@
           <v-icon
             small
             class="mr-2"
-            @click="editItem(item)"
+            @click="edit(item)"
           >
             mdi-pencil
           </v-icon>
@@ -28,7 +28,16 @@
           </v-icon>
         </template>
         <template v-slot:item.role="{ item }">
-          <v-chip color="green">
+          <v-chip v-if="item.role==1" color="red">
+            {{ convertRole(item.role) }}
+          </v-chip>
+          <v-chip v-if="item.role==2" color="green">
+            {{ convertRole(item.role) }}
+          </v-chip>
+          <v-chip v-if="item.role==3" color="blue">
+            {{ convertRole(item.role) }}
+          </v-chip>
+          <v-chip v-if="item.role==4" color="orange">
             {{ convertRole(item.role) }}
           </v-chip>
         </template>
@@ -42,21 +51,20 @@
       width="60%"
       inset
       overlay-color="#69F0AE"
-      v-model="toggleAkunPetugas"
+      v-model="toggleEdit"
     >
       <v-card>
-        <v-card-title> <span>Tambah Petugas</span>
+        <v-card-title> <span>Edit Petugas</span>
           <v-spacer></v-spacer>
           <v-btn
             @click="tidakLulusButton"
             text
-          >Tidak Lulus</v-btn>
+          >Batal</v-btn>
           <v-btn
             color="#2E7D32"
             :loading="btnLoading"
-            v-model="openSheet"
-            @click="lulusButton"
-          >Lulus</v-btn>
+            @click="storeEdit"
+          >Simpan</v-btn>
         </v-card-title>
         <v-card-text>
           <v-row class="ma-5">
@@ -64,6 +72,7 @@
               <v-text-field
                 color="white"
                 label="Username"
+                v-model="editItem.name"
               >
               </v-text-field>
             </v-col>
@@ -73,6 +82,8 @@
                 color="white"
                 :items="role"
                 item-text="role"
+                item-value="id"
+                v-model="editItem.role"
               ></v-select>
             </v-col>
             <v-col cols="4" xs="12">
@@ -80,6 +91,9 @@
                 color="white"
                 label="Password"
                 type="password"
+                hint="Isi untuk ganti password"
+                persistent-hint
+                v-model="editItem.password"
                 >
 
                 </v-text-field>
@@ -89,12 +103,13 @@
         </v-card-text>
       </v-card>
     </v-bottom-sheet>
+
     <v-bottom-sheet
       scrollable
       width="60%"
       inset
       overlay-color="#69F0AE"
-      v-model="toggleEdit"
+      v-model="toggleAkunPetugas"
     >
       <v-card>
         <v-card-title> <span>Tambah Petugas</span>
@@ -102,7 +117,7 @@
           <v-btn
             @click="tidakLulusButton"
             text
-          >Tidak Lulus</v-btn>
+          >Batal</v-btn>
           <v-btn
             color="#2E7D32"
             :loading="btnLoading"
@@ -126,6 +141,8 @@
                 color="white"
                 :items="role"
                 item-text="role"
+                item-value="id"
+                v-model="storeItem.role"
               ></v-select>
             </v-col>
             <v-col cols="4" xs="12">
@@ -202,10 +219,28 @@ export default {
   },
   methods: {
     ...mapMutations(["toggleOpenBeasiswa"]),
-    ...mapActions(["getAkunPetugas","storeAkunPetugas"]),
+    ...mapActions(["getAkunPetugas","storeAkunPetugas","editAkunPetugas"]),
+    edit(item){
+        this.toggleEdit = true;
+        this.editItem.name = item.name;
+        this.editItem.role = item.role;
+        this.editItem.id = item.id;
+    },
+    storeEdit(){
+        var data={
+            name: this.editItem.name,
+            password: this.editItem.password,
+            role: this.editItem.role
+        }
+        this.editAkunPetugas(this.editItem).then(response=>{
+            console.log(response.data)
+        })
+    },
     store(){
- 
-        this.storeAkunPetugas(data)
+        console.log(this.storeItem)
+        this.storeAkunPetugas(this.storeItem).then(response=>{
+            this.storeItem = {};
+        })
     },
     convertRole(role) {
       if (role == 1) {
@@ -221,8 +256,13 @@ export default {
   },
   data() {
     return {
+        editItem:{
+            name:"",
+            role:"",
+            password:""
+        },
         storeItem:{
-            nama:"",
+            name:"",
             role:"",
             password:""
         },
@@ -232,6 +272,7 @@ export default {
             {id:3,role:"Surveyor"},
             {id:4,role:"Petinggi"},
         ],
+        toggleEdit:false,
       sheetMsg: "",
       lulusButton: false,
       tidakLulusButton: false,
