@@ -176,6 +176,7 @@ export default {
             this.getCekBerkas();
           console.log(response.data);
           this.dialog = false;
+          this.openSheet=false
         });
     }
   },

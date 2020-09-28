@@ -129,7 +129,7 @@ export default {
         icon: "mdi-account",
         title: "Akun",
         subtitle: `${this.$route.params.petugas}`, // change this dynamicly later
-        to: `/${petugas}/account`,
+        to: `/${petugas}/akun`,
       },
       {
         icon: "mdi-view-dashboard",
@@ -161,6 +161,7 @@ export default {
         title: "Instansi",
         to: `/${petugas}/instansi`,
       },
+      
       ]
     }
   },
