@@ -5527,7 +5527,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       document.getElementById('upload').click();
     },
     downloadTemplate: function downloadTemplate() {
-      location = this.url + "/template/UserMahasiswa.xlxs";
+      location = this.url + "/api/user/export";
     }
   }),
   computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["url", "isOpenBeasiswa", "mhs", "isTableLoading", "isLoading"])), {}, {
@@ -11489,7 +11489,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.fab[data-v-0f4b97e0] {\r\n  color: #2e7d323b;\r\n  position: fixed;\r\n  bottom: 20px;\r\n  right: 20px;\n}\n.floating[data-v-0f4b97e0] {\r\n  width: 100%;\r\n  position: fixed;\r\n  bottom: 20px;\r\n  z-index: 10;\n}\r\n", ""]);
+exports.push([module.i, "\n.fab[data-v-0f4b97e0] {\n  color: #2e7d323b;\n  position: fixed;\n  bottom: 20px;\n  right: 20px;\n}\n.floating[data-v-0f4b97e0] {\n  width: 100%;\n  position: fixed;\n  bottom: 20px;\n  z-index: 10;\n}\n", ""]);
 
 // exports
 
@@ -11546,7 +11546,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.area[data-v-310c26ee] {\r\n  width: 70%;\r\n  margin: auto;\r\n  position: absolute;\r\n  height: 100%;\r\n  background: white;\n}\r\n", ""]);
+exports.push([module.i, "\n.area[data-v-310c26ee] {\n  width: 70%;\n  margin: auto;\n  position: absolute;\n  height: 100%;\n  background: white;\n}\n", ""]);
 
 // exports
 
@@ -49687,7 +49687,8 @@ var render = function() {
                                             },
                                             [
                                               _c("i", {
-                                                staticClass: "mdi mdi-download"
+                                                staticClass:
+                                                  "mdi mdi-download mr-2"
                                               }),
                                               _vm._v(
                                                 " Download template excel kosong"
@@ -49857,7 +49858,7 @@ var render = function() {
                                             [
                                               _c("i", {
                                                 staticClass:
-                                                  "mdi mdi-attachment"
+                                                  "mdi mdi-attachment mr-2"
                                               }),
                                               _vm._v(" Lampirkan file excel")
                                             ]
@@ -115255,8 +115256,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! A:\Programming\Web-Root\beasiswa\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! A:\Programming\Web-Root\beasiswa\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\beasiswa\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\beasiswa\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

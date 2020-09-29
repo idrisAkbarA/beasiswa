@@ -34,4 +34,12 @@ class UserController extends Controller
         Excel::import(new UserImport, $request->file('file'));
         return response()->json(['status'=>"Success: Mahasiswa Added"]);
     }
+    public function export()
+    {
+        $file= public_path() . "/template/UserMahasiswa.xlsx";
+        $headers = [
+              'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+           ];
+        return response()->download($file, 'UserMahasiswa.xlsx', $headers);
+    }
 }
