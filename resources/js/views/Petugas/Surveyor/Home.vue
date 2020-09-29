@@ -223,6 +223,9 @@ export default {
 </script>
 
 <style scoped>
+a {
+  text-decoration: none !important;
+}
 .area {
   width: 70%;
   margin: auto;

@@ -25,9 +25,21 @@
       </v-row>
       <v-list dense>
         <!-- :to="page.to" -->
+        <v-list-item v-if="$route.name!='List Beasiswa'"
+          exact
+          @click="goback"
+        >
+          <v-list-item-action>
+            <v-icon>mdi-keyboard-backspace</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>kembali</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
         <v-list-item
           router
           exact
+          @click="goToPermohonan"
         >
           <v-list-item-action>
             <v-icon>mdi-text</v-icon>
@@ -42,6 +54,7 @@
     <v-app-bar
       app
       dense
+      style="z-index:5"
     >
       <v-app-bar-nav-icon
         class="hidden-lg-and-up"
@@ -86,6 +99,12 @@ export default {
 
     },
   methods: {
+    goback(){
+      this.$router.push({name:"List Beasiswa"})
+    },
+    goToPermohonan(){
+      this.$router.push({name:"Permohonan Saya"})
+    },
     logout() {
       axios
         .get("http://beasiswa.test/api/logout", {
@@ -113,5 +132,8 @@ export default {
 .bg-pattern {
   background: url("/pattern.svg") repeat;
   background-size: 400px;
+}
+a {
+  text-decoration: none !important;
 }
 </style>

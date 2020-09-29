@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Beasiswa;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 class BeasiswaController extends Controller
-{
+{ 
+
     public function getAll(){
         return response()->json( Beasiswa::all());
     }
