@@ -6160,23 +6160,93 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
     this.getBeasiswa();
   },
-  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getBeasiswa"])), {}, {
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getBeasiswa", "deleteBeasiswa"])), {}, {
     lulus: function lulus(item) {
-      var data = [];
-      data.id = item.id;
-      data.bool = item.is_selection_passed == 1 ? 0 : 1;
-      axios.put(this.url + "/pemohon/set-interview", data);
+      var _this = this;
+
+      this.btnLoading = true;
+      axios.put("".concat(this.url, "/api/pemohon/set-selection"), {
+        bool: item.is_selection_passed == 1 ? 0 : 1,
+        id: item.id
+      }).then(function (response) {
+        if (!response.data.status) {
+          _this.snackbar = {
+            show: true,
+            color: "red",
+            message: "Kuota beasiswa sudah penuh!"
+          };
+        } else {
+          _this.getBeasiswa();
+        }
+
+        _this.btnLoading = false;
+      });
     },
-    tidakLulusButton: function tidakLulusButton(item) {
-      this.dialog = true;
-      this.id = item.id;
-      this.bool = 0;
-      this.msg = "Apakah anda yakin bahwa pemohon <strong>tidak lulus</strong> tahap wawancara?";
+    tutup: function tutup(item) {
+      var _this2 = this;
+
+      this.btnLoading = true;
+      this.deleteBeasiswa(item.id).then(function (response) {
+        _this2.btnLoading = false;
+        _this2.snackbar = {
+          show: true,
+          color: "blue",
+          message: "Beasiswa telah ditutup!"
+        };
+        getBeasiswa();
+      })["catch"](function (error) {
+        _this2.btnLoading = false;
+      });
     },
     link: function link(url) {
       var a = this.url + "/" + url;
@@ -6189,10 +6259,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   data: function data() {
     return {
       btnLoading: false,
-      dialog: false,
-      msg: "",
-      bool: 0,
-      id: 0,
+      snackbar: {
+        show: false
+      },
       headers: [{
         text: "Nama Instansi",
         align: "start",
@@ -11392,7 +11461,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.fab[data-v-0f4b97e0] {\r\n  color: #2e7d323b;\r\n  position: fixed;\r\n  bottom: 20px;\r\n  right: 20px;\n}\n.floating[data-v-0f4b97e0] {\r\n  width: 100%;\r\n  position: fixed;\r\n  bottom: 20px;\r\n  z-index: 10;\n}\r\n", ""]);
+exports.push([module.i, "\n.fab[data-v-0f4b97e0] {\n  color: #2e7d323b;\n  position: fixed;\n  bottom: 20px;\n  right: 20px;\n}\n.floating[data-v-0f4b97e0] {\n  width: 100%;\n  position: fixed;\n  bottom: 20px;\n  z-index: 10;\n}\n", ""]);
 
 // exports
 
@@ -11449,7 +11518,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.area[data-v-310c26ee] {\r\n  width: 70%;\r\n  margin: auto;\r\n  position: absolute;\r\n  height: 100%;\r\n  background: white;\n}\r\n", ""]);
+exports.push([module.i, "\n.area[data-v-310c26ee] {\n  width: 70%;\n  margin: auto;\n  position: absolute;\n  height: 100%;\n  background: white;\n}\n", ""]);
 
 // exports
 
@@ -11487,7 +11556,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.slide-fade-enter-active[data-v-edc1cd70] {\r\n  transition: all 0.2s ease-out;\n}\n.slide-fade-leave-active[data-v-edc1cd70] {\r\n  transition: all 0.2s ease-in;\n}\n.slide-fade-enter[data-v-edc1cd70]\r\n/* .slide-fade-leave-active below version 2.1.8 */ {\r\n  transform: scale(1.1);\r\n\r\n  opacity: 0;\n}\n.slide-fade-leave-to[data-v-edc1cd70]\r\n/* .slide-fade-leave-active below version 2.1.8 */ {\r\n  transform: scale(0.9);\r\n\r\n  opacity: 0;\n}\r\n/* The emerging W3C standard\r\n   that is currently Firefox-only */\n*[data-v-edc1cd70]::-webkit-scrollbar {\r\n  width: 7px;\r\n\r\n  margin: 10px;\r\n  -webkit-transition: 1s ease;\r\n  transition: 1s ease;\n}\r\n\r\n/* Track */\n*[data-v-edc1cd70]::-webkit-scrollbar-track {\r\n  background: transparent;\r\n  /* background: #F9F9F9; */\r\n\r\n  margin: 10px;\n}\r\n\r\n/* Handle */\n*[data-v-edc1cd70]::-webkit-scrollbar-thumb {\r\n  -webkit-transition: 1s ease;\r\n  transition: 1s ease;\r\n  background: #f79593;\r\n  opacity: 0.5;\r\n  border-radius: 25px;\r\n\r\n  margin: 10px;\n}\r\n\r\n/* Handle on hover */\n*[data-v-edc1cd70]::-webkit-scrollbar-thumb:hover {\r\n  -webkit-transition: 1s ease;\r\n  transition: 1s ease;\r\n  background: #ff8481;\n}\n.bg-pattern[data-v-edc1cd70] {\r\n  background: url(\"/pattern.svg\") repeat;\r\n  background-size: 400px;\n}\na[data-v-edc1cd70] {\r\n  text-decoration: none !important;\n}\r\n", ""]);
+exports.push([module.i, "\n.slide-fade-enter-active[data-v-edc1cd70] {\n  transition: all 0.2s ease-out;\n}\n.slide-fade-leave-active[data-v-edc1cd70] {\n  transition: all 0.2s ease-in;\n}\n.slide-fade-enter[data-v-edc1cd70]\n/* .slide-fade-leave-active below version 2.1.8 */ {\n  transform: scale(1.1);\n\n  opacity: 0;\n}\n.slide-fade-leave-to[data-v-edc1cd70]\n/* .slide-fade-leave-active below version 2.1.8 */ {\n  transform: scale(0.9);\n\n  opacity: 0;\n}\n/* The emerging W3C standard\n   that is currently Firefox-only */\n*[data-v-edc1cd70]::-webkit-scrollbar {\n  width: 7px;\n\n  margin: 10px;\n  -webkit-transition: 1s ease;\n  transition: 1s ease;\n}\n\n/* Track */\n*[data-v-edc1cd70]::-webkit-scrollbar-track {\n  background: transparent;\n  /* background: #F9F9F9; */\n\n  margin: 10px;\n}\n\n/* Handle */\n*[data-v-edc1cd70]::-webkit-scrollbar-thumb {\n  -webkit-transition: 1s ease;\n  transition: 1s ease;\n  background: #f79593;\n  opacity: 0.5;\n  border-radius: 25px;\n\n  margin: 10px;\n}\n\n/* Handle on hover */\n*[data-v-edc1cd70]::-webkit-scrollbar-thumb:hover {\n  -webkit-transition: 1s ease;\n  transition: 1s ease;\n  background: #ff8481;\n}\n.bg-pattern[data-v-edc1cd70] {\n  background: url(\"/pattern.svg\") repeat;\n  background-size: 400px;\n}\na[data-v-edc1cd70] {\n  text-decoration: none !important;\n}\n", ""]);
 
 // exports
 
@@ -51057,11 +51126,19 @@ var render = function() {
                               _vm._v(" "),
                               _c("span", [
                                 _vm._v(
-                                  "Kuota penerima beasiswa : " +
+                                  "\n                          Kuota penerima beasiswa : " +
+                                    _vm._s(item.lulus.length) +
+                                    " / " +
                                     _vm._s(item.quota) +
-                                    " Orang"
+                                    " Orang\n                      "
                                 )
                               ]),
+                              _vm._v(" "),
+                              item.lulus.length == item.quota
+                                ? _c("v-badge", {
+                                    attrs: { inline: "", content: " Terpenuhi" }
+                                  })
+                                : _vm._e(),
                               _vm._v(" "),
                               _c("div", { staticClass: "col-12" }, [
                                 _c(
@@ -51087,6 +51164,17 @@ var render = function() {
                                             )
                                           ]
                                         ),
+                                        _vm._v(" "),
+                                        item.selection.length < 1
+                                          ? _c(
+                                              "p",
+                                              {
+                                                staticClass:
+                                                  "text-white text-center"
+                                              },
+                                              [_vm._v("Tidak ada data")]
+                                            )
+                                          : _vm._e(),
                                         _vm._v(" "),
                                         _vm._l(item.selection, function(
                                           pemohon,
@@ -51143,6 +51231,17 @@ var render = function() {
                                           ]
                                         ),
                                         _vm._v(" "),
+                                        item.lulus.length < 1
+                                          ? _c(
+                                              "p",
+                                              {
+                                                staticClass:
+                                                  "text-white text-center"
+                                              },
+                                              [_vm._v("Tidak ada data")]
+                                            )
+                                          : _vm._e(),
+                                        _vm._v(" "),
                                         _vm._l(item.lulus, function(
                                           pemohon,
                                           i
@@ -51189,27 +51288,14 @@ var render = function() {
                                   _c(
                                     "v-btn",
                                     {
-                                      attrs: { text: "" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.tidakLulusButton(item)
-                                        }
-                                      }
-                                    },
-                                    [_vm._v("Tidak Lulus")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-btn",
-                                    {
                                       attrs: { dark: "", color: "#2E7D32" },
                                       on: {
                                         click: function($event) {
-                                          return _vm.lulusButton(item)
+                                          return _vm.tutup(item)
                                         }
                                       }
                                     },
-                                    [_vm._v("Lulus")]
+                                    [_vm._v("Tutup Penerimaan beasiswa")]
                                   )
                                 ],
                                 1
@@ -51231,6 +51317,142 @@ var render = function() {
           )
         ],
         1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "text-center" },
+        [
+          _c(
+            "v-dialog",
+            {
+              attrs: { width: "400" },
+              model: {
+                value: _vm.dialogDelete,
+                callback: function($$v) {
+                  _vm.dialogDelete = $$v
+                },
+                expression: "dialogDelete"
+              }
+            },
+            [
+              _c(
+                "v-card",
+                [
+                  _c(
+                    "v-card-title",
+                    {
+                      staticClass: "headline white--text",
+                      attrs: { "primary-title": "" }
+                    },
+                    [
+                      _c(
+                        "v-icon",
+                        { staticClass: "mr-2", attrs: { color: "white" } },
+                        [_vm._v("delete")]
+                      ),
+                      _vm._v("Hapus Mahasiswa\n        ")
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("v-card-text", { staticClass: "mt-2 white--text" }, [
+                    _vm._v(
+                      "\n          Apakah anda yakin akan menghapus Mahasiswa\n          "
+                    ),
+                    _c("span", { staticClass: "font-weight-bold" }),
+                    _vm._v("?\n        ")
+                  ]),
+                  _vm._v(" "),
+                  _c("v-divider"),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-actions",
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "white", text: "" },
+                          on: {
+                            click: function($event) {
+                              _vm.dialogDelete = false
+                            }
+                          }
+                        },
+                        [_vm._v("batal")]
+                      ),
+                      _vm._v(" "),
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "red", dark: "" },
+                          on: {
+                            click: function($event) {
+                              ;(_vm.dialogDelete = false), _vm.deleteConfirmed()
+                            }
+                          }
+                        },
+                        [
+                          _c("v-icon", [_vm._v("delete")]),
+                          _vm._v("Hapus\n          ")
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-snackbar",
+        {
+          attrs: { timeout: 2000 },
+          scopedSlots: _vm._u([
+            {
+              key: "action",
+              fn: function(ref) {
+                var attrs = ref.attrs
+                return [
+                  _c(
+                    "v-btn",
+                    _vm._b(
+                      {
+                        attrs: { color: _vm.snackbar.color, text: "" },
+                        on: {
+                          click: function($event) {
+                            _vm.snackbar.show = false
+                          }
+                        }
+                      },
+                      "v-btn",
+                      attrs,
+                      false
+                    ),
+                    [_vm._v("\n        Close\n      ")]
+                  )
+                ]
+              }
+            }
+          ]),
+          model: {
+            value: _vm.snackbar.show,
+            callback: function($$v) {
+              _vm.$set(_vm.snackbar, "show", $$v)
+            },
+            expression: "snackbar.show"
+          }
+        },
+        [_vm._v("\n    " + _vm._s(_vm.snackbar.message) + "\n\n    ")]
       )
     ],
     1
@@ -114854,8 +115076,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! A:\Programming\Web-Root\beasiswa\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! A:\Programming\Web-Root\beasiswa\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\beasiswa\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\beasiswa\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
