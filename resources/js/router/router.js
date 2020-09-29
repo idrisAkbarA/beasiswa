@@ -109,7 +109,7 @@ const routes = [
     component: Mahasiswa,
     children: [
       {
-        name: "Home",
+        name: "List Beasiswa",
         path: "home",
         component: MHSHome
       }, 

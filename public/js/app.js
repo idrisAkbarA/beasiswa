@@ -2786,9 +2786,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {},
   methods: {
+    goback: function goback() {
+      this.$router.push({
+        name: "List Beasiswa"
+      });
+    },
+    goToPermohonan: function goToPermohonan() {
+      this.$router.push({
+        name: "Permohonan Saya"
+      });
+    },
     logout: function logout() {
       var _this = this;
 
@@ -11206,7 +11228,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.bg-pattern[data-v-24494636] {\r\n  background: url(\"/pattern.svg\") repeat;\r\n  background-size: 400px;\n}\r\n", ""]);
+exports.push([module.i, "\n.bg-pattern[data-v-24494636] {\r\n  background: url(\"/pattern.svg\") repeat;\r\n  background-size: 400px;\n}\na[data-v-24494636] {\r\n  text-decoration: none !important;\n}\r\n", ""]);
 
 // exports
 
@@ -45172,9 +45194,33 @@ var render = function() {
             "v-list",
             { attrs: { dense: "" } },
             [
+              _vm.$route.name != "List Beasiswa"
+                ? _c(
+                    "v-list-item",
+                    { attrs: { exact: "" }, on: { click: _vm.goback } },
+                    [
+                      _c(
+                        "v-list-item-action",
+                        [_c("v-icon", [_vm._v("mdi-keyboard-backspace")])],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-list-item-content",
+                        [_c("v-list-item-title", [_vm._v("kembali")])],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                : _vm._e(),
+              _vm._v(" "),
               _c(
                 "v-list-item",
-                { attrs: { router: "", exact: "" } },
+                {
+                  attrs: { router: "", exact: "" },
+                  on: { click: _vm.goToPermohonan }
+                },
                 [
                   _c(
                     "v-list-item-action",
@@ -45199,7 +45245,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-app-bar",
-        { staticStyle: { "z-index": "10" }, attrs: { app: "", dense: "" } },
+        { staticStyle: { "z-index": "5" }, attrs: { app: "", dense: "" } },
         [
           _c("v-app-bar-nav-icon", {
             staticClass: "hidden-lg-and-up",
@@ -112287,7 +112333,7 @@ var routes = [{
   path: '/mahasiswa/',
   component: _views_Mahasiswa_Mahasiswa_vue__WEBPACK_IMPORTED_MODULE_14__["default"],
   children: [{
-    name: "Home",
+    name: "List Beasiswa",
     path: "home",
     component: _views_Mahasiswa_Home_vue__WEBPACK_IMPORTED_MODULE_15__["default"]
   }, {
