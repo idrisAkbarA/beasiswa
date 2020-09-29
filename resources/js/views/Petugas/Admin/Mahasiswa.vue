@@ -135,7 +135,7 @@
                                                 color="#2E7D32"
                                                 :loading="btnLoading"
                                                 @click="downloadTemplate()"
-                                            ><i class="mdi mdi-download"></i> Download template excel kosong</v-btn>
+                                            ><i class="mdi mdi-download mr-2"></i> Download template excel kosong</v-btn>
                                         </div>
                                     </div>
                                 </v-timeline-item>
@@ -195,7 +195,7 @@
                                                 color="#2E7D32"
                                                 :loading="btnLoading"
                                                 @click="uploadTemplate()"
-                                            ><i class="mdi mdi-attachment"></i> Lampirkan file excel</v-btn>
+                                            ><i class="mdi mdi-attachment mr-2"></i> Lampirkan file excel</v-btn>
                                             <v-file-input
                                             id="upload"
                                             v-model="file"
@@ -477,7 +477,7 @@ export default {
         document.getElementById('upload').click();
     },
     downloadTemplate(){
-        location = this.url+"/template/UserMahasiswa.xlxs"
+        location = this.url+"/api/user/export"
     }
   },
   computed: {
