@@ -65,6 +65,6 @@ Route::put('/pemohon/set-berkas', 'PemohonBeasiswaController@setBerkas');
 Route::put('/pemohon/set-interview', 'PemohonBeasiswaController@setInterview');
 Route::put('/pemohon/set-survey', 'PemohonBeasiswaController@setSurvey');
 Route::put('/pemohon/set-selection', 'PemohonBeasiswaController@setselection');
-Route::put('/pemohon/count-berkas', 'PemohonBeasiswaController@countBerkas');
-Route::put('/pemohon/count-interview', 'PemohonBeasiswaController@countInterview');
+Route::get('/pemohon/count-berkas', 'PemohonBeasiswaController@countBerkas');
+Route::get('/pemohon/count-interview', 'PemohonBeasiswaController@countInterview');
 Route::get('/pemohon/count-lulus', 'PemohonBeasiswaController@countLulus');
