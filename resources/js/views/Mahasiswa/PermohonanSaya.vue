@@ -1,5 +1,8 @@
 <template>
   <v-container>
+      <v-row justify="center" v-if="permohonans.length<1">
+          <h2>Tidak ada permohonan</h2>
+      </v-row>
       <v-row v-for="(item,index) in permohonans" :key="index">
           <v-card class="ma-5" :color="checkColor(item)">
               <v-card-title>
