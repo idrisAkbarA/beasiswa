@@ -2276,7 +2276,7 @@ axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers.common["X-Requeste
               _this.$router.push({
                 path: "/petinggi/".concat(response.data.user.name, "/home")
               });
-            }
+            } else if (response.data.user.role == null) {}
           } else {
             _this.error = "Invalid username/password";
             _this.loading = false;
@@ -6597,6 +6597,320 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }, {
         icon: "mdi-account-details",
         title: "List Permohonan",
+        to: "/".concat(petugas, "/permohonan")
+      }, {
+        icon: "mdi-account-group",
+        title: "Petugas",
+        to: "/".concat(petugas, "/petugas")
+      }, {
+        icon: "mdi-office-building",
+        title: "Instansi",
+        to: "/".concat(petugas, "/instansi")
+      }, {
+        icon: "mdi-account-supervisor-circle",
+        title: "Mahasiswa",
+        to: "/".concat(petugas, "/mahasiswa")
+      }];
+    }
+  }),
+  data: function data() {
+    return {
+      drawer: false,
+      permanent: true,
+      miniVariant: true,
+      expandOnHover: true
+    };
+  },
+  mounted: function mounted() {
+    console.log(this.$route); // this.$vuetify.theme.dark = true;
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/SuperAdmin/Beasiswa.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Petugas/SuperAdmin/Beasiswa.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/SuperAdmin/Instansi.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Petugas/SuperAdmin/Instansi.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/SuperAdmin/Mahasiswa.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Petugas/SuperAdmin/Mahasiswa.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/SuperAdmin/Permohonan.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Petugas/SuperAdmin/Permohonan.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/SuperAdmin/Petugas.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Petugas/SuperAdmin/Petugas.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/SuperAdmin/SuperAdmin.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Petugas/SuperAdmin/SuperAdmin.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(["toggleOpenBeasiswa"])), {}, {
+    toggleBeasiswa: function toggleBeasiswa() {
+      console.log(this.isOpenBeasiswa);
+      this.toggleOpenBeasiswa(true);
+    },
+    logout: function logout() {
+      var _this = this;
+
+      axios.get("http://beasiswa.test/api/logout-petugas", {
+        params: {
+          user: window.localStorage.getItem("user")
+        }
+      }).then(function (response) {
+        _this.$router.push({
+          name: "Login Petugas"
+        });
+      })["catch"](function () {
+        _this.$router.push({
+          path: "/login"
+        });
+      });
+    }
+  }),
+  props: {
+    source: String
+  },
+  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["isOpenBeasiswa"])), {}, {
+    nama: function nama() {
+      return this.$store.state.name;
+    },
+    isBeasiswa: function isBeasiswa() {
+      if (this.$route.name == "Beasiswa") {
+        return true;
+      } else {
+        false;
+      }
+    },
+    isInstansi: function isInstansi() {
+      if (this.$route.name == "Instansi") {
+        return true;
+      } else {
+        false;
+      }
+    },
+    isKelolaMahasiswa: function isKelolaMahasiswa() {
+      if (this.$route.name == "Kelola Mahasiswa") {
+        return true;
+      } else {
+        false;
+      }
+    },
+    isAkunPetugas: function isAkunPetugas() {
+      if (this.$route.name == "Akun Petugas") {
+        return true;
+      } else {
+        false;
+      }
+    },
+    pages: function pages() {
+      var petugas = this.$route.params.petugas;
+      return [{
+        icon: "mdi-school",
+        title: "Beasiswa",
+        to: "/".concat(petugas, "/beasiswa")
+      }, {
+        icon: "mdi-account-details",
+        title: "Permohonan",
         to: "/".concat(petugas, "/permohonan")
       }, {
         icon: "mdi-account-group",
@@ -11585,6 +11899,25 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 // module
 exports.push([module.i, "\n.slide-fade-enter-active[data-v-edc1cd70] {\r\n  transition: all 0.2s ease-out;\n}\n.slide-fade-leave-active[data-v-edc1cd70] {\r\n  transition: all 0.2s ease-in;\n}\n.slide-fade-enter[data-v-edc1cd70]\r\n/* .slide-fade-leave-active below version 2.1.8 */ {\r\n  transform: scale(1.1);\r\n\r\n  opacity: 0;\n}\n.slide-fade-leave-to[data-v-edc1cd70]\r\n/* .slide-fade-leave-active below version 2.1.8 */ {\r\n  transform: scale(0.9);\r\n\r\n  opacity: 0;\n}\r\n/* The emerging W3C standard\r\n   that is currently Firefox-only */\n*[data-v-edc1cd70]::-webkit-scrollbar {\r\n  width: 7px;\r\n\r\n  margin: 10px;\r\n  -webkit-transition: 1s ease;\r\n  transition: 1s ease;\n}\r\n\r\n/* Track */\n*[data-v-edc1cd70]::-webkit-scrollbar-track {\r\n  background: transparent;\r\n  /* background: #F9F9F9; */\r\n\r\n  margin: 10px;\n}\r\n\r\n/* Handle */\n*[data-v-edc1cd70]::-webkit-scrollbar-thumb {\r\n  -webkit-transition: 1s ease;\r\n  transition: 1s ease;\r\n  background: #f79593;\r\n  opacity: 0.5;\r\n  border-radius: 25px;\r\n\r\n  margin: 10px;\n}\r\n\r\n/* Handle on hover */\n*[data-v-edc1cd70]::-webkit-scrollbar-thumb:hover {\r\n  -webkit-transition: 1s ease;\r\n  transition: 1s ease;\r\n  background: #ff8481;\n}\n.bg-pattern[data-v-edc1cd70] {\r\n  background: url(\"/pattern.svg\") repeat;\r\n  background-size: 400px;\n}\na[data-v-edc1cd70] {\r\n  text-decoration: none !important;\n}\r\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/SuperAdmin/SuperAdmin.vue?vue&type=style&index=0&id=60fa19b4&scoped=true&lang=css&":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Petugas/SuperAdmin/SuperAdmin.vue?vue&type=style&index=0&id=60fa19b4&scoped=true&lang=css& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.slide-fade-enter-active[data-v-60fa19b4] {\r\n  transition: all 0.2s ease-out;\n}\n.slide-fade-leave-active[data-v-60fa19b4] {\r\n  transition: all 0.2s ease-in;\n}\n.slide-fade-enter[data-v-60fa19b4]\r\n/* .slide-fade-leave-active below version 2.1.8 */ {\r\n  transform: scale(1.1);\r\n\r\n  opacity: 0;\n}\n.slide-fade-leave-to[data-v-60fa19b4]\r\n/* .slide-fade-leave-active below version 2.1.8 */ {\r\n  transform: scale(0.9);\r\n\r\n  opacity: 0;\n}\r\n/* The emerging W3C standard\r\n   that is currently Firefox-only */\n*[data-v-60fa19b4]::-webkit-scrollbar {\r\n  width: 7px;\r\n\r\n  margin: 10px;\r\n  -webkit-transition: 1s ease;\r\n  transition: 1s ease;\n}\r\n\r\n/* Track */\n*[data-v-60fa19b4]::-webkit-scrollbar-track {\r\n  background: transparent;\r\n  /* background: #F9F9F9; */\r\n\r\n  margin: 10px;\n}\r\n\r\n/* Handle */\n*[data-v-60fa19b4]::-webkit-scrollbar-thumb {\r\n  -webkit-transition: 1s ease;\r\n  transition: 1s ease;\r\n  background: #f79593;\r\n  opacity: 0.5;\r\n  border-radius: 25px;\r\n\r\n  margin: 10px;\n}\r\n\r\n/* Handle on hover */\n*[data-v-60fa19b4]::-webkit-scrollbar-thumb:hover {\r\n  -webkit-transition: 1s ease;\r\n  transition: 1s ease;\r\n  background: #ff8481;\n}\n.bg-pattern[data-v-60fa19b4] {\r\n  background: url(\"/pattern.svg\") repeat;\r\n  background-size: 400px;\n}\na[data-v-60fa19b4] {\r\n  text-decoration: none !important;\n}\r\n", ""]);
 
 // exports
 
@@ -43907,6 +44240,36 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/SuperAdmin/SuperAdmin.vue?vue&type=style&index=0&id=60fa19b4&scoped=true&lang=css&":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Petugas/SuperAdmin/SuperAdmin.vue?vue&type=style&index=0&id=60fa19b4&scoped=true&lang=css& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../../node_modules/css-loader??ref--6-1!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/src??ref--6-2!../../../../../node_modules/vue-loader/lib??vue-loader-options!./SuperAdmin.vue?vue&type=style&index=0&id=60fa19b4&scoped=true&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/SuperAdmin/SuperAdmin.vue?vue&type=style&index=0&id=60fa19b4&scoped=true&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/Surveyor/Home.vue?vue&type=style&index=0&id=6650fdb6&scoped=true&lang=css&":
 /*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Petugas/Surveyor/Home.vue?vue&type=style&index=0&id=6650fdb6&scoped=true&lang=css& ***!
@@ -51592,6 +51955,382 @@ render._withStripped = true
 /*!*************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Petugas/Petugas.vue?vue&type=template&id=edc1cd70&scoped=true& ***!
   \*************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "v-app",
+    { attrs: { id: "inspire" } },
+    [
+      _c(
+        "v-navigation-drawer",
+        {
+          attrs: {
+            src: "/images/drawer-bg.jpg",
+            app: "",
+            clipped: "",
+            floating: true,
+            permanent: _vm.permanent,
+            "expand-on-hover": _vm.expandOnHover,
+            "mini-variant": _vm.miniVariant,
+            dark: ""
+          },
+          model: {
+            value: _vm.drawer,
+            callback: function($$v) {
+              _vm.drawer = $$v
+            },
+            expression: "drawer"
+          }
+        },
+        [
+          _c(
+            "v-list",
+            { attrs: { dense: "" } },
+            _vm._l(_vm.pages, function(page, i) {
+              return _c(
+                "v-list-item",
+                {
+                  key: i,
+                  attrs: {
+                    to: page.to,
+                    "two-line": page.subtitle ? true : false,
+                    router: "",
+                    exact: ""
+                  }
+                },
+                [
+                  _c(
+                    "v-list-item-action",
+                    [_c("v-icon", [_vm._v(_vm._s(page.icon))])],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-list-item-content",
+                    [
+                      _c("v-list-item-title", [_vm._v(_vm._s(page.title))]),
+                      _vm._v(" "),
+                      page.subtitle
+                        ? _c("v-list-item-subtitle", [
+                            _vm._v(_vm._s(page.subtitle))
+                          ])
+                        : _vm._e()
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            }),
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-app-bar",
+        { attrs: { app: "", dense: "", "clipped-left": "" } },
+        [
+          _c("v-app-bar-nav-icon", {
+            on: {
+              click: function($event) {
+                $event.stopPropagation()
+                _vm.miniVariant = !_vm.miniVariant
+                _vm.expandOnHover = !_vm.expandOnHover
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticStyle: { width: "100%", "-webkit-app-region": "drag" } },
+            [
+              _c("v-toolbar-title", [
+                _c("span", { staticClass: "font-weight-bold ml-4" }, [
+                  _vm._v("\n          App Beasiswa\n        ")
+                ]),
+                _vm._v(" "),
+                _c("span", [_vm._v(" | " + _vm._s(_vm.$route.name))])
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-slide-y-transition",
+            [
+              _vm.isBeasiswa
+                ? _c(
+                    "v-btn",
+                    {
+                      staticClass: "green darken-3",
+                      attrs: { small: "" },
+                      on: {
+                        click: function($event) {
+                          return _vm.toggleBeasiswa()
+                        }
+                      }
+                    },
+                    [
+                      _c("v-icon", [_vm._v("mdi-plus")]),
+                      _vm._v("tambah beasiswa\n      ")
+                    ],
+                    1
+                  )
+                : _vm._e()
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-slide-y-transition",
+            [
+              _vm.isInstansi
+                ? _c(
+                    "v-btn",
+                    {
+                      staticClass: "green darken-3",
+                      attrs: { small: "" },
+                      on: {
+                        click: function($event) {
+                          return _vm.toggleBeasiswa()
+                        }
+                      }
+                    },
+                    [
+                      _c("v-icon", [_vm._v("mdi-plus")]),
+                      _vm._v("tambah instansi\n      ")
+                    ],
+                    1
+                  )
+                : _vm._e()
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-slide-y-transition",
+            [
+              _vm.isKelolaMahasiswa
+                ? _c(
+                    "v-btn",
+                    {
+                      staticClass: "green darken-3",
+                      attrs: { small: "" },
+                      on: {
+                        click: function($event) {
+                          return _vm.toggleBeasiswa()
+                        }
+                      }
+                    },
+                    [
+                      _c("v-icon", [_vm._v("mdi-plus")]),
+                      _vm._v("tambah mahasiswa\n      ")
+                    ],
+                    1
+                  )
+                : _vm._e()
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-slide-y-transition",
+            [
+              _vm.isAkunPetugas
+                ? _c(
+                    "v-btn",
+                    {
+                      staticClass: "green darken-3",
+                      attrs: { small: "" },
+                      on: {
+                        click: function($event) {
+                          return _vm.toggleBeasiswa()
+                        }
+                      }
+                    },
+                    [
+                      _c("v-icon", [_vm._v("mdi-plus")]),
+                      _vm._v("tambah akun petugas\n      ")
+                    ],
+                    1
+                  )
+                : _vm._e()
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            { attrs: { small: "", text: "" }, on: { click: _vm.logout } },
+            [
+              _c("v-icon", [_vm._v("mdi-logout-variant")]),
+              _vm._v("keluar\n    ")
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-main",
+        { staticClass: "bg-pattern" },
+        [
+          _c(
+            "transition",
+            { attrs: { name: "slide-fade", mode: "out-in" } },
+            [_c("router-view")],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/SuperAdmin/Beasiswa.vue?vue&type=template&id=61991b49&":
+/*!*************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Petugas/SuperAdmin/Beasiswa.vue?vue&type=template&id=61991b49& ***!
+  \*************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div")
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/SuperAdmin/Instansi.vue?vue&type=template&id=47021729&":
+/*!*************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Petugas/SuperAdmin/Instansi.vue?vue&type=template&id=47021729& ***!
+  \*************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div")
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/SuperAdmin/Mahasiswa.vue?vue&type=template&id=3007a1ec&":
+/*!**************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Petugas/SuperAdmin/Mahasiswa.vue?vue&type=template&id=3007a1ec& ***!
+  \**************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div")
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/SuperAdmin/Permohonan.vue?vue&type=template&id=3d93a196&":
+/*!***************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Petugas/SuperAdmin/Permohonan.vue?vue&type=template&id=3d93a196& ***!
+  \***************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div")
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/SuperAdmin/Petugas.vue?vue&type=template&id=6fac2573&":
+/*!************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Petugas/SuperAdmin/Petugas.vue?vue&type=template&id=6fac2573& ***!
+  \************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div")
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/SuperAdmin/SuperAdmin.vue?vue&type=template&id=60fa19b4&scoped=true&":
+/*!***************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Petugas/SuperAdmin/SuperAdmin.vue?vue&type=template&id=60fa19b4&scoped=true& ***!
+  \***************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -112757,23 +113496,35 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_Petugas_Admin_AkunPetugas_vue__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../views/Petugas/Admin/AkunPetugas.vue */ "./resources/js/views/Petugas/Admin/AkunPetugas.vue");
 /* harmony import */ var _views_Petugas_Admin_Mahasiswa_vue__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../views/Petugas/Admin/Mahasiswa.vue */ "./resources/js/views/Petugas/Admin/Mahasiswa.vue");
 /* harmony import */ var _views_Petugas_Admin_CekPermohonan_vue__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../views/Petugas/Admin/CekPermohonan.vue */ "./resources/js/views/Petugas/Admin/CekPermohonan.vue");
-/* harmony import */ var _views_Mahasiswa_Mahasiswa_vue__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../views/Mahasiswa/Mahasiswa.vue */ "./resources/js/views/Mahasiswa/Mahasiswa.vue");
-/* harmony import */ var _views_Mahasiswa_Home_vue__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../views/Mahasiswa/Home.vue */ "./resources/js/views/Mahasiswa/Home.vue");
-/* harmony import */ var _views_Mahasiswa_PermohonanSaya_vue__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../views/Mahasiswa/PermohonanSaya.vue */ "./resources/js/views/Mahasiswa/PermohonanSaya.vue");
-/* harmony import */ var _views_Mahasiswa_Beasiswa_vue__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../views/Mahasiswa/Beasiswa.vue */ "./resources/js/views/Mahasiswa/Beasiswa.vue");
-/* harmony import */ var _views_Petugas_Interviewer_Interviewer_vue__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../views/Petugas/Interviewer/Interviewer.vue */ "./resources/js/views/Petugas/Interviewer/Interviewer.vue");
-/* harmony import */ var _views_Petugas_Interviewer_Home_vue__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../views/Petugas/Interviewer/Home.vue */ "./resources/js/views/Petugas/Interviewer/Home.vue");
-/* harmony import */ var _views_Petugas_Surveyor_Surveyor_vue__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ../views/Petugas/Surveyor/Surveyor.vue */ "./resources/js/views/Petugas/Surveyor/Surveyor.vue");
-/* harmony import */ var _views_Petugas_Surveyor_Home_vue__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ../views/Petugas/Surveyor/Home.vue */ "./resources/js/views/Petugas/Surveyor/Home.vue");
-/* harmony import */ var _views_Petugas_Petinggi_Petinggi_vue__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ../views/Petugas/Petinggi/Petinggi.vue */ "./resources/js/views/Petugas/Petinggi/Petinggi.vue");
-/* harmony import */ var _views_Petugas_Petinggi_Home_vue__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ../views/Petugas/Petinggi/Home.vue */ "./resources/js/views/Petugas/Petinggi/Home.vue");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_25___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_25__);
+/* harmony import */ var _views_Petugas_SuperAdmin_SuperAdmin_vue__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../views/Petugas/SuperAdmin/SuperAdmin.vue */ "./resources/js/views/Petugas/SuperAdmin/SuperAdmin.vue");
+/* harmony import */ var _views_Petugas_SuperAdmin_Mahasiswa_vue__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../views/Petugas/SuperAdmin/Mahasiswa.vue */ "./resources/js/views/Petugas/SuperAdmin/Mahasiswa.vue");
+/* harmony import */ var _views_Petugas_SuperAdmin_Permohonan_vue__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../views/Petugas/SuperAdmin/Permohonan.vue */ "./resources/js/views/Petugas/SuperAdmin/Permohonan.vue");
+/* harmony import */ var _views_Petugas_SuperAdmin_Instansi_vue__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../views/Petugas/SuperAdmin/Instansi.vue */ "./resources/js/views/Petugas/SuperAdmin/Instansi.vue");
+/* harmony import */ var _views_Petugas_SuperAdmin_Petugas_vue__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../views/Petugas/SuperAdmin/Petugas.vue */ "./resources/js/views/Petugas/SuperAdmin/Petugas.vue");
+/* harmony import */ var _views_Petugas_SuperAdmin_Beasiswa_vue__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../views/Petugas/SuperAdmin/Beasiswa.vue */ "./resources/js/views/Petugas/SuperAdmin/Beasiswa.vue");
+/* harmony import */ var _views_Mahasiswa_Mahasiswa_vue__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ../views/Mahasiswa/Mahasiswa.vue */ "./resources/js/views/Mahasiswa/Mahasiswa.vue");
+/* harmony import */ var _views_Mahasiswa_Home_vue__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ../views/Mahasiswa/Home.vue */ "./resources/js/views/Mahasiswa/Home.vue");
+/* harmony import */ var _views_Mahasiswa_PermohonanSaya_vue__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ../views/Mahasiswa/PermohonanSaya.vue */ "./resources/js/views/Mahasiswa/PermohonanSaya.vue");
+/* harmony import */ var _views_Mahasiswa_Beasiswa_vue__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ../views/Mahasiswa/Beasiswa.vue */ "./resources/js/views/Mahasiswa/Beasiswa.vue");
+/* harmony import */ var _views_Petugas_Interviewer_Interviewer_vue__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ../views/Petugas/Interviewer/Interviewer.vue */ "./resources/js/views/Petugas/Interviewer/Interviewer.vue");
+/* harmony import */ var _views_Petugas_Interviewer_Home_vue__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ../views/Petugas/Interviewer/Home.vue */ "./resources/js/views/Petugas/Interviewer/Home.vue");
+/* harmony import */ var _views_Petugas_Surveyor_Surveyor_vue__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ../views/Petugas/Surveyor/Surveyor.vue */ "./resources/js/views/Petugas/Surveyor/Surveyor.vue");
+/* harmony import */ var _views_Petugas_Surveyor_Home_vue__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ../views/Petugas/Surveyor/Home.vue */ "./resources/js/views/Petugas/Surveyor/Home.vue");
+/* harmony import */ var _views_Petugas_Petinggi_Petinggi_vue__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ../views/Petugas/Petinggi/Petinggi.vue */ "./resources/js/views/Petugas/Petinggi/Petinggi.vue");
+/* harmony import */ var _views_Petugas_Petinggi_Home_vue__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ../views/Petugas/Petinggi/Home.vue */ "./resources/js/views/Petugas/Petinggi/Home.vue");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_31___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_31__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+
+
+
+
 
 
 
@@ -112899,44 +113650,105 @@ var routes = [{
     component: _views_Petugas_Admin_Mahasiswa_vue__WEBPACK_IMPORTED_MODULE_13__["default"]
   }]
 }, {
+  path: "/super/:petugas",
+  component: _views_Petugas_SuperAdmin_SuperAdmin_vue__WEBPACK_IMPORTED_MODULE_15__["default"],
+  beforeEnter: function beforeEnter(to, from, next) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              if (!(from.name == null)) {
+                _context2.next = 5;
+                break;
+              }
+
+              _context2.next = 3;
+              return axios.get("http://beasiswa.test/api/user/petugas").then(function (response) {
+                console.log(response.data);
+                next();
+              })["catch"](function (error) {
+                console.log(error.response.status);
+                next({
+                  name: "Login Petugas"
+                });
+              });
+
+            case 3:
+              _context2.next = 6;
+              break;
+
+            case 5:
+              next();
+
+            case 6:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }))();
+  },
+  children: [{
+    name: "Beasiswa",
+    path: "beasiswa",
+    component: _views_Petugas_SuperAdmin_Beasiswa_vue__WEBPACK_IMPORTED_MODULE_20__["default"]
+  }, {
+    name: "List Permohonan",
+    path: "permohonan",
+    component: _views_Petugas_SuperAdmin_Permohonan_vue__WEBPACK_IMPORTED_MODULE_17__["default"]
+  }, {
+    name: "Instansi",
+    path: "instansi",
+    component: _views_Petugas_SuperAdmin_Instansi_vue__WEBPACK_IMPORTED_MODULE_18__["default"]
+  }, {
+    name: "Akun Petugas",
+    path: "petugas",
+    component: _views_Petugas_SuperAdmin_Petugas_vue__WEBPACK_IMPORTED_MODULE_19__["default"]
+  }, {
+    name: "Kelola Mahasiswa",
+    path: "mahasiswa",
+    component: _views_Petugas_SuperAdmin_Mahasiswa_vue__WEBPACK_IMPORTED_MODULE_16__["default"]
+  }]
+}, {
   path: "/mahasiswa/",
-  component: _views_Mahasiswa_Mahasiswa_vue__WEBPACK_IMPORTED_MODULE_15__["default"],
+  component: _views_Mahasiswa_Mahasiswa_vue__WEBPACK_IMPORTED_MODULE_21__["default"],
   children: [{
     name: "List Beasiswa",
     path: "home",
-    component: _views_Mahasiswa_Home_vue__WEBPACK_IMPORTED_MODULE_16__["default"]
+    component: _views_Mahasiswa_Home_vue__WEBPACK_IMPORTED_MODULE_22__["default"]
   }, {
     name: "Daftar Beasiswa",
     path: "daftar-beasiswa/:id",
-    component: _views_Mahasiswa_Beasiswa_vue__WEBPACK_IMPORTED_MODULE_18__["default"]
+    component: _views_Mahasiswa_Beasiswa_vue__WEBPACK_IMPORTED_MODULE_24__["default"]
   }, {
     name: "Permohonan Saya",
     path: "permohonan-saya",
-    component: _views_Mahasiswa_PermohonanSaya_vue__WEBPACK_IMPORTED_MODULE_17__["default"]
+    component: _views_Mahasiswa_PermohonanSaya_vue__WEBPACK_IMPORTED_MODULE_23__["default"]
   }]
 }, {
   path: "/interviewer/:petugas",
-  component: _views_Petugas_Interviewer_Interviewer_vue__WEBPACK_IMPORTED_MODULE_19__["default"],
+  component: _views_Petugas_Interviewer_Interviewer_vue__WEBPACK_IMPORTED_MODULE_25__["default"],
   children: [{
     name: "Home",
     path: "home",
-    component: _views_Petugas_Interviewer_Home_vue__WEBPACK_IMPORTED_MODULE_20__["default"]
+    component: _views_Petugas_Interviewer_Home_vue__WEBPACK_IMPORTED_MODULE_26__["default"]
   }]
 }, {
   path: "/surveyor/:petugas",
-  component: _views_Petugas_Surveyor_Surveyor_vue__WEBPACK_IMPORTED_MODULE_21__["default"],
+  component: _views_Petugas_Surveyor_Surveyor_vue__WEBPACK_IMPORTED_MODULE_27__["default"],
   children: [{
     name: "Home",
     path: "home",
-    component: _views_Petugas_Surveyor_Home_vue__WEBPACK_IMPORTED_MODULE_22__["default"]
+    component: _views_Petugas_Surveyor_Home_vue__WEBPACK_IMPORTED_MODULE_28__["default"]
   }]
 }, {
   path: "/petinggi/:petugas",
-  component: _views_Petugas_Petinggi_Petinggi_vue__WEBPACK_IMPORTED_MODULE_23__["default"],
+  component: _views_Petugas_Petinggi_Petinggi_vue__WEBPACK_IMPORTED_MODULE_29__["default"],
   children: [{
     name: "Home",
     path: "home",
-    component: _views_Petugas_Petinggi_Home_vue__WEBPACK_IMPORTED_MODULE_24__["default"]
+    component: _views_Petugas_Petinggi_Home_vue__WEBPACK_IMPORTED_MODULE_30__["default"]
   }]
 }];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]({
@@ -114961,6 +115773,438 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Petugas_vue_vue_type_template_id_edc1cd70_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Petugas_vue_vue_type_template_id_edc1cd70_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/views/Petugas/SuperAdmin/Beasiswa.vue":
+/*!************************************************************!*\
+  !*** ./resources/js/views/Petugas/SuperAdmin/Beasiswa.vue ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Beasiswa_vue_vue_type_template_id_61991b49___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Beasiswa.vue?vue&type=template&id=61991b49& */ "./resources/js/views/Petugas/SuperAdmin/Beasiswa.vue?vue&type=template&id=61991b49&");
+/* harmony import */ var _Beasiswa_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Beasiswa.vue?vue&type=script&lang=js& */ "./resources/js/views/Petugas/SuperAdmin/Beasiswa.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Beasiswa_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Beasiswa_vue_vue_type_template_id_61991b49___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Beasiswa_vue_vue_type_template_id_61991b49___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/views/Petugas/SuperAdmin/Beasiswa.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/views/Petugas/SuperAdmin/Beasiswa.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************!*\
+  !*** ./resources/js/views/Petugas/SuperAdmin/Beasiswa.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Beasiswa_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Beasiswa.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/SuperAdmin/Beasiswa.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Beasiswa_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/views/Petugas/SuperAdmin/Beasiswa.vue?vue&type=template&id=61991b49&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/views/Petugas/SuperAdmin/Beasiswa.vue?vue&type=template&id=61991b49& ***!
+  \*******************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Beasiswa_vue_vue_type_template_id_61991b49___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Beasiswa.vue?vue&type=template&id=61991b49& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/SuperAdmin/Beasiswa.vue?vue&type=template&id=61991b49&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Beasiswa_vue_vue_type_template_id_61991b49___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Beasiswa_vue_vue_type_template_id_61991b49___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/views/Petugas/SuperAdmin/Instansi.vue":
+/*!************************************************************!*\
+  !*** ./resources/js/views/Petugas/SuperAdmin/Instansi.vue ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Instansi_vue_vue_type_template_id_47021729___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Instansi.vue?vue&type=template&id=47021729& */ "./resources/js/views/Petugas/SuperAdmin/Instansi.vue?vue&type=template&id=47021729&");
+/* harmony import */ var _Instansi_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Instansi.vue?vue&type=script&lang=js& */ "./resources/js/views/Petugas/SuperAdmin/Instansi.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Instansi_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Instansi_vue_vue_type_template_id_47021729___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Instansi_vue_vue_type_template_id_47021729___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/views/Petugas/SuperAdmin/Instansi.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/views/Petugas/SuperAdmin/Instansi.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************!*\
+  !*** ./resources/js/views/Petugas/SuperAdmin/Instansi.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Instansi_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Instansi.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/SuperAdmin/Instansi.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Instansi_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/views/Petugas/SuperAdmin/Instansi.vue?vue&type=template&id=47021729&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/views/Petugas/SuperAdmin/Instansi.vue?vue&type=template&id=47021729& ***!
+  \*******************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Instansi_vue_vue_type_template_id_47021729___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Instansi.vue?vue&type=template&id=47021729& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/SuperAdmin/Instansi.vue?vue&type=template&id=47021729&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Instansi_vue_vue_type_template_id_47021729___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Instansi_vue_vue_type_template_id_47021729___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/views/Petugas/SuperAdmin/Mahasiswa.vue":
+/*!*************************************************************!*\
+  !*** ./resources/js/views/Petugas/SuperAdmin/Mahasiswa.vue ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Mahasiswa_vue_vue_type_template_id_3007a1ec___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Mahasiswa.vue?vue&type=template&id=3007a1ec& */ "./resources/js/views/Petugas/SuperAdmin/Mahasiswa.vue?vue&type=template&id=3007a1ec&");
+/* harmony import */ var _Mahasiswa_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Mahasiswa.vue?vue&type=script&lang=js& */ "./resources/js/views/Petugas/SuperAdmin/Mahasiswa.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Mahasiswa_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Mahasiswa_vue_vue_type_template_id_3007a1ec___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Mahasiswa_vue_vue_type_template_id_3007a1ec___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/views/Petugas/SuperAdmin/Mahasiswa.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/views/Petugas/SuperAdmin/Mahasiswa.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/views/Petugas/SuperAdmin/Mahasiswa.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Mahasiswa_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Mahasiswa.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/SuperAdmin/Mahasiswa.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Mahasiswa_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/views/Petugas/SuperAdmin/Mahasiswa.vue?vue&type=template&id=3007a1ec&":
+/*!********************************************************************************************!*\
+  !*** ./resources/js/views/Petugas/SuperAdmin/Mahasiswa.vue?vue&type=template&id=3007a1ec& ***!
+  \********************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Mahasiswa_vue_vue_type_template_id_3007a1ec___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Mahasiswa.vue?vue&type=template&id=3007a1ec& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/SuperAdmin/Mahasiswa.vue?vue&type=template&id=3007a1ec&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Mahasiswa_vue_vue_type_template_id_3007a1ec___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Mahasiswa_vue_vue_type_template_id_3007a1ec___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/views/Petugas/SuperAdmin/Permohonan.vue":
+/*!**************************************************************!*\
+  !*** ./resources/js/views/Petugas/SuperAdmin/Permohonan.vue ***!
+  \**************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Permohonan_vue_vue_type_template_id_3d93a196___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Permohonan.vue?vue&type=template&id=3d93a196& */ "./resources/js/views/Petugas/SuperAdmin/Permohonan.vue?vue&type=template&id=3d93a196&");
+/* harmony import */ var _Permohonan_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Permohonan.vue?vue&type=script&lang=js& */ "./resources/js/views/Petugas/SuperAdmin/Permohonan.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Permohonan_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Permohonan_vue_vue_type_template_id_3d93a196___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Permohonan_vue_vue_type_template_id_3d93a196___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/views/Petugas/SuperAdmin/Permohonan.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/views/Petugas/SuperAdmin/Permohonan.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/views/Petugas/SuperAdmin/Permohonan.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Permohonan_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Permohonan.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/SuperAdmin/Permohonan.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Permohonan_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/views/Petugas/SuperAdmin/Permohonan.vue?vue&type=template&id=3d93a196&":
+/*!*********************************************************************************************!*\
+  !*** ./resources/js/views/Petugas/SuperAdmin/Permohonan.vue?vue&type=template&id=3d93a196& ***!
+  \*********************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Permohonan_vue_vue_type_template_id_3d93a196___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Permohonan.vue?vue&type=template&id=3d93a196& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/SuperAdmin/Permohonan.vue?vue&type=template&id=3d93a196&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Permohonan_vue_vue_type_template_id_3d93a196___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Permohonan_vue_vue_type_template_id_3d93a196___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/views/Petugas/SuperAdmin/Petugas.vue":
+/*!***********************************************************!*\
+  !*** ./resources/js/views/Petugas/SuperAdmin/Petugas.vue ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Petugas_vue_vue_type_template_id_6fac2573___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Petugas.vue?vue&type=template&id=6fac2573& */ "./resources/js/views/Petugas/SuperAdmin/Petugas.vue?vue&type=template&id=6fac2573&");
+/* harmony import */ var _Petugas_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Petugas.vue?vue&type=script&lang=js& */ "./resources/js/views/Petugas/SuperAdmin/Petugas.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Petugas_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Petugas_vue_vue_type_template_id_6fac2573___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Petugas_vue_vue_type_template_id_6fac2573___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/views/Petugas/SuperAdmin/Petugas.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/views/Petugas/SuperAdmin/Petugas.vue?vue&type=script&lang=js&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/views/Petugas/SuperAdmin/Petugas.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Petugas_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Petugas.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/SuperAdmin/Petugas.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Petugas_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/views/Petugas/SuperAdmin/Petugas.vue?vue&type=template&id=6fac2573&":
+/*!******************************************************************************************!*\
+  !*** ./resources/js/views/Petugas/SuperAdmin/Petugas.vue?vue&type=template&id=6fac2573& ***!
+  \******************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Petugas_vue_vue_type_template_id_6fac2573___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Petugas.vue?vue&type=template&id=6fac2573& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/SuperAdmin/Petugas.vue?vue&type=template&id=6fac2573&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Petugas_vue_vue_type_template_id_6fac2573___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Petugas_vue_vue_type_template_id_6fac2573___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/views/Petugas/SuperAdmin/SuperAdmin.vue":
+/*!**************************************************************!*\
+  !*** ./resources/js/views/Petugas/SuperAdmin/SuperAdmin.vue ***!
+  \**************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _SuperAdmin_vue_vue_type_template_id_60fa19b4_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SuperAdmin.vue?vue&type=template&id=60fa19b4&scoped=true& */ "./resources/js/views/Petugas/SuperAdmin/SuperAdmin.vue?vue&type=template&id=60fa19b4&scoped=true&");
+/* harmony import */ var _SuperAdmin_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SuperAdmin.vue?vue&type=script&lang=js& */ "./resources/js/views/Petugas/SuperAdmin/SuperAdmin.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _SuperAdmin_vue_vue_type_style_index_0_id_60fa19b4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SuperAdmin.vue?vue&type=style&index=0&id=60fa19b4&scoped=true&lang=css& */ "./resources/js/views/Petugas/SuperAdmin/SuperAdmin.vue?vue&type=style&index=0&id=60fa19b4&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _SuperAdmin_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _SuperAdmin_vue_vue_type_template_id_60fa19b4_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _SuperAdmin_vue_vue_type_template_id_60fa19b4_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "60fa19b4",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/views/Petugas/SuperAdmin/SuperAdmin.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/views/Petugas/SuperAdmin/SuperAdmin.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/views/Petugas/SuperAdmin/SuperAdmin.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SuperAdmin_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./SuperAdmin.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/SuperAdmin/SuperAdmin.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SuperAdmin_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/views/Petugas/SuperAdmin/SuperAdmin.vue?vue&type=style&index=0&id=60fa19b4&scoped=true&lang=css&":
+/*!***********************************************************************************************************************!*\
+  !*** ./resources/js/views/Petugas/SuperAdmin/SuperAdmin.vue?vue&type=style&index=0&id=60fa19b4&scoped=true&lang=css& ***!
+  \***********************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_SuperAdmin_vue_vue_type_style_index_0_id_60fa19b4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader!../../../../../node_modules/css-loader??ref--6-1!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/src??ref--6-2!../../../../../node_modules/vue-loader/lib??vue-loader-options!./SuperAdmin.vue?vue&type=style&index=0&id=60fa19b4&scoped=true&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/SuperAdmin/SuperAdmin.vue?vue&type=style&index=0&id=60fa19b4&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_SuperAdmin_vue_vue_type_style_index_0_id_60fa19b4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_SuperAdmin_vue_vue_type_style_index_0_id_60fa19b4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_SuperAdmin_vue_vue_type_style_index_0_id_60fa19b4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_SuperAdmin_vue_vue_type_style_index_0_id_60fa19b4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_SuperAdmin_vue_vue_type_style_index_0_id_60fa19b4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/views/Petugas/SuperAdmin/SuperAdmin.vue?vue&type=template&id=60fa19b4&scoped=true&":
+/*!*********************************************************************************************************!*\
+  !*** ./resources/js/views/Petugas/SuperAdmin/SuperAdmin.vue?vue&type=template&id=60fa19b4&scoped=true& ***!
+  \*********************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SuperAdmin_vue_vue_type_template_id_60fa19b4_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./SuperAdmin.vue?vue&type=template&id=60fa19b4&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Petugas/SuperAdmin/SuperAdmin.vue?vue&type=template&id=60fa19b4&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SuperAdmin_vue_vue_type_template_id_60fa19b4_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SuperAdmin_vue_vue_type_template_id_60fa19b4_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
