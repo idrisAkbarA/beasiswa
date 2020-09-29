@@ -5432,25 +5432,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
-    this.getCekInterview();
+    this.getBeasiswa();
   },
-  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getCekInterview"])), {}, {
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getBeasiswa"])), {}, {
     lulusButton: function lulusButton(item) {
       this.dialog = true;
       this.id = item.id;
@@ -5485,7 +5472,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     }
   }),
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["cekInterview", "url"])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["beasiswa", "url"])),
   data: function data() {
     return {
       btnLoading: false,
@@ -10749,7 +10736,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.area[data-v-310c26ee] {\r\n  width: 70%;\r\n  margin: auto;\r\n  position: absolute;\r\n  height: 100%;\r\n  background: white;\n}\r\n", ""]);
+exports.push([module.i, "\n.area[data-v-310c26ee] {\n  width: 70%;\n  margin: auto;\n  position: absolute;\n  height: 100%;\n  background: white;\n}\n", ""]);
 
 // exports
 
@@ -49166,258 +49153,291 @@ var render = function() {
           _c(
             "v-row",
             [
-              _vm.cekInterview == []
-                ? _c("p", [_vm._v("Tidak ada peserta wawancara")])
-                : _vm._e(),
-              _vm._v(" "),
               _c(
-                "v-expansion-panels",
-                { attrs: { hover: "", inset: "" } },
-                _vm._l(_vm.cekInterview, function(item, i) {
-                  return _c(
-                    "v-expansion-panel",
-                    { key: i },
-                    [
-                      _c(
-                        "v-expansion-panel-header",
+                "v-card-text",
+                [
+                  !_vm.beasiswa
+                    ? _c("p", { staticClass: "text-center" }, [
+                        _vm._v("Tidak ada peserta wawancara")
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c(
+                    "v-expansion-panels",
+                    { attrs: { hover: "", inset: "" } },
+                    _vm._l(_vm.beasiswa, function(item, i) {
+                      return _c(
+                        "v-expansion-panel",
+                        { key: i },
                         [
                           _c(
-                            "v-row",
-                            {
-                              attrs: {
-                                "no-gutters": "",
-                                justify: "space-between"
-                              }
-                            },
+                            "v-expansion-panel-header",
                             [
-                              _c("v-col", { attrs: { cols: "4" } }, [
-                                _vm._v(_vm._s(item.nama))
-                              ]),
-                              _vm._v(" "),
-                              _c("v-col", { attrs: { cols: "4" } }, [
-                                _vm._v(_vm._s(item.nama_beasiswa))
-                              ])
+                              _c(
+                                "v-row",
+                                {
+                                  attrs: {
+                                    "no-gutters": "",
+                                    justify: "space-between"
+                                  }
+                                },
+                                [
+                                  _c("v-col", { attrs: { cols: "4" } }, [
+                                    _c("strong", [_vm._v(_vm._s(item.nama))])
+                                  ])
+                                ],
+                                1
+                              )
                             ],
                             1
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-expansion-panel-content",
-                        [
-                          _c("p", [_vm._v("Rincian")]),
-                          _vm._v(" "),
-                          _c("table", [
-                            _c("tr", [
-                              _c("td", [_vm._v("Nama")]),
-                              _vm._v(" "),
-                              _c("td", [_vm._v(":")]),
-                              _vm._v(" "),
-                              _c("td", [_vm._v(_vm._s(item.nama))])
-                            ]),
-                            _vm._v(" "),
-                            _c("tr", [
-                              _c("td", [_vm._v("NIM")]),
-                              _vm._v(" "),
-                              _c("td", [_vm._v(":")]),
-                              _vm._v(" "),
-                              _c("td", [_vm._v(_vm._s(item.mhs_id))])
-                            ]),
-                            _vm._v(" "),
-                            _c("tr", [
-                              _c("td", [_vm._v("Beasiswa")]),
-                              _vm._v(" "),
-                              _c("td", [_vm._v(":")]),
-                              _vm._v(" "),
-                              _c("td", [_vm._v(_vm._s(item.nama_beasiswa))])
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("v-row", [_c("v-divider")], 1),
-                          _vm._v(" "),
-                          _c("p", [_vm._v("Berkas")]),
-                          _vm._v(" "),
-                          _vm._l(item.form, function(field, index) {
-                            return _c(
-                              "v-row",
-                              {
-                                key: index,
-                                staticClass: "ma-5",
-                                attrs: { "no-gutters": "" }
-                              },
-                              [
-                                _c(
-                                  "v-col",
-                                  {
-                                    staticStyle: {
-                                      "padding-bottom": "0 !important"
-                                    }
-                                  },
-                                  [
-                                    _c("p", [_vm._v(_vm._s(field.pertanyaan))]),
-                                    _vm._v(" "),
-                                    field.type == "Pilihan"
-                                      ? _c("p", [
-                                          _c(
-                                            "span",
-                                            [
-                                              _c("v-icon", [
-                                                _vm._v("mdi-text-short")
-                                              ]),
-                                              _vm._v(
-                                                _vm._s(field.value) +
-                                                  "\n                  "
-                                              )
-                                            ],
-                                            1
-                                          )
-                                        ])
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    field.type == "Jawaban Pendek"
-                                      ? _c("p", [
-                                          _c(
-                                            "span",
-                                            [
-                                              _c("v-icon", [
-                                                _vm._v("mdi-text-short")
-                                              ]),
-                                              _vm._v(
-                                                _vm._s(field.value) +
-                                                  "\n                  "
-                                              )
-                                            ],
-                                            1
-                                          )
-                                        ])
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    field.type == "Jawaban Angka"
-                                      ? _c("p", [
-                                          _c(
-                                            "span",
-                                            [
-                                              _c("v-icon", [
-                                                _vm._v("mdi-text-short")
-                                              ]),
-                                              _vm._v(
-                                                _vm._s(field.value) +
-                                                  "\n                  "
-                                              )
-                                            ],
-                                            1
-                                          )
-                                        ])
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    field.type == "Tanggal"
-                                      ? _c("p", [
-                                          _c(
-                                            "span",
-                                            [
-                                              _c("v-icon", [
-                                                _vm._v("mdi-text-short")
-                                              ]),
-                                              _vm._v(
-                                                _vm._s(field.value) +
-                                                  "\n                  "
-                                              )
-                                            ],
-                                            1
-                                          )
-                                        ])
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    field.type == "Upload File"
-                                      ? _c(
-                                          "v-btn",
-                                          {
-                                            attrs: { small: "" },
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.link(field.value)
-                                              }
-                                            }
-                                          },
-                                          [_vm._v("lihat file")]
-                                        )
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    field.type == "Paragraf"
-                                      ? _c("p", [
-                                          _c(
-                                            "span",
-                                            [
-                                              _c("v-icon", [
-                                                _vm._v("mdi-text-short")
-                                              ]),
-                                              _vm._v(
-                                                _vm._s(field.value) +
-                                                  "\n                  "
-                                              )
-                                            ],
-                                            1
-                                          )
-                                        ])
-                                      : _vm._e()
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-col",
-                                  { attrs: { cols: "12" } },
-                                  [_c("v-divider")],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c("v-col", { attrs: { cols: "12" } })
-                              ],
-                              1
-                            )
-                          }),
+                          ),
                           _vm._v(" "),
                           _c(
-                            "v-row",
-                            { attrs: { justify: "end" } },
+                            "v-expansion-panel-content",
                             [
-                              _c(
-                                "v-btn",
-                                {
-                                  attrs: { text: "" },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.tidakLulusButton(item)
-                                    }
-                                  }
-                                },
-                                [_vm._v("Tidak Lulus")]
-                              ),
+                              _c("span", { staticClass: "text-muted" }, [
+                                _vm._v(_vm._s(item.deskripsi))
+                              ]),
+                              _vm._v(" "),
+                              _c("v-row", [_c("v-divider")], 1),
+                              _vm._v(" "),
+                              _c("span", [
+                                _vm._v(
+                                  "Kuota penerima beasiswa : " +
+                                    _vm._s(item.quota) +
+                                    " Orang"
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col-12" }, [
+                                _c(
+                                  "div",
+                                  { staticClass: "row" },
+                                  [
+                                    _c(
+                                      "v-card",
+                                      {
+                                        staticClass: "col-6 bg-dark",
+                                        attrs: { elevation: "0" }
+                                      },
+                                      [
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass:
+                                              "overline mb-4 text-white text-center"
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                                  Permohonan Masuk\n                                  "
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _vm._l(item.selection, function(
+                                          pemohon,
+                                          i
+                                        ) {
+                                          return _c(
+                                            "v-card",
+                                            {
+                                              key: i,
+                                              staticClass: "mb-1",
+                                              attrs: { elevation: "1" }
+                                            },
+                                            [
+                                              _c(
+                                                "div",
+                                                { staticClass: "px-2 pt-3" },
+                                                [
+                                                  _c(
+                                                    "a",
+                                                    {
+                                                      attrs: {
+                                                        href:
+                                                          "javascript:void(0)"
+                                                      }
+                                                    },
+                                                    [
+                                                      _c("div", [
+                                                        _c(
+                                                          "p",
+                                                          {
+                                                            staticClass:
+                                                              "font-weight-medium"
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                pemohon
+                                                                  .mahasiswa
+                                                                  .nama
+                                                              )
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "p",
+                                                          {
+                                                            staticClass:
+                                                              "text-caption"
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                pemohon.mhs_id
+                                                              )
+                                                            )
+                                                          ]
+                                                        )
+                                                      ])
+                                                    ]
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        })
+                                      ],
+                                      2
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-card",
+                                      {
+                                        staticClass: "col-6 bg-dark",
+                                        attrs: { elevation: "0" }
+                                      },
+                                      [
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass:
+                                              "overline mb-4 text-white text-center"
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                                  Lulus\n                                  "
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _vm._l(item.selection, function(
+                                          pemohon,
+                                          i
+                                        ) {
+                                          return _c(
+                                            "v-card",
+                                            {
+                                              key: i,
+                                              staticClass: "mb-1",
+                                              attrs: { elevation: "1" }
+                                            },
+                                            [
+                                              _c(
+                                                "div",
+                                                { staticClass: "px-2 pt-3" },
+                                                [
+                                                  _c(
+                                                    "a",
+                                                    {
+                                                      attrs: {
+                                                        href:
+                                                          "javascript:void(0)"
+                                                      }
+                                                    },
+                                                    [
+                                                      _c("div", [
+                                                        _c(
+                                                          "p",
+                                                          {
+                                                            staticClass:
+                                                              "font-weight-medium"
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                pemohon
+                                                                  .mahasiswa
+                                                                  .nama
+                                                              )
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "p",
+                                                          {
+                                                            staticClass:
+                                                              "text-caption"
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                pemohon.mhs_id
+                                                              )
+                                                            )
+                                                          ]
+                                                        )
+                                                      ])
+                                                    ]
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        })
+                                      ],
+                                      2
+                                    )
+                                  ],
+                                  1
+                                )
+                              ]),
                               _vm._v(" "),
                               _c(
-                                "v-btn",
-                                {
-                                  attrs: { dark: "", color: "#2E7D32" },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.lulusButton(item)
-                                    }
-                                  }
-                                },
-                                [_vm._v("Lulus")]
+                                "v-row",
+                                { attrs: { justify: "end" } },
+                                [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: { text: "" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.tidakLulusButton(item)
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("Tidak Lulus")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: { dark: "", color: "#2E7D32" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.lulusButton(item)
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("Lulus")]
+                                  )
+                                ],
+                                1
                               )
                             ],
                             1
                           )
                         ],
-                        2
+                        1
                       )
-                    ],
+                    }),
                     1
                   )
-                }),
+                ],
                 1
               )
             ],

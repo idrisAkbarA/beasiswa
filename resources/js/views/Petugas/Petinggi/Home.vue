@@ -17,104 +17,91 @@
         ></v-text-field>
       </v-row>
       <v-row>
-          <p v-if="cekInterview ==[]">Tidak ada peserta wawancara</p>
-        <v-expansion-panels
-          hover
-          inset
-        >
-          <v-expansion-panel
-            v-for="(item,i) in cekInterview"
-            :key="i"
-          >
-            <v-expansion-panel-header>
-              <v-row
-                no-gutters
-                justify="space-between"
-              >
-                <v-col cols="4">{{item.nama}}</v-col>
+          <v-card-text>
+            <p v-if="!beasiswa" class="text-center">Tidak ada peserta wawancara</p>
+            <v-expansion-panels
+            hover
+            inset
+            >
+                <v-expansion-panel
+                    v-for="(item,i) in beasiswa"
+                    :key="i"
+                >
+                    <v-expansion-panel-header>
+                    <v-row
+                        no-gutters
+                        justify="space-between"
+                    >
+                        <v-col cols="4"><strong>{{item.nama}}</strong></v-col>
 
-                <v-col cols="4">{{item.nama_beasiswa}}</v-col>
-              </v-row>
+                    </v-row>
 
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
-              <p>Rincian</p>
-              <table>
-                <tr>
-                  <td>Nama</td>
-                  <td>:</td>
-                  <td>{{item.nama}}</td>
-                </tr>
-                <tr>
-                  <td>NIM</td>
-                  <td>:</td>
-                  <td>{{item.mhs_id}}</td>
-                </tr>
-                <tr>
-                  <td>Beasiswa</td>
-                  <td>:</td>
-                  <td>{{item.nama_beasiswa}}</td>
-                </tr>
-              </table>
-              <v-row>
-                <v-divider></v-divider>
-              </v-row>
-              <p>Berkas</p>
-              <v-row
-                no-gutters=""
-                class="ma-5"
-                v-for="(field,index) in item.form"
-                :key="index"
-              >
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                        <!-- <span class="text-muted">{{item.quota}}</span> -->
+                        <span class="text-muted">{{item.deskripsi}}</span>
+                        <v-row>
+                            <v-divider></v-divider>
+                        </v-row>
+                        <span>Kuota penerima beasiswa : {{item.quota}} Orang</span>
+                        <div class="col-12">
+                            <div class="row">
+                                <v-card class="col-6 bg-dark" elevation="0">
+                                    <div class="overline mb-4 text-white text-center">
+                                    Permohonan Masuk
+                                    </div>
+                                    <v-card v-for="(pemohon, i) in item.selection" :key="i"
+                                        class="mb-1"
+                                        elevation="1"
+                                    >
+                                        <div class="px-2 pt-3">
+                                            <a href="javascript:void(0)" class="">
+                                                <div>
+                                                    <p class="font-weight-medium">{{pemohon.mahasiswa.nama}}</p>
+                                                    <p class="text-caption">{{pemohon.mhs_id}}</p>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </v-card>
+                                </v-card>
+                                <v-card class="col-6 bg-dark" elevation="0">
+                                    <div class="overline mb-4 text-white text-center">
+                                    Lulus
+                                    </div>
+                                    <v-card v-for="(pemohon, i) in item.selection" :key="i"
+                                        class="mb-1"
+                                        elevation="1"
+                                    >
+                                        <div class="px-2 pt-3">
+                                            <a href="javascript:void(0)" class="">
+                                                <div>
+                                                    <p class="font-weight-medium">{{pemohon.mahasiswa.nama}}</p>
+                                                    <p class="text-caption">{{pemohon.mhs_id}}</p>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </v-card>
+                                </v-card>
+                            </div>
+                        </div>
+                        <v-row justify="end">
 
-                <v-col style="padding-bottom:0 !important;">
-                  <p>{{field.pertanyaan}}</p>
-                  <p v-if="field.type == 'Pilihan'"><span>
-                      <v-icon>mdi-text-short</v-icon>{{field.value}}
-                    </span></p>
-                  <p v-if="field.type == 'Jawaban Pendek'"><span>
-                      <v-icon>mdi-text-short</v-icon>{{field.value}}
-                    </span></p>
-                  <p v-if="field.type == 'Jawaban Angka'"><span>
-                      <v-icon>mdi-text-short</v-icon>{{field.value}}
-                    </span></p>
-                  <p v-if="field.type == 'Tanggal'"><span>
-                      <v-icon>mdi-text-short</v-icon>{{field.value}}
-                    </span></p>
-                  <v-btn
-                    v-if="field.type == 'Upload File'"
-                    small
-                    @click="link(field.value)"
-                  >lihat file</v-btn>
-                  <p v-if="field.type == 'Paragraf'"><span>
-                      <v-icon>mdi-text-short</v-icon>{{field.value}}
-                    </span></p>
-                </v-col>
-                <v-col cols="12">
-                  <v-divider></v-divider>
-                </v-col>
-                <v-col cols="12">
+                            <v-btn
+                            @click="tidakLulusButton(item)"
+                            text
+                            >Tidak Lulus</v-btn>
+                            <v-btn
+                            dark
+                            color="#2E7D32"
 
-                </v-col>
-              </v-row>
-              <v-row justify="end">
+                            @click="lulusButton(item)"
+                            >Lulus</v-btn>
 
-                <v-btn
-                  @click="tidakLulusButton(item)"
-                  text
-                >Tidak Lulus</v-btn>
-                <v-btn
-                  dark
-                  color="#2E7D32"
-              
-                  @click="lulusButton(item)"
-                >Lulus</v-btn>
-
-              </v-row>
-            </v-expansion-panel-content>
-          </v-expansion-panel>
-        </v-expansion-panels>
-
+                        </v-row>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
+          </v-card-text>
       </v-row>
 
     </v-card-text>
@@ -158,11 +145,11 @@
 import { mapActions, mapMutations, mapState } from "vuex";
 export default {
   created() {
-    this.getCekInterview();
+    this.getBeasiswa();
 
   },
   methods: {
-    ...mapActions(["getCekInterview"]),
+    ...mapActions(["getBeasiswa"]),
     lulusButton(item) {
       this.dialog = true;
       this.id = item.id;
@@ -199,11 +186,11 @@ export default {
     }
   },
   computed: {
-    ...mapState(["cekInterview","url"])
+    ...mapState(["beasiswa","url"])
   },
   data() {
     return {
-        btnLoading:false,
+      btnLoading:false,
       dialog: false,
       msg: "",
       bool: 0,
