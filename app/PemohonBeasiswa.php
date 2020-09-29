@@ -10,6 +10,18 @@ class PemohonBeasiswa extends Model
         'mahasiswa'
     ];
 
+    public function setIsSelectionPassedAttribute($value)
+    {
+        if ($value){
+            if ($this->beasiswa->quota > count($this->beasiswa->lulus)){
+                $this->attributes['is_selection_passed'] = $value;
+            }else {
+                return;
+            }
+        }
+        $this->attributes['is_selection_passed'] = $value;
+    }
+
     public function getMahasiswaAttribute()
     {
         return User::where('nim', $this->mhs_id)->first();

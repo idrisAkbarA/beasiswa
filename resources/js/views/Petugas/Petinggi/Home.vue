@@ -38,22 +38,29 @@
 
                     </v-expansion-panel-header>
                     <v-expansion-panel-content>
-                        <!-- <span class="text-muted">{{item.quota}}</span> -->
                         <span class="text-muted">{{item.deskripsi}}</span>
                         <v-row>
                             <v-divider></v-divider>
                         </v-row>
-                        <span>Kuota penerima beasiswa : {{item.quota}} Orang</span>
+                        <span>
+                            Kuota penerima beasiswa : {{item.lulus.length}} / {{item.quota}} Orang
+                        </span>
+                        <v-badge
+                        inline
+                        content=" Terpenuhi"
+                        v-if="item.lulus.length == item.quota"
+                        ></v-badge>
                         <div class="col-12">
                             <div class="row">
                                 <v-card class="col-6 bg-dark" elevation="0">
                                     <div class="overline mb-4 text-white text-center">
                                     Permohonan Masuk
                                     </div>
+                                    <p v-if="item.selection.length < 1" class="text-white text-center">Tidak ada data</p>
                                     <v-btn v-for="(pemohon, i) in item.selection" :key="i"
                                         class="btn btn-light mb-1"
                                         block
-                                        @click="lulus(pemohon)"
+                                        @click="dialogDetail = true, selectedMahasiswa = pemohon"
                                     >
                                         <span class="my-2">{{pemohon.mahasiswa.nama}}</span>
                                     </v-btn>
@@ -62,10 +69,11 @@
                                     <div class="overline mb-4 text-white text-center">
                                     Lulus
                                     </div>
+                                    <p v-if="item.lulus.length < 1" class="text-white text-center">Tidak ada data</p>
                                     <v-btn v-for="(pemohon, i) in item.lulus" :key="i"
                                         class="btn btn-light mb-1"
                                         block
-                                        @click="lulus(pemohon)"
+                                        @click="selectedMahasiswa = pemohon, lulus()"
                                     >
                                         <span class="my-2">{{pemohon.mahasiswa.nama}}</span>
                                     </v-btn>
@@ -73,17 +81,12 @@
                             </div>
                         </div>
                         <v-row justify="end">
-
-                            <v-btn
-                            @click="tidakLulusButton(item)"
-                            text
-                            >Tidak Lulus</v-btn>
                             <v-btn
                             dark
                             color="#2E7D32"
 
-                            @click="lulusButton(item)"
-                            >Lulus</v-btn>
+                            @click="tutup(item)"
+                            >Tutup Penerimaan beasiswa</v-btn>
 
                         </v-row>
                     </v-expansion-panel-content>
@@ -91,8 +94,74 @@
             </v-expansion-panels>
           </v-card-text>
       </v-row>
-
     </v-card-text>
+    <!-- Dialog Detail -->
+    <div class="text-center" v-if="dialogDetail">
+      <v-dialog v-model="dialogDetail" width="600">
+        <v-card>
+          <v-card-title class="headline white--text" primary-title>
+            <i class="mdi mdi-account mr-2"></i> {{selectedMahasiswa.mahasiswa.nama}}
+          </v-card-title>
+
+          <v-card-text class="mt-2 white--text">
+              detail
+          </v-card-text>
+
+          <v-divider></v-divider>
+
+          <v-card-actions>
+            <v-btn @click="dialogDetail = false, selectedMahasiswa = {}" color="white" text>batal</v-btn>
+            <v-spacer></v-spacer>
+            <v-btn color="#2E7D32" dark @click="lulus()">
+              <v-icon>check</v-icon>Lulus
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
+    <!-- Dialog Delete -->
+    <!-- <div class="text-center">
+      <v-dialog v-model="dialogDelete" width="400">
+        <v-card>
+          <v-card-title class="headline white--text" primary-title>
+            <v-icon color="white" class="mr-2">delete</v-icon>Hapus Mahasiswa
+          </v-card-title>
+
+          <v-card-text class="mt-2 white--text">
+            Apakah anda yakin akan menghapus Mahasiswa
+            <span class="font-weight-bold"></span>?
+          </v-card-text>
+
+          <v-divider></v-divider>
+
+          <v-card-actions>
+            <v-btn @click="dialogDelete = false" color="white" text>batal</v-btn>
+            <v-spacer></v-spacer>
+            <v-btn color="red" dark @click="dialogDelete = false,deleteConfirmed()">
+              <v-icon>delete</v-icon>Hapus
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div> -->
+    <!-- Snackbar -->
+    <v-snackbar
+      v-model="snackbar.show"
+      :timeout="2000"
+    >
+      {{ snackbar.message }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          :color="snackbar.color"
+          text
+          v-bind="attrs"
+          @click="snackbar.show = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-card>
 </template>
 
@@ -103,19 +172,45 @@ export default {
     this.getBeasiswa();
   },
   methods: {
-    ...mapActions(["getBeasiswa"]),
-    lulus(item) {
-        var data = [];
-        data.id = item.id;
-        data.bool = item.is_selection_passed == 1 ? 0 : 1;
-        axios.put(this.url+"/pemohon/set-interview", data)
+    ...mapActions(["getBeasiswa", "deleteBeasiswa"]),
+    lulus() {
+        console.log(this.selectedMahasiswa);
+        this.btnLoading = true;
+        axios
+        .put(`${this.url}/api/pemohon/set-selection`, {
+            bool: this.selectedMahasiswa.is_selection_passed == 1 ? 0 : 1,
+            id: this.selectedMahasiswa.id
+        })
+        .then(response => {
+            if (!response.data.status){
+                this.snackbar = {
+                    show: true,
+                    color: "red",
+                    message: "Kuota beasiswa sudah penuh!",
+                }
+            }else {
+                this.getBeasiswa();
+            }
+            this.btnLoading = false;
+            this.dialogDetail = false;
+            this.selectedMahasiswa = {};
+        });
     },
-    tidakLulusButton(item) {
-      this.dialog = true;
-      this.id = item.id;
-      this.bool = 0;
-      this.msg =
-        "Apakah anda yakin bahwa pemohon <strong>tidak lulus</strong> tahap wawancara?";
+    tutup(item) {
+        this.btnLoading = true;
+        this.deleteBeasiswa(item.id)
+          .then(response => {
+            this.btnLoading = false;
+            this.snackbar = {
+                show: true,
+                color: "blue",
+                message: "Beasiswa telah ditutup!",
+            }
+            getBeasiswa();
+          })
+          .catch(error => {
+            this.btnLoading = false;
+          });
     },
     link(url) {
       var a = this.url + "/" + url;
@@ -129,11 +224,12 @@ export default {
   },
   data() {
     return {
+      selectedMahasiswa: {},
       btnLoading:false,
-      dialog: false,
-      msg: "",
-      bool: 0,
-      id: 0,
+      dialogDetail: false,
+      snackbar: {
+          show: false
+      },
       headers: [
         {
           text: "Nama Instansi",
