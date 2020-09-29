@@ -43,6 +43,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function getNamaAttribute($value)
+    {
+        return ucwords($value);
+    }
+
     public function permohonan()
     {
         return $this->hasMany('App\PemohonBeasiswa','mhs_id');

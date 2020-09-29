@@ -60,7 +60,7 @@
                                     <v-btn v-for="(pemohon, i) in item.selection" :key="i"
                                         class="btn btn-light mb-1"
                                         block
-                                        @click="lulus(pemohon)"
+                                        @click="dialogDetail = true, selectedMahasiswa = pemohon"
                                     >
                                         <span class="my-2">{{pemohon.mahasiswa.nama}}</span>
                                     </v-btn>
@@ -73,7 +73,7 @@
                                     <v-btn v-for="(pemohon, i) in item.lulus" :key="i"
                                         class="btn btn-light mb-1"
                                         block
-                                        @click="lulus(pemohon)"
+                                        @click="selectedMahasiswa = pemohon, lulus()"
                                     >
                                         <span class="my-2">{{pemohon.mahasiswa.nama}}</span>
                                     </v-btn>
@@ -95,8 +95,32 @@
           </v-card-text>
       </v-row>
     </v-card-text>
+    <!-- Dialog Detail -->
+    <div class="text-center" v-if="dialogDetail">
+      <v-dialog v-model="dialogDetail" width="600">
+        <v-card>
+          <v-card-title class="headline white--text" primary-title>
+            <i class="mdi mdi-account mr-2"></i> {{selectedMahasiswa.mahasiswa.nama}}
+          </v-card-title>
+
+          <v-card-text class="mt-2 white--text">
+              detail
+          </v-card-text>
+
+          <v-divider></v-divider>
+
+          <v-card-actions>
+            <v-btn @click="dialogDetail = false, selectedMahasiswa = {}" color="white" text>batal</v-btn>
+            <v-spacer></v-spacer>
+            <v-btn color="#2E7D32" dark @click="lulus()">
+              <v-icon>check</v-icon>Lulus
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
     <!-- Dialog Delete -->
-    <div class="text-center">
+    <!-- <div class="text-center">
       <v-dialog v-model="dialogDelete" width="400">
         <v-card>
           <v-card-title class="headline white--text" primary-title>
@@ -119,7 +143,7 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-    </div>
+    </div> -->
     <!-- Snackbar -->
     <v-snackbar
       v-model="snackbar.show"
@@ -149,12 +173,13 @@ export default {
   },
   methods: {
     ...mapActions(["getBeasiswa", "deleteBeasiswa"]),
-    lulus(item) {
+    lulus() {
+        console.log(this.selectedMahasiswa);
         this.btnLoading = true;
         axios
         .put(`${this.url}/api/pemohon/set-selection`, {
-            bool: item.is_selection_passed == 1 ? 0 : 1,
-            id: item.id
+            bool: this.selectedMahasiswa.is_selection_passed == 1 ? 0 : 1,
+            id: this.selectedMahasiswa.id
         })
         .then(response => {
             if (!response.data.status){
@@ -167,6 +192,8 @@ export default {
                 this.getBeasiswa();
             }
             this.btnLoading = false;
+            this.dialogDetail = false;
+            this.selectedMahasiswa = {};
         });
     },
     tutup(item) {
@@ -197,7 +224,9 @@ export default {
   },
   data() {
     return {
+      selectedMahasiswa: {},
       btnLoading:false,
+      dialogDetail: false,
       snackbar: {
           show: false
       },

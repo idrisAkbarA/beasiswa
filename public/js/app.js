@@ -6205,19 +6205,44 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
     this.getBeasiswa();
   },
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getBeasiswa", "deleteBeasiswa"])), {}, {
-    lulus: function lulus(item) {
+    lulus: function lulus() {
       var _this = this;
 
+      console.log(this.selectedMahasiswa);
       this.btnLoading = true;
       axios.put("".concat(this.url, "/api/pemohon/set-selection"), {
-        bool: item.is_selection_passed == 1 ? 0 : 1,
-        id: item.id
+        bool: this.selectedMahasiswa.is_selection_passed == 1 ? 0 : 1,
+        id: this.selectedMahasiswa.id
       }).then(function (response) {
         if (!response.data.status) {
           _this.snackbar = {
@@ -6230,6 +6255,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }
 
         _this.btnLoading = false;
+        _this.dialogDetail = false;
+        _this.selectedMahasiswa = {};
       });
     },
     tutup: function tutup(item) {
@@ -6258,7 +6285,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["beasiswa", "url"])),
   data: function data() {
     return {
+      selectedMahasiswa: {},
       btnLoading: false,
+      dialogDetail: false,
       snackbar: {
         show: false
       },
@@ -51188,7 +51217,8 @@ var render = function() {
                                               attrs: { block: "" },
                                               on: {
                                                 click: function($event) {
-                                                  return _vm.lulus(pemohon)
+                                                  ;(_vm.dialogDetail = true),
+                                                    (_vm.selectedMahasiswa = pemohon)
                                                 }
                                               }
                                             },
@@ -51254,7 +51284,8 @@ var render = function() {
                                               attrs: { block: "" },
                                               on: {
                                                 click: function($event) {
-                                                  return _vm.lulus(pemohon)
+                                                  ;(_vm.selectedMahasiswa = pemohon),
+                                                    _vm.lulus()
                                                 }
                                               }
                                             },
@@ -51319,84 +51350,84 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "text-center" },
-        [
-          _c(
-            "v-dialog",
-            {
-              attrs: { width: "400" },
-              model: {
-                value: _vm.dialogDelete,
-                callback: function($$v) {
-                  _vm.dialogDelete = $$v
-                },
-                expression: "dialogDelete"
-              }
-            },
+      _vm.dialogDetail
+        ? _c(
+            "div",
+            { staticClass: "text-center" },
             [
               _c(
-                "v-card",
+                "v-dialog",
+                {
+                  attrs: { width: "600" },
+                  model: {
+                    value: _vm.dialogDetail,
+                    callback: function($$v) {
+                      _vm.dialogDetail = $$v
+                    },
+                    expression: "dialogDetail"
+                  }
+                },
                 [
                   _c(
-                    "v-card-title",
-                    {
-                      staticClass: "headline white--text",
-                      attrs: { "primary-title": "" }
-                    },
+                    "v-card",
                     [
                       _c(
-                        "v-icon",
-                        { staticClass: "mr-2", attrs: { color: "white" } },
-                        [_vm._v("delete")]
-                      ),
-                      _vm._v("Hapus Mahasiswa\n        ")
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c("v-card-text", { staticClass: "mt-2 white--text" }, [
-                    _vm._v(
-                      "\n          Apakah anda yakin akan menghapus Mahasiswa\n          "
-                    ),
-                    _c("span", { staticClass: "font-weight-bold" }),
-                    _vm._v("?\n        ")
-                  ]),
-                  _vm._v(" "),
-                  _c("v-divider"),
-                  _vm._v(" "),
-                  _c(
-                    "v-card-actions",
-                    [
-                      _c(
-                        "v-btn",
+                        "v-card-title",
                         {
-                          attrs: { color: "white", text: "" },
-                          on: {
-                            click: function($event) {
-                              _vm.dialogDelete = false
-                            }
-                          }
-                        },
-                        [_vm._v("batal")]
-                      ),
-                      _vm._v(" "),
-                      _c("v-spacer"),
-                      _vm._v(" "),
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: { color: "red", dark: "" },
-                          on: {
-                            click: function($event) {
-                              ;(_vm.dialogDelete = false), _vm.deleteConfirmed()
-                            }
-                          }
+                          staticClass: "headline white--text",
+                          attrs: { "primary-title": "" }
                         },
                         [
-                          _c("v-icon", [_vm._v("delete")]),
-                          _vm._v("Hapus\n          ")
+                          _c("i", { staticClass: "mdi mdi-account mr-2" }),
+                          _vm._v(
+                            " " +
+                              _vm._s(_vm.selectedMahasiswa.mahasiswa.nama) +
+                              "\n        "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("v-card-text", { staticClass: "mt-2 white--text" }, [
+                        _vm._v("\n            detail\n        ")
+                      ]),
+                      _vm._v(" "),
+                      _c("v-divider"),
+                      _vm._v(" "),
+                      _c(
+                        "v-card-actions",
+                        [
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { color: "white", text: "" },
+                              on: {
+                                click: function($event) {
+                                  ;(_vm.dialogDetail = false),
+                                    (_vm.selectedMahasiswa = {})
+                                }
+                              }
+                            },
+                            [_vm._v("batal")]
+                          ),
+                          _vm._v(" "),
+                          _c("v-spacer"),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { color: "#2E7D32", dark: "" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.lulus()
+                                }
+                              }
+                            },
+                            [
+                              _c("v-icon", [_vm._v("check")]),
+                              _vm._v("Lulus\n          ")
+                            ],
+                            1
+                          )
                         ],
                         1
                       )
@@ -51409,9 +51440,7 @@ var render = function() {
             ],
             1
           )
-        ],
-        1
-      ),
+        : _vm._e(),
       _vm._v(" "),
       _c(
         "v-snackbar",
