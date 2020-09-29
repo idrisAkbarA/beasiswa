@@ -28,14 +28,18 @@
                   label="Username"
                 ></v-text-field>
                 <v-text-field
-                color="white"
+                  color="white"
                   v-model="pass"
                   type="password"
                   @keyup.enter="login"
                   label="Password"
                 ></v-text-field>
 
-                <v-btn color="green" :loading="loading" @click="login">login</v-btn>
+                <v-btn
+                  color="green"
+                  :loading="loading"
+                  @click="login"
+                >login</v-btn>
 
               </v-card-text>
             </v-card>
@@ -48,21 +52,22 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios'
+axios.defaults.withCredentials = true;
 import { mapMutations } from "vuex";
 export default {
   data() {
     return {
       nim: "",
       pass: "",
-      error:"",
-      loading:false,
+      error: "",
+      loading: false
     };
   },
   methods: {
     ...mapMutations(["mutateNim"]),
     login() {
-      this.loading=true;
+      this.loading = true;
       axios.get("http://beasiswa.test/sanctum/csrf-cookie").then(response => {
         axios
           .post("http://beasiswa.test/api/authenticate", {
@@ -72,34 +77,34 @@ export default {
           .then(response => {
             console.log(response.data);
             this.mutateNim(this.nim);
-            if(response.data.status == "Authenticated"){
+            if (response.data.status == "Authenticated") {
               this.$router.push({ path: `/mahasiswa/home` });
-            }else{
-              this.error = "Invalid username/password"
-              this.loading=false;
+            } else {
+              this.error = "Invalid username/password";
+              this.loading = false;
             }
-          }).catch(error=>{
-            this.loading=false
-            console.log(error)
+          })
+          .catch(error => {
+            this.loading = false;
+            console.log(error);
           });
       });
     }
   },
   created() {
-    axios.get("http://beasiswa.test/sanctum/csrf-cookie").then(response => {
-      console.log(response);
+
 
       axios
         .get("http://beasiswa.test/api/user")
         .then(response => {
           console.log(response.data);
+          console.log("go");
           this.$router.push({ path: `/mahasiswa/home` });
         })
         .catch(error => {
           console.log(error.response.status);
           // this.$router.push("login");
         });
-    });
   }
 };
 </script>
@@ -108,7 +113,7 @@ export default {
 .bg-pattern {
   /* background-color: #f9f9f9; */
   /* background: url("../assets/pattern2.svg") repeat; */
-   background: url("/pattern.svg") repeat;
+  background: url("/pattern.svg") repeat;
   background-size: 400px;
 }
 </style>

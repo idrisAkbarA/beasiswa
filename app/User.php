@@ -15,7 +15,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-
+    protected $guard = 'mahasiswa';
     public function permohonanBeasiswa()
     {
         return $this->hasMany('App\PemohonMahasiswa');
