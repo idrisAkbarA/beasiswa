@@ -6026,7 +6026,7 @@ __webpack_require__.r(__webpack_exports__);
     logout: function logout() {
       var _this = this;
 
-      axios.get("http://beasiswa.test/api/logout", {
+      axios.get("http://beasiswa.test/api/logout-petugas", {
         params: {
           user: window.localStorage.getItem("user")
         }
@@ -6366,7 +6366,7 @@ __webpack_require__.r(__webpack_exports__);
     logout: function logout() {
       var _this = this;
 
-      axios.get("http://beasiswa.test/api/logout", {
+      axios.get("http://beasiswa.test/api/logout-petugas", {
         params: {
           user: window.localStorage.getItem("user")
         }
@@ -6924,7 +6924,7 @@ __webpack_require__.r(__webpack_exports__);
     logout: function logout() {
       var _this = this;
 
-      axios.get("http://beasiswa.test/api/logout", {
+      axios.get("http://beasiswa.test/api/logout-petugas", {
         params: {
           user: window.localStorage.getItem("user")
         }
@@ -11489,7 +11489,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.fab[data-v-0f4b97e0] {\n  color: #2e7d323b;\n  position: fixed;\n  bottom: 20px;\n  right: 20px;\n}\n.floating[data-v-0f4b97e0] {\n  width: 100%;\n  position: fixed;\n  bottom: 20px;\n  z-index: 10;\n}\n", ""]);
+exports.push([module.i, "\n.fab[data-v-0f4b97e0] {\r\n  color: #2e7d323b;\r\n  position: fixed;\r\n  bottom: 20px;\r\n  right: 20px;\n}\n.floating[data-v-0f4b97e0] {\r\n  width: 100%;\r\n  position: fixed;\r\n  bottom: 20px;\r\n  z-index: 10;\n}\r\n", ""]);
 
 // exports
 
@@ -11546,7 +11546,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.area[data-v-310c26ee] {\n  width: 70%;\n  margin: auto;\n  position: absolute;\n  height: 100%;\n  background: white;\n}\n", ""]);
+exports.push([module.i, "\n.area[data-v-310c26ee] {\r\n  width: 70%;\r\n  margin: auto;\r\n  position: absolute;\r\n  height: 100%;\r\n  background: white;\n}\r\n", ""]);
 
 // exports
 
@@ -11584,7 +11584,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.slide-fade-enter-active[data-v-edc1cd70] {\n  transition: all 0.2s ease-out;\n}\n.slide-fade-leave-active[data-v-edc1cd70] {\n  transition: all 0.2s ease-in;\n}\n.slide-fade-enter[data-v-edc1cd70]\n/* .slide-fade-leave-active below version 2.1.8 */ {\n  transform: scale(1.1);\n\n  opacity: 0;\n}\n.slide-fade-leave-to[data-v-edc1cd70]\n/* .slide-fade-leave-active below version 2.1.8 */ {\n  transform: scale(0.9);\n\n  opacity: 0;\n}\n/* The emerging W3C standard\n   that is currently Firefox-only */\n*[data-v-edc1cd70]::-webkit-scrollbar {\n  width: 7px;\n\n  margin: 10px;\n  -webkit-transition: 1s ease;\n  transition: 1s ease;\n}\n\n/* Track */\n*[data-v-edc1cd70]::-webkit-scrollbar-track {\n  background: transparent;\n  /* background: #F9F9F9; */\n\n  margin: 10px;\n}\n\n/* Handle */\n*[data-v-edc1cd70]::-webkit-scrollbar-thumb {\n  -webkit-transition: 1s ease;\n  transition: 1s ease;\n  background: #f79593;\n  opacity: 0.5;\n  border-radius: 25px;\n\n  margin: 10px;\n}\n\n/* Handle on hover */\n*[data-v-edc1cd70]::-webkit-scrollbar-thumb:hover {\n  -webkit-transition: 1s ease;\n  transition: 1s ease;\n  background: #ff8481;\n}\n.bg-pattern[data-v-edc1cd70] {\n  background: url(\"/pattern.svg\") repeat;\n  background-size: 400px;\n}\na[data-v-edc1cd70] {\n  text-decoration: none !important;\n}\n", ""]);
+exports.push([module.i, "\n.slide-fade-enter-active[data-v-edc1cd70] {\r\n  transition: all 0.2s ease-out;\n}\n.slide-fade-leave-active[data-v-edc1cd70] {\r\n  transition: all 0.2s ease-in;\n}\n.slide-fade-enter[data-v-edc1cd70]\r\n/* .slide-fade-leave-active below version 2.1.8 */ {\r\n  transform: scale(1.1);\r\n\r\n  opacity: 0;\n}\n.slide-fade-leave-to[data-v-edc1cd70]\r\n/* .slide-fade-leave-active below version 2.1.8 */ {\r\n  transform: scale(0.9);\r\n\r\n  opacity: 0;\n}\r\n/* The emerging W3C standard\r\n   that is currently Firefox-only */\n*[data-v-edc1cd70]::-webkit-scrollbar {\r\n  width: 7px;\r\n\r\n  margin: 10px;\r\n  -webkit-transition: 1s ease;\r\n  transition: 1s ease;\n}\r\n\r\n/* Track */\n*[data-v-edc1cd70]::-webkit-scrollbar-track {\r\n  background: transparent;\r\n  /* background: #F9F9F9; */\r\n\r\n  margin: 10px;\n}\r\n\r\n/* Handle */\n*[data-v-edc1cd70]::-webkit-scrollbar-thumb {\r\n  -webkit-transition: 1s ease;\r\n  transition: 1s ease;\r\n  background: #f79593;\r\n  opacity: 0.5;\r\n  border-radius: 25px;\r\n\r\n  margin: 10px;\n}\r\n\r\n/* Handle on hover */\n*[data-v-edc1cd70]::-webkit-scrollbar-thumb:hover {\r\n  -webkit-transition: 1s ease;\r\n  transition: 1s ease;\r\n  background: #ff8481;\n}\n.bg-pattern[data-v-edc1cd70] {\r\n  background: url(\"/pattern.svg\") repeat;\r\n  background-size: 400px;\n}\na[data-v-edc1cd70] {\r\n  text-decoration: none !important;\n}\r\n", ""]);
 
 // exports
 
@@ -115158,8 +115158,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\beasiswa\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\beasiswa\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! A:\Programming\Web-Root\beasiswa\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! A:\Programming\Web-Root\beasiswa\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
