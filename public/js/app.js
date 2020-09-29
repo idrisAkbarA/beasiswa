@@ -11803,7 +11803,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.fab[data-v-0f4b97e0] {\n  color: #2e7d323b;\n  position: fixed;\n  bottom: 20px;\n  right: 20px;\n}\n.floating[data-v-0f4b97e0] {\n  width: 100%;\n  position: fixed;\n  bottom: 20px;\n  z-index: 10;\n}\n", ""]);
+exports.push([module.i, "\n.fab[data-v-0f4b97e0] {\r\n  color: #2e7d323b;\r\n  position: fixed;\r\n  bottom: 20px;\r\n  right: 20px;\n}\n.floating[data-v-0f4b97e0] {\r\n  width: 100%;\r\n  position: fixed;\r\n  bottom: 20px;\r\n  z-index: 10;\n}\r\n", ""]);
 
 // exports
 
@@ -11860,7 +11860,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.area[data-v-310c26ee] {\n  width: 70%;\n  margin: auto;\n  position: absolute;\n  height: 100%;\n  background: white;\n}\n", ""]);
+exports.push([module.i, "\n.area[data-v-310c26ee] {\r\n  width: 70%;\r\n  margin: auto;\r\n  position: absolute;\r\n  height: 100%;\r\n  background: white;\n}\r\n", ""]);
 
 // exports
 
@@ -116500,8 +116500,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\beasiswa\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\beasiswa\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! A:\Programming\Web-Root\beasiswa\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! A:\Programming\Web-Root\beasiswa\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
