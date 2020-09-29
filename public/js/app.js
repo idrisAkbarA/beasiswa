@@ -2621,14 +2621,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getBeasiswa"])), {}, {
-    "goto": function goto() {
+    "goto": function goto(item) {
       console.log("hello");
+      this.$router.push({
+        path: "/mahasiswa/daftar-beasiswa/" + item.id
+      });
     },
     handleScroll: function handleScroll(event) {
       //   var item = document.getElementsByClassName("container");
@@ -2644,7 +2644,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   created: function created() {
     this.getBeasiswa();
-    window.addEventListener("wheel", this.handleScroll);
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["beasiswa"]))
 });
@@ -11040,7 +11039,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.main[data-v-45c0085a] {\r\n    \r\n  position: relative;\r\n  width: 100%;\r\n  -webkit-overflow-scrolling: touch;\n}\n.container[data-v-45c0085a] {\r\n  display: flex;\r\n  flex-direction: row;\r\n  align-items: flex-start;\r\n  flex-wrap: nowrap;\r\n  width: auto;\r\n  overflow-x: scroll;\r\n  scrollbar-width: thin;\n}\n.item[data-v-45c0085a] {\r\n  pointer-events: none;\r\n  flex: 0 0 auto;\r\n  width: 100vw;\r\n  height: 100vh;\r\n  margin: 0;\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\n}\n@media (min-width: 768px){\n.container[data-v-45c0085a]{\r\n        max-width: none !important;\n}\n}\n[data-v-45c0085a]::-webkit-scrollbar {\r\n  width: 0px;\n}\r\n\r\n/* Handle on hover */\r\n\r\n", ""]);
+exports.push([module.i, "\n.main[data-v-45c0085a] {\r\n    \r\n  position: relative;\r\n  width: 100%;\r\n  -webkit-overflow-scrolling: touch;\n}\n.container[data-v-45c0085a] {\r\n  display: flex;\r\n  flex-direction: row;\r\n  align-items: flex-start;\r\n  flex-wrap: nowrap;\r\n  width: auto;\r\n  overflow-x: scroll;\r\n  scrollbar-width: thin;\n}\n.item[data-v-45c0085a] {\r\n  pointer-events: none;\r\n  flex: 0 0 auto;\r\n  width: 100vw;\r\n  height: 100vh;\r\n  margin: 0;\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\n}\n@media (min-width: 768px){\n.container[data-v-45c0085a]{\r\n        max-width: none !important;\n}\n}\n[data-v-45c0085a]::-webkit-scrollbar {\r\n  width: 0px;\n}\na[data-v-45c0085a] {\r\n  text-decoration: none !important;\n}\r\n\r\n/* Handle on hover */\r\n\r\n", ""]);
 
 // exports
 
@@ -11211,7 +11210,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.area[data-v-6650fdb6] {\r\n  width: 70%;\r\n  margin: auto;\r\n  position: absolute;\r\n  height: 100%;\r\n  background: white;\n}\r\n", ""]);
+exports.push([module.i, "\na[data-v-6650fdb6] {\r\n  text-decoration: none !important;\n}\n.area[data-v-6650fdb6] {\r\n  width: 70%;\r\n  margin: auto;\r\n  position: absolute;\r\n  height: 100%;\r\n  background: white;\n}\r\n", ""]);
 
 // exports
 
@@ -44878,23 +44877,18 @@ var render = function() {
     { staticClass: "main pa-0 ma-0", attrs: { fluid: "", "fill-height": "" } },
     [
       _c(
-        "div",
-        { staticClass: "container", attrs: { id: "scrollMe" } },
+        "v-row",
+        { attrs: { justify: "center" } },
         _vm._l(_vm.beasiswa, function(item, index) {
           return _c(
             "v-card",
             {
               key: index,
-              staticClass: "ma-3 item",
-              attrs: {
-                ripple: "",
-                to: "/" + item.id,
-                height: 300 * 1.2,
-                width: 200 * 1.2
-              },
+              staticClass: "ma-3",
+              attrs: { ripple: "", height: 300 * 1.2, width: 200 * 1.2 },
               on: {
                 click: function($event) {
-                  return _vm.goto()
+                  return _vm.goto(item)
                 }
               }
             },
@@ -44932,7 +44926,8 @@ var render = function() {
         }),
         1
       )
-    ]
+    ],
+    1
   )
 }
 var staticRenderFns = []

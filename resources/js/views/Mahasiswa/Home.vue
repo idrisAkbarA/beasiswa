@@ -5,14 +5,11 @@
     class="main pa-0 ma-0"
   >
   <!-- <v-card @click="goto">pepek</v-card> -->
-  
-    <div class="container" id="scrollMe">
-
-      <v-card
-        @click="goto()"
+    <v-row justify="center">
+            <v-card
+        @click="goto(item)"
         ripple
-        :to="'/'+item.id"
-        class="ma-3 item"
+        class="ma-3"
         :height="300*1.2"
         :width="200*1.2"
         v-for="(item,index) in beasiswa"
@@ -31,7 +28,7 @@
           </v-card-text>
         </v-img>
       </v-card>
-    </div>
+    </v-row>
    
   </v-container>
 </template>
@@ -41,8 +38,9 @@ import { mapState, mapActions } from "vuex";
 export default {
   methods: {
     ...mapActions(["getBeasiswa"]),
-    goto(){
+    goto(item){
         console.log("hello")
+        this.$router.push({path:"/mahasiswa/daftar-beasiswa/"+item.id})
     },
     handleScroll(event) {
     //   var item = document.getElementsByClassName("container");
@@ -60,8 +58,6 @@ export default {
   },
   created() {
     this.getBeasiswa();
-
-    window.addEventListener("wheel", this.handleScroll);
   },
   computed: {
     ...mapState(["beasiswa"])
@@ -102,6 +98,9 @@ export default {
 }
 ::-webkit-scrollbar {
   width: 0px;
+}
+a {
+  text-decoration: none !important;
 }
 
 /* Handle on hover */
