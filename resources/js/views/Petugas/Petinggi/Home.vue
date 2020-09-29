@@ -50,37 +50,25 @@
                                     <div class="overline mb-4 text-white text-center">
                                     Permohonan Masuk
                                     </div>
-                                    <v-card v-for="(pemohon, i) in item.selection" :key="i"
-                                        class="mb-1"
-                                        elevation="1"
+                                    <v-btn v-for="(pemohon, i) in item.selection" :key="i"
+                                        class="btn btn-light mb-1"
+                                        block
+                                        @click="lulus(pemohon)"
                                     >
-                                        <div class="px-2 pt-3">
-                                            <a href="javascript:void(0)" class="">
-                                                <div>
-                                                    <p class="font-weight-medium">{{pemohon.mahasiswa.nama}}</p>
-                                                    <p class="text-caption">{{pemohon.mhs_id}}</p>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </v-card>
+                                        <span class="my-2">{{pemohon.mahasiswa.nama}}</span>
+                                    </v-btn>
                                 </v-card>
                                 <v-card class="col-6 bg-dark" elevation="0">
                                     <div class="overline mb-4 text-white text-center">
                                     Lulus
                                     </div>
-                                    <v-card v-for="(pemohon, i) in item.selection" :key="i"
-                                        class="mb-1"
-                                        elevation="1"
+                                    <v-btn v-for="(pemohon, i) in item.lulus" :key="i"
+                                        class="btn btn-light mb-1"
+                                        block
+                                        @click="lulus(pemohon)"
                                     >
-                                        <div class="px-2 pt-3">
-                                            <a href="javascript:void(0)" class="">
-                                                <div>
-                                                    <p class="font-weight-medium">{{pemohon.mahasiswa.nama}}</p>
-                                                    <p class="text-caption">{{pemohon.mhs_id}}</p>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </v-card>
+                                        <span class="my-2">{{pemohon.mahasiswa.nama}}</span>
+                                    </v-btn>
                                 </v-card>
                             </div>
                         </div>
@@ -105,39 +93,6 @@
       </v-row>
 
     </v-card-text>
-    <v-dialog
-      width="460"
-      overlay-color="#69F0AE"
-      v-model="dialog"
-    >
-      <v-card>
-        <v-card-title class="mt-2">
-          <span v-html="msg"></span>
-          <p style="font-weight:bold">
-            <!-- {{itemtoDelete.nama}}? -->
-          </p>
-        </v-card-title>
-        <v-card-actions>
-
-          <v-btn
-            text
-            @click="dialog = false"
-          >
-            Batal
-          </v-btn>
-          <v-spacer></v-spacer>
-          <v-btn
-            dark
-            class="green"
-                :loading="btnLoading"
-            @click="setInterview"
-          >
-            <v-icon left>mdi-check</v-icon>
-            iya
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
   </v-card>
 </template>
 
@@ -146,16 +101,14 @@ import { mapActions, mapMutations, mapState } from "vuex";
 export default {
   created() {
     this.getBeasiswa();
-
   },
   methods: {
     ...mapActions(["getBeasiswa"]),
-    lulusButton(item) {
-      this.dialog = true;
-      this.id = item.id;
-      this.bool = 1;
-      this.msg =
-        "Apakah anda yakin bahwa pemohon <strong>lulus</strong> tahap wawancara?";
+    lulus(item) {
+        var data = [];
+        data.id = item.id;
+        data.bool = item.is_selection_passed == 1 ? 0 : 1;
+        axios.put(this.url+"/pemohon/set-interview", data)
     },
     tidakLulusButton(item) {
       this.dialog = true;
@@ -169,20 +122,6 @@ export default {
       var link = a.replace(" ", "%20");
       console.log(link);
       location = link;
-    },
-    setInterview() {
-        this.btnLoading = true;
-      axios
-        .put(`${this.url}/api/pemohon/set-interview`, {
-          bool: this.bool,
-          id: this.id
-        })
-        .then(response => {
-          this.getCekInterview();
-          console.log(response.data);
-          this.dialog = false;
-          this.btnLoading = false;
-        });
     }
   },
   computed: {

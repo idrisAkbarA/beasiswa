@@ -10,7 +10,8 @@ class Beasiswa extends Model
     use SoftDeletes;
 
     protected $appends = [
-        'selection'
+        'selection',
+        'lulus'
     ];
 
     public function getSelectionAttribute()
@@ -22,7 +23,21 @@ class Beasiswa extends Model
             })
             ->when($this->is_survey == 1, function ($q) {
                 return $q->where('is_survey_passed', 1);
-            });
+            })
+            ->where('is_selection_passed', 0);
+    }
+
+    public function getLulusAttribute()
+    {
+        return $this->pemohon
+            ->where('is_berkas_passed', 1)
+            ->when($this->is_interview == 1, function ($q) {
+                return $q->where('is_interview_passed', 1);
+            })
+            ->when($this->is_survey == 1, function ($q) {
+                return $q->where('is_survey_passed', 1);
+            })
+            ->where('is_selection_passed', 1);
     }
 
     public function instansi()
