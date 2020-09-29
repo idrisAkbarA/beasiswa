@@ -2276,7 +2276,7 @@ axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers.common["X-Requeste
               _this.$router.push({
                 path: "/petinggi/".concat(response.data.user.name, "/home")
               });
-            } else if (response.data.user.role == null) {}
+            } else if (response.data.user.role == 0) {}
           } else {
             _this.error = "Invalid username/password";
             _this.loading = false;
