@@ -17,13 +17,24 @@
           >
             <v-card elevation="14">
               <v-card-title>
-                Login  Petugas
+                Login Petugas
               </v-card-title>
               <v-card-text>
-                <v-text-field v-model="name" label="Username"></v-text-field>
-                <v-text-field v-model="pass" type="password" @keyup.enter="login" label="Password"></v-text-field>
+                <p class="red--text">{{error}}</p>
+                <v-text-field
+                color="white"
+                  v-model="name"
+                  label="Username"
+                ></v-text-field>
+                <v-text-field
+                color="white"
+                  v-model="pass"
+                  type="password"
+                  @keyup.enter="login"
+                  label="Password"
+                ></v-text-field>
 
-                <v-btn @click="login">login</v-btn>
+                <v-btn color="green" :loading="loading" @click="login">login</v-btn>
 
               </v-card-text>
             </v-card>
@@ -36,61 +47,76 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 axios.defaults.withCredentials = true;
-axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 export default {
   data() {
     return {
       name: "",
       pass: "",
+      error: "",
+      loading:false,
     };
   },
-  methods:{
-      login(){
-        axios.get("http://beasiswa.test/sanctum/csrf-cookie").then(response=>{
-          // console.log(response)
-          axios.post("http://beasiswa.test/api/authenticate/petugas",{
-              'name': this.name,
-              'password': this.pass
-          }).then(response=>{
-            window.localStorage.setItem("user",response.data.role )
-            console.log(response.data)
-            if(response.data.user.role==1){
-              this.$router.push({ path: `/${response.data.user.name}/dashboard`})
-            }
-            else if(response.data.user.role==2){
-              console.log("interviewer")
-              this.$router.push({ path: `/interviewer/${response.data.user.name}/home`})
-            }
-            else if(response.data.user.role==3){
-              console.log("interviewer")
-              this.$router.push({ path: `/surveyor/${response.data.user.name}/home`})
-            }
-            else if(response.data.user.role==4){
-              console.log("interviewer")
-              this.$router.push({ path: `/petinggi/${response.data.user.name}/home`})
-            }
+  methods: {
+    login() {
+      this.loading = true;
+      axios.get("http://beasiswa.test/sanctum/csrf-cookie").then(response => {
+        // console.log(response)
+        axios
+          .post("http://beasiswa.test/api/authenticate/petugas", {
+            name: this.name,
+            password: this.pass
           })
-        })
-      }
+          .then(response => {
+            window.localStorage.setItem("user", response.data.role);
+            console.log(response.data);
+            if (response.data.status == "Authenticated") {
+              if (response.data.user.role == 1) {
+                this.$router.push({
+                  path: `/${response.data.user.name}/dashboard`
+                });
+              } else if (response.data.user.role == 2) {
+                console.log("interviewer");
+                this.$router.push({
+                  path: `/interviewer/${response.data.user.name}/home`
+                });
+              } else if (response.data.user.role == 3) {
+                console.log("interviewer");
+                this.$router.push({
+                  path: `/surveyor/${response.data.user.name}/home`
+                });
+              } else if (response.data.user.role == 4) {
+                console.log("interviewer");
+                this.$router.push({
+                  path: `/petinggi/${response.data.user.name}/home`
+                });
+              }
+            } else {
+              this.error = "Invalid username/password";
+              this.loading = false;
+            }
+          });
+      });
+    }
   },
   created() {
-    axios.get("http://beasiswa.test/sanctum/csrf-cookie").then((response) => {
+    axios.get("http://beasiswa.test/sanctum/csrf-cookie").then(response => {
       // console.log(response)
 
       axios
         .get("http://beasiswa.test/api/user/petugas")
-        .then((response) => {
+        .then(response => {
           console.log(response.data);
-          this.$router.push({ path: `/${response.data['name']}/dashboard` })
+          this.$router.push({ path: `/${response.data["name"]}/dashboard` });
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error.response.status);
           // this.$router.push("login");
         });
     });
-  },
+  }
 };
 </script>
 
