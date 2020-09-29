@@ -13,6 +13,13 @@ import AkunPetugas from "../views/Petugas/Admin/AkunPetugas.vue";
 import KelolaMhs from "../views/Petugas/Admin/Mahasiswa.vue";
 import CekPermohonan from "../views/Petugas/Admin/CekPermohonan.vue";
 
+import SuperAdmin from "../views/Petugas/SuperAdmin/SuperAdmin.vue";
+import SAKelolaMhs from "../views/Petugas/SuperAdmin/Mahasiswa.vue";
+import SAPermohonan from "../views/Petugas/SuperAdmin/Permohonan.vue";
+import SAInstansi from "../views/Petugas/SuperAdmin/Instansi.vue";
+import SAAkunPetugas from "../views/Petugas/SuperAdmin/Petugas.vue";
+import SABeasiswa from "../views/Petugas/SuperAdmin/Beasiswa.vue";
+
 import Mahasiswa from "../views/Mahasiswa/Mahasiswa.vue";
 import MHSHome from "../views/Mahasiswa/Home.vue";
 import MHSPermohonan from "../views/Mahasiswa/PermohonanSaya.vue";
@@ -116,6 +123,53 @@ const routes = [
                 name: "Kelola Mahasiswa",
                 path: "mahasiswa",
                 component: KelolaMhs
+            }
+        ]
+    },
+    {
+        path: "/super/:petugas",
+        component: SuperAdmin,
+        async beforeEnter(to, from, next) {
+            if (from.name == null) {
+               await axios
+                    .get("http://beasiswa.test/api/user/petugas")
+                    .then(response => {
+                        console.log(response.data);
+                     next()
+                    })
+                    .catch(error => {
+                        console.log(error.response.status);
+                        next({name:"Login Petugas"});
+                    });
+            }else{
+                next()
+            }
+        },
+        children: [
+            {
+                name: "Beasiswa",
+                path: "beasiswa",
+                component: SABeasiswa
+            },
+            {
+                name: "List Permohonan",
+                path: "permohonan",
+                component: SAPermohonan
+            },
+            {
+                name: "Instansi",
+                path: "instansi",
+                component: SAInstansi
+            },
+            {
+                name: "Akun Petugas",
+                path: "petugas",
+                component: SAAkunPetugas
+            },
+            {
+                name: "Kelola Mahasiswa",
+                path: "mahasiswa",
+                component: SAKelolaMhs
             }
         ]
     },
