@@ -93,7 +93,7 @@ export default {
                 this.$router.push({
                   path: `/petinggi/${response.data.user.name}/home`
                 });
-              }else if(response.data.user.role == null){
+              }else if(response.data.user.role == 0){
 
               }
             } else {
