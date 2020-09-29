@@ -45,10 +45,7 @@ class BeasiswaController extends Controller
         $Beasiswa->delete();
         return response()->json(['status'=>"Success: Beasiswa Deleted"]);
     }
-    public function selection(){
-        $Beasiswa = Beasiswa::with(['pemohon'=>function($q){
-            $q->where("pemohon.is_berkas_passed",1);
-        }])->get();
-        return $Beasiswa;
+    public function selesai(){
+        return response()->json( Beasiswa::onlyTrashed()->get() );
     }
 }

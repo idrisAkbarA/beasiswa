@@ -7,7 +7,10 @@ export default{
     mutations: {
         mutateMahasiswa(state, data){
             state.mahasiswa = data;
-        }
+        },
+        mutateBeasiswa(rootState, data){
+            rootState.beasiswa = data;
+        },
      },
     actions: {
         getMahasiswa({commit,dispatch,rootState}){
@@ -49,7 +52,15 @@ export default{
             }).then(response=>{
               dispatch('getMahasiswa')
             })
-        }
+        },
+        getBeasiswaSelesai({commit,dispatch,rootState}){
+            commit("mutateTableLoading",true);
+            Axios.get(rootState.url+"/api/beasiswa/selesai").then(response=>{
+              console.log(response.data);
+              commit('mutateBeasiswa',response.data);
+              commit("mutateTableLoading",false);
+            })
+        },
      },
     getters: {  }
 }

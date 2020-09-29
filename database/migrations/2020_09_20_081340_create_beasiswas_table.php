@@ -29,6 +29,7 @@ class CreateBeasiswasTable extends Migration
             $table->date('akhir_survey')->nullable();
             $table->json('fields');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
