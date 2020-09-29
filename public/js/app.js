@@ -5681,11 +5681,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     info: function info(item) {
       this.selectedBeasiswa = item;
       this.sheet = true;
-      this.pemohon = item.selection.filter(function (value, index) {
-        if (value.is_selection_passed) {
-          return value;
-        }
-      });
+      this.pemohon = item.lulus;
     }
   }),
   computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["beasiswa", "isOpenBeasiswa", "instansi", "isTableLoading", "isLoading"])), {}, {
@@ -6163,62 +6159,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
     this.getBeasiswa();
   },
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getBeasiswa"])), {}, {
-    lulusButton: function lulusButton(item) {
-      this.dialog = true;
-      this.id = item.id;
-      this.bool = 1;
-      this.msg = "Apakah anda yakin bahwa pemohon <strong>lulus</strong> tahap wawancara?";
+    lulus: function lulus(item) {
+      var data = [];
+      data.id = item.id;
+      data.bool = item.is_selection_passed == 1 ? 0 : 1;
+      axios.put(this.url + "/pemohon/set-interview", data);
     },
     tidakLulusButton: function tidakLulusButton(item) {
       this.dialog = true;
@@ -6231,21 +6182,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var link = a.replace(" ", "%20");
       console.log(link);
       location = link;
-    },
-    setInterview: function setInterview() {
-      var _this = this;
-
-      this.btnLoading = true;
-      axios.put("".concat(this.url, "/api/pemohon/set-interview"), {
-        bool: this.bool,
-        id: this.id
-      }).then(function (response) {
-        _this.getCekInterview();
-
-        console.log(response.data);
-        _this.dialog = false;
-        _this.btnLoading = false;
-      });
     }
   }),
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["beasiswa", "url"])),
@@ -51162,60 +51098,26 @@ var render = function() {
                                           i
                                         ) {
                                           return _c(
-                                            "v-card",
+                                            "v-btn",
                                             {
                                               key: i,
-                                              staticClass: "mb-1",
-                                              attrs: { elevation: "1" }
+                                              staticClass: "btn btn-light mb-1",
+                                              attrs: { block: "" },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.lulus(pemohon)
+                                                }
+                                              }
                                             },
                                             [
                                               _c(
-                                                "div",
-                                                { staticClass: "px-2 pt-3" },
+                                                "span",
+                                                { staticClass: "my-2" },
                                                 [
-                                                  _c(
-                                                    "a",
-                                                    {
-                                                      attrs: {
-                                                        href:
-                                                          "javascript:void(0)"
-                                                      }
-                                                    },
-                                                    [
-                                                      _c("div", [
-                                                        _c(
-                                                          "p",
-                                                          {
-                                                            staticClass:
-                                                              "font-weight-medium"
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              _vm._s(
-                                                                pemohon
-                                                                  .mahasiswa
-                                                                  .nama
-                                                              )
-                                                            )
-                                                          ]
-                                                        ),
-                                                        _vm._v(" "),
-                                                        _c(
-                                                          "p",
-                                                          {
-                                                            staticClass:
-                                                              "text-caption"
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              _vm._s(
-                                                                pemohon.mhs_id
-                                                              )
-                                                            )
-                                                          ]
-                                                        )
-                                                      ])
-                                                    ]
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      pemohon.mahasiswa.nama
+                                                    )
                                                   )
                                                 ]
                                               )
@@ -51246,65 +51148,31 @@ var render = function() {
                                           ]
                                         ),
                                         _vm._v(" "),
-                                        _vm._l(item.selection, function(
+                                        _vm._l(item.lulus, function(
                                           pemohon,
                                           i
                                         ) {
                                           return _c(
-                                            "v-card",
+                                            "v-btn",
                                             {
                                               key: i,
-                                              staticClass: "mb-1",
-                                              attrs: { elevation: "1" }
+                                              staticClass: "btn btn-light mb-1",
+                                              attrs: { block: "" },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.lulus(pemohon)
+                                                }
+                                              }
                                             },
                                             [
                                               _c(
-                                                "div",
-                                                { staticClass: "px-2 pt-3" },
+                                                "span",
+                                                { staticClass: "my-2" },
                                                 [
-                                                  _c(
-                                                    "a",
-                                                    {
-                                                      attrs: {
-                                                        href:
-                                                          "javascript:void(0)"
-                                                      }
-                                                    },
-                                                    [
-                                                      _c("div", [
-                                                        _c(
-                                                          "p",
-                                                          {
-                                                            staticClass:
-                                                              "font-weight-medium"
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              _vm._s(
-                                                                pemohon
-                                                                  .mahasiswa
-                                                                  .nama
-                                                              )
-                                                            )
-                                                          ]
-                                                        ),
-                                                        _vm._v(" "),
-                                                        _c(
-                                                          "p",
-                                                          {
-                                                            staticClass:
-                                                              "text-caption"
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              _vm._s(
-                                                                pemohon.mhs_id
-                                                              )
-                                                            )
-                                                          ]
-                                                        )
-                                                      ])
-                                                    ]
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      pemohon.mahasiswa.nama
+                                                    )
                                                   )
                                                 ]
                                               )
@@ -51358,71 +51226,6 @@ var render = function() {
                         1
                       )
                     }),
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-dialog",
-        {
-          attrs: { width: "460", "overlay-color": "#69F0AE" },
-          model: {
-            value: _vm.dialog,
-            callback: function($$v) {
-              _vm.dialog = $$v
-            },
-            expression: "dialog"
-          }
-        },
-        [
-          _c(
-            "v-card",
-            [
-              _c("v-card-title", { staticClass: "mt-2" }, [
-                _c("span", { domProps: { innerHTML: _vm._s(_vm.msg) } }),
-                _vm._v(" "),
-                _c("p", { staticStyle: { "font-weight": "bold" } })
-              ]),
-              _vm._v(" "),
-              _c(
-                "v-card-actions",
-                [
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { text: "" },
-                      on: {
-                        click: function($event) {
-                          _vm.dialog = false
-                        }
-                      }
-                    },
-                    [_vm._v("\n          Batal\n        ")]
-                  ),
-                  _vm._v(" "),
-                  _c("v-spacer"),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    {
-                      staticClass: "green",
-                      attrs: { dark: "", loading: _vm.btnLoading },
-                      on: { click: _vm.setInterview }
-                    },
-                    [
-                      _c("v-icon", { attrs: { left: "" } }, [
-                        _vm._v("mdi-check")
-                      ]),
-                      _vm._v("\n          iya\n        ")
-                    ],
                     1
                   )
                 ],

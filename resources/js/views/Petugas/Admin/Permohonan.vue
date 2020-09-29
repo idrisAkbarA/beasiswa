@@ -85,11 +85,7 @@ export default {
     info(item){
         this.selectedBeasiswa = item;
         this.sheet = true;
-        this.pemohon = item.selection.filter( function (value, index) {
-            if (value.is_selection_passed){
-                return value;
-            }
-        });
+        this.pemohon = item.lulus;
     }
   },
   computed: {
