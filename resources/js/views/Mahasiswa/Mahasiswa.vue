@@ -42,6 +42,7 @@
     <v-app-bar
       app
       dense
+      style="z-index:10"
     >
       <v-app-bar-nav-icon
         class="hidden-lg-and-up"

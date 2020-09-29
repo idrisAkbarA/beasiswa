@@ -4,9 +4,10 @@
     fill-height
     class="main pa-0 ma-0"
   >
-  <!-- <v-card @click="goto">pepek</v-card> -->
+    <!-- <v-card @click="goto">pepek</v-card> -->
     <v-row justify="center">
-            <v-card
+
+      <v-card
         @click="goto(item)"
         ripple
         class="ma-3"
@@ -15,21 +16,32 @@
         v-for="(item,index) in beasiswa"
         :key="index"
       >
-        <v-img 
-        gradient="to top right, rgba(58, 231, 87, 0.33), rgba(25,32,72,.7)"
-        :src="'https://picsum.photos/200/300?random='+index">
+        <v-img
+          gradient="to top right, rgba(58, 231, 87, 0.33), rgba(25,32,72,.7)"
+          :src="'https://picsum.photos/200/300?random='+index"
+        >
           <!-- <v-img :src="'https://picsum.photos/200/300?grayscale&blur=1&random='+index"> -->
-
+          <template v-slot:placeholder>
+            <v-skeleton-loader
+              ref="skeleton"
+              :loading="loading"
+              type="image"
+              class="ma-auto "
+            >
+              
+            </v-skeleton-loader>
+          </template>
           <v-card-title><span>{{index+1}}</span>
-            <v-spacer></v-spacer><span class="caption">Tersedia</span>
-          </v-card-title>
-          <v-card-text>
-            <h1>{{item.nama}}</h1>
-          </v-card-text>
+                <v-spacer></v-spacer><span class="caption">Tersedia</span>
+              </v-card-title>
+              <v-card-text>
+                <h1>{{item.nama}}</h1>
+              </v-card-text>
         </v-img>
+
       </v-card>
     </v-row>
-   
+
   </v-container>
 </template>
 
@@ -38,36 +50,40 @@ import { mapState, mapActions } from "vuex";
 export default {
   methods: {
     ...mapActions(["getBeasiswa"]),
-    goto(item){
-        console.log("hello")
-        this.$router.push({path:"/mahasiswa/daftar-beasiswa/"+item.id})
+
+    goto(item) {
+      console.log("hello");
+      this.$router.push({ path: "/mahasiswa/daftar-beasiswa/" + item.id });
     },
     handleScroll(event) {
-    //   var item = document.getElementsByClassName("container");
+      //   var item = document.getElementsByClassName("container");
       var item = document.getElementById("scrollMe");
       if (event.deltaY > 0) item.scrollLeft += 100;
       else item.scrollLeft -= 100;
-      console.log(item.scrollLeft)
+      console.log(item.scrollLeft);
     }
   },
-  mounted(){
-        var item = document.getElementById("scrollMe");
-        item.scroll = true;
-        console.log(item)
-   
+  mounted() {
+    var item = document.getElementById("scrollMe");
+    item.scroll = true;
+    console.log(item);
   },
   created() {
     this.getBeasiswa();
   },
   computed: {
-    ...mapState(["beasiswa"])
-  }
+    ...mapState(["beasiswa","url"])
+  },
+  data() {
+    return {
+      loading: true
+    }
+  },
 };
 </script>
 
 <style scoped>
 .main {
-    
   position: relative;
   width: 100%;
   -webkit-overflow-scrolling: touch;
@@ -91,10 +107,10 @@ export default {
   justify-content: center;
   align-items: center;
 }
-@media (min-width: 768px){
-    .container{
-        max-width: none !important;
-    }
+@media (min-width: 768px) {
+  .container {
+    max-width: none !important;
+  }
 }
 ::-webkit-scrollbar {
   width: 0px;
@@ -104,5 +120,4 @@ a {
 }
 
 /* Handle on hover */
-
 </style>

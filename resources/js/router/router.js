@@ -15,6 +15,7 @@ import CekPermohonan from '../views/Petugas/Admin/CekPermohonan.vue'
 
 import Mahasiswa from '../views/Mahasiswa/Mahasiswa.vue'
 import MHSHome from '../views/Mahasiswa/Home.vue'
+import MHSPermohonan from '../views/Mahasiswa/PermohonanSaya.vue'
 import MHSBeasiswa from '../views/Mahasiswa/Beasiswa.vue'
 
 import Interviewer from '../views/Petugas/Interviewer/Interviewer.vue'
@@ -116,6 +117,11 @@ const routes = [
         name: "Daftar Beasiswa",
         path: "daftar-beasiswa/:id",
         component: MHSBeasiswa
+      }, 
+      {
+        name: "Permohonan Saya",
+        path: "permohonan-saya",
+        component: MHSPermohonan
       }, 
     ]
   },

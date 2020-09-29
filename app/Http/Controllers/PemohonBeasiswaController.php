@@ -33,6 +33,13 @@ class PemohonBeasiswaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function IsHasBeasiswa(){
+        $user = Auth::user();
+        $beasiswa = PemohonBeasiswa::where("mhs_id",$user["nim"])->with("beasiswa")->get();
+        // $beasiswa = PemohonBeasiswa::where("mhs_id",$user[nim])->get();
+        return $beasiswa;
+        // return $user;
+    }
     public function countBerkas(){
         $berkas = $this->cekBerkas();
         return count($berkas);

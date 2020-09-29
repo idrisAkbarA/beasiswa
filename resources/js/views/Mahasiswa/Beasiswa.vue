@@ -1,5 +1,14 @@
 <template>
   <v-sheet color="transparent">
+    <v-overlay
+      :absolute="false"
+      :value="isAlreadyHas"
+      color="green"
+    >
+      <v-card>
+        <v-card-text>{{msg}}</v-card-text>
+      </v-card>
+    </v-overlay>
     <v-row
       align="center"
       justify="start"
@@ -145,15 +154,27 @@ export default {
     this.getBeasiswaSingle(this.$route.params.id).then(response => {
       this.fields = JSON.parse(response.fields);
     });
+    this.getUserPermohonan();
   },
   methods: {
     ...mapActions(["getBeasiswaSingle"]),
+
+    getUserPermohonan() {
+      axios.get(this.url + "/api/pemohon/cek-isHas").then(response => {
+        console.log(response.data);
+        response.data.forEach(element => {
+          if (element.beasiswa_id == this.$route.params.id) {
+            this.msg="Anda telah mendaftar pada beasiswa ini sebelumnya, lihat status permohonan"
+            this.isAlreadyHas = true;
+          }
+        });
+      });
+    },
     upload: async (data, url) => {
       return axios({
         method: "post",
         url: url + "/api/pemohon/file",
-        onUploadProgress: function(progressEvent) {
-        },
+        onUploadProgress: function(progressEvent) {},
         data
       });
     },
@@ -194,17 +215,20 @@ export default {
         finalForm[element.index].value = element.newName;
         console.log(finalForm);
       }
-        axios
-          .post(`${this.url}/api/pemohon`, {
-            beasiswa_id,
-            form: finalForm
-          })
-          .then(response => {
-            console.log(response.data);
-          })
-          .catch(error => {
-            console.log(error);
-          });
+      axios
+        .post(`${this.url}/api/pemohon`, {
+          beasiswa_id,
+          form: finalForm
+        })
+        .then(response => {
+          console.log(response.data);
+          this.msg="Permohonan beasiswa berhasil dikirim, lihat status permohonan beasiswa"
+          this.isAlreadyHas=true;
+          
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   },
   computed: {
@@ -212,6 +236,8 @@ export default {
   },
   data() {
     return {
+      msg: "",
+      isAlreadyHas: false,
       fields: {},
       loading: 0,
       loadText: ""
