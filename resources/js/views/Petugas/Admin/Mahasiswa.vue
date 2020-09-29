@@ -139,7 +139,7 @@
                                         </div>
                                     </div>
                                 </v-timeline-item>
-                                <!-- <v-timeline-item
+                                <v-timeline-item
                                   color="blue"
                                   small
                                 >
@@ -177,7 +177,7 @@
                                             </v-simple-table>
                                         </div>
                                     </div>
-                                </v-timeline-item> -->
+                                </v-timeline-item>
                                 <v-timeline-item
                                   color="blue"
                                   small

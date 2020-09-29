@@ -50074,6 +50074,103 @@ var render = function() {
                                         { staticClass: "font-weight-normal" },
                                         [
                                           _c("strong", [
+                                            _vm._v(
+                                              "Tambahkan info mahasiswa dalam template excel."
+                                            )
+                                          ])
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "div",
+                                        { staticClass: "pr-5" },
+                                        [
+                                          _c("p", [
+                                            _vm._v(
+                                              "\n                                              Kolom yang wajib diisi adalah nama, nim, password, dan email.\n                                          "
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-simple-table",
+                                            { attrs: { light: "" } },
+                                            [
+                                              _c("thead", [
+                                                _c("tr", [
+                                                  _c("th", [_vm._v("A")]),
+                                                  _vm._v(" "),
+                                                  _c("th", [_vm._v("B")]),
+                                                  _vm._v(" "),
+                                                  _c("th", [_vm._v("C")]),
+                                                  _vm._v(" "),
+                                                  _c("th", [_vm._v("D")])
+                                                ])
+                                              ]),
+                                              _vm._v(" "),
+                                              _c("tbody", [
+                                                _c("tr", [
+                                                  _c("td", [
+                                                    _c("strong", [
+                                                      _vm._v("Nama")
+                                                    ])
+                                                  ]),
+                                                  _vm._v(" "),
+                                                  _c("td", [
+                                                    _c("strong", [
+                                                      _vm._v("NIM")
+                                                    ])
+                                                  ]),
+                                                  _vm._v(" "),
+                                                  _c("td", [
+                                                    _c("strong", [
+                                                      _vm._v("Password")
+                                                    ])
+                                                  ]),
+                                                  _vm._v(" "),
+                                                  _c("td", [
+                                                    _c("strong", [
+                                                      _vm._v("Email")
+                                                    ])
+                                                  ])
+                                                ]),
+                                                _vm._v(" "),
+                                                _c("tr", [
+                                                  _c("td", [_vm._v("Jhon")]),
+                                                  _vm._v(" "),
+                                                  _c("td", [
+                                                    _vm._v("11750115076")
+                                                  ]),
+                                                  _vm._v(" "),
+                                                  _c("td", [
+                                                    _vm._v("Password123")
+                                                  ]),
+                                                  _vm._v(" "),
+                                                  _c("td", [
+                                                    _vm._v(
+                                                      "11750115076@students.uin-suska.ac.id"
+                                                    )
+                                                  ])
+                                                ])
+                                              ])
+                                            ]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ])
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-timeline-item",
+                                  { attrs: { color: "blue", small: "" } },
+                                  [
+                                    _c("div", [
+                                      _c(
+                                        "div",
+                                        { staticClass: "font-weight-normal" },
+                                        [
+                                          _c("strong", [
                                             _vm._v("Upload file .xlx")
                                           ])
                                         ]
