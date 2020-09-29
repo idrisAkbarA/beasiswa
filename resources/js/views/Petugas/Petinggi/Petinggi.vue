@@ -49,7 +49,7 @@ export default {
   methods: {
     logout() {
       axios
-        .get("http://beasiswa.test/api/logout", {
+        .get("http://beasiswa.test/api/logout-petugas", {
           params: {
             user: window.localStorage.getItem("user")
           }
