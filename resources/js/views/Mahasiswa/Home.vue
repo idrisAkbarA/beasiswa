@@ -5,6 +5,12 @@
     class="main pa-0 ma-0"
   >
     <!-- <v-card @click="goto">pepek</v-card> -->
+    <v-row
+      justify="center"
+      v-if="beasiswa.length<1"
+    >
+      <h2>Tidak ada permohonan</h2>
+    </v-row>
     <v-row justify="center">
 
       <v-card
@@ -28,15 +34,15 @@
               type="image"
               class="ma-auto "
             >
-              
+
             </v-skeleton-loader>
           </template>
           <v-card-title><span>{{index+1}}</span>
-                <v-spacer></v-spacer><span class="caption">Tersedia</span>
-              </v-card-title>
-              <v-card-text>
-                <h1>{{item.nama}}</h1>
-              </v-card-text>
+            <v-spacer></v-spacer><span class="caption">Tersedia</span>
+          </v-card-title>
+          <v-card-text>
+            <h1>{{item.nama}}</h1>
+          </v-card-text>
         </v-img>
 
       </v-card>
@@ -55,30 +61,20 @@ export default {
       console.log("hello");
       this.$router.push({ path: "/mahasiswa/daftar-beasiswa/" + item.id });
     },
-    handleScroll(event) {
-      //   var item = document.getElementsByClassName("container");
-      var item = document.getElementById("scrollMe");
-      if (event.deltaY > 0) item.scrollLeft += 100;
-      else item.scrollLeft -= 100;
-      console.log(item.scrollLeft);
-    }
   },
   mounted() {
-    var item = document.getElementById("scrollMe");
-    item.scroll = true;
-    console.log(item);
   },
   created() {
     this.getBeasiswa();
   },
   computed: {
-    ...mapState(["beasiswa","url"])
+    ...mapState(["beasiswa", "url"])
   },
   data() {
     return {
       loading: true
-    }
-  },
+    };
+  }
 };
 </script>
 

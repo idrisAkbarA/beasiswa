@@ -15,13 +15,14 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::middleware('auth:petugas')->get('/user/petugas', 'AuthAPIController@retrieveUserPetugas');
-Route::middleware('auth:sanctum')->get('/user', 'AuthAPIController@retrieveUserMhs');
+Route::middleware('auth:mahasiswa')->get('/user', 'AuthAPIController@retrieveUserMhs');
 
 Route::get('/check','AuthAPIController@check');
 
 Route::post('/authenticate', 'AuthAPIController@login');
 Route::post('/authenticate/petugas', 'AuthAPIController@loginPetugas');
 Route::get('/logout', 'AuthAPIController@logout');
+Route::get('/logout-petugas', 'AuthAPIController@logoutPetugas');
 
 Route::middleware('auth:petugas')->post('/instansi','InstansiController@store');
 Route::middleware('auth:petugas')->put('/instansi/{id}','InstansiController@edit');
@@ -37,16 +38,16 @@ Route::middleware('auth:petugas')->delete('/petugas/{id}','PetugasController@del
 
 Route::middleware('auth:petugas')->post('/beasiswa','BeasiswaController@store');
 Route::middleware('auth:petugas')->put('/beasiswa/{id}','BeasiswaController@edit');
-Route::middleware('auth:petugas,sanctum')->get('/beasiswa/selection','BeasiswaController@selection');
-Route::middleware('auth:petugas,sanctum')->get('/beasiswa','BeasiswaController@getAll');
-Route::middleware('auth:petugas,sanctum')->get('/beasiswa/selesai','BeasiswaController@selesai');
-Route::middleware('auth:petugas,sanctum')->get('/beasiswa/{id}','BeasiswaController@get');
+Route::get('/beasiswa/selection','BeasiswaController@selection');
+Route::middleware('auth:petugas,mahasiswa')->get('/beasiswa','BeasiswaController@getAll');
+Route::get('/beasiswa/selesai','BeasiswaController@selesai');
+Route::middleware('auth:petugas,mahasiswa')->get('/beasiswa/{id}','BeasiswaController@get');
 Route::middleware('auth:petugas')->delete('/beasiswa/{id}','BeasiswaController@delete');
 
 Route::middleware('auth:petugas')->post('/user','UserController@store');
-Route::middleware('auth:petugas,sanctum')->put('/user/{id}','UserController@edit');
+Route::middleware('auth:petugas,mahasiswa')->put('/user/{id}','UserController@edit');
 Route::middleware('auth:petugas')->get('/user','UserController@getAll');
-Route::middleware('auth:petugas,sanctum')->get('/user/{id}','UserController@get');
+Route::middleware('auth:petugas,mahasiswa')->get('/user/{id}','UserController@get');
 Route::middleware('auth:petugas')->delete('/user/{id}','UserController@delete');
 Route::middleware('auth:petugas')->post('/user/import','UserController@import');
 

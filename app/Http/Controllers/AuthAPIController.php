@@ -8,7 +8,7 @@ use App\User;
 class authAPIController extends Controller
 {
     public function retrieveUserMhs(){
-        return response()->json(Auth::user());
+        return response()->json(Auth::guard("mahasiswa")->user());
     }
     public function retrieveUserPetugas(){
         return response()->json(Auth::user());
@@ -31,12 +31,12 @@ class authAPIController extends Controller
 
     public function login(Request $request){
         $credentials = $request->only('nim', 'password');
-        if (Auth::attempt($credentials)) {
+        if (Auth::guard("mahasiswa")->attempt($credentials)) {
             // Authentication passed...
 
             $mahasiswa = Hash::make("mahasiswa");
             return response()->json([
-                'status' => 'Authenticated','role' => $mahasiswa,  'user'=>Auth::user()
+                'status' => 'Authenticated','role' => $mahasiswa,  'user'=>Auth::guard("mahasiswa")->user()
             ]);
         }
         return response()->json([
@@ -58,11 +58,10 @@ class authAPIController extends Controller
         ]);
     }
     public function logout(Request $request){
-        if(Hash::check("petugas",$request['user'])){
+        return Auth::guard('mahasiswa')->logout();
+    }
+    public function logoutPetugas(Request $request){
             Auth::guard('petugas')->logout();
-            return response()->json(["user"=>"petugas"]);
-        }
-        return Auth::logout();
     }
     public function changePass(Request $request){
         $user = User::find(Auth::id());
