@@ -168,6 +168,13 @@ export default new Vuex.Store({
         dispatch('getInstansi')
       })
     },
+    deleteBeasiswa({commit,dispatch,state},id){
+   
+      Axios.delete(state.url+"/api/beasiswa/"+id).then(response=>{
+        dispatch('getBeasiswa')
+        console.log(response)
+      })
+    },
     editInstansi({commit,dispatch,state},data){
       Axios.put(state.url+"/api/instansi/"+data.id,{name:data.name}).then(response=>{
         dispatch('getInstansi')

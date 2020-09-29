@@ -23,7 +23,7 @@
           </v-icon>
           <v-icon
             small
-            @click="deleteItem(item)"
+            @click="deleteBea(item)"
           >
             mdi-delete
           </v-icon>
@@ -786,7 +786,38 @@
         </v-card-text>
       </v-card>
     </v-bottom-sheet>
+   <v-dialog
+      width="400"
+      overlay-color="#69F0AE"
+      v-model="deleteDialog"
+    >
+      <v-card>
+        <v-card-title class="mt-2">
+          Apakah anda yakin ingin menghapus?
+          <p style="font-weight:bold">
+            <!-- {{itemtoDelete.nama}}? -->
+          </p>
+        </v-card-title>
+        <v-card-actions>
 
+          <v-btn
+            text
+            @click="dialogDelete = false"
+          >
+            Batal
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn
+            dark
+            class="green"
+            @click="finallyDelete"
+          >
+            <v-icon left>mdi-check</v-icon>
+            iya
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
   </v-container>
 </template>
@@ -800,7 +831,17 @@ export default {
   },
   methods: {
     ...mapMutations(["toggleOpenBeasiswa"]),
-    ...mapActions(["getBeasiswa", "getInstansi", "storeBeasiswa"]),
+    ...mapActions(["getBeasiswa", "getInstansi", "storeBeasiswa", "deleteBeasiswa"]),
+    deleteBea(item){
+      console.log(item.id)
+      this.deleteId = item.id
+      this.deleteDialog = true;
+    },
+    finallyDelete(){
+      console.log(this.deleteId)
+      this.deleteBeasiswa(this.deleteId);
+      this.deleteDialog = false;
+    },
     edit(item){
       console.log(item);
       this.kuotaEdit = item.quota;  
@@ -1035,6 +1076,8 @@ export default {
   },
   data() {
     return {
+      deleteDialog: false,
+      deleteId:null,
       btnLoadingEdit:false,
       namaEdit: "",
       deskripsiEdit: "",

@@ -3949,13 +3949,54 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
     this.getBeasiswa();
     this.getInstansi();
   },
-  methods: _objectSpread(_objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(["toggleOpenBeasiswa"])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getBeasiswa", "getInstansi", "storeBeasiswa"])), {}, {
+  methods: _objectSpread(_objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(["toggleOpenBeasiswa"])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getBeasiswa", "getInstansi", "storeBeasiswa", "deleteBeasiswa"])), {}, {
+    deleteBea: function deleteBea(item) {
+      console.log(item.id);
+      this.deleteId = item.id;
+      this.deleteDialog = true;
+    },
+    finallyDelete: function finallyDelete() {
+      console.log(this.deleteId);
+      this.deleteBeasiswa(this.deleteId);
+      this.deleteDialog = false;
+    },
     edit: function edit(item) {
       var _this = this;
 
@@ -4178,6 +4219,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   }),
   data: function data() {
     return {
+      deleteDialog: false,
+      deleteId: null,
       btnLoadingEdit: false,
       namaEdit: "",
       deskripsiEdit: "",
@@ -45607,7 +45650,7 @@ var render = function() {
                         attrs: { small: "" },
                         on: {
                           click: function($event) {
-                            return _vm.deleteItem(item)
+                            return _vm.deleteBea(item)
                           }
                         }
                       },
@@ -47481,6 +47524,72 @@ var render = function() {
                         ],
                         1
                       )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { width: "400", "overlay-color": "#69F0AE" },
+          model: {
+            value: _vm.deleteDialog,
+            callback: function($$v) {
+              _vm.deleteDialog = $$v
+            },
+            expression: "deleteDialog"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            [
+              _c("v-card-title", { staticClass: "mt-2" }, [
+                _vm._v(
+                  "\n          Apakah anda yakin ingin menghapus?\n          "
+                ),
+                _c("p", { staticStyle: { "font-weight": "bold" } })
+              ]),
+              _vm._v(" "),
+              _c(
+                "v-card-actions",
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { text: "" },
+                      on: {
+                        click: function($event) {
+                          _vm.dialogDelete = false
+                        }
+                      }
+                    },
+                    [_vm._v("\n            Batal\n          ")]
+                  ),
+                  _vm._v(" "),
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      staticClass: "green",
+                      attrs: { dark: "" },
+                      on: { click: _vm.finallyDelete }
+                    },
+                    [
+                      _c("v-icon", { attrs: { left: "" } }, [
+                        _vm._v("mdi-check")
+                      ]),
+                      _vm._v("\n            iya\n          ")
                     ],
                     1
                   )
@@ -112301,10 +112410,19 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         dispatch('getInstansi');
       });
     },
-    editInstansi: function editInstansi(_ref13, data) {
+    deleteBeasiswa: function deleteBeasiswa(_ref13, id) {
       var commit = _ref13.commit,
           dispatch = _ref13.dispatch,
           state = _ref13.state;
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a["delete"](state.url + "/api/beasiswa/" + id).then(function (response) {
+        dispatch('getBeasiswa');
+        console.log(response);
+      });
+    },
+    editInstansi: function editInstansi(_ref14, data) {
+      var commit = _ref14.commit,
+          dispatch = _ref14.dispatch,
+          state = _ref14.state;
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.put(state.url + "/api/instansi/" + data.id, {
         name: data.name
       }).then(function (response) {
