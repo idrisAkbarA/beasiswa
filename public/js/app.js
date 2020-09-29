@@ -3569,6 +3569,386 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
@@ -3576,11 +3956,112 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.getInstansi();
   },
   methods: _objectSpread(_objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(["toggleOpenBeasiswa"])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getBeasiswa", "getInstansi", "storeBeasiswa"])), {}, {
+    edit: function edit(item) {
+      var _this = this;
+
+      console.log(item);
+      this.kuotaEdit = item.quota;
+      this.namaEdit = item.nama;
+      this.fieldsEdit = JSON.parse(item.fields);
+      this.deskripsiEdit = item.deskripsi;
+      this.valueEdit = item.instansi_id;
+      this.instansi.forEach(function (element) {
+        if (element.id == item.instansi_id) {
+          _this.selected_instansiEdit = {
+            id: element.id,
+            name: element.name
+          };
+          console.log(_this.selected_instansiEdit);
+        }
+      });
+      this.dateWawancaraEdit = [item.awal_interview, item.akhir_interview];
+      this.dateSurveyEdit = [item.awal_survey, item.akhir_survey];
+
+      if (item.awal_berkas) {
+        this.dateBerkasEdit = [item.awal_berkas, item.akhir_berkas];
+      } else {
+        if (item.akhir_berkas) {
+          this.dateBerkasEdit = [item.akhir_berkas];
+        }
+      }
+
+      if (item.awal_interview) {
+        this.dateWawancaraEdit = [item.awal_interview, item.akhir_interview];
+      } else {
+        if (item.akhir_interview) {
+          this.dateWawancaraEdit = [item.akhir_interview];
+        }
+      }
+
+      if (item.awal_survey) {
+        this.dateSurveyEdit = [item.awal_survey, item.akhir_survey];
+      } else {
+        if (item.akhir_survey) {
+          this.dateSurveyEdit = [item.akhir_survey];
+        }
+      }
+
+      this.is_wawancaraEdit = item.is_interview ? true : false;
+      this.is_surveyEdit = item.is_survey ? true : false;
+      this.toggleEdit = true;
+    },
+    sendEdit: function sendEdit() {
+      var _this2 = this;
+
+      var awal_wawancara = "";
+      var akhir_wawancara = "";
+      var awal_survey = "";
+      var akhir_survey = "";
+      var awal_berkas = "";
+      var akhir_berkas = "";
+
+      if (_typeof(this.dateBerkas) == "object") {
+        console.log("sama");
+      }
+
+      console.log(_typeof(this.dateBerkasEdit));
+      awal_berkas = this.dateBerkasEdit[1] ? this.dateBerkasEdit[0] : null;
+      akhir_berkas = this.dateBerkasEdit[1] ? this.dateBerkasEdit[1] : this.dateBerkasEdit[0];
+
+      if (this.is_wawancaraEdit) {
+        awal_wawancara = this.dateWawancaraEdit[1] ? this.dateWawancaraEdit[0] : null;
+        akhir_wawancara = this.dateWawancaraEdit[1] ? this.dateWawancaraEdit[1] : this.dateWawancaraEdit[0];
+      }
+
+      if (this.is_surveyEdit) {
+        awal_survey = this.dateSurveyEdit[1] ? this.dateSurveyEdit[0] : null;
+        akhir_survey = this.dateSurveyEdit[1] ? this.dateSurveyEdit[1] : this.dateSurveyEdit[0];
+      }
+
+      var data = {
+        nama: this.namaEdit,
+        deskripsi: this.deskripsiEdit,
+        kuota: this.kuotaEdit,
+        instansi: this.selected_instansiEdit.id,
+        fields: this.fieldsEdit,
+        is_survey: this.is_surveyEdit,
+        is_wawancara: this.is_wawancaraEdit,
+        awal_wawancara: awal_wawancara,
+        akhir_wawancara: akhir_wawancara,
+        awal_survey: awal_survey,
+        akhir_survey: akhir_survey,
+        awal_berkas: awal_berkas,
+        akhir_berkas: akhir_berkas
+      };
+      console.log(data);
+      this.btnLoading = true;
+      this.storeBeasiswa(data).then(function (response) {
+        _this2.btnLoading = false;
+        _this2.toggleEdit = false;
+      })["catch"](function (error) {
+        _this2.btnLoading = false;
+      });
+    },
     compareType: function compareType(a, b) {
       a == b ? true : false;
     },
     save: function save() {
-      var _this = this;
+      var _this3 = this;
 
       var awal_wawancara = "";
       var akhir_wawancara = "";
@@ -3625,14 +4106,31 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       console.log(data);
       this.btnLoading = true;
       this.storeBeasiswa(data).then(function (response) {
-        _this.btnLoading = false;
-        _this.toggleBeasiswa = false;
+        _this3.btnLoading = false;
+        _this3.toggleBeasiswa = false;
       })["catch"](function (error) {
-        _this.btnLoading = false;
+        _this3.btnLoading = false;
       });
     },
     batal: function batal() {
       this.toggleBeasiswa = false;
+    },
+    addFieldsEdit: function addFieldsEdit() {
+      this.fieldsEdit.push({
+        type: "Jawaban Pendek",
+        pertanyaan: "",
+        index: this.fieldsEdit[0] ? this.fieldsEdit[this.fieldsEdit.length - 1].index + 1 : 0,
+        value: "",
+        date: false,
+        pilihan: {
+          required: false,
+          items: [{
+            label: ""
+          }]
+        },
+        required: true
+      });
+      console.log(this.fieldsEdit);
     },
     addField: function addField() {
       // get the last array then add the order value
@@ -3654,6 +4152,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     deleteField: function deleteField(field) {
       this.fields.splice(this.fields.indexOf(field), 1);
+    },
+    deleteFieldEdit: function deleteFieldEdit(field) {
+      this.fieldsEdit.splice(this.fieldsEdit.indexOf(field), 1);
     },
     addPilihanItem: function addPilihanItem(field_index) {
       this.fields[field_index].pilihan.items.push({
@@ -3677,6 +4178,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   }),
   data: function data() {
     return {
+      btnLoadingEdit: false,
+      namaEdit: "",
+      deskripsiEdit: "",
+      selected_instansiEdit: "",
+      fieldsEdit: {},
+      isBerkasEdit: false,
+      is_wawancaraEdit: false,
+      is_surveyEdit: false,
+      dateBerkasEdit: [new Date().toISOString().substr(0, 10)],
+      dateWawancaraEdit: [new Date().toISOString().substr(0, 10)],
+      dateSurveyEdit: [new Date().toISOString().substr(0, 10)],
+      kuotaEdit: 1,
+      toggleEdit: false,
       btnLoading: false,
       nama: "",
       deskripsi: "",
@@ -3700,6 +4214,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       menuWawancara: false,
       menuSurvey: false,
       menuberkas: false,
+      menuWawancaraEdit: false,
+      menuSurveyEdit: false,
+      menuberkasEdit: false,
       isBerkas: false,
       is_wawancara: false,
       is_survey: false,
@@ -45077,11 +45594,11 @@ var render = function() {
                         attrs: { small: "" },
                         on: {
                           click: function($event) {
-                            return _vm.editItem(item)
+                            return _vm.edit(item)
                           }
                         }
                       },
-                      [_vm._v("\n          mdi-pencil\n        ")]
+                      [_vm._v("\n            mdi-pencil\n          ")]
                     ),
                     _vm._v(" "),
                     _c(
@@ -45094,7 +45611,7 @@ var render = function() {
                           }
                         }
                       },
-                      [_vm._v("\n          mdi-delete\n        ")]
+                      [_vm._v("\n            mdi-delete\n          ")]
                     )
                   ]
                 }
@@ -45102,12 +45619,941 @@ var render = function() {
               {
                 key: "no-data",
                 fn: function() {
-                  return [_vm._v("\n        no data\n      ")]
+                  return [_vm._v("\n          no data\n        ")]
                 },
                 proxy: true
               }
             ])
           })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-bottom-sheet",
+        {
+          attrs: {
+            scrollable: "",
+            width: "60%",
+            inset: "",
+            "overlay-color": "#69F0AE"
+          },
+          model: {
+            value: _vm.toggleEdit,
+            callback: function($$v) {
+              _vm.toggleEdit = $$v
+            },
+            expression: "toggleEdit"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            [
+              _c(
+                "v-card-title",
+                [
+                  _c("span", [_vm._v("Edit Beasiswa")]),
+                  _vm._v(" "),
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { text: "" },
+                      on: {
+                        click: function($event) {
+                          return _vm.batal()
+                        }
+                      }
+                    },
+                    [_vm._v("batal")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "#2E7D32", loading: _vm.btnLoading },
+                      on: {
+                        click: function($event) {
+                          return _vm.sendEdit()
+                        }
+                      }
+                    },
+                    [_vm._v("Simpan")]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-card-text",
+                { staticStyle: { height: "600px" } },
+                [
+                  _c(
+                    "v-row",
+                    { staticClass: "ml-1 mr-1", attrs: { dense: "" } },
+                    [
+                      _c(
+                        "v-col",
+                        [
+                          _c("v-text-field", {
+                            attrs: { color: "#C8E6C9", label: "Nama Beasiswa" },
+                            model: {
+                              value: _vm.namaEdit,
+                              callback: function($$v) {
+                                _vm.namaEdit = $$v
+                              },
+                              expression: "namaEdit"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-row",
+                    { staticClass: "ml-1 mr-1", attrs: { dense: "" } },
+                    [
+                      _c(
+                        "v-col",
+                        [
+                          _c("v-textarea", {
+                            attrs: {
+                              color: "white",
+                              rows: "1",
+                              label: "Deskripsi"
+                            },
+                            model: {
+                              value: _vm.deskripsiEdit,
+                              callback: function($$v) {
+                                _vm.deskripsiEdit = $$v
+                              },
+                              expression: "deskripsiEdit"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-row",
+                    { staticClass: "ml-1 mr-1", attrs: { dense: "" } },
+                    [
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "8" } },
+                        [
+                          _c("v-combobox", {
+                            attrs: {
+                              color: "white",
+                              label: "Instansi",
+                              items: _vm.instansi,
+                              "item-text": "name"
+                            },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "item",
+                                fn: function(ref) {
+                                  var index = ref.index
+                                  var item = ref.item
+                                  return [
+                                    _vm._v(
+                                      "\n                  " +
+                                        _vm._s(item.name) +
+                                        "\n                "
+                                    )
+                                  ]
+                                }
+                              }
+                            ]),
+                            model: {
+                              value: _vm.selected_instansiEdit,
+                              callback: function($$v) {
+                                _vm.selected_instansiEdit = $$v
+                              },
+                              expression: "selected_instansiEdit"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "4" } },
+                        [
+                          _c("v-text-field", {
+                            attrs: { label: "Kuota", type: "number" },
+                            model: {
+                              value: _vm.kuotaEdit,
+                              callback: function($$v) {
+                                _vm.kuotaEdit = $$v
+                              },
+                              expression: "kuotaEdit"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-row",
+                    { attrs: { align: "center" } },
+                    [
+                      _c("v-col", { attrs: { cols: "6" } }, [
+                        _vm._v(
+                          "\n              Tahap upload/pengisian berkas\n            "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "6" } },
+                        [
+                          _c(
+                            "v-menu",
+                            {
+                              attrs: {
+                                "close-on-content-click": false,
+                                "nudge-right": 40,
+                                transition: "scale-transition",
+                                "offset-y": "",
+                                "min-width": "290px"
+                              },
+                              scopedSlots: _vm._u([
+                                {
+                                  key: "activator",
+                                  fn: function(ref) {
+                                    var on = ref.on
+                                    var attrs = ref.attrs
+                                    return [
+                                      _c(
+                                        "v-text-field",
+                                        _vm._g(
+                                          _vm._b(
+                                            {
+                                              attrs: {
+                                                label:
+                                                  "Batas/Rentang Waktu Upload Berkas",
+                                                "prepend-icon": "event",
+                                                readonly: ""
+                                              },
+                                              model: {
+                                                value: _vm.dateBerkasEdit,
+                                                callback: function($$v) {
+                                                  _vm.dateBerkasEdit = $$v
+                                                },
+                                                expression: "dateBerkasEdit"
+                                              }
+                                            },
+                                            "v-text-field",
+                                            attrs,
+                                            false
+                                          ),
+                                          on
+                                        )
+                                      )
+                                    ]
+                                  }
+                                }
+                              ]),
+                              model: {
+                                value: _vm.menuberkasEdit,
+                                callback: function($$v) {
+                                  _vm.menuberkasEdit = $$v
+                                },
+                                expression: "menuberkasEdit"
+                              }
+                            },
+                            [
+                              _vm._v(" "),
+                              _c("v-date-picker", {
+                                attrs: { range: "", locale: "id-ID" },
+                                model: {
+                                  value: _vm.dateBerkasEdit,
+                                  callback: function($$v) {
+                                    _vm.dateBerkasEdit = $$v
+                                  },
+                                  expression: "dateBerkasEdit"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-row",
+                    [
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "6" } },
+                        [
+                          _c("v-checkbox", {
+                            attrs: {
+                              color: "white",
+                              label: "Tahap wawancara",
+                              "hide-details": ""
+                            },
+                            model: {
+                              value: _vm.is_wawancaraEdit,
+                              callback: function($$v) {
+                                _vm.is_wawancaraEdit = $$v
+                              },
+                              expression: "is_wawancaraEdit"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "6" } },
+                        [
+                          _c(
+                            "v-menu",
+                            {
+                              attrs: {
+                                "close-on-content-click": false,
+                                "nudge-right": 40,
+                                transition: "scale-transition",
+                                "offset-y": "",
+                                "min-width": "290px"
+                              },
+                              scopedSlots: _vm._u([
+                                {
+                                  key: "activator",
+                                  fn: function(ref) {
+                                    var on = ref.on
+                                    var attrs = ref.attrs
+                                    return [
+                                      _c(
+                                        "v-text-field",
+                                        _vm._g(
+                                          _vm._b(
+                                            {
+                                              attrs: {
+                                                disabled: !_vm.is_wawancaraEdit,
+                                                label:
+                                                  "Rentang Waktu Wawancara",
+                                                "prepend-icon": "event",
+                                                readonly: ""
+                                              },
+                                              model: {
+                                                value: _vm.dateWawancaraEdit,
+                                                callback: function($$v) {
+                                                  _vm.dateWawancaraEdit = $$v
+                                                },
+                                                expression: "dateWawancaraEdit"
+                                              }
+                                            },
+                                            "v-text-field",
+                                            attrs,
+                                            false
+                                          ),
+                                          on
+                                        )
+                                      )
+                                    ]
+                                  }
+                                }
+                              ]),
+                              model: {
+                                value: _vm.menuWawancaraEdit,
+                                callback: function($$v) {
+                                  _vm.menuWawancaraEdit = $$v
+                                },
+                                expression: "menuWawancaraEdit"
+                              }
+                            },
+                            [
+                              _vm._v(" "),
+                              _c("v-date-picker", {
+                                attrs: { range: "", locale: "id-ID" },
+                                model: {
+                                  value: _vm.dateWawancaraEdit,
+                                  callback: function($$v) {
+                                    _vm.dateWawancaraEdit = $$v
+                                  },
+                                  expression: "dateWawancaraEdit"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-row",
+                    [
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "6" } },
+                        [
+                          _c("v-checkbox", {
+                            attrs: {
+                              color: "white",
+                              label: "Tahap Survey",
+                              "hide-details": ""
+                            },
+                            model: {
+                              value: _vm.is_surveyEdit,
+                              callback: function($$v) {
+                                _vm.is_surveyEdit = $$v
+                              },
+                              expression: "is_surveyEdit"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "6" } },
+                        [
+                          _c(
+                            "v-menu",
+                            {
+                              attrs: {
+                                "close-on-content-click": false,
+                                "nudge-right": 40,
+                                transition: "scale-transition",
+                                "offset-y": "",
+                                "min-width": "290px"
+                              },
+                              scopedSlots: _vm._u([
+                                {
+                                  key: "activator",
+                                  fn: function(ref) {
+                                    var on = ref.on
+                                    var attrs = ref.attrs
+                                    return [
+                                      _c(
+                                        "v-text-field",
+                                        _vm._g(
+                                          _vm._b(
+                                            {
+                                              attrs: {
+                                                disabled: !_vm.is_surveyEdit,
+                                                label:
+                                                  "Rentang Waktu Wawancara",
+                                                "prepend-icon": "event",
+                                                readonly: ""
+                                              },
+                                              model: {
+                                                value: _vm.dateSurveyEdit,
+                                                callback: function($$v) {
+                                                  _vm.dateSurveyEdit = $$v
+                                                },
+                                                expression: "dateSurveyEdit"
+                                              }
+                                            },
+                                            "v-text-field",
+                                            attrs,
+                                            false
+                                          ),
+                                          on
+                                        )
+                                      )
+                                    ]
+                                  }
+                                }
+                              ]),
+                              model: {
+                                value: _vm.menuSurveyEdit,
+                                callback: function($$v) {
+                                  _vm.menuSurveyEdit = $$v
+                                },
+                                expression: "menuSurveyEdit"
+                              }
+                            },
+                            [
+                              _vm._v(" "),
+                              _c("v-date-picker", {
+                                attrs: { range: "", locale: "id-ID" },
+                                model: {
+                                  value: _vm.dateSurveyEdit,
+                                  callback: function($$v) {
+                                    _vm.dateSurveyEdit = $$v
+                                  },
+                                  expression: "dateSurveyEdit"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("v-row", [_c("v-divider")], 1),
+                  _vm._v(" "),
+                  _c("v-row", [_c("v-subheader", [_vm._v("Buat Form")])], 1),
+                  _vm._v(" "),
+                  _c(
+                    "transition-group",
+                    { attrs: { name: "scale-transition" } },
+                    _vm._l(_vm.fieldsEdit, function(field) {
+                      return _c(
+                        "v-card",
+                        {
+                          key: field.index,
+                          staticClass: "mb-2",
+                          staticStyle: { "padding-bottom": "0 !important" },
+                          attrs: { elevation: "10", color: "#388E3C" }
+                        },
+                        [
+                          _c(
+                            "v-container",
+                            {
+                              staticStyle: { "padding-bottom": "0 !important" }
+                            },
+                            [
+                              _c(
+                                "v-row",
+                                {
+                                  staticStyle: {
+                                    "padding-bottom": "0 !important"
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "v-col",
+                                    {
+                                      staticStyle: {
+                                        "padding-bottom": "0 !important"
+                                      },
+                                      attrs: { cols: "7" }
+                                    },
+                                    [
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          color: "white",
+                                          dense: "",
+                                          label: "Pertanyaan"
+                                        },
+                                        model: {
+                                          value: field.pertanyaan,
+                                          callback: function($$v) {
+                                            _vm.$set(field, "pertanyaan", $$v)
+                                          },
+                                          expression: "field.pertanyaan"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-col",
+                                    {
+                                      staticStyle: {
+                                        "padding-bottom": "0 !important"
+                                      },
+                                      attrs: { cols: "5" }
+                                    },
+                                    [
+                                      _c("v-select", {
+                                        attrs: {
+                                          dense: "",
+                                          items: _vm.itemTypes,
+                                          label: "Tipe isian",
+                                          color: "white",
+                                          outlined: ""
+                                        },
+                                        model: {
+                                          value: field.type,
+                                          callback: function($$v) {
+                                            _vm.$set(field, "type", $$v)
+                                          },
+                                          expression: "field.type"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-row",
+                                [
+                                  _c(
+                                    "v-col",
+                                    {
+                                      staticStyle: {
+                                        "padding-bottom": "0 !important"
+                                      }
+                                    },
+                                    [
+                                      field.type == "Pilihan"
+                                        ? _c(
+                                            "v-radio-group",
+                                            {
+                                              attrs: {
+                                                column: "",
+                                                mandatory:
+                                                  field.pilihan.required
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "v-row",
+                                                { attrs: { align: "center" } },
+                                                [
+                                                  _c(
+                                                    "span",
+                                                    {
+                                                      staticClass: "ml-2 mr-1"
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "Pilihan wajib diisi"
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c("v-switch", {
+                                                    attrs: { color: "white" },
+                                                    model: {
+                                                      value:
+                                                        field.pilihan.required,
+                                                      callback: function($$v) {
+                                                        _vm.$set(
+                                                          field.pilihan,
+                                                          "required",
+                                                          $$v
+                                                        )
+                                                      },
+                                                      expression:
+                                                        "field.pilihan.required"
+                                                    }
+                                                  })
+                                                ],
+                                                1
+                                              ),
+                                              _vm._v(" "),
+                                              _vm._l(
+                                                field.pilihan.items,
+                                                function(item, index) {
+                                                  return _c("v-radio", {
+                                                    key: index,
+                                                    attrs: {
+                                                      value: item.label,
+                                                      color: "white"
+                                                    },
+                                                    scopedSlots: _vm._u(
+                                                      [
+                                                        {
+                                                          key: "label",
+                                                          fn: function() {
+                                                            return [
+                                                              _c(
+                                                                "v-row",
+                                                                {
+                                                                  attrs: {
+                                                                    align:
+                                                                      "center"
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _c(
+                                                                    "v-text-field",
+                                                                    {
+                                                                      staticClass:
+                                                                        "ma-2",
+                                                                      attrs: {
+                                                                        color:
+                                                                          "white",
+                                                                        dense:
+                                                                          "",
+                                                                        filled:
+                                                                          "",
+                                                                        label:
+                                                                          "Label"
+                                                                      },
+                                                                      model: {
+                                                                        value:
+                                                                          item.label,
+                                                                        callback: function(
+                                                                          $$v
+                                                                        ) {
+                                                                          _vm.$set(
+                                                                            item,
+                                                                            "label",
+                                                                            $$v
+                                                                          )
+                                                                        },
+                                                                        expression:
+                                                                          "item.label"
+                                                                      }
+                                                                    }
+                                                                  ),
+                                                                  _vm._v(" "),
+                                                                  _c(
+                                                                    "v-btn",
+                                                                    {
+                                                                      staticClass:
+                                                                        "ma-2",
+                                                                      attrs: {
+                                                                        icon:
+                                                                          "",
+                                                                        color:
+                                                                          "white"
+                                                                      },
+                                                                      on: {
+                                                                        click: function(
+                                                                          $event
+                                                                        ) {
+                                                                          return _vm.deletePilihanItem(
+                                                                            field,
+                                                                            item.label
+                                                                          )
+                                                                        }
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _c(
+                                                                        "v-icon",
+                                                                        [
+                                                                          _vm._v(
+                                                                            "mdi-close"
+                                                                          )
+                                                                        ]
+                                                                      )
+                                                                    ],
+                                                                    1
+                                                                  )
+                                                                ],
+                                                                1
+                                                              )
+                                                            ]
+                                                          },
+                                                          proxy: true
+                                                        }
+                                                      ],
+                                                      null,
+                                                      true
+                                                    )
+                                                  })
+                                                }
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-btn",
+                                                {
+                                                  staticClass:
+                                                    "mt-2 grey darken-3",
+                                                  attrs: {
+                                                    fab: "",
+                                                    dark: "",
+                                                    small: ""
+                                                  },
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.addPilihanItem(
+                                                        field.index
+                                                      )
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _c(
+                                                    "v-icon",
+                                                    { attrs: { dark: "" } },
+                                                    [
+                                                      _vm._v(
+                                                        "\n                          mdi-plus\n                        "
+                                                      )
+                                                    ]
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                            ],
+                                            2
+                                          )
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      field.type == "Jawaban Pendek"
+                                        ? _c("v-text-field", {
+                                            attrs: {
+                                              "prepend-icon": "mdi-text-short",
+                                              dense: "",
+                                              disabled: "",
+                                              filled: "",
+                                              placeholder: "Jawaban Pendek"
+                                            }
+                                          })
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      field.type == "Jawaban Angka"
+                                        ? _c("v-text-field", {
+                                            attrs: {
+                                              "prepend-icon": "mdi-numeric",
+                                              dense: "",
+                                              disabled: "",
+                                              filled: "",
+                                              type: "number",
+                                              placeholder: "Jawaban Angka"
+                                            }
+                                          })
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      field.type == "Tanggal"
+                                        ? _c("v-text-field", {
+                                            attrs: {
+                                              "prepend-icon": "mdi-calendar",
+                                              dense: "",
+                                              disabled: "",
+                                              filled: "",
+                                              label: "Tanggal"
+                                            }
+                                          })
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      field.type == "Upload File"
+                                        ? _c("v-file-input", {
+                                            attrs: {
+                                              dense: "",
+                                              disabled: "",
+                                              filled: "",
+                                              placeholder: "Upload File"
+                                            }
+                                          })
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      field.type == "Paragraf"
+                                        ? _c("v-textarea", {
+                                            attrs: {
+                                              "prepend-icon":
+                                                "mdi-view-headline",
+                                              color: "white",
+                                              rows: "1",
+                                              disabled: "",
+                                              filled: "",
+                                              dense: "",
+                                              label: "Paragraf"
+                                            }
+                                          })
+                                        : _vm._e()
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-row",
+                                {
+                                  staticClass: "mb-2",
+                                  attrs: { align: "center", justify: "end" }
+                                },
+                                [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: { icon: "", color: "white" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.deleteFieldEdit(field)
+                                        }
+                                      }
+                                    },
+                                    [_c("v-icon", [_vm._v("mdi-trash-can")])],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c("span", { staticClass: "ml-2 mr-1" }, [
+                                    _vm._v("Wajib diisi")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("v-switch", {
+                                    attrs: { color: "white" },
+                                    model: {
+                                      value: field.required,
+                                      callback: function($$v) {
+                                        _vm.$set(field, "required", $$v)
+                                      },
+                                      expression: "field.required"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    }),
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-row",
+                    { attrs: { justify: "center" } },
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          staticClass: "mt-2",
+                          attrs: {
+                            fab: "",
+                            dark: "",
+                            small: "",
+                            color: "green"
+                          },
+                          on: {
+                            click: function($event) {
+                              return _vm.addFieldsEdit()
+                            }
+                          }
+                        },
+                        [
+                          _c("v-icon", { attrs: { dark: "" } }, [
+                            _vm._v("\n                mdi-plus\n              ")
+                          ])
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
         ],
         1
       ),
@@ -45255,9 +46701,9 @@ var render = function() {
                                   var item = ref.item
                                   return [
                                     _vm._v(
-                                      "\n                " +
+                                      "\n                  " +
                                         _vm._s(item.name) +
-                                        "\n              "
+                                        "\n                "
                                     )
                                   ]
                                 }
@@ -45302,7 +46748,7 @@ var render = function() {
                     [
                       _c("v-col", { attrs: { cols: "6" } }, [
                         _vm._v(
-                          "\n            Tahap upload/pengisian berkas\n          "
+                          "\n              Tahap upload/pengisian berkas\n            "
                         )
                       ]),
                       _vm._v(" "),
@@ -45879,7 +47325,7 @@ var render = function() {
                                                     { attrs: { dark: "" } },
                                                     [
                                                       _vm._v(
-                                                        "\n                        mdi-plus\n                      "
+                                                        "\n                          mdi-plus\n                        "
                                                       )
                                                     ]
                                                   )
@@ -46030,7 +47476,7 @@ var render = function() {
                         },
                         [
                           _c("v-icon", { attrs: { dark: "" } }, [
-                            _vm._v("\n              mdi-plus\n            ")
+                            _vm._v("\n                mdi-plus\n              ")
                           ])
                         ],
                         1
