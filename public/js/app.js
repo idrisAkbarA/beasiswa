@@ -4196,13 +4196,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
     this.getBeasiswa();
     this.getInstansi();
   },
-  methods: _objectSpread(_objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(["toggleOpenBeasiswa"])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getBeasiswa", "getInstansi", "storeBeasiswa", "deleteBeasiswa"])), {}, {
+  methods: _objectSpread(_objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(["toggleOpenBeasiswa"])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getBeasiswa", "editBeasiswa", "getInstansi", "storeBeasiswa", "deleteBeasiswa"])), {}, {
     deleteBea: function deleteBea(item) {
       console.log(item.id);
       this.deleteId = item.id;
@@ -4216,6 +4220,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     edit: function edit(item) {
       var _this = this;
 
+      this.idEdit = item.id;
       console.log(item);
       this.kuotaEdit = item.quota;
       this.namaEdit = item.nama;
@@ -4271,12 +4276,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var akhir_survey = "";
       var awal_berkas = "";
       var akhir_berkas = "";
-
-      if (_typeof(this.dateBerkas) == "object") {
-        console.log("sama");
-      }
-
-      console.log(_typeof(this.dateBerkasEdit));
       awal_berkas = this.dateBerkasEdit[1] ? this.dateBerkasEdit[0] : null;
       akhir_berkas = this.dateBerkasEdit[1] ? this.dateBerkasEdit[1] : this.dateBerkasEdit[0];
 
@@ -4291,6 +4290,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       var data = {
+        id: this.idEdit,
         nama: this.namaEdit,
         deskripsi: this.deskripsiEdit,
         kuota: this.kuotaEdit,
@@ -4307,9 +4307,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       };
       console.log(data);
       this.btnLoading = true;
-      this.storeBeasiswa(data).then(function (response) {
+      this.editBeasiswa(data).then(function (response) {
         _this2.btnLoading = false;
         _this2.toggleEdit = false;
+        console.log("what");
       })["catch"](function (error) {
         _this2.btnLoading = false;
       });
@@ -4369,6 +4370,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this3.btnLoading = false;
       });
     },
+    width: function width() {
+      // console.log(this.windowWidth)
+      if (this.windowWidth <= 600) {
+        return "100%";
+      } else if (this.windowWidth <= 960) {
+        return "70%";
+      } else {
+        return "50%";
+      }
+
+      ;
+    },
     batal: function batal() {
       this.toggleBeasiswa = false;
     },
@@ -4414,9 +4427,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.fieldsEdit.splice(this.fieldsEdit.indexOf(field), 1);
     },
     addPilihanItem: function addPilihanItem(field_index) {
-      this.fields[field_index].pilihan.items.push({
+      this.fields[field_index - 1].pilihan.items.push({
         label: ""
       });
+    },
+    addPilihanItemEdit: function addPilihanItemEdit(field_index) {
+      this.fieldsEdit[field_index - 1].pilihan.items.push({
+        label: ""
+      });
+    },
+    deletePilihanItemEdit: function deletePilihanItemEdit(field, label) {
+      var item = this.fieldsEdit[this.fieldsEdit.indexOf(field)].pilihan.items;
+      item.splice(item.indexOf(label), 1);
     },
     deletePilihanItem: function deletePilihanItem(field, label) {
       var item = this.fields[this.fields.indexOf(field)].pilihan.items;
@@ -4435,6 +4457,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   }),
   data: function data() {
     return {
+      idEdit: null,
       deleteDialog: false,
       deleteId: null,
       btnLoadingEdit: false,
@@ -46693,7 +46716,7 @@ var render = function() {
         {
           attrs: {
             scrollable: "",
-            width: "60%",
+            width: _vm.width(),
             inset: "",
             "overlay-color": "#69F0AE"
           },
@@ -46782,6 +46805,7 @@ var render = function() {
                         [
                           _c("v-textarea", {
                             attrs: {
+                              "auto-grow": "",
                               color: "white",
                               rows: "1",
                               label: "Deskripsi"
@@ -47436,7 +47460,7 @@ var render = function() {
                                                   },
                                                   on: {
                                                     click: function($event) {
-                                                      return _vm.addPilihanItem(
+                                                      return _vm.addPilihanItemEdit(
                                                         field.index
                                                       )
                                                     }
@@ -47511,6 +47535,7 @@ var render = function() {
                                       field.type == "Paragraf"
                                         ? _c("v-textarea", {
                                             attrs: {
+                                              "auto-grow": "",
                                               "prepend-icon":
                                                 "mdi-view-headline",
                                               color: "white",
@@ -47718,6 +47743,7 @@ var render = function() {
                         [
                           _c("v-textarea", {
                             attrs: {
+                              "auto-grow": "",
                               color: "white",
                               rows: "1",
                               label: "Deskripsi"
@@ -48326,7 +48352,7 @@ var render = function() {
                                                                         click: function(
                                                                           $event
                                                                         ) {
-                                                                          return _vm.deletePilihanItem(
+                                                                          return _vm.deletePilihanItemEdit(
                                                                             field,
                                                                             item.label
                                                                           )
@@ -48447,6 +48473,7 @@ var render = function() {
                                       field.type == "Paragraf"
                                         ? _c("v-textarea", {
                                             attrs: {
+                                              "auto-grow": "",
                                               "prepend-icon":
                                                 "mdi-view-headline",
                                               color: "white",
@@ -49005,9 +49032,11 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-container",
+    { staticClass: "pa-10" },
     [
       _c(
         "v-row",
+        { attrs: { justify: "center" } },
         [
           _c(
             "v-col",
@@ -114513,10 +114542,39 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         });
       });
     },
-    storeBeasiswa: function storeBeasiswa(_ref9, data) {
+    editBeasiswa: function editBeasiswa(_ref9, data) {
       var commit = _ref9.commit,
           dispatch = _ref9.dispatch,
           state = _ref9.state;
+      return new Promise(function (resolve, reject) {
+        console.log(data + "pante");
+        axios__WEBPACK_IMPORTED_MODULE_2___default.a.put(state.url + "/api/beasiswa/" + data.id, {
+          id: data.id,
+          nama: data.nama,
+          deskripsi: data.deskripsi,
+          kuota: data.kuota,
+          instansi: data.id,
+          fields: data.fields,
+          is_survey: data.is_survey,
+          is_wawancara: data.is_wawancara,
+          awal_wawancara: data.awal_wawancara,
+          akhir_wawancara: data.akhir_wawancara,
+          awal_survey: data.awal_survey,
+          akhir_survey: data.akhir_survey,
+          awal_berkas: data.awal_berkas,
+          akhir_berkas: data.akhir_berkas
+        }).then(function (response) {
+          dispatch('getBeasiswa');
+          resolve(response);
+        })["catch"](function (error) {
+          reject(error);
+        });
+      });
+    },
+    storeBeasiswa: function storeBeasiswa(_ref10, data) {
+      var commit = _ref10.commit,
+          dispatch = _ref10.dispatch,
+          state = _ref10.state;
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_2___default.a.post(state.url + "/api/beasiswa", {
           data: data
@@ -114528,10 +114586,10 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         });
       });
     },
-    storeInstansi: function storeInstansi(_ref10, data) {
-      var commit = _ref10.commit,
-          dispatch = _ref10.dispatch,
-          state = _ref10.state;
+    storeInstansi: function storeInstansi(_ref11, data) {
+      var commit = _ref11.commit,
+          dispatch = _ref11.dispatch,
+          state = _ref11.state;
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_2___default.a.post(state.url + "/api/instansi", data).then(function (response) {
           dispatch('getInstansi');
@@ -114541,37 +114599,37 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         });
       });
     },
-    getInstansi: function getInstansi(_ref11) {
-      var commit = _ref11.commit,
-          dispatch = _ref11.dispatch,
-          state = _ref11.state;
+    getInstansi: function getInstansi(_ref12) {
+      var commit = _ref12.commit,
+          dispatch = _ref12.dispatch,
+          state = _ref12.state;
       commit("mutateTableLoading", true);
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(state.url + "/api/instansi").then(function (response) {
         commit('mutateInstansi', response.data);
         commit("mutateTableLoading", false);
       });
     },
-    deleteInstansi: function deleteInstansi(_ref12, id) {
-      var commit = _ref12.commit,
-          dispatch = _ref12.dispatch,
-          state = _ref12.state;
+    deleteInstansi: function deleteInstansi(_ref13, id) {
+      var commit = _ref13.commit,
+          dispatch = _ref13.dispatch,
+          state = _ref13.state;
       axios__WEBPACK_IMPORTED_MODULE_2___default.a["delete"](state.url + "/api/instansi/" + id).then(function (response) {
         dispatch('getInstansi');
       });
     },
-    deleteBeasiswa: function deleteBeasiswa(_ref13, id) {
-      var commit = _ref13.commit,
-          dispatch = _ref13.dispatch,
-          state = _ref13.state;
+    deleteBeasiswa: function deleteBeasiswa(_ref14, id) {
+      var commit = _ref14.commit,
+          dispatch = _ref14.dispatch,
+          state = _ref14.state;
       axios__WEBPACK_IMPORTED_MODULE_2___default.a["delete"](state.url + "/api/beasiswa/" + id).then(function (response) {
         dispatch('getBeasiswa');
         console.log(response);
       });
     },
-    editInstansi: function editInstansi(_ref14, data) {
-      var commit = _ref14.commit,
-          dispatch = _ref14.dispatch,
-          state = _ref14.state;
+    editInstansi: function editInstansi(_ref15, data) {
+      var commit = _ref15.commit,
+          dispatch = _ref15.dispatch,
+          state = _ref15.state;
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.put(state.url + "/api/instansi/" + data.id, {
         name: data.name
       }).then(function (response) {
