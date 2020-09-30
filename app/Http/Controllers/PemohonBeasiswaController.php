@@ -164,7 +164,7 @@ class PemohonBeasiswaController extends Controller
     }
     public function storeFile(Request $request)
     {
-        $user = Auth::user();
+        $user = Auth::guard("mahasiswa")->user();
         $fileName = "files/".$request['id'].'/'.$user['nim']."/".Carbon::now()->format("Y-m-d-H-i-s").$request->file->getClientOriginalName();
         $request->file->move(public_path('files/'.$request['id'].'/'.$user['nim']), $fileName);
 

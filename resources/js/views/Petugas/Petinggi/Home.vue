@@ -3,7 +3,7 @@
     color="#E8F5E9"
     light
     elevation="20"
-    width="70%"
+    :width="width()"
     class="fill-height mx-auto"
     style="overflow-y: auto"
   >
@@ -17,102 +17,174 @@
         ></v-text-field>
       </v-row>
       <v-row>
-          <v-card-text>
-            <p v-if="!beasiswa" class="text-center">Tidak ada peserta wawancara</p>
-            <v-expansion-panels
+        <v-card-text>
+          <p
+            v-if="!beasiswa"
+            class="text-center"
+          >Tidak ada peserta wawancara</p>
+          <v-expansion-panels
             hover
             inset
+          >
+            <v-expansion-panel
+              v-for="(item,i) in beasiswa"
+              :key="i"
             >
-                <v-expansion-panel
-                    v-for="(item,i) in beasiswa"
-                    :key="i"
+              <v-expansion-panel-header>
+                <v-row
+                  no-gutters
+                  justify="space-between"
                 >
-                    <v-expansion-panel-header>
-                    <v-row
-                        no-gutters
-                        justify="space-between"
+                  <v-col cols="4"><strong>{{item.nama}}</strong></v-col>
+
+                </v-row>
+
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <span class="text-muted">{{item.deskripsi}}</span>
+                <v-row>
+                  <v-divider></v-divider>
+                </v-row>
+                <span>
+                  Kuota penerima beasiswa : {{item.lulus.length}} / {{item.quota}} Orang
+                </span>
+                <v-badge
+                  inline
+                  content=" Terpenuhi"
+                  v-if="item.lulus.length == item.quota"
+                ></v-badge>
+                <div class="col-12">
+                  <div class="row">
+                    <v-card
+                      class="col-6 bg-dark"
+                      elevation="0"
                     >
-                        <v-col cols="4"><strong>{{item.nama}}</strong></v-col>
+                      <div class="overline mb-4 text-white text-center">
+                        Permohonan Masuk
+                      </div>
+                      <p
+                        v-if="item.selection.length < 1"
+                        class="text-white text-center"
+                      >Tidak ada data</p>
+                      <v-btn
+                        v-for="(pemohon, i) in item.selection"
+                        :key="i"
+                        class="btn btn-light mb-1"
+                        block
+                        @click="dialogDetail = true, selectedMahasiswa = pemohon"
+                      >
+                        <span class="my-2">{{pemohon.mahasiswa.nama}}</span>
+                      </v-btn>
+                    </v-card>
+                    <v-card
+                      class="col-6 bg-dark"
+                      elevation="0"
+                    >
+                      <div class="overline mb-4 text-white text-center">
+                        Lulus
+                      </div>
+                      <p
+                        v-if="item.lulus.length < 1"
+                        class="text-white text-center"
+                      >Tidak ada data</p>
+                      <v-btn
+                        v-for="(pemohon, i) in item.lulus"
+                        :key="i"
+                        class="btn btn-light mb-1"
+                        block
+                        @click="selectedMahasiswa = pemohon, lulus()"
+                      >
+                        <span class="my-2">{{pemohon.mahasiswa.nama}}</span>
+                      </v-btn>
+                    </v-card>
+                  </div>
+                </div>
+                <v-row justify="end">
+                  <v-btn
+                    dark
+                    color="#2E7D32"
+                    @click="tutup(item)"
+                  >Tutup Penerimaan beasiswa</v-btn>
 
-                    </v-row>
-
-                    </v-expansion-panel-header>
-                    <v-expansion-panel-content>
-                        <span class="text-muted">{{item.deskripsi}}</span>
-                        <v-row>
-                            <v-divider></v-divider>
-                        </v-row>
-                        <span>
-                            Kuota penerima beasiswa : {{item.lulus.length}} / {{item.quota}} Orang
-                        </span>
-                        <v-badge
-                        inline
-                        content=" Terpenuhi"
-                        v-if="item.lulus.length == item.quota"
-                        ></v-badge>
-                        <div class="col-12">
-                            <div class="row">
-                                <v-card class="col-6 bg-dark" elevation="0">
-                                    <div class="overline mb-4 text-white text-center">
-                                    Permohonan Masuk
-                                    </div>
-                                    <p v-if="item.selection.length < 1" class="text-white text-center">Tidak ada data</p>
-                                    <v-btn v-for="(pemohon, i) in item.selection" :key="i"
-                                        class="btn btn-light mb-1"
-                                        block
-                                        @click="dialogDetail = true, selectedMahasiswa = pemohon"
-                                    >
-                                        <span class="my-2">{{pemohon.mahasiswa.nama}}</span>
-                                    </v-btn>
-                                </v-card>
-                                <v-card class="col-6 bg-dark" elevation="0">
-                                    <div class="overline mb-4 text-white text-center">
-                                    Lulus
-                                    </div>
-                                    <p v-if="item.lulus.length < 1" class="text-white text-center">Tidak ada data</p>
-                                    <v-btn v-for="(pemohon, i) in item.lulus" :key="i"
-                                        class="btn btn-light mb-1"
-                                        block
-                                        @click="selectedMahasiswa = pemohon, lulus()"
-                                    >
-                                        <span class="my-2">{{pemohon.mahasiswa.nama}}</span>
-                                    </v-btn>
-                                </v-card>
-                            </div>
-                        </div>
-                        <v-row justify="end">
-                            <v-btn
-                            dark
-                            color="#2E7D32"
-
-                            @click="tutup(item)"
-                            >Tutup Penerimaan beasiswa</v-btn>
-
-                        </v-row>
-                    </v-expansion-panel-content>
-                </v-expansion-panel>
-            </v-expansion-panels>
-          </v-card-text>
+                </v-row>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </v-card-text>
       </v-row>
     </v-card-text>
     <!-- Dialog Detail -->
-    <div class="text-center" v-if="dialogDetail">
-      <v-dialog v-model="dialogDetail" width="600">
+    <div
+      class="text-center"
+      v-if="dialogDetail"
+    >
+      <v-dialog
+        v-model="dialogDetail"
+        width="600"
+      >
         <v-card>
-          <v-card-title class="headline white--text" primary-title>
+          <v-card-title
+            class="headline white--text"
+            primary-title
+          >
             <i class="mdi mdi-account mr-2"></i> {{selectedMahasiswa.mahasiswa.nama}}
           </v-card-title>
 
           <v-card-text class="mt-2 white--text">
-              detail
+            detail
+                          <v-row
+                no-gutters=""
+                class="ma-5"
+                v-for="(field,index) in selectedMahasiswa.form"
+                :key="index"
+              >
+
+                <v-col style="padding-bottom:0 !important;">
+                  <p>{{field.pertanyaan}}</p>
+                  <p v-if="field.type == 'Pilihan'"><span>
+                      <v-icon>mdi-text-short</v-icon>{{field.value}}
+                    </span></p>
+                  <p v-if="field.type == 'Jawaban Pendek'"><span>
+                      <v-icon>mdi-text-short</v-icon>{{field.value}}
+                    </span></p>
+                  <p v-if="field.type == 'Jawaban Angka'"><span>
+                      <v-icon>mdi-text-short</v-icon>{{field.value}}
+                    </span></p>
+                  <p v-if="field.type == 'Tanggal'"><span>
+                      <v-icon>mdi-text-short</v-icon>{{field.value}}
+                    </span></p>
+                  <v-btn
+                    v-if="field.type == 'Upload File'"
+                    small
+                    @click="link(field.value)"
+                  >lihat file</v-btn>
+                  <p v-if="field.type == 'Paragraf'"><span>
+                      <v-icon>mdi-text-short</v-icon>{{field.value}}
+                    </span></p>
+                </v-col>
+                <v-col cols="12">
+                  <v-divider></v-divider>
+                </v-col>
+                <v-col cols="12">
+
+                </v-col>
+              </v-row>
           </v-card-text>
 
           <v-divider></v-divider>
 
           <v-card-actions>
-            <v-btn @click="dialogDetail = false, selectedMahasiswa = {}" color="white" text>batal</v-btn>
+            <v-btn
+              @click="dialogDetail = false, selectedMahasiswa = {}"
+              color="white"
+              text
+            >batal</v-btn>
             <v-spacer></v-spacer>
-            <v-btn color="#2E7D32" dark @click="lulus()">
+            <v-btn
+              color="#2E7D32"
+              dark
+              @click="lulus()"
+            >
               <v-icon>check</v-icon>Lulus
             </v-btn>
           </v-card-actions>
@@ -172,6 +244,14 @@ export default {
     this.getBeasiswa();
   },
   methods: {
+    width(){
+      // console.log(this.windowWidth)
+      if(this.windowWidth<=600){ return "100%"}
+      else if(this.windowWidth<=960){return "85%"}
+      else{
+        return "70%"
+      };
+    },
     ...mapActions(["getBeasiswa", "deleteBeasiswa"]),
     lulus() {
         console.log(this.selectedMahasiswa);

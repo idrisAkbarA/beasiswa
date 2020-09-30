@@ -13,7 +13,9 @@ import Vuex from 'vuex'
 import Vuetify from 'vuetify';
 import store from './store/store'
 import router from './router/router'
-
+import VueWindowSize from 'vue-window-size';
+ 
+Vue.use(VueWindowSize);
 Vue.use(Vuex)
 Vue.use(Vuetify);
 
