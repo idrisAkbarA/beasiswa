@@ -135,7 +135,7 @@
                           <v-row
                 no-gutters=""
                 class="ma-5"
-                v-for="(field,index) in selectedMahasiswa.form"
+                v-for="(field,index) in JSON.parse(selectedMahasiswa.form)"
                 :key="index"
               >
 

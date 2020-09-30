@@ -17,7 +17,7 @@ class PemohonBeasiswaController extends Controller
 
     }
     public function IsHasBeasiswa(){
-        $user = Auth::user();
+        $user = Auth::guard('mahasiswa')->user();
         $beasiswa = PemohonBeasiswa::where("mhs_id",$user["nim"])->with("beasiswa")->get();
         // $beasiswa = PemohonBeasiswa::where("mhs_id",$user[nim])->get();
         return $beasiswa;

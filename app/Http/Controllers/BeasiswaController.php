@@ -6,10 +6,10 @@ use App\Beasiswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 class BeasiswaController extends Controller
-{ 
+{
 
     public function getAll(){
-        return response()->json( Beasiswa::all());
+        return response()->json( Beasiswa::orderBy('id', 'DESC')->get());
     }
     public function countBeasiswa(){
         return count(Beasiswa::all());

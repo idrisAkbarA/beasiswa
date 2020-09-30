@@ -13284,7 +13284,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.area[data-v-310c26ee] {\r\n  width: 70%;\r\n  margin: auto;\r\n  position: absolute;\r\n  height: 100%;\r\n  background: white;\n}\r\n", ""]);
+exports.push([module.i, "\n.area[data-v-310c26ee] {\n  width: 70%;\n  margin: auto;\n  position: absolute;\n  height: 100%;\n  background: white;\n}\n", ""]);
 
 // exports
 
@@ -53387,148 +53387,150 @@ var render = function() {
                           _vm._v(
                             "\n          detail\n                        "
                           ),
-                          _vm._l(_vm.selectedMahasiswa.form, function(
-                            field,
-                            index
-                          ) {
-                            return _c(
-                              "v-row",
-                              {
-                                key: index,
-                                staticClass: "ma-5",
-                                attrs: { "no-gutters": "" }
-                              },
-                              [
-                                _c(
-                                  "v-col",
-                                  {
-                                    staticStyle: {
-                                      "padding-bottom": "0 !important"
-                                    }
-                                  },
-                                  [
-                                    _c("p", [_vm._v(_vm._s(field.pertanyaan))]),
-                                    _vm._v(" "),
-                                    field.type == "Pilihan"
-                                      ? _c("p", [
-                                          _c(
-                                            "span",
-                                            [
-                                              _c("v-icon", [
-                                                _vm._v("mdi-text-short")
-                                              ]),
-                                              _vm._v(
-                                                _vm._s(field.value) +
-                                                  "\n                  "
-                                              )
-                                            ],
-                                            1
-                                          )
-                                        ])
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    field.type == "Jawaban Pendek"
-                                      ? _c("p", [
-                                          _c(
-                                            "span",
-                                            [
-                                              _c("v-icon", [
-                                                _vm._v("mdi-text-short")
-                                              ]),
-                                              _vm._v(
-                                                _vm._s(field.value) +
-                                                  "\n                  "
-                                              )
-                                            ],
-                                            1
-                                          )
-                                        ])
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    field.type == "Jawaban Angka"
-                                      ? _c("p", [
-                                          _c(
-                                            "span",
-                                            [
-                                              _c("v-icon", [
-                                                _vm._v("mdi-text-short")
-                                              ]),
-                                              _vm._v(
-                                                _vm._s(field.value) +
-                                                  "\n                  "
-                                              )
-                                            ],
-                                            1
-                                          )
-                                        ])
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    field.type == "Tanggal"
-                                      ? _c("p", [
-                                          _c(
-                                            "span",
-                                            [
-                                              _c("v-icon", [
-                                                _vm._v("mdi-text-short")
-                                              ]),
-                                              _vm._v(
-                                                _vm._s(field.value) +
-                                                  "\n                  "
-                                              )
-                                            ],
-                                            1
-                                          )
-                                        ])
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    field.type == "Upload File"
-                                      ? _c(
-                                          "v-btn",
-                                          {
-                                            attrs: { small: "" },
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.link(field.value)
+                          _vm._l(
+                            JSON.parse(_vm.selectedMahasiswa.form),
+                            function(field, index) {
+                              return _c(
+                                "v-row",
+                                {
+                                  key: index,
+                                  staticClass: "ma-5",
+                                  attrs: { "no-gutters": "" }
+                                },
+                                [
+                                  _c(
+                                    "v-col",
+                                    {
+                                      staticStyle: {
+                                        "padding-bottom": "0 !important"
+                                      }
+                                    },
+                                    [
+                                      _c("p", [
+                                        _vm._v(_vm._s(field.pertanyaan))
+                                      ]),
+                                      _vm._v(" "),
+                                      field.type == "Pilihan"
+                                        ? _c("p", [
+                                            _c(
+                                              "span",
+                                              [
+                                                _c("v-icon", [
+                                                  _vm._v("mdi-text-short")
+                                                ]),
+                                                _vm._v(
+                                                  _vm._s(field.value) +
+                                                    "\n                  "
+                                                )
+                                              ],
+                                              1
+                                            )
+                                          ])
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      field.type == "Jawaban Pendek"
+                                        ? _c("p", [
+                                            _c(
+                                              "span",
+                                              [
+                                                _c("v-icon", [
+                                                  _vm._v("mdi-text-short")
+                                                ]),
+                                                _vm._v(
+                                                  _vm._s(field.value) +
+                                                    "\n                  "
+                                                )
+                                              ],
+                                              1
+                                            )
+                                          ])
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      field.type == "Jawaban Angka"
+                                        ? _c("p", [
+                                            _c(
+                                              "span",
+                                              [
+                                                _c("v-icon", [
+                                                  _vm._v("mdi-text-short")
+                                                ]),
+                                                _vm._v(
+                                                  _vm._s(field.value) +
+                                                    "\n                  "
+                                                )
+                                              ],
+                                              1
+                                            )
+                                          ])
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      field.type == "Tanggal"
+                                        ? _c("p", [
+                                            _c(
+                                              "span",
+                                              [
+                                                _c("v-icon", [
+                                                  _vm._v("mdi-text-short")
+                                                ]),
+                                                _vm._v(
+                                                  _vm._s(field.value) +
+                                                    "\n                  "
+                                                )
+                                              ],
+                                              1
+                                            )
+                                          ])
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      field.type == "Upload File"
+                                        ? _c(
+                                            "v-btn",
+                                            {
+                                              attrs: { small: "" },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.link(field.value)
+                                                }
                                               }
-                                            }
-                                          },
-                                          [_vm._v("lihat file")]
-                                        )
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    field.type == "Paragraf"
-                                      ? _c("p", [
-                                          _c(
-                                            "span",
-                                            [
-                                              _c("v-icon", [
-                                                _vm._v("mdi-text-short")
-                                              ]),
-                                              _vm._v(
-                                                _vm._s(field.value) +
-                                                  "\n                  "
-                                              )
-                                            ],
-                                            1
+                                            },
+                                            [_vm._v("lihat file")]
                                           )
-                                        ])
-                                      : _vm._e()
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-col",
-                                  { attrs: { cols: "12" } },
-                                  [_c("v-divider")],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c("v-col", { attrs: { cols: "12" } })
-                              ],
-                              1
-                            )
-                          })
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      field.type == "Paragraf"
+                                        ? _c("p", [
+                                            _c(
+                                              "span",
+                                              [
+                                                _c("v-icon", [
+                                                  _vm._v("mdi-text-short")
+                                                ]),
+                                                _vm._v(
+                                                  _vm._s(field.value) +
+                                                    "\n                  "
+                                                )
+                                              ],
+                                              1
+                                            )
+                                          ])
+                                        : _vm._e()
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-col",
+                                    { attrs: { cols: "12" } },
+                                    [_c("v-divider")],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c("v-col", { attrs: { cols: "12" } })
+                                ],
+                                1
+                              )
+                            }
+                          )
                         ],
                         2
                       ),
@@ -60339,6 +60341,20 @@ if (inBrowser && window.Vue) {
 
 /* harmony default export */ __webpack_exports__["default"] = (VueRouter);
 
+
+/***/ }),
+
+/***/ "./node_modules/vue-window-size/dist/index.common.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/vue-window-size/dist/index.common.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(global) {Object.defineProperty(exports,"__esModule",{value:!0});var e=__webpack_require__(/*! window-resize-subject */ "./node_modules/window-resize-subject/dist/index.common.js");function t(e){return e&&"object"==typeof e&&"default"in e?e:{default:e}}var i=t(__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js")),n=new e.WindowResizeSubject,u=function(e){var t="function"==typeof i.default.observable?i.default.observable({width:800,height:600}):new i.default({data:{width:800,height:600}});return e.addObserver("option",(function(e){var i=e.width,n=e.height;t.width=i,t.height=n})).subscribe(),{computed:{windowWidth:function(){return t.width},windowHeight:function(){return t.height}}}}(n),o=function(e){return{setDelay:function(t){e.setDelay(t)},init:function(){e.subscribe()},destroy:function(){e.unsubscribe()}}}(n),d={installed:!1};var r={install:function(e,t){var i=(void 0===t?{}:t).delay,o=void 0===i?33:i;d.installed||(d.installed=!0,n.setDelay(o),e.mixin({mixins:[u]}))}},s=null;"undefined"!=typeof window?s=window.Vue:"undefined"!=typeof global&&(s=global.Vue),s&&s.use(r),exports.default=r,exports.vueWindowSize=o,exports.vueWindowSizeMixin=u;
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -117387,6 +117403,19 @@ module.exports = function(module) {
 
 /***/ }),
 
+/***/ "./node_modules/window-resize-subject/dist/index.common.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/window-resize-subject/dist/index.common.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports,"__esModule",{value:!0});var e=function(){function e(e){this._observers=new Map,this._subscribed=!1;var t=(null!=e?e:{}).delay,i=void 0===t?33:t;this._delay=i,this._handler=this._handleResize.bind(this)}return e.prototype.addObserver=function(e,t){return this._observers.set(e,t),t(this._getEvent()),this},e.prototype.deleteObserver=function(e){return this._observers.delete(e),this},e.prototype.deleteObservers=function(){return this._observers.clear(),this},e.prototype.notifyObservers=function(e){return this._observers.forEach((function(t){t(e)})),this},e.prototype.subscribe=function(){return"undefined"==typeof window||this._subscribed||(window.addEventListener("resize",this._handler),window.addEventListener("orientationchange",this._handler),this._subscribed=!0),this},e.prototype.unsubscribe=function(){return this._subscribed?(window.removeEventListener("resize",this._handler),window.removeEventListener("orientationchange",this._handler),this._subscribed=!1,this):this},e.prototype.setDelay=function(e){return this._delay=e,this},e.prototype.hasObserver=function(){return this._observers.size>0},e.prototype._getEvent=function(){return"undefined"==typeof window?{width:0,height:0}:{width:window.innerWidth,height:window.innerHeight}},e.prototype._update=function(){var e=this._getEvent();this.notifyObservers(e)},e.prototype._handleResize=function(){var e=this;clearTimeout(this._timer),this._timer=setTimeout((function(){e._update()}),this._delay)},e}();exports.WindowResizeSubject=e;
+
+
+/***/ }),
+
 /***/ "./package.json":
 /*!**********************!*\
   !*** ./package.json ***!
@@ -117414,7 +117443,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuetify__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vuetify__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./store/store */ "./resources/js/store/store.js");
 /* harmony import */ var _router_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./router/router */ "./resources/js/router/router.js");
-!(function webpackMissingModule() { var e = new Error("Cannot find module 'vue-window-size'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var vue_window_size__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vue-window-size */ "./node_modules/vue-window-size/dist/index.common.js");
+/* harmony import */ var vue_window_size__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(vue_window_size__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var _views_App__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./views/App */ "./resources/js/views/App.vue");
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -117430,7 +117460,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(!(function webpackMissingModule() { var e = new Error("Cannot find module 'vue-window-size'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_window_size__WEBPACK_IMPORTED_MODULE_7___default.a);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuetify__WEBPACK_IMPORTED_MODULE_2___default.a);
 var vuetify = new vuetify__WEBPACK_IMPORTED_MODULE_2___default.a({

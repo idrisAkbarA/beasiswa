@@ -29,7 +29,7 @@ class PemohonBeasiswa extends Model
 
     public function beasiswa()
     {
-        return $this->belongsTo('App\Beasiswa');
+        return $this->belongsTo('App\Beasiswa')->withTrashed();
     }
 
     public function mahasiswa()
