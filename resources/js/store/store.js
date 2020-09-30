@@ -143,6 +143,31 @@ export default new Vuex.Store({
         reject(error)
       })})
     },
+    editBeasiswa({commit,dispatch,state},data){
+      return new Promise((resolve,reject)=>{
+        console.log(data+"pante")
+      Axios.put(state.url+"/api/beasiswa/"+data.id,{
+        id: data.id,
+        nama:  data.nama,
+        deskripsi:  data.deskripsi,
+        kuota:  data.kuota,
+        instansi:  data.id,
+        fields:  data.fields,
+        is_survey:  data.is_survey,
+        is_wawancara:  data.is_wawancara,
+        awal_wawancara: data.awal_wawancara,
+        akhir_wawancara:  data.akhir_wawancara,
+        awal_survey:  data.awal_survey,
+        akhir_survey: data.akhir_survey,
+        awal_berkas:  data.awal_berkas,
+        akhir_berkas: data.akhir_berkas
+      }).then(response=>{
+        dispatch('getBeasiswa')
+        resolve(response)
+      }).catch(error=>{
+        reject(error)
+      })})
+    },
     storeBeasiswa({commit,dispatch,state},data){
       return new Promise((resolve,reject)=>{
         Axios.post(state.url+"/api/beasiswa",{data}).then(response=>{

@@ -39,7 +39,7 @@
 
     <v-bottom-sheet
       scrollable
-      width="60%"
+      :width="width()"
       inset
       overlay-color="#69F0AE"
       v-model="toggleEdit"
@@ -76,6 +76,7 @@
             <v-col>
 
               <v-textarea
+              auto-grow
                 color="white"
                 rows="1"
                 label="Deskripsi"
@@ -318,7 +319,7 @@
                         fab
                         dark
                         small
-                        @click="addPilihanItem(field.index)"
+                        @click="addPilihanItemEdit(field.index)"
                       >
                         <v-icon dark>
                           mdi-plus
@@ -358,6 +359,7 @@
                       placeholder="Upload File"
                     ></v-file-input>
                     <v-textarea
+                    auto-grow
                       prepend-icon="mdi-view-headline"
                       v-if="field.type == 'Paragraf'"
                       color="white"
@@ -452,6 +454,7 @@
             <v-col>
 
               <v-textarea
+              auto-grow
                 color="white"
                 rows="1"
                 label="Deskripsi"
@@ -682,7 +685,7 @@
                               class="ma-2"
                               icon
                               color="white"
-                              @click="deletePilihanItem(field,item.label)"
+                              @click="deletePilihanItemEdit(field,item.label)"
                             >
                               <v-icon>mdi-close</v-icon>
                             </v-btn>
@@ -734,6 +737,7 @@
                       placeholder="Upload File"
                     ></v-file-input>
                     <v-textarea
+                    auto-grow
                       prepend-icon="mdi-view-headline"
                       v-if="field.type == 'Paragraf'"
                       color="white"
@@ -831,7 +835,7 @@ export default {
   },
   methods: {
     ...mapMutations(["toggleOpenBeasiswa"]),
-    ...mapActions(["getBeasiswa", "getInstansi", "storeBeasiswa", "deleteBeasiswa"]),
+    ...mapActions(["getBeasiswa","editBeasiswa",  "getInstansi", "storeBeasiswa", "deleteBeasiswa"]),
     deleteBea(item){
       console.log(item.id)
       this.deleteId = item.id
@@ -843,6 +847,7 @@ export default {
       this.deleteDialog = false;
     },
     edit(item){
+      this.idEdit = item.id
       console.log(item);
       this.kuotaEdit = item.quota;  
       this.namaEdit = item.nama;  
@@ -895,10 +900,6 @@ export default {
       var akhir_survey = "";
       var awal_berkas = "";
       var akhir_berkas = "";
-      if (typeof this.dateBerkas == "object") {
-        console.log("sama");
-      }
-      console.log(typeof this.dateBerkasEdit);
       awal_berkas =
         this.dateBerkasEdit[1] ? this.dateBerkasEdit[0] : null;
       akhir_berkas =
@@ -923,6 +924,7 @@ export default {
             : this.dateSurveyEdit[0];
       }
       var data = {
+        id:this.idEdit,
         nama: this.namaEdit,
         deskripsi: this.deskripsiEdit,
         kuota: this.kuotaEdit,
@@ -939,10 +941,10 @@ export default {
       };
       console.log(data);
       this.btnLoading = true;
-      this.storeBeasiswa(data).then(response=>{
+      this.editBeasiswa(data).then(response=>{
         this.btnLoading = false;
         this.toggleEdit = false
-        
+        console.log("what");
       }).catch(error=>{
         this.btnLoading = false;
         
@@ -1011,6 +1013,14 @@ export default {
         
       });
     },
+    width(){
+      // console.log(this.windowWidth)
+      if(this.windowWidth<=600){ return "100%"}
+      else if(this.windowWidth<=960){return "70%"}
+      else{
+        return "50%"
+      };
+    },
     batal(){
       this.toggleBeasiswa = false;
     },
@@ -1056,7 +1066,14 @@ export default {
       this.fieldsEdit.splice(this.fieldsEdit.indexOf(field), 1);
     },
     addPilihanItem(field_index) {
-      this.fields[field_index].pilihan.items.push({ label: "" });
+      this.fields[field_index-1].pilihan.items.push({ label: "" });
+    },
+    addPilihanItemEdit(field_index) {
+      this.fieldsEdit[field_index-1].pilihan.items.push({ label: "" });
+    },
+    deletePilihanItemEdit(field, label) {
+      var item = this.fieldsEdit[this.fieldsEdit.indexOf(field)].pilihan.items;
+      item.splice(item.indexOf(label), 1);
     },
     deletePilihanItem(field, label) {
       var item = this.fields[this.fields.indexOf(field)].pilihan.items;
@@ -1076,6 +1093,7 @@ export default {
   },
   data() {
     return {
+      idEdit:null,
       deleteDialog: false,
       deleteId:null,
       btnLoadingEdit:false,

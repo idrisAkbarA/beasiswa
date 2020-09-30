@@ -1,6 +1,6 @@
 <template>
-  <v-container>
-    <v-row>
+  <v-container class="pa-10">
+    <v-row justify="center">
       <v-col>
         <v-card :height="100*1.2" :width="200*1.2">
           <v-img
