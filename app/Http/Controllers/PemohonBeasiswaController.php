@@ -12,27 +12,10 @@ class PemohonBeasiswaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function getAll(Request $request)
     {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function IsHasBeasiswa(){
         $user = Auth::user();
         $beasiswa = PemohonBeasiswa::where("mhs_id",$user["nim"])->with("beasiswa")->get();
@@ -151,7 +134,7 @@ class PemohonBeasiswaController extends Controller
     }
     public function store(Request $request)
     {
-        $user = Auth::user();
+        $user = Auth::guard("mahasiswa")->user();
         $permohonan = new PemohonBeasiswa;
         $permohonan->mhs_id         = $user->nim;
         $permohonan->beasiswa_id    = $request['beasiswa_id'];

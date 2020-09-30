@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Imports\UserImport;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
@@ -16,6 +17,7 @@ class UserController extends Controller
         return response()->json( User::find($id));
     }
     public function store(User $user, Request $request){
+        $request['password'] = Hash::make($request->password);
         $user->create($request->all());
         return response()->json(['status'=>"Success: Mahasiswa Added"]);
     }
