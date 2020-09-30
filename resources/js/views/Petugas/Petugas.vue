@@ -175,12 +175,6 @@ export default {
       let petugas = this.$route.params.petugas;
       return [
         {
-          icon: "mdi-account",
-          title: "Akun",
-          subtitle: `${this.$route.params.petugas}`, // change this dynamicly later
-          to: `/${petugas}/akun`
-        },
-        {
           icon: "mdi-view-dashboard",
           title: "Dashboard",
           to: `/${petugas}/dashboard`

@@ -6234,12 +6234,97 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
     this.getBeasiswa();
   },
-  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getBeasiswa", "deleteBeasiswa"])), {}, {
+  methods: _objectSpread(_objectSpread({
+    width: function width() {
+      // console.log(this.windowWidth)
+      if (this.windowWidth <= 600) {
+        return "100%";
+      } else if (this.windowWidth <= 960) {
+        return "85%";
+      } else {
+        return "70%";
+      }
+
+      ;
+    }
+  }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getBeasiswa", "deleteBeasiswa"])), {}, {
     lulus: function lulus() {
       var _this = this;
 
@@ -6583,12 +6668,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     pages: function pages() {
       var petugas = this.$route.params.petugas;
       return [{
-        icon: "mdi-account",
-        title: "Akun",
-        subtitle: "".concat(this.$route.params.petugas),
-        // change this dynamicly later
-        to: "/".concat(petugas, "/akun")
-      }, {
         icon: "mdi-view-dashboard",
         title: "Dashboard",
         to: "/".concat(petugas, "/dashboard")
@@ -13205,7 +13284,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.area[data-v-310c26ee] {\n  width: 70%;\n  margin: auto;\n  position: absolute;\n  height: 100%;\n  background: white;\n}\n", ""]);
+exports.push([module.i, "\n.area[data-v-310c26ee] {\r\n  width: 70%;\r\n  margin: auto;\r\n  position: absolute;\r\n  height: 100%;\r\n  background: white;\n}\r\n", ""]);
 
 // exports
 
@@ -52988,7 +53067,12 @@ var render = function() {
     {
       staticClass: "fill-height mx-auto",
       staticStyle: { "overflow-y": "auto" },
-      attrs: { color: "#E8F5E9", light: "", elevation: "20", width: "70%" }
+      attrs: {
+        color: "#E8F5E9",
+        light: "",
+        elevation: "20",
+        width: _vm.width()
+      }
     },
     [
       _c(
@@ -53064,11 +53148,11 @@ var render = function() {
                               _vm._v(" "),
                               _c("span", [
                                 _vm._v(
-                                  "\n                          Kuota penerima beasiswa : " +
+                                  "\n                Kuota penerima beasiswa : " +
                                     _vm._s(item.lulus.length) +
                                     " / " +
                                     _vm._s(item.quota) +
-                                    " Orang\n                      "
+                                    " Orang\n              "
                                 )
                               ]),
                               _vm._v(" "),
@@ -53098,7 +53182,7 @@ var render = function() {
                                           },
                                           [
                                             _vm._v(
-                                              "\n                                  Permohonan Masuk\n                                  "
+                                              "\n                      Permohonan Masuk\n                    "
                                             )
                                           ]
                                         ),
@@ -53165,7 +53249,7 @@ var render = function() {
                                           },
                                           [
                                             _vm._v(
-                                              "\n                                  Lulus\n                                  "
+                                              "\n                      Lulus\n                    "
                                             )
                                           ]
                                         ),
@@ -53296,9 +53380,158 @@ var render = function() {
                         ]
                       ),
                       _vm._v(" "),
-                      _c("v-card-text", { staticClass: "mt-2 white--text" }, [
-                        _vm._v("\n            detail\n        ")
-                      ]),
+                      _c(
+                        "v-card-text",
+                        { staticClass: "mt-2 white--text" },
+                        [
+                          _vm._v(
+                            "\n          detail\n                        "
+                          ),
+                          _vm._l(_vm.selectedMahasiswa.form, function(
+                            field,
+                            index
+                          ) {
+                            return _c(
+                              "v-row",
+                              {
+                                key: index,
+                                staticClass: "ma-5",
+                                attrs: { "no-gutters": "" }
+                              },
+                              [
+                                _c(
+                                  "v-col",
+                                  {
+                                    staticStyle: {
+                                      "padding-bottom": "0 !important"
+                                    }
+                                  },
+                                  [
+                                    _c("p", [_vm._v(_vm._s(field.pertanyaan))]),
+                                    _vm._v(" "),
+                                    field.type == "Pilihan"
+                                      ? _c("p", [
+                                          _c(
+                                            "span",
+                                            [
+                                              _c("v-icon", [
+                                                _vm._v("mdi-text-short")
+                                              ]),
+                                              _vm._v(
+                                                _vm._s(field.value) +
+                                                  "\n                  "
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ])
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    field.type == "Jawaban Pendek"
+                                      ? _c("p", [
+                                          _c(
+                                            "span",
+                                            [
+                                              _c("v-icon", [
+                                                _vm._v("mdi-text-short")
+                                              ]),
+                                              _vm._v(
+                                                _vm._s(field.value) +
+                                                  "\n                  "
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ])
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    field.type == "Jawaban Angka"
+                                      ? _c("p", [
+                                          _c(
+                                            "span",
+                                            [
+                                              _c("v-icon", [
+                                                _vm._v("mdi-text-short")
+                                              ]),
+                                              _vm._v(
+                                                _vm._s(field.value) +
+                                                  "\n                  "
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ])
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    field.type == "Tanggal"
+                                      ? _c("p", [
+                                          _c(
+                                            "span",
+                                            [
+                                              _c("v-icon", [
+                                                _vm._v("mdi-text-short")
+                                              ]),
+                                              _vm._v(
+                                                _vm._s(field.value) +
+                                                  "\n                  "
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ])
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    field.type == "Upload File"
+                                      ? _c(
+                                          "v-btn",
+                                          {
+                                            attrs: { small: "" },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.link(field.value)
+                                              }
+                                            }
+                                          },
+                                          [_vm._v("lihat file")]
+                                        )
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    field.type == "Paragraf"
+                                      ? _c("p", [
+                                          _c(
+                                            "span",
+                                            [
+                                              _c("v-icon", [
+                                                _vm._v("mdi-text-short")
+                                              ]),
+                                              _vm._v(
+                                                _vm._s(field.value) +
+                                                  "\n                  "
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ])
+                                      : _vm._e()
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-col",
+                                  { attrs: { cols: "12" } },
+                                  [_c("v-divider")],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c("v-col", { attrs: { cols: "12" } })
+                              ],
+                              1
+                            )
+                          })
+                        ],
+                        2
+                      ),
                       _vm._v(" "),
                       _c("v-divider"),
                       _vm._v(" "),
@@ -117161,7 +117394,7 @@ module.exports = function(module) {
 /*! exports provided: baseUrl, private, scripts, devDependencies, dependencies, default */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"baseUrl\":\"http://beasiswa.test\",\"private\":true,\"scripts\":{\"dev\":\"npm run development\",\"development\":\"cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js\",\"watch\":\"npm run development -- --watch\",\"watch-poll\":\"npm run watch -- --watch-poll\",\"hot\":\"cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js\",\"prod\":\"npm run production\",\"production\":\"cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js\"},\"devDependencies\":{\"axios\":\"^0.19\",\"bootstrap\":\"^4.0.0\",\"cross-env\":\"^7.0\",\"jquery\":\"^3.2\",\"laravel-mix\":\"^5.0.1\",\"lodash\":\"^4.17.13\",\"popper.js\":\"^1.12\",\"resolve-url-loader\":\"^2.3.1\",\"sass\":\"^1.20.1\",\"sass-loader\":\"^8.0.0\",\"vue\":\"^2.5.17\",\"vue-template-compiler\":\"^2.6.10\"},\"dependencies\":{\"vue-router\":\"^3.4.3\",\"vuetify\":\"^2.3.10\",\"vuex\":\"^3.5.1\"}}");
+module.exports = JSON.parse("{\"baseUrl\":\"http://beasiswa.test\",\"private\":true,\"scripts\":{\"dev\":\"npm run development\",\"development\":\"cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js\",\"watch\":\"npm run development -- --watch\",\"watch-poll\":\"npm run watch -- --watch-poll\",\"hot\":\"cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js\",\"prod\":\"npm run production\",\"production\":\"cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js\"},\"devDependencies\":{\"axios\":\"^0.19\",\"bootstrap\":\"^4.0.0\",\"cross-env\":\"^7.0\",\"jquery\":\"^3.2\",\"laravel-mix\":\"^5.0.1\",\"lodash\":\"^4.17.13\",\"popper.js\":\"^1.12\",\"resolve-url-loader\":\"^2.3.1\",\"sass\":\"^1.20.1\",\"sass-loader\":\"^8.0.0\",\"vue\":\"^2.5.17\",\"vue-template-compiler\":\"^2.6.10\"},\"dependencies\":{\"vue-router\":\"^3.4.3\",\"vue-window-size\":\"^0.6.2\",\"vuetify\":\"^2.3.10\",\"vuex\":\"^3.5.1\"}}");
 
 /***/ }),
 
@@ -117181,7 +117414,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuetify__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vuetify__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./store/store */ "./resources/js/store/store.js");
 /* harmony import */ var _router_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./router/router */ "./resources/js/router/router.js");
-/* harmony import */ var _views_App__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./views/App */ "./resources/js/views/App.vue");
+!(function webpackMissingModule() { var e = new Error("Cannot find module 'vue-window-size'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var _views_App__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./views/App */ "./resources/js/views/App.vue");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -117195,6 +117429,8 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 
 
 
+
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(!(function webpackMissingModule() { var e = new Error("Cannot find module 'vue-window-size'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuetify__WEBPACK_IMPORTED_MODULE_2___default.a);
 var vuetify = new vuetify__WEBPACK_IMPORTED_MODULE_2___default.a({
@@ -117223,7 +117459,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('example-component', __webp
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#app',
   components: {
-    App: _views_App__WEBPACK_IMPORTED_MODULE_5__["default"]
+    App: _views_App__WEBPACK_IMPORTED_MODULE_6__["default"]
   },
   store: _store_store__WEBPACK_IMPORTED_MODULE_3__["default"],
   router: _router_router__WEBPACK_IMPORTED_MODULE_4__["default"],
@@ -117606,6 +117842,43 @@ var routes = [{
 }, {
   path: "/interviewer/:petugas",
   component: _views_Petugas_Interviewer_Interviewer_vue__WEBPACK_IMPORTED_MODULE_25__["default"],
+  beforeEnter: function beforeEnter(to, from, next) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              if (!(from.name == null)) {
+                _context3.next = 5;
+                break;
+              }
+
+              _context3.next = 3;
+              return axios.get("http://beasiswa.test/api/user/petugas").then(function (response) {
+                console.log(response.data);
+                next();
+              })["catch"](function (error) {
+                console.log(error.response.status);
+                next({
+                  name: "Login Petugas"
+                });
+              });
+
+            case 3:
+              _context3.next = 6;
+              break;
+
+            case 5:
+              next();
+
+            case 6:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }))();
+  },
   children: [{
     name: "Home",
     path: "home",
@@ -117614,6 +117887,43 @@ var routes = [{
 }, {
   path: "/surveyor/:petugas",
   component: _views_Petugas_Surveyor_Surveyor_vue__WEBPACK_IMPORTED_MODULE_27__["default"],
+  beforeEnter: function beforeEnter(to, from, next) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              if (!(from.name == null)) {
+                _context4.next = 5;
+                break;
+              }
+
+              _context4.next = 3;
+              return axios.get("http://beasiswa.test/api/user/petugas").then(function (response) {
+                console.log(response.data);
+                next();
+              })["catch"](function (error) {
+                console.log(error.response.status);
+                next({
+                  name: "Login Petugas"
+                });
+              });
+
+            case 3:
+              _context4.next = 6;
+              break;
+
+            case 5:
+              next();
+
+            case 6:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      }, _callee4);
+    }))();
+  },
   children: [{
     name: "Home",
     path: "home",
@@ -117622,6 +117932,43 @@ var routes = [{
 }, {
   path: "/petinggi/:petugas",
   component: _views_Petugas_Petinggi_Petinggi_vue__WEBPACK_IMPORTED_MODULE_29__["default"],
+  beforeEnter: function beforeEnter(to, from, next) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              if (!(from.name == null)) {
+                _context5.next = 5;
+                break;
+              }
+
+              _context5.next = 3;
+              return axios.get("http://beasiswa.test/api/user/petugas").then(function (response) {
+                console.log(response.data);
+                next();
+              })["catch"](function (error) {
+                console.log(error.response.status);
+                next({
+                  name: "Login Petugas"
+                });
+              });
+
+            case 3:
+              _context5.next = 6;
+              break;
+
+            case 5:
+              next();
+
+            case 6:
+            case "end":
+              return _context5.stop();
+          }
+        }
+      }, _callee5);
+    }))();
+  },
   children: [{
     name: "Home",
     path: "home",

@@ -198,6 +198,22 @@ const routes = [
     {
         path: "/interviewer/:petugas",
         component: Interviewer,
+        async beforeEnter(to, from, next) {
+            if (from.name == null) {
+               await axios
+                    .get("http://beasiswa.test/api/user/petugas")
+                    .then(response => {
+                        console.log(response.data);
+                     next()
+                    })
+                    .catch(error => {
+                        console.log(error.response.status);
+                        next({name:"Login Petugas"});
+                    });
+            }else{
+                next()
+            }
+        },
         children: [
             {
                 name: "Home",
@@ -209,6 +225,22 @@ const routes = [
     {
         path: "/surveyor/:petugas",
         component: Surveyor,
+        async beforeEnter(to, from, next) {
+            if (from.name == null) {
+               await axios
+                    .get("http://beasiswa.test/api/user/petugas")
+                    .then(response => {
+                        console.log(response.data);
+                     next()
+                    })
+                    .catch(error => {
+                        console.log(error.response.status);
+                        next({name:"Login Petugas"});
+                    });
+            }else{
+                next()
+            }
+        },
         children: [
             {
                 name: "Home",
@@ -220,6 +252,22 @@ const routes = [
     {
         path: "/petinggi/:petugas",
         component: Petinggi,
+        async beforeEnter(to, from, next) {
+            if (from.name == null) {
+               await axios
+                    .get("http://beasiswa.test/api/user/petugas")
+                    .then(response => {
+                        console.log(response.data);
+                     next()
+                    })
+                    .catch(error => {
+                        console.log(error.response.status);
+                        next({name:"Login Petugas"});
+                    });
+            }else{
+                next()
+            }
+        },
         children: [
             {
                 name: "Home",
