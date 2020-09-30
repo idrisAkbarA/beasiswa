@@ -6309,7 +6309,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
-    this.getBeasiswa();
+    this.getBeasiswaWithPermohonan();
   },
   methods: _objectSpread(_objectSpread({
     width: function width() {
@@ -6324,7 +6324,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       ;
     }
-  }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getBeasiswa", "deleteBeasiswa"])), {}, {
+  }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getBeasiswaWithPermohonan", "deleteBeasiswa"])), {}, {
     lulus: function lulus() {
       var _this = this;
 
@@ -6341,7 +6341,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             message: "Kuota beasiswa sudah penuh!"
           };
         } else {
-          _this.getBeasiswa();
+          _this.getBeasiswaWithPermohonan();
         }
 
         _this.btnLoading = false;
@@ -6360,7 +6360,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           color: "blue",
           message: "Beasiswa telah ditutup!"
         };
-        getBeasiswa();
+        getBeasiswaWithPermohonan();
       })["catch"](function (error) {
         _this2.btnLoading = false;
       });
@@ -8541,9 +8541,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
-    this.getCekSurvey();
+    this.getBeasiswaWithPermohonan();
   },
-  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getCekSurvey"])), {}, {
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getBeasiswaWithPermohonan"])), {}, {
     lulusButton: function lulusButton(item) {
       this.dialog = true;
       this.id = item.id;
@@ -8570,7 +8570,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         bool: this.bool,
         id: this.id
       }).then(function (response) {
-        _this.getCekSurvey();
+        _this.getBeasiswaWithPermohonan();
 
         console.log(response.data);
         _this.dialog = false;
@@ -8578,7 +8578,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     }
   }),
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["cekSurvey", "url"])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["beasiswa", "url"])),
   data: function data() {
     return {
       btnLoading: false,
@@ -13246,7 +13246,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.area[data-v-7caf252a] {\r\n  width: 70%;\r\n  margin: auto;\r\n  position: absolute;\r\n  height: 100%;\r\n  background: white;\n}\r\n", ""]);
+exports.push([module.i, "\n.area[data-v-7caf252a] {\n  width: 70%;\n  margin: auto;\n  position: absolute;\n  height: 100%;\n  background: white;\n}\n", ""]);
 
 // exports
 
@@ -13398,7 +13398,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\na[data-v-6650fdb6] {\r\n  text-decoration: none !important;\n}\n.area[data-v-6650fdb6] {\r\n  width: 70%;\r\n  margin: auto;\r\n  position: absolute;\r\n  height: 100%;\r\n  background: white;\n}\r\n", ""]);
+exports.push([module.i, "\na[data-v-6650fdb6] {\n  text-decoration: none !important;\n}\n.area[data-v-6650fdb6] {\n  width: 70%;\n  margin: auto;\n  position: absolute;\n  height: 100%;\n  background: white;\n}\n", ""]);
 
 // exports
 
@@ -53149,7 +53149,7 @@ var render = function() {
                               _c("span", [
                                 _vm._v(
                                   "\n                Kuota penerima beasiswa : " +
-                                    _vm._s(item.lulus.length) +
+                                    _vm._s(Object.keys(item.lulus).length) +
                                     " / " +
                                     _vm._s(item.quota) +
                                     " Orang\n              "
@@ -117443,8 +117443,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuetify__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vuetify__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./store/store */ "./resources/js/store/store.js");
 /* harmony import */ var _router_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./router/router */ "./resources/js/router/router.js");
-/* harmony import */ var vue_window_size__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vue-window-size */ "./node_modules/vue-window-size/dist/index.common.js");
-/* harmony import */ var vue_window_size__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(vue_window_size__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var vue_window_size__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-window-size */ "./node_modules/vue-window-size/dist/index.common.js");
+/* harmony import */ var vue_window_size__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(vue_window_size__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _views_App__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./views/App */ "./resources/js/views/App.vue");
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -117460,7 +117460,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_window_size__WEBPACK_IMPORTED_MODULE_7___default.a);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_window_size__WEBPACK_IMPORTED_MODULE_5___default.a);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuetify__WEBPACK_IMPORTED_MODULE_2___default.a);
 var vuetify = new vuetify__WEBPACK_IMPORTED_MODULE_2___default.a({
@@ -118263,10 +118263,20 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         commit("mutateTableLoading", false);
       });
     },
-    storeAkunPetugas: function storeAkunPetugas(_ref7, data) {
+    getBeasiswaWithPermohonan: function getBeasiswaWithPermohonan(_ref7) {
       var commit = _ref7.commit,
           dispatch = _ref7.dispatch,
           state = _ref7.state;
+      commit("mutateTableLoading", true);
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(state.url + "/api/beasiswa/with-permohonan").then(function (response) {
+        commit('mutateBeasiswa', response.data);
+        commit("mutateTableLoading", false);
+      });
+    },
+    storeAkunPetugas: function storeAkunPetugas(_ref8, data) {
+      var commit = _ref8.commit,
+          dispatch = _ref8.dispatch,
+          state = _ref8.state;
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_2___default.a.post(state.url + "/api/petugas", data).then(function (response) {
           dispatch('getAkunPetugas');
@@ -118276,10 +118286,10 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         });
       });
     },
-    editAkunPetugas: function editAkunPetugas(_ref8, data) {
-      var commit = _ref8.commit,
-          dispatch = _ref8.dispatch,
-          state = _ref8.state;
+    editAkunPetugas: function editAkunPetugas(_ref9, data) {
+      var commit = _ref9.commit,
+          dispatch = _ref9.dispatch,
+          state = _ref9.state;
       return new Promise(function (resolve, reject) {
         console.log(data);
         axios__WEBPACK_IMPORTED_MODULE_2___default.a.put(state.url + "/api/petugas/" + data.id, {
@@ -118294,10 +118304,10 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         });
       });
     },
-    storeBeasiswa: function storeBeasiswa(_ref9, data) {
-      var commit = _ref9.commit,
-          dispatch = _ref9.dispatch,
-          state = _ref9.state;
+    storeBeasiswa: function storeBeasiswa(_ref10, data) {
+      var commit = _ref10.commit,
+          dispatch = _ref10.dispatch,
+          state = _ref10.state;
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_2___default.a.post(state.url + "/api/beasiswa", {
           data: data
@@ -118309,10 +118319,10 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         });
       });
     },
-    storeInstansi: function storeInstansi(_ref10, data) {
-      var commit = _ref10.commit,
-          dispatch = _ref10.dispatch,
-          state = _ref10.state;
+    storeInstansi: function storeInstansi(_ref11, data) {
+      var commit = _ref11.commit,
+          dispatch = _ref11.dispatch,
+          state = _ref11.state;
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_2___default.a.post(state.url + "/api/instansi", data).then(function (response) {
           dispatch('getInstansi');
@@ -118322,37 +118332,37 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         });
       });
     },
-    getInstansi: function getInstansi(_ref11) {
-      var commit = _ref11.commit,
-          dispatch = _ref11.dispatch,
-          state = _ref11.state;
+    getInstansi: function getInstansi(_ref12) {
+      var commit = _ref12.commit,
+          dispatch = _ref12.dispatch,
+          state = _ref12.state;
       commit("mutateTableLoading", true);
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(state.url + "/api/instansi").then(function (response) {
         commit('mutateInstansi', response.data);
         commit("mutateTableLoading", false);
       });
     },
-    deleteInstansi: function deleteInstansi(_ref12, id) {
-      var commit = _ref12.commit,
-          dispatch = _ref12.dispatch,
-          state = _ref12.state;
+    deleteInstansi: function deleteInstansi(_ref13, id) {
+      var commit = _ref13.commit,
+          dispatch = _ref13.dispatch,
+          state = _ref13.state;
       axios__WEBPACK_IMPORTED_MODULE_2___default.a["delete"](state.url + "/api/instansi/" + id).then(function (response) {
         dispatch('getInstansi');
       });
     },
-    deleteBeasiswa: function deleteBeasiswa(_ref13, id) {
-      var commit = _ref13.commit,
-          dispatch = _ref13.dispatch,
-          state = _ref13.state;
+    deleteBeasiswa: function deleteBeasiswa(_ref14, id) {
+      var commit = _ref14.commit,
+          dispatch = _ref14.dispatch,
+          state = _ref14.state;
       axios__WEBPACK_IMPORTED_MODULE_2___default.a["delete"](state.url + "/api/beasiswa/" + id).then(function (response) {
         dispatch('getBeasiswa');
         console.log(response);
       });
     },
-    editInstansi: function editInstansi(_ref14, data) {
-      var commit = _ref14.commit,
-          dispatch = _ref14.dispatch,
-          state = _ref14.state;
+    editInstansi: function editInstansi(_ref15, data) {
+      var commit = _ref15.commit,
+          dispatch = _ref15.dispatch,
+          state = _ref15.state;
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.put(state.url + "/api/instansi/" + data.id, {
         name: data.name
       }).then(function (response) {

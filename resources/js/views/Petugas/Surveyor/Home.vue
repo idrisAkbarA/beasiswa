@@ -106,7 +106,7 @@
                 <v-btn
                   dark
                   color="#2E7D32"
-              
+
                   @click="lulusButton(item)"
                 >Lulus</v-btn>
 
@@ -158,11 +158,11 @@
 import { mapActions, mapMutations, mapState } from "vuex";
 export default {
   created() {
-    this.getCekSurvey();
+    this.getBeasiswaWithPermohonan();
 
   },
   methods: {
-    ...mapActions(["getCekSurvey"]),
+    ...mapActions(["getBeasiswaWithPermohonan"]),
     lulusButton(item) {
       this.dialog = true;
       this.id = item.id;
@@ -191,7 +191,7 @@ export default {
           id: this.id
         })
         .then(response => {
-          this.getCekSurvey();
+          this.getBeasiswaWithPermohonan();
           console.log(response.data);
           this.dialog = false;
           this.btnLoading = false;
@@ -199,7 +199,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["cekSurvey","url"])
+    ...mapState(["beasiswa","url"])
   },
   data() {
     return {
@@ -234,3 +234,4 @@ a {
   background: white;
 }
 </style>
+

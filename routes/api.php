@@ -40,6 +40,7 @@ Route::middleware('auth:petugas')->post('/beasiswa','BeasiswaController@store');
 Route::middleware('auth:petugas')->put('/beasiswa/{id}','BeasiswaController@edit');
 Route::get('/beasiswa/selection','BeasiswaController@selection');
 Route::middleware('auth:petugas,mahasiswa')->get('/beasiswa','BeasiswaController@getAll');
+Route::get('/beasiswa/with-permohonan','BeasiswaController@getAllWithPermohonan');
 Route::get('/beasiswa/selesai','BeasiswaController@selesai');
 Route::middleware('auth:petugas,mahasiswa')->get('/beasiswa/{id}','BeasiswaController@get');
 Route::middleware('auth:petugas')->delete('/beasiswa/{id}','BeasiswaController@delete');

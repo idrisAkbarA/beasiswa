@@ -106,7 +106,7 @@
                 <v-btn
                   dark
                   color="#2E7D32"
-              
+
                   @click="lulusButton(item)"
                 >Lulus</v-btn>
 

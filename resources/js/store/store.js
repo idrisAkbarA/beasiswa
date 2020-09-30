@@ -104,11 +104,19 @@ export default new Vuex.Store({
           reject(error)
         })
       })
-     
+
     },
     getBeasiswa({commit,dispatch,state}){
       commit("mutateTableLoading",true);
       Axios.get(state.url+"/api/beasiswa").then(response=>{
+        commit('mutateBeasiswa',response.data)
+        commit("mutateTableLoading",false);
+
+      })
+    },
+    getBeasiswaWithPermohonan({commit,dispatch,state}){
+      commit("mutateTableLoading",true);
+      Axios.get(state.url+"/api/beasiswa/with-permohonan").then(response=>{
         commit('mutateBeasiswa',response.data)
         commit("mutateTableLoading",false);
 
@@ -123,7 +131,7 @@ export default new Vuex.Store({
           reject(error)
         })
       })
-      
+
     },
     editAkunPetugas({commit,dispatch,state},data){
       return new Promise((resolve,reject)=>{
@@ -144,7 +152,7 @@ export default new Vuex.Store({
           reject(error)
         })
       })
-      
+
     },
     storeInstansi({commit,dispatch,state},data){
       return new Promise((resolve,reject)=>{
@@ -169,7 +177,7 @@ export default new Vuex.Store({
       })
     },
     deleteBeasiswa({commit,dispatch,state},id){
-   
+
       Axios.delete(state.url+"/api/beasiswa/"+id).then(response=>{
         dispatch('getBeasiswa')
         console.log(response)
