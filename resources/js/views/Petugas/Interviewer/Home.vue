@@ -53,7 +53,7 @@
                                         <v-list-item-content>
                                             <v-list-item-title v-text="permohonan.mahasiswa.nama"></v-list-item-title>
                                             <v-list-item-subtitle
-                                                v-text="`${'Teknik Informatika'} (${'Fakultas Sains dan Teknologi'})`"
+                                                v-text="`${permohonan.mahasiswa.jurusan.nama} (${permohonan.mahasiswa.fakultas.nama})`"
                                             ></v-list-item-subtitle>
                                         </v-list-item-content>
                                         <v-list-item-action>
