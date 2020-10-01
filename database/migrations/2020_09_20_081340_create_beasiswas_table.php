@@ -17,7 +17,7 @@ class CreateBeasiswasTable extends Migration
             $table->id();
             $table->string('nama');
             $table->string('deskripsi');
-            $table->string('instansi_id');
+            $table->integer('instansi_id');
             $table->boolean('is_interview');
             $table->boolean('is_survey');
             $table->integer('quota')->nullable();

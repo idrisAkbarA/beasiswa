@@ -30,28 +30,9 @@
         </template>
         <template v-slot:item.role="{ item }">
           <v-chip
-            v-if="item.role==1"
-            color="red"
+            :color="role[item.role - 1].color"
           >
-            {{ convertRole(item.role) }}
-          </v-chip>
-          <v-chip
-            v-if="item.role==2"
-            color="green"
-          >
-            {{ convertRole(item.role) }}
-          </v-chip>
-          <v-chip
-            v-if="item.role==3"
-            color="blue"
-          >
-            {{ convertRole(item.role) }}
-          </v-chip>
-          <v-chip
-            v-if="item.role==4"
-            color="orange"
-          >
-            {{ convertRole(item.role) }}
+            {{ role[item.role - 1].role }}
           </v-chip>
         </template>
         <template v-slot:no-data>
@@ -155,8 +136,8 @@
             >
               <v-text-field
                 color="white"
-                label="Username"
-                v-model="storeItem.name"
+                label="Nama Lengkap"
+                v-model="storeItem.nama_lengkap"
               >
               </v-text-field>
             </v-col>
@@ -164,14 +145,12 @@
               cols="4"
               xs="12"
             >
-              <v-select
-                label="Role"
+              <v-text-field
                 color="white"
-                :items="role"
-                item-text="role"
-                item-value="id"
-                v-model="storeItem.role"
-              ></v-select>
+                label="Username"
+                v-model="storeItem.name"
+              >
+              </v-text-field>
             </v-col>
             <v-col
               cols="4"
@@ -183,8 +162,31 @@
                 type="password"
                 v-model="storeItem.password"
               >
-
               </v-text-field>
+            </v-col>
+            <v-col
+              cols="4"
+              xs="12"
+              class="mx-auto"
+            >
+              <v-select
+                label="Role"
+                color="white"
+                :items="role"
+                item-text="role"
+                item-value="id"
+                v-model="storeItem.role"
+              ></v-select>
+            </v-col>
+            <v-col v-if="storeItem.role == 5">
+                <v-select
+                label="Fakultas"
+                color="white"
+                :items="fakultas"
+                item-text="nama"
+                item-value="id"
+                v-model="storeItem.fakultas_id"
+              ></v-select>
             </v-col>
           </v-row>
 
@@ -229,10 +231,11 @@
 import { mapActions, mapMutations, mapState } from "vuex";
 export default {
   created() {
+    this.getFakultas();
     this.getAkunPetugas();
   },
   computed: {
-    ...mapState(["nim", "url", "isTableLoading", "akunPetugas", "isOpenBeasiswa"]),
+    ...mapState(["nim", "url", "isTableLoading", "akunPetugas", "isOpenBeasiswa", "fakultas"]),
     toggleAkunPetugas: {
       get: function() {
         return this.isOpenBeasiswa;
@@ -244,7 +247,7 @@ export default {
   },
   methods: {
     ...mapMutations(["toggleOpenBeasiswa"]),
-    ...mapActions(["getAkunPetugas", "storeAkunPetugas", "editAkunPetugas"]),
+    ...mapActions(["getFakultas", "getAkunPetugas", "storeAkunPetugas", "editAkunPetugas"]),
     edit(item) {
       this.toggleEdit = true;
       this.editItem.name = item.name;
@@ -283,19 +286,22 @@ export default {
     return {
       editItem: {
         name: "",
+        nama_lengkap: "",
         role: "",
         password: ""
       },
       storeItem: {
         name: "",
+        nama_lengkap: "",
         role: "",
         password: ""
       },
       role: [
-        { id: 1, role: "Administrator" },
-        { id: 2, role: "Pewawancara" },
-        { id: 3, role: "Surveyor" },
-        { id: 4, role: "Petinggi" }
+        { id: 1, role: "Administrator", color: "red" },
+        { id: 2, role: "Pewawancara", color: "green" },
+        { id: 3, role: "Surveyor", color: "blue" },
+        { id: 4, role: "Petinggi", color: "orange" },
+        { id: 5, role: "Verificator", color: "cyan" },
       ],
       toggleEdit: false,
       sheetMsg: "",

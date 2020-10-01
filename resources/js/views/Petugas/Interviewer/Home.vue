@@ -17,53 +17,89 @@
         ></v-text-field>
       </v-row>
       <v-row>
-          <p v-if="cekInterview ==[]">Tidak ada peserta wawancara</p>
-        <v-expansion-panels
-          hover
-          inset
-        >
-          <v-expansion-panel
-            v-for="(item,i) in cekInterview"
-            :key="i"
+          <v-card-text>
+            <p v-if="!beasiswa" class="text-center">Tidak ada peserta interview</p>
+            <v-expansion-panels
+            hover
+            inset
+            >
+                <v-expansion-panel
+                    v-for="(item,i) in beasiswa"
+                    :key="i"
+                >
+                    <v-expansion-panel-header>
+                        <v-row
+                            no-gutters
+                            justify="space-between"
+                        >
+                            <v-col cols="4"><strong>{{item.nama}}</strong></v-col>
+                        </v-row>
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                        <span class="text-muted">{{item.deskripsi}}</span>
+                    <v-row>
+                        <v-divider class="mb-0"></v-divider>
+                    </v-row>
+                    <p v-if="!item.interview.length" class="text-center text-muted mt-2">Tidak ada peserta interview</p>
+                    <v-list v-if="item.interview.length > 0">
+                        <v-subheader>Permohonan Masuk ({{item.interview.length}})</v-subheader>
+                        <v-list-item-group
+                            class="bg-white"
+                            color="primary"
+                        >
+                            <template v-for="(permohonan, index) in item.interview">
+                                <v-list-item :key="permohonan.nama" @click="sheetDetail = true, selectedPermohonan = permohonan">
+                                    <template>
+                                        <v-list-item-content>
+                                            <v-list-item-title v-text="permohonan.mahasiswa.nama"></v-list-item-title>
+                                            <v-list-item-subtitle
+                                                v-text="`${'Teknik Informatika'} (${'Fakultas Sains dan Teknologi'})`"
+                                            ></v-list-item-subtitle>
+                                        </v-list-item-content>
+                                        <v-list-item-action>
+                                            <v-icon>mdi-chevron-right</v-icon>
+                                        </v-list-item-action>
+                                    </template>
+                                </v-list-item>
+                                <v-divider
+                                    v-if="index < item.interview.length - 1"
+                                    :key="index"
+                                    class="my-0"
+                                ></v-divider>
+                            </template>
+                        </v-list-item-group>
+                    </v-list>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
+          </v-card-text>
+      </v-row>
+    </v-card-text>
+    <!-- Sheet Detail -->
+    <v-bottom-sheet
+      width="60%"
+      inset
+      scrollable
+      overlay-color="#69F0AE"
+      v-if="sheetDetail"
+      v-model="sheetDetail"
+    >
+        <v-card>
+          <v-card-title
+            class="headline white--text"
+            primary-title
           >
-            <v-expansion-panel-header>
-              <v-row
-                no-gutters
-                justify="space-between"
-              >
-                <v-col cols="4">{{item.nama}}</v-col>
+            <i class="mdi mdi-account mr-2"></i> {{selectedPermohonan.mahasiswa.nama}}
+            <v-spacer></v-spacer>
+            <v-icon @click="sheetDetail = false" color="red">mdi-close-box</v-icon>
+          </v-card-title>
 
-                <v-col cols="4">{{item.nama_beasiswa}}</v-col>
-              </v-row>
-
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
-              <p>Rincian</p>
-              <table>
-                <tr>
-                  <td>Nama</td>
-                  <td>:</td>
-                  <td>{{item.nama}}</td>
-                </tr>
-                <tr>
-                  <td>NIM</td>
-                  <td>:</td>
-                  <td>{{item.mhs_id}}</td>
-                </tr>
-                <tr>
-                  <td>Beasiswa</td>
-                  <td>:</td>
-                  <td>{{item.nama_beasiswa}}</td>
-                </tr>
-              </table>
-              <v-row>
-                <v-divider></v-divider>
-              </v-row>
-              <p>Berkas</p>
-              <v-row
+          <v-card-text class="mt-2 white--text">
+            Persyaratan Permohonan Beasiswa
+                          <v-row
                 no-gutters=""
                 class="ma-5"
-                v-for="(field,index) in item.form"
+                v-for="(field,index) in JSON.parse(selectedPermohonan.form)"
                 :key="index"
               >
 
@@ -97,60 +133,49 @@
 
                 </v-col>
               </v-row>
-              <v-row justify="end">
+          </v-card-text>
 
-                <v-btn
-                  @click="tidakLulusButton(item)"
-                  text
-                >Tidak Lulus</v-btn>
-                <v-btn
-                  dark
-                  color="#2E7D32"
+          <v-divider></v-divider>
 
-                  @click="lulusButton(item)"
-                >Lulus</v-btn>
+          <v-card-actions>
+            <v-btn
+              light
+              color="grey"
+              @click="dialogDelete = { show : true, value : false}"
+            ><v-icon>close</v-icon> Tidak Lulus</v-btn>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="#2E7D32"
+              dark
+              @click="dialogDelete = { show : true, value : true}"
+            ><v-icon>check</v-icon> Lulus
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+    </v-bottom-sheet>
+    <!-- Dialog Delete -->
+    <div class="text-center" v-if="dialogDelete.show">
+      <v-dialog v-model="dialogDelete.show" width="400" overlay-color="#2E7D32">
+        <v-card>
+          <v-card-title class="headline white--text" primary-title>
+            <i class="mdi mdi-checkbox-marked-circle-outline mr-2"></i> Kelulusan Interview
+          </v-card-title>
+          <v-card-text class="white--text text-center mt-2 pb-0">
+            <strong class="d-block">{{this.selectedPermohonan.mahasiswa.nama}}</strong> akan dinyatakan <strong>{{dialogDelete.value ? 'Lulus' : 'Tidak Lulus'}}</strong> interview ?
+          </v-card-text>
 
-              </v-row>
-            </v-expansion-panel-content>
-          </v-expansion-panel>
-        </v-expansion-panels>
+          <v-divider></v-divider>
 
-      </v-row>
-
-    </v-card-text>
-    <v-dialog
-      width="460"
-      overlay-color="#69F0AE"
-      v-model="dialog"
-    >
-      <v-card>
-        <v-card-title class="mt-2">
-          <span v-html="msg"></span>
-          <p style="font-weight:bold">
-            <!-- {{itemtoDelete.nama}}? -->
-          </p>
-        </v-card-title>
-        <v-card-actions>
-
-          <v-btn
-            text
-            @click="dialog = false"
-          >
-            Batal
-          </v-btn>
-          <v-spacer></v-spacer>
-          <v-btn
-            dark
-            class="green"
-                :loading="btnLoading"
-            @click="setInterview"
-          >
-            <v-icon left>mdi-check</v-icon>
-            iya
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+          <v-card-actions>
+            <v-btn @click="dialogDelete = false" color="white" text>Batal</v-btn>
+            <v-spacer></v-spacer>
+            <v-btn color="#2E7D32" dark @click="setInterview(dialogDelete.value)">
+              Ya
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
   </v-card>
 </template>
 
@@ -158,56 +183,41 @@
 import { mapActions, mapMutations, mapState } from "vuex";
 export default {
   created() {
-    this.getCekInterview();
-
+    this.getBeasiswaWithPermohonan();
   },
   methods: {
-    ...mapActions(["getCekInterview"]),
-    lulusButton(item) {
-      this.dialog = true;
-      this.id = item.id;
-      this.bool = 1;
-      this.msg =
-        "Apakah anda yakin bahwa pemohon <strong>lulus</strong> tahap wawancara?";
-    },
-    tidakLulusButton(item) {
-      this.dialog = true;
-      this.id = item.id;
-      this.bool = 0;
-      this.msg =
-        "Apakah anda yakin bahwa pemohon <strong>tidak lulus</strong> tahap wawancara?";
-    },
+    ...mapActions(["getBeasiswaWithPermohonan"]),
     link(url) {
       var a = this.url + "/" + url;
       var link = a.replace(" ", "%20");
       console.log(link);
       location = link;
     },
-    setInterview() {
-        this.btnLoading = true;
+    setInterview(bool) {
+      this.btnLoading = true;
       axios
         .put(`${this.url}/api/pemohon/set-interview`, {
-          bool: this.bool,
-          id: this.id
+          id: this.selectedPermohonan.id,
+          bool: bool
         })
         .then(response => {
-          this.getCekInterview();
+          this.getBeasiswaWithPermohonan();
           console.log(response.data);
-          this.dialog = false;
+          this.sheetDetail = false;
+          this.dialogDelete = false;
           this.btnLoading = false;
         });
     }
   },
   computed: {
-    ...mapState(["cekInterview","url"])
+    ...mapState(["beasiswa","url"])
   },
   data() {
     return {
-        btnLoading:false,
-      dialog: false,
-      msg: "",
-      bool: 0,
-      id: 0,
+      selectedPermohonan: {},
+      dialogDelete: { show: false },
+      btnLoading: false,
+      sheetDetail: false,
       headers: [
         {
           text: "Nama Instansi",
@@ -223,6 +233,9 @@ export default {
 </script>
 
 <style scoped>
+a {
+  text-decoration: none !important;
+}
 .area {
   width: 70%;
   margin: auto;
@@ -231,3 +244,4 @@ export default {
   background: white;
 }
 </style>
+

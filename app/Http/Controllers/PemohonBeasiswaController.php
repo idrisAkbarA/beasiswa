@@ -33,6 +33,7 @@ class PemohonBeasiswaController extends Controller
                                     ->where("akhir_berkas",">=",Carbon::now())
                                     ->join("beasiswas","beasiswas.id","=","pemohon_beasiswas.beasiswa_id")
                                     ->join("users","users.nim","=","pemohon_beasiswas.mhs_id")
+                                    ->join("users","users.jurusan_id","=","jurusans.id")
                                     ->select(["pemohon_beasiswas.*","beasiswas.nama AS nama_beasiswa","beasiswas.akhir_berkas","users.nama"])
                                     ->get();
 
@@ -103,14 +104,16 @@ class PemohonBeasiswaController extends Controller
     public function setBerkas(Request $request){
         $permohonan = PemohonBeasiswa::find($request['id']);
         $permohonan->is_berkas_passed = $request['bool'];
+        $permohonan->verificator_id = Auth::guard('petugas')->id();
         $permohonan->save();
         return response()->json([
             'status' => 'Success: berkas set'
-        ]);
+            ]);
     }
     public function setSurvey(Request $request){
         $permohonan = PemohonBeasiswa::find($request['id']);
         $permohonan->is_Survey_passed = $request['bool'];
+        $permohonan->surveyor_id = Auth::guard('petugas')->id();
         $permohonan->save();
         return response()->json([
             'status' => 'Success: Survey set'
@@ -119,6 +122,7 @@ class PemohonBeasiswaController extends Controller
     public function setInterview(Request $request){
         $permohonan = PemohonBeasiswa::find($request['id']);
         $permohonan->is_interview_passed = $request['bool'];
+        $permohonan->interviewer_id = Auth::guard('petugas')->id();
         $permohonan->save();
         return response()->json([
             'status' => 'Success: interview set'
@@ -127,6 +131,7 @@ class PemohonBeasiswaController extends Controller
     public function setSelection(Request $request){
         $permohonan = PemohonBeasiswa::find($request['id']);
         $permohonan->is_selection_passed = $request['bool'];
+        $permohonan->selector_id = Auth::guard('petugas')->id();
         $permohonan->save();
         return response()->json([
             'status' => $permohonan->wasChanged('is_selection_passed')

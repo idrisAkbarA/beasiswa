@@ -38,6 +38,7 @@ class initAll extends Command
     public function handle()
     {
         $this->call("migrate:fresh");
+        $this->call("initFakultas");
         $this->call("initAdmin");
         $this->call("initInstansi");
         $this->call("initBeasiswa");

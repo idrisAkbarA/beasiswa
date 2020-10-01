@@ -10,16 +10,14 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    // protected $primaryKey = 'nim';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $guard = 'mahasiswa';
-    public function permohonanBeasiswa()
-    {
-        return $this->hasMany('App\PemohonMahasiswa');
-    }
 
     protected $fillable = [
         'nama', 'nim', 'email', 'hp', 'password', 'semester', 'ipk', 'tmpt_lahir', 'tgl_lahir'
@@ -51,5 +49,10 @@ class User extends Authenticatable
     public function permohonan()
     {
         return $this->hasMany('App\PemohonBeasiswa','mhs_id');
+    }
+
+    public function jurusan()
+    {
+        return $this->belongsTo('App\Jurusan');
     }
 }

@@ -51,7 +51,7 @@
                 <v-badge
                   inline
                   content=" Terpenuhi"
-                  v-if="item.lulus.length == item.quota"
+                  v-if="Object.keys(item.lulus).length == item.quota"
                 ></v-badge>
                 <div class="col-12">
                   <div class="row">
@@ -101,8 +101,10 @@
                 </div>
                 <v-row justify="end">
                   <v-btn
-                    dark
+                    :disabled="btnLoading"
+                    :dark="!btnLoading"
                     color="#2E7D32"
+                    class="mr-3"
                     @click="tutup(item)"
                   >Tutup Penerimaan beasiswa</v-btn>
 
@@ -192,16 +194,32 @@
       </v-dialog>
     </div>
     <!-- Dialog Delete -->
-    <!-- <div class="text-center">
-      <v-dialog v-model="dialogDelete" width="400">
+    <div class="text-center" v-if="dialogDelete">
+      <v-dialog v-model="dialogDelete" width="400" overlay-color="#2E7D32">
         <v-card>
           <v-card-title class="headline white--text" primary-title>
-            <v-icon color="white" class="mr-2">delete</v-icon>Hapus Mahasiswa
+            <i class="mdi mdi-checkbox-marked-circle-outline mr-2"></i> Tutup Penerimaan Beasiswa
           </v-card-title>
 
-          <v-card-text class="mt-2 white--text">
-            Apakah anda yakin akan menghapus Mahasiswa
-            <span class="font-weight-bold"></span>?
+          <v-card-text class="white--text text-center mt-2">
+            <strong class="d-block">{{this.selectedBeasiswa.nama}}</strong>
+            <small>
+                  Kuota penerima beasiswa : {{Object.keys(this.selectedBeasiswa.lulus).length}} / {{this.selectedBeasiswa.quota}} Orang
+            <v-badge
+                inline
+                content=" Terpenuhi"
+                v-if="Object.keys(this.selectedBeasiswa.lulus).length == this.selectedBeasiswa.quota"
+            ></v-badge>
+            <v-badge
+                inline
+                color="red"
+                content=" Tdk Terpenuhi"
+                v-if="Object.keys(this.selectedBeasiswa.lulus).length < this.selectedBeasiswa.quota"
+            ></v-badge>
+            </small>
+          </v-card-text>
+          <v-card-text class="white--text text-center pb-0">
+            Apakah anda yakin akan menutup beasiswa ini ?
           </v-card-text>
 
           <v-divider></v-divider>
@@ -209,13 +227,13 @@
           <v-card-actions>
             <v-btn @click="dialogDelete = false" color="white" text>batal</v-btn>
             <v-spacer></v-spacer>
-            <v-btn color="red" dark @click="dialogDelete = false,deleteConfirmed()">
-              <v-icon>delete</v-icon>Hapus
+            <v-btn color="#2E7D32" dark @click="deleteSelectedBeasiswa()">
+              Selesai
             </v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
-    </div> -->
+    </div>
     <!-- Snackbar -->
     <v-snackbar
       v-model="snackbar.show"
@@ -252,7 +270,7 @@ export default {
         return "70%"
       };
     },
-    ...mapActions(["getBeasiswaWithPermohonan", "deleteBeasiswa"]),
+    ...mapActions(["getBeasiswaWithPermohonan", "deleteBeasiswaWithPermohonan"]),
     lulus() {
         console.log(this.selectedMahasiswa);
         this.btnLoading = true;
@@ -277,19 +295,25 @@ export default {
         });
     },
     tutup(item) {
+        this.dialogDelete = true;
+        this.selectedBeasiswa = item;
+    },
+    deleteSelectedBeasiswa() {
         this.btnLoading = true;
-        this.deleteBeasiswa(item.id)
+        this.deleteBeasiswaWithPermohonan(this.selectedBeasiswa.id)
           .then(response => {
             this.btnLoading = false;
+            this.dialogDelete = false;
+            this.selectedBeasiswa = {};
             this.snackbar = {
                 show: true,
                 color: "blue",
                 message: "Beasiswa telah ditutup!",
             }
-            getBeasiswaWithPermohonan();
           })
           .catch(error => {
             this.btnLoading = false;
+            this.dialogDelete = false;
           });
     },
     link(url) {
@@ -304,9 +328,11 @@ export default {
   },
   data() {
     return {
+      selectedBeasiswa: {},
       selectedMahasiswa: {},
-      btnLoading:false,
+      dialogDelete: false,
       dialogDetail: false,
+      btnLoading:false,
       snackbar: {
           show: false
       },

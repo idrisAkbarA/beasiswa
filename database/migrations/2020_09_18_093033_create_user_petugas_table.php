@@ -16,8 +16,10 @@ class CreateUserPetugasTable extends Migration
         Schema::create('user_petugas', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->integer('role'); // 0 = super Admin, 1 = admin, 2 = pewawancara, 3 =  surveyor, 4 = pimpinan 
+            $table->string('nama_lengkap');
+            $table->integer('role'); // 0 = super Admin, 1 = admin, 2 = pewawancara, 3 =  surveyor, 4 = pimpinan
             $table->string('password');
+            $table->integer('fakultas_id')->nullable(); // id fakultas jika admin cek berkas fakultas
             $table->rememberToken();
             $table->timestamps();
         });

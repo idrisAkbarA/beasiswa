@@ -33,6 +33,10 @@ import SurveyorHome from "../views/Petugas/Surveyor/Home.vue";
 
 import Petinggi from "../views/Petugas/Petinggi/Petinggi.vue";
 import PetinggiHome from "../views/Petugas/Petinggi/Home.vue";
+
+import Verificator from "../views/Petugas/Verificator/Verificator.vue";
+import VerificatorHome from "../views/Petugas/Verificator/Home.vue";
+
 import Axios from "axios";
 // import Login from '../views/Login.vue'
 // import Loket from '../views/Loket.vue'
@@ -275,7 +279,34 @@ const routes = [
                 component: PetinggiHome
             }
         ]
-    }
+    },
+    {
+        path: "/verificator/:petugas",
+        component: Verificator,
+        async beforeEnter(to, from, next) {
+            if (from.name == null) {
+               await axios
+                    .get("http://beasiswa.test/api/user/petugas")
+                    .then(response => {
+                        console.log(response.data);
+                     next()
+                    })
+                    .catch(error => {
+                        console.log(error.response.status);
+                        next({name:"Login Petugas"});
+                    });
+            }else{
+                next()
+            }
+        },
+        children: [
+            {
+                name: "Home",
+                path: "home",
+                component: VerificatorHome
+            }
+        ]
+    },
 ];
 
 const router = new VueRouter({

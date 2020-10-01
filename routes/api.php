@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 /*
@@ -41,7 +42,8 @@ Route::middleware('auth:petugas')->post('/beasiswa','BeasiswaController@store');
 Route::middleware('auth:petugas')->put('/beasiswa/{id}','BeasiswaController@edit');
 Route::get('/beasiswa/selection','BeasiswaController@selection');
 Route::middleware('auth:petugas,mahasiswa')->get('/beasiswa','BeasiswaController@getAll');
-Route::get('/beasiswa/with-permohonan','BeasiswaController@getAllWithPermohonan');
+Route::get('/beasiswa/get-active','BeasiswaController@getActive');
+Route::middleware('auth:petugas,mahasiswa')->get('/beasiswa/with-permohonan','BeasiswaController@getAllWithPermohonan');
 Route::get('/beasiswa/selesai','BeasiswaController@selesai');
 Route::middleware('auth:petugas,mahasiswa')->get('/beasiswa/{id}','BeasiswaController@get');
 Route::middleware('auth:petugas')->delete('/beasiswa/{id}','BeasiswaController@delete');
@@ -55,9 +57,9 @@ Route::middleware('auth:petugas,mahasiswa')->get('/user/{id}','UserController@ge
 Route::middleware('auth:petugas')->delete('/user/{id}','UserController@delete');
 Route::middleware('auth:petugas')->post('/user/import','UserController@import');
 
-Route::middleware('auth:petugas')->delete('/beasiswa/{id}','BeasiswaController@delete');
-Route::get('/pemohon/count-beasiswa', 'BeasiswaController@countBeasiswa');
+Route::get('/fakultas', 'FakultasController@getAll');
 
+Route::get('/pemohon/count-beasiswa', 'BeasiswaController@countBeasiswa');
 Route::get('/pemohon', 'PemohonBeasiswaController@getAll');
 Route::post('/pemohon/file', 'PemohonBeasiswaController@storeFile');
 Route::post('/pemohon', 'PemohonBeasiswaController@store');

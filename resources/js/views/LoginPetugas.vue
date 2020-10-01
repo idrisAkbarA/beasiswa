@@ -93,6 +93,10 @@ export default {
                 this.$router.push({
                     path: `/petinggi/${response.data.user.name}/home`
                 });
+              }else if(response.data.user.role == 5){
+                this.$router.push({
+                    path: `/verificator/${response.data.user.name}/home`
+                });
               }else if(response.data.user.role == 0){
                 console.log("asd");
                 this.$router.push({

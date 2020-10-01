@@ -16,8 +16,12 @@ class PetugasController extends Controller
     }
     public function store(UserPetugas $petugas, Request $request){
         $petugas->name = $request['name'];
+        $petugas->nama_lengkap = $request['nama_lengkap'];
         $petugas->role = $request['role'];
         $petugas->password = Hash::make($request['password']);
+        if ($request['role'] == 5){
+            $petugas->fakultas_id = $request['fakultas_id'];
+        }
         $petugas->save();
         return response()->json(['status'=>"Success: User Added"]);
     }
