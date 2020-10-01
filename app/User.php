@@ -10,7 +10,7 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    // protected $primaryKey = 'nim';
+    protected $primaryKey = 'nim';
 
     /**
      * The attributes that are mass assignable.
@@ -41,9 +41,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $appends = [
+        'fakultas'
+    ];
+
     public function getNamaAttribute($value)
     {
         return ucwords($value);
+    }
+
+    public function getFakultasAttribute()
+    {
+        return $this->jurusan->fakultas;
     }
 
     public function permohonan()

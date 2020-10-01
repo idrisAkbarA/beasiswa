@@ -8,7 +8,7 @@
     style="overflow-y: auto"
   >
     <v-card-text>
-      <v-subheader>Permohonan Beasiswa</v-subheader>
+      <v-subheader>Permohonan Beasiswa {{petugas.nama_lengkap}}</v-subheader>
       <v-row class="pl-8 pr-8">
         <v-text-field
           prepend-inner-icon="mdi-magnify"
@@ -184,9 +184,18 @@ import { mapActions, mapMutations, mapState } from "vuex";
 export default {
   created() {
     this.getBeasiswaWithPermohonan();
+    this.getPetugas();
   },
   methods: {
     ...mapActions(["getBeasiswaWithPermohonan"]),
+    getPetugas() {
+        axios
+        .get(`${this.url}/api/user/petugas`)
+        .then(response => {
+          this.petugas = response.data
+          this.btnLoading = false;
+        });
+    },
     link(url) {
       var a = this.url + "/" + url;
       var link = a.replace(" ", "%20");
@@ -214,6 +223,7 @@ export default {
   },
   data() {
     return {
+      petugas: {},
       selectedPermohonan: {},
       dialogDelete: { show: false },
       btnLoading: false,

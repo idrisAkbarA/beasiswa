@@ -8994,8 +8994,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
     this.getBeasiswaWithPermohonan();
+    this.getPetugas();
   },
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getBeasiswaWithPermohonan"])), {}, {
+    getPetugas: function getPetugas() {
+      var _this = this;
+
+      axios.get("".concat(this.url, "/api/user/petugas")).then(function (response) {
+        _this.petugas = response.data;
+        _this.btnLoading = false;
+      });
+    },
     link: function link(url) {
       var a = this.url + "/" + url;
       var link = a.replace(" ", "%20");
@@ -9003,25 +9012,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       location = link;
     },
     setBerkas: function setBerkas(bool) {
-      var _this = this;
+      var _this2 = this;
 
       this.btnLoading = true;
       axios.put("".concat(this.url, "/api/pemohon/set-berkas"), {
         id: this.selectedPermohonan.id,
         bool: bool
       }).then(function (response) {
-        _this.getBeasiswaWithPermohonan();
+        _this2.getBeasiswaWithPermohonan();
 
         console.log(response.data);
-        _this.sheetDetail = false;
-        _this.dialogDelete = false;
-        _this.btnLoading = false;
+        _this2.sheetDetail = false;
+        _this2.dialogDelete = false;
+        _this2.btnLoading = false;
       });
     }
   }),
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["beasiswa", "url"])),
   data: function data() {
     return {
+      petugas: {},
       selectedPermohonan: {},
       dialogDelete: {
         show: false
@@ -58331,7 +58341,9 @@ var render = function() {
       _c(
         "v-card-text",
         [
-          _c("v-subheader", [_vm._v("Permohonan Beasiswa")]),
+          _c("v-subheader", [
+            _vm._v("Permohonan Beasiswa " + _vm._s(_vm.petugas.nama_lengkap))
+          ]),
           _vm._v(" "),
           _c(
             "v-row",

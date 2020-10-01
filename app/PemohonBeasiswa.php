@@ -14,7 +14,6 @@ class PemohonBeasiswa extends Model
     ];
 
     protected $appends = [
-        'mahasiswa',
         'verificator',
         'interviewer',
         'surveyor',
@@ -69,11 +68,6 @@ class PemohonBeasiswa extends Model
         $this->attributes['is_selection_passed'] = $value;
     }
 
-    public function getMahasiswaAttribute()
-    {
-        return User::where('nim', $this->mhs_id)->first();
-    }
-
     public function beasiswa()
     {
         return $this->belongsTo('App\Beasiswa')->withTrashed();
@@ -81,6 +75,6 @@ class PemohonBeasiswa extends Model
 
     public function mahasiswa()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\User', 'mhs_id');
     }
 }
