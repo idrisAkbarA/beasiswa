@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 /*
@@ -40,6 +41,7 @@ Route::middleware('auth:petugas')->post('/beasiswa','BeasiswaController@store');
 Route::middleware('auth:petugas')->put('/beasiswa/{id}','BeasiswaController@edit');
 Route::get('/beasiswa/selection','BeasiswaController@selection');
 Route::middleware('auth:petugas,mahasiswa')->get('/beasiswa','BeasiswaController@getAll');
+Route::get('/beasiswa/get-active','BeasiswaController@getActive');
 Route::middleware('auth:petugas,mahasiswa')->get('/beasiswa/with-permohonan','BeasiswaController@getAllWithPermohonan');
 Route::get('/beasiswa/selesai','BeasiswaController@selesai');
 Route::middleware('auth:petugas,mahasiswa')->get('/beasiswa/{id}','BeasiswaController@get');

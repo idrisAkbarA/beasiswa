@@ -227,7 +227,7 @@
           <v-card-actions>
             <v-btn @click="dialogDelete = false" color="white" text>batal</v-btn>
             <v-spacer></v-spacer>
-            <v-btn color="#2E7D32" dark @click="dialogDelete = false, deleteBeasiswa()">
+            <v-btn color="#2E7D32" dark @click="deleteSelectedBeasiswa()">
               Selesai
             </v-btn>
           </v-card-actions>
@@ -270,7 +270,7 @@ export default {
         return "70%"
       };
     },
-    ...mapActions(["getBeasiswaWithPermohonan", "deleteBeasiswa"]),
+    ...mapActions(["getBeasiswaWithPermohonan", "deleteBeasiswaWithPermohonan"]),
     lulus() {
         console.log(this.selectedMahasiswa);
         this.btnLoading = true;
@@ -298,20 +298,22 @@ export default {
         this.dialogDelete = true;
         this.selectedBeasiswa = item;
     },
-    deleteBeasiswa() {
+    deleteSelectedBeasiswa() {
         this.btnLoading = true;
-        this.deleteBeasiswa(item.id)
+        this.deleteBeasiswaWithPermohonan(this.selectedBeasiswa.id)
           .then(response => {
             this.btnLoading = false;
+            this.dialogDelete = false;
+            this.selectedBeasiswa = {};
             this.snackbar = {
                 show: true,
                 color: "blue",
                 message: "Beasiswa telah ditutup!",
             }
-            getBeasiswaWithPermohonan();
           })
           .catch(error => {
             this.btnLoading = false;
+            this.dialogDelete = false;
           });
     },
     link(url) {

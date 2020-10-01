@@ -202,9 +202,14 @@ export default new Vuex.Store({
       })
     },
     deleteBeasiswa({commit,dispatch,state},id){
-
       Axios.delete(state.url+"/api/beasiswa/"+id).then(response=>{
         dispatch('getBeasiswa')
+        console.log(response)
+      })
+    },
+    deleteBeasiswaWithPermohonan({commit,dispatch,state},id){
+      Axios.delete(state.url+"/api/beasiswa/"+id).then(response=>{
+        dispatch('getBeasiswaWithPermohonan')
         console.log(response)
       })
     },

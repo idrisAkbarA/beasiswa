@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -21,7 +22,7 @@ class Beasiswa extends Model
         if ($this->is_interview){
             return $this->pemohon
                 ->where('is_berkas_passed', 1)
-                ->where('is_interview_passed', null);
+                ->whereNull('is_interview_passed');
         }
         return [];
     }
@@ -34,7 +35,7 @@ class Beasiswa extends Model
                 ->when($this->is_interview == 1, function ($q) {
                     return $q->where('is_interview_passed', 1);
                 })
-                ->where('is_survey_passed', null);
+                ->whereNull('is_survey_passed');
         }
         return [];
     }
@@ -63,6 +64,19 @@ class Beasiswa extends Model
                 return $q->where('is_survey_passed', 1);
             })
             ->where('is_selection_passed', 1);
+    }
+
+    public static function active()
+    {
+        $today = Carbon::today();
+        $beasiswa =  self::whereDate('akhir_berkas', '>=', $today)->get();
+        $beasiswa = $beasiswa->reject(function ($value, $key) use ($today) {
+            if ($value->awal_berkas == NULL){
+                return false;
+            }
+            return $value->awal_berkas.'+1 day' < $today;
+        });
+        return $beasiswa;
     }
 
     public function instansi()
