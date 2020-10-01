@@ -10,7 +10,7 @@ class BeasiswaController extends Controller
 
     public function getAll(){
         $beasiswa = Beasiswa::orderBy('id', 'DESC')->get();
-        $beasiswa->makeHidden(['interview', 'survey', 'selection', 'lulus']);
+        $beasiswa->makeHidden(['berkas', 'interview', 'survey', 'selection', 'lulus']);
         return response()->json($beasiswa);
     }
     public function getAllWithPermohonan()
