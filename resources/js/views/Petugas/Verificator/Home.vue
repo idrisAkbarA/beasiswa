@@ -40,14 +40,14 @@
                     <v-row>
                         <v-divider class="mb-0"></v-divider>
                     </v-row>
-                    <p v-if="!item.pemohon.length" class="text-center text-muted mt-2">Tidak ada peserta pemohon</p>
-                    <v-list v-if="item.pemohon.length > 0">
-                        <v-subheader>Permohonan Masuk ({{item.pemohon.length}})</v-subheader>
+                    <p v-if="Object.keys(item.berkas).length < 1" class="text-center text-muted mt-2">Tidak ada berkas</p>
+                    <v-list v-if="Object.keys(item.berkas).length > 0">
+                        <v-subheader>Permohonan Masuk ({{Object.keys(item.berkas).length}})</v-subheader>
                         <v-list-item-group
                             class="bg-white"
                             color="primary"
                         >
-                            <template v-for="(permohonan, index) in item.pemohon">
+                            <template v-for="(permohonan, index) in item.berkas">
                                 <v-list-item :key="permohonan.nama" @click="sheetDetail = true, selectedPermohonan = permohonan">
                                     <template>
                                         <v-list-item-content>
@@ -62,7 +62,7 @@
                                     </template>
                                 </v-list-item>
                                 <v-divider
-                                    v-if="index < item.pemohon.length - 1"
+                                    v-if="index < Object.keys(item.berkas).length - 1"
                                     :key="index"
                                     class="my-0"
                                 ></v-divider>

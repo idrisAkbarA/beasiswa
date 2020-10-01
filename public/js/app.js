@@ -58403,24 +58403,26 @@ var render = function() {
                                 1
                               ),
                               _vm._v(" "),
-                              !item.pemohon.length
+                              Object.keys(item.berkas).length < 1
                                 ? _c(
                                     "p",
                                     {
                                       staticClass: "text-center text-muted mt-2"
                                     },
-                                    [_vm._v("Tidak ada peserta pemohon")]
+                                    [_vm._v("Tidak ada berkas")]
                                   )
                                 : _vm._e(),
                               _vm._v(" "),
-                              item.pemohon.length > 0
+                              Object.keys(item.berkas).length > 0
                                 ? _c(
                                     "v-list",
                                     [
                                       _c("v-subheader", [
                                         _vm._v(
                                           "Permohonan Masuk (" +
-                                            _vm._s(item.pemohon.length) +
+                                            _vm._s(
+                                              Object.keys(item.berkas).length
+                                            ) +
                                             ")"
                                         )
                                       ]),
@@ -58432,7 +58434,7 @@ var render = function() {
                                           attrs: { color: "primary" }
                                         },
                                         [
-                                          _vm._l(item.pemohon, function(
+                                          _vm._l(item.berkas, function(
                                             permohonan,
                                             index
                                           ) {
@@ -58499,7 +58501,9 @@ var render = function() {
                                                 2
                                               ),
                                               _vm._v(" "),
-                                              index < item.pemohon.length - 1
+                                              index <
+                                              Object.keys(item.berkas).length -
+                                                1
                                                 ? _c("v-divider", {
                                                     key: index,
                                                     staticClass: "my-0"
@@ -119481,10 +119485,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_Petugas_Surveyor_Home_vue__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ../views/Petugas/Surveyor/Home.vue */ "./resources/js/views/Petugas/Surveyor/Home.vue");
 /* harmony import */ var _views_Petugas_Petinggi_Petinggi_vue__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ../views/Petugas/Petinggi/Petinggi.vue */ "./resources/js/views/Petugas/Petinggi/Petinggi.vue");
 /* harmony import */ var _views_Petugas_Petinggi_Home_vue__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ../views/Petugas/Petinggi/Home.vue */ "./resources/js/views/Petugas/Petinggi/Home.vue");
-/* harmony import */ var _views_Petugas_Verificator_Verificator_vue__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ../views/Petugas/Verificator/Verificator.vue */ "./resources/js/views/Petugas/Verificator/Verificator.vue");
-/* harmony import */ var _views_Petugas_Verificator_Home_vue__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ../views/Petugas/Verificator/Home.vue */ "./resources/js/views/Petugas/Verificator/Home.vue");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_32___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_32__);
+/* harmony import */ var _views_Petugas_Verificator_Verificator_vue__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ../views/Petugas/Verificator/Verificator.vue */ "./resources/js/views/Petugas/Verificator/Verificator.vue");
+/* harmony import */ var _views_Petugas_Verificator_Home_vue__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ../views/Petugas/Verificator/Home.vue */ "./resources/js/views/Petugas/Verificator/Home.vue");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_33___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_33__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -119836,7 +119840,7 @@ var routes = [{
   }]
 }, {
   path: "/verificator/:petugas",
-  component: _views_Petugas_Verificator_Verificator_vue__WEBPACK_IMPORTED_MODULE_33__["default"],
+  component: _views_Petugas_Verificator_Verificator_vue__WEBPACK_IMPORTED_MODULE_31__["default"],
   beforeEnter: function beforeEnter(to, from, next) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
@@ -119877,7 +119881,7 @@ var routes = [{
   children: [{
     name: "Home",
     path: "home",
-    component: _views_Petugas_Verificator_Home_vue__WEBPACK_IMPORTED_MODULE_34__["default"]
+    component: _views_Petugas_Verificator_Home_vue__WEBPACK_IMPORTED_MODULE_32__["default"]
   }]
 }];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]({

@@ -10,6 +10,8 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    // protected $primaryKey = 'nim';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -47,5 +49,10 @@ class User extends Authenticatable
     public function permohonan()
     {
         return $this->hasMany('App\PemohonBeasiswa','mhs_id');
+    }
+
+    public function jurusan()
+    {
+        return $this->belongsTo('App\Jurusan');
     }
 }

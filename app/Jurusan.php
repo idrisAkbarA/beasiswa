@@ -12,4 +12,9 @@ class Jurusan extends Model
     {
         return $this->belongsTo('App\Fakultas');
     }
+
+    public function mahasiswa()
+    {
+        return $this->hasMany('App\User');
+    }
 }

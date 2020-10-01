@@ -5,17 +5,28 @@ namespace App;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class Beasiswa extends Model
 {
     use SoftDeletes;
 
+    protected $hidden = [
+        'pemohon'
+    ];
     protected $appends = [
+        'berkas',
         'interview',
         'survey',
         'selection',
         'lulus'
     ];
+
+    public function getBerkasAttribute()
+    {
+        return $this->pemohon
+            ->whereNull('is_berkas_passed');
+    }
 
     public function getInterviewAttribute()
     {
@@ -86,6 +97,6 @@ class Beasiswa extends Model
 
     public function pemohon()
     {
-        return $this->hasMany('App\PemohonBeasiswa','beasiswa_id')->whereNull('is_berkas_passed');
+        return $this->hasMany('App\PemohonBeasiswa','beasiswa_id');
     }
 }
