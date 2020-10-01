@@ -34,8 +34,7 @@
       </v-data-table>
     </v-skeleton-loader>
 
-
-<!-- btms -->
+    <!-- btms -->
 
     <v-bottom-sheet
       scrollable
@@ -47,372 +46,377 @@
       <v-card>
         <v-card-title> <span>Edit Beasiswa</span>
           <v-spacer></v-spacer>
-          <v-btn @click="batal()" text>batal</v-btn>
+          <v-btn
+            @click="batal()"
+            text
+          >batal</v-btn>
           <v-btn
             color="#2E7D32"
             :loading="btnLoading"
             @click="sendEdit()"
           >Simpan</v-btn>
         </v-card-title>
-        <v-card-text style="height: 600px;">
-          <v-row
-            dense
-            class="ml-1 mr-1"
-          >
-            <v-col>
+        <vue-scroll :ops="ops">
+          <v-card-text style="height: 600px;">
+            <v-row
+              dense
+              class="ml-1 mr-1"
+            >
+              <v-col>
 
-              <v-text-field
-                color="#C8E6C9"
-                label="Nama Beasiswa"
-                v-model="namaEdit"
-              ></v-text-field>
-            </v-col>
+                <v-text-field
+                  color="#C8E6C9"
+                  label="Nama Beasiswa"
+                  v-model="namaEdit"
+                ></v-text-field>
+              </v-col>
 
-          </v-row>
-          <v-row
-            dense
-            class="ml-1 mr-1"
-          >
-            <v-col>
+            </v-row>
+            <v-row
+              dense
+              class="ml-1 mr-1"
+            >
+              <v-col>
 
-              <v-textarea
-              auto-grow
-                color="white"
-                rows="1"
-                label="Deskripsi"
-                v-model="deskripsiEdit"
-              ></v-textarea>
-            </v-col>
+                <v-textarea
+                  auto-grow
+                  color="white"
+                  rows="1"
+                  label="Deskripsi"
+                  v-model="deskripsiEdit"
+                ></v-textarea>
+              </v-col>
 
-          </v-row>
-          <!-- v-model="select" -->
-          <!-- :items="items" -->
-          <v-row
-            dense
-            class="ml-1 mr-1"
-          >
-            <v-col cols="8">
-              <v-combobox
-                color="white"
-                label="Instansi"
-                :items="instansi"
-                item-text="name"
-                v-model="selected_instansiEdit"
-              >
-                <template v-slot:item="{ index, item }">
-                  {{item.name}}
-                </template>
-                <!-- <template v-slot:selection="{ item,selected }">
+            </v-row>
+            <!-- v-model="select" -->
+            <!-- :items="items" -->
+            <v-row
+              dense
+              class="ml-1 mr-1"
+            >
+              <v-col cols="8">
+                <v-combobox
+                  color="white"
+                  label="Instansi"
+                  :items="instansi"
+                  item-text="name"
+                  v-model="selected_instansiEdit"
+                >
+                  <template v-slot:item="{ index, item }">
+                    {{item.name}}
+                  </template>
+                  <!-- <template v-slot:selection="{ item,selected }">
                   {{item.name}}
                 </template> -->
-              </v-combobox>
+                </v-combobox>
 
-            </v-col>
-            <v-col cols="4">
-              <v-text-field
-                label="Kuota"
-                type="number"
-                v-model="kuotaEdit"
-              ></v-text-field>
-            </v-col>
-          </v-row>
-          <v-row align="center">
-            <v-col cols="6">
-              Tahap upload/pengisian berkas
-            </v-col>
-            <v-col cols="6">
-              <v-menu
-                v-model="menuberkasEdit"
-                :close-on-content-click="false"
-                :nudge-right="40"
-                transition="scale-transition"
-                offset-y
-                min-width="290px"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
+              </v-col>
+              <v-col cols="4">
+                <v-text-field
+                  label="Kuota"
+                  type="number"
+                  v-model="kuotaEdit"
+                ></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row align="center">
+              <v-col cols="6">
+                Tahap upload/pengisian berkas
+              </v-col>
+              <v-col cols="6">
+                <v-menu
+                  v-model="menuberkasEdit"
+                  :close-on-content-click="false"
+                  :nudge-right="40"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="290px"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="dateBerkasEdit"
+                      label="Batas/Rentang Waktu Upload Berkas"
+                      prepend-icon="event"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                    range
                     v-model="dateBerkasEdit"
-                    label="Batas/Rentang Waktu Upload Berkas"
-                    prepend-icon="event"
-                    readonly
-                    v-bind="attrs"
-                    v-on="on"
-                  ></v-text-field>
-                </template>
-                <v-date-picker
-                  range
-                  v-model="dateBerkasEdit"
-                  locale="id-ID"
+                    locale="id-ID"
+                  >
+                  </v-date-picker>
+                </v-menu>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="6">
+                <v-checkbox
+                  color="white"
+                  v-model="is_wawancaraEdit"
+                  label="Tahap wawancara"
+                  hide-details
+                ></v-checkbox>
+              </v-col>
+              <v-col cols="6">
+                <v-menu
+                  v-model="menuWawancaraEdit"
+                  :close-on-content-click="false"
+                  :nudge-right="40"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="290px"
                 >
-                </v-date-picker>
-              </v-menu>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col cols="6">
-              <v-checkbox
-                color="white"
-                v-model="is_wawancaraEdit"
-                label="Tahap wawancara"
-                hide-details
-              ></v-checkbox>
-            </v-col>
-            <v-col cols="6">
-              <v-menu
-                v-model="menuWawancaraEdit"
-                :close-on-content-click="false"
-                :nudge-right="40"
-                transition="scale-transition"
-                offset-y
-                min-width="290px"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
-                    :disabled="!is_wawancaraEdit"
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      :disabled="!is_wawancaraEdit"
+                      v-model="dateWawancaraEdit"
+                      label="Rentang Waktu Wawancara"
+                      prepend-icon="event"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                    range
                     v-model="dateWawancaraEdit"
-                    label="Rentang Waktu Wawancara"
-                    prepend-icon="event"
-                    readonly
-                    v-bind="attrs"
-                    v-on="on"
-                  ></v-text-field>
-                </template>
-                <v-date-picker
-                  range
-                  v-model="dateWawancaraEdit"
-                  locale="id-ID"
+                    locale="id-ID"
+                  >
+                  </v-date-picker>
+                </v-menu>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="6">
+                <v-checkbox
+                  color="white"
+                  v-model="is_surveyEdit"
+                  label="Tahap Survey"
+                  hide-details
+                ></v-checkbox>
+              </v-col>
+              <v-col cols="6">
+                <v-menu
+                  v-model="menuSurveyEdit"
+                  :close-on-content-click="false"
+                  :nudge-right="40"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="290px"
                 >
-                </v-date-picker>
-              </v-menu>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col cols="6">
-              <v-checkbox
-                color="white"
-                v-model="is_surveyEdit"
-                label="Tahap Survey"
-                hide-details
-              ></v-checkbox>
-            </v-col>
-            <v-col cols="6">
-              <v-menu
-                v-model="menuSurveyEdit"
-                :close-on-content-click="false"
-                :nudge-right="40"
-                transition="scale-transition"
-                offset-y
-                min-width="290px"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
-                    :disabled="!is_surveyEdit"
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      :disabled="!is_surveyEdit"
+                      v-model="dateSurveyEdit"
+                      label="Rentang Waktu Wawancara"
+                      prepend-icon="event"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                    range
                     v-model="dateSurveyEdit"
-                    label="Rentang Waktu Wawancara"
-                    prepend-icon="event"
-                    readonly
-                    v-bind="attrs"
-                    v-on="on"
-                  ></v-text-field>
-                </template>
-                <v-date-picker
-                  range
-                  v-model="dateSurveyEdit"
-                  locale="id-ID"
-                >
-                </v-date-picker>
-              </v-menu>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-divider></v-divider>
-          </v-row>
-          <v-row>
-            <v-subheader>Buat Form</v-subheader>
-          </v-row>
-
-          <!-- Form -->
-          <transition-group name="scale-transition">
-
-            <v-card
-              v-for="field in fieldsEdit"
-              :key="field.index"
-              elevation="10"
-              color="#388E3C"
-              class="mb-2"
-              style="padding-bottom:0 !important;"
-            >
-
-              <v-container style="padding-bottom:0 !important;">
-                <v-row style="padding-bottom:0 !important;">
-                  <v-col
-                    cols="7"
-                    style="padding-bottom:0 !important;"
+                    locale="id-ID"
                   >
-                    <v-text-field
-                      color="white"
-                      dense
-                      label="Pertanyaan"
-                      v-model="field.pertanyaan"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col
-                    cols="5"
-                    style="padding-bottom:0 !important;"
-                  >
-                    <v-select
-                      v-model="field.type"
-                      dense
-                      :items="itemTypes"
-                      label="Tipe isian"
-                      color="white"
-                      outlined
-                    ></v-select>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col style="padding-bottom:0 !important;">
-                    <v-radio-group
-                      v-if="field.type == 'Pilihan'"
-                      column
-                      :mandatory="field.pilihan.required"
+                  </v-date-picker>
+                </v-menu>
+              </v-col>
+            </v-row>
+
+            <v-row>
+              <v-divider></v-divider>
+            </v-row>
+            <v-row>
+              <v-subheader>Buat Form</v-subheader>
+            </v-row>
+
+            <!-- Form -->
+            <transition-group name="scale-transition">
+
+              <v-card
+                v-for="field in fieldsEdit"
+                :key="field.index"
+                elevation="10"
+                color="#388E3C"
+                class="mb-2"
+                style="padding-bottom:0 !important;"
+              >
+
+                <v-container style="padding-bottom:0 !important;">
+                  <v-row style="padding-bottom:0 !important;">
+                    <v-col
+                      cols="7"
+                      style="padding-bottom:0 !important;"
                     >
-
-                      <v-row align="center">
-                        <span class="ml-2 mr-1">Pilihan wajib diisi</span>
-                        <v-switch
-                          v-model="field.pilihan.required"
-                          color="white"
-                        ></v-switch>
-
-                      </v-row>
-
-                      <v-radio
-                        v-for="(item,index) in field.pilihan.items"
-                        :key="index"
-                        :value="item.label"
+                      <v-text-field
                         color="white"
+                        dense
+                        label="Pertanyaan"
+                        v-model="field.pertanyaan"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col
+                      cols="5"
+                      style="padding-bottom:0 !important;"
+                    >
+                      <v-select
+                        v-model="field.type"
+                        dense
+                        :items="itemTypes"
+                        label="Tipe isian"
+                        color="white"
+                        outlined
+                      ></v-select>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col style="padding-bottom:0 !important;">
+                      <v-radio-group
+                        v-if="field.type == 'Pilihan'"
+                        column
+                        :mandatory="field.pilihan.required"
                       >
-                        <template v-slot:label>
-                          <v-row align="center">
-                            <v-text-field
-                              class="ma-2"
-                              color="white"
-                              dense
-                              filled
-                              label="Label"
-                              v-model="item.label"
-                            ></v-text-field>
-                            <v-btn
-                              class="ma-2"
-                              icon
-                              color="white"
-                              @click="deletePilihanItem(field,item.label)"
-                            >
-                              <v-icon>mdi-close</v-icon>
-                            </v-btn>
-                          </v-row>
-                        </template>
-                      </v-radio>
-                      <v-btn
-                        class="mt-2 grey darken-3"
-                        fab
-                        dark
-                        small
-                        @click="addPilihanItemEdit(field.index)"
-                      >
-                        <v-icon dark>
-                          mdi-plus
-                        </v-icon>
-                      </v-btn>
-                    </v-radio-group>
-                    <v-text-field
-                      prepend-icon="mdi-text-short"
-                      v-if="field.type == 'Jawaban Pendek'"
-                      dense
-                      disabled
-                      filled
-                      placeholder="Jawaban Pendek"
-                    ></v-text-field>
-                    <v-text-field
-                      prepend-icon="mdi-numeric"
-                      v-if="field.type == 'Jawaban Angka'"
-                      dense
-                      disabled
-                      filled
-                      type="number"
-                      placeholder="Jawaban Angka"
-                    ></v-text-field>
-                    <v-text-field
-                      prepend-icon="mdi-calendar"
-                      v-if="field.type == 'Tanggal'"
-                      dense
-                      disabled
-                      filled
-                      label="Tanggal"
-                    ></v-text-field>
-                    <v-file-input
-                      v-if="field.type == 'Upload File'"
-                      dense
-                      disabled
-                      filled
-                      placeholder="Upload File"
-                    ></v-file-input>
-                    <v-textarea
-                    auto-grow
-                      prepend-icon="mdi-view-headline"
-                      v-if="field.type == 'Paragraf'"
-                      color="white"
-                      rows="1"
-                      disabled
-                      filled
-                      dense
-                      label="Paragraf"
-                    ></v-textarea>
-                  </v-col>
-                </v-row>
-                <v-row
-                  class="mb-2"
-                  align="center"
-                  justify="end"
-                >
 
-                  <v-btn
-                    icon
-                    color="white"
-                    @click="deleteFieldEdit(field)"
+                        <v-row align="center">
+                          <span class="ml-2 mr-1">Pilihan wajib diisi</span>
+                          <v-switch
+                            v-model="field.pilihan.required"
+                            color="white"
+                          ></v-switch>
+
+                        </v-row>
+
+                        <v-radio
+                          v-for="(item,index) in field.pilihan.items"
+                          :key="index"
+                          :value="item.label"
+                          color="white"
+                        >
+                          <template v-slot:label>
+                            <v-row align="center">
+                              <v-text-field
+                                class="ma-2"
+                                color="white"
+                                dense
+                                filled
+                                label="Label"
+                                v-model="item.label"
+                              ></v-text-field>
+                              <v-btn
+                                class="ma-2"
+                                icon
+                                color="white"
+                                @click="deletePilihanItem(field,item.label)"
+                              >
+                                <v-icon>mdi-close</v-icon>
+                              </v-btn>
+                            </v-row>
+                          </template>
+                        </v-radio>
+                        <v-btn
+                          class="mt-2 grey darken-3"
+                          fab
+                          dark
+                          small
+                          @click="addPilihanItemEdit(field.index)"
+                        >
+                          <v-icon dark>
+                            mdi-plus
+                          </v-icon>
+                        </v-btn>
+                      </v-radio-group>
+                      <v-text-field
+                        prepend-icon="mdi-text-short"
+                        v-if="field.type == 'Jawaban Pendek'"
+                        dense
+                        disabled
+                        filled
+                        placeholder="Jawaban Pendek"
+                      ></v-text-field>
+                      <v-text-field
+                        prepend-icon="mdi-numeric"
+                        v-if="field.type == 'Jawaban Angka'"
+                        dense
+                        disabled
+                        filled
+                        type="number"
+                        placeholder="Jawaban Angka"
+                      ></v-text-field>
+                      <v-text-field
+                        prepend-icon="mdi-calendar"
+                        v-if="field.type == 'Tanggal'"
+                        dense
+                        disabled
+                        filled
+                        label="Tanggal"
+                      ></v-text-field>
+                      <v-file-input
+                        v-if="field.type == 'Upload File'"
+                        dense
+                        disabled
+                        filled
+                        placeholder="Upload File"
+                      ></v-file-input>
+                      <v-textarea
+                        auto-grow
+                        prepend-icon="mdi-view-headline"
+                        v-if="field.type == 'Paragraf'"
+                        color="white"
+                        rows="1"
+                        disabled
+                        filled
+                        dense
+                        label="Paragraf"
+                      ></v-textarea>
+                    </v-col>
+                  </v-row>
+                  <v-row
+                    class="mb-2"
+                    align="center"
+                    justify="end"
                   >
-                    <v-icon>mdi-trash-can</v-icon>
-                  </v-btn>
-                  <span class="ml-2 mr-1">Wajib diisi</span>
-                  <v-switch
-                    v-model="field.required"
-                    color="white"
-                  ></v-switch>
 
-                </v-row>
+                    <v-btn
+                      icon
+                      color="white"
+                      @click="deleteFieldEdit(field)"
+                    >
+                      <v-icon>mdi-trash-can</v-icon>
+                    </v-btn>
+                    <span class="ml-2 mr-1">Wajib diisi</span>
+                    <v-switch
+                      v-model="field.required"
+                      color="white"
+                    ></v-switch>
 
-              </v-container>
-            </v-card>
-          </transition-group>
-          <v-row justify="center">
-            <v-btn
-              class="mt-2"
-              fab
-              dark
-              small
-              color="green"
-              @click="addFieldsEdit()"
-            >
-              <v-icon dark>
-                mdi-plus
-              </v-icon>
-            </v-btn>
-          </v-row>
-        </v-card-text>
+                  </v-row>
+
+                </v-container>
+              </v-card>
+            </transition-group>
+            <v-row justify="center">
+              <v-btn
+                class="mt-2"
+                fab
+                dark
+                small
+                color="green"
+                @click="addFieldsEdit()"
+              >
+                <v-icon dark>
+                  mdi-plus
+                </v-icon>
+              </v-btn>
+            </v-row>
+          </v-card-text>
+        </vue-scroll>
       </v-card>
     </v-bottom-sheet>
-
 
     <v-bottom-sheet
       scrollable
@@ -424,7 +428,10 @@
       <v-card>
         <v-card-title> <span>Buat Beasiswa</span>
           <v-spacer></v-spacer>
-          <v-btn @click="batal()" text>batal</v-btn>
+          <v-btn
+            @click="batal()"
+            text
+          >batal</v-btn>
           <v-btn
             color="#2E7D32"
             :loading="btnLoading"
@@ -432,6 +439,7 @@
             @click="save()"
           >Simpan</v-btn>
         </v-card-title>
+        <vue-scroll :ops="ops">
         <v-card-text style="height: 600px;">
           <v-row
             dense
@@ -454,7 +462,7 @@
             <v-col>
 
               <v-textarea
-              auto-grow
+                auto-grow
                 color="white"
                 rows="1"
                 label="Deskripsi"
@@ -737,7 +745,7 @@
                       placeholder="Upload File"
                     ></v-file-input>
                     <v-textarea
-                    auto-grow
+                      auto-grow
                       prepend-icon="mdi-view-headline"
                       v-if="field.type == 'Paragraf'"
                       color="white"
@@ -788,9 +796,10 @@
             </v-btn>
           </v-row>
         </v-card-text>
+        </vue-scroll>
       </v-card>
     </v-bottom-sheet>
-   <v-dialog
+    <v-dialog
       width="400"
       overlay-color="#69F0AE"
       v-model="deleteDialog"
@@ -835,96 +844,97 @@ export default {
   },
   methods: {
     ...mapMutations(["toggleOpenBeasiswa"]),
-    ...mapActions(["getBeasiswa","editBeasiswa",  "getInstansi", "storeBeasiswa", "deleteBeasiswa"]),
-    deleteBea(item){
-      console.log(item.id)
-      this.deleteId = item.id
+    ...mapActions([
+      "getBeasiswa",
+      "editBeasiswa",
+      "getInstansi",
+      "storeBeasiswa",
+      "deleteBeasiswa"
+    ]),
+    deleteBea(item) {
+      console.log(item.id);
+      this.deleteId = item.id;
       this.deleteDialog = true;
     },
-    finallyDelete(){
-      console.log(this.deleteId)
+    finallyDelete() {
+      console.log(this.deleteId);
       this.deleteBeasiswa(this.deleteId);
       this.deleteDialog = false;
     },
-    edit(item){
-      this.idEdit = item.id
+    edit(item) {
+      this.idEdit = item.id;
       console.log(item);
-      this.kuotaEdit = item.quota;  
-      this.namaEdit = item.nama;  
-      this.fieldsEdit = JSON.parse(item.fields);  
-      this.deskripsiEdit = item.deskripsi;  
-      this.valueEdit = item.instansi_id;  
-      
+      this.kuotaEdit = item.quota;
+      this.namaEdit = item.nama;
+      this.fieldsEdit = JSON.parse(item.fields);
+      this.deskripsiEdit = item.deskripsi;
+      this.valueEdit = item.instansi_id;
+
       this.instansi.forEach(element => {
-        if(element.id==item.instansi_id){
-          this.selected_instansiEdit = {id:element.id,name:element.name}
-          console.log(this.selected_instansiEdit)
+        if (element.id == item.instansi_id) {
+          this.selected_instansiEdit = { id: element.id, name: element.name };
+          console.log(this.selected_instansiEdit);
         }
       });
 
-      this.dateWawancaraEdit =  [item.awal_interview,item.akhir_interview];
-      this.dateSurveyEdit =  [item.awal_survey,item.akhir_survey];
+      this.dateWawancaraEdit = [item.awal_interview, item.akhir_interview];
+      this.dateSurveyEdit = [item.awal_survey, item.akhir_survey];
 
-      if(item.awal_berkas){
-        this.dateBerkasEdit = [item.awal_berkas,item.akhir_berkas];
-      }else{
-        if(item.akhir_berkas){
-          this.dateBerkasEdit = [item.akhir_berkas]
+      if (item.awal_berkas) {
+        this.dateBerkasEdit = [item.awal_berkas, item.akhir_berkas];
+      } else {
+        if (item.akhir_berkas) {
+          this.dateBerkasEdit = [item.akhir_berkas];
         }
       }
 
-      if(item.awal_interview){
-        this.dateWawancaraEdit = [item.awal_interview,item.akhir_interview];
-      }else{
-        if(item.akhir_interview){
-          this.dateWawancaraEdit = [item.akhir_interview]
+      if (item.awal_interview) {
+        this.dateWawancaraEdit = [item.awal_interview, item.akhir_interview];
+      } else {
+        if (item.akhir_interview) {
+          this.dateWawancaraEdit = [item.akhir_interview];
         }
       }
 
-      if(item.awal_survey){
-        this.dateSurveyEdit = [item.awal_survey,item.akhir_survey];
-      }else{
-        if(item.akhir_survey){
-          this.dateSurveyEdit = [item.akhir_survey]
+      if (item.awal_survey) {
+        this.dateSurveyEdit = [item.awal_survey, item.akhir_survey];
+      } else {
+        if (item.akhir_survey) {
+          this.dateSurveyEdit = [item.akhir_survey];
         }
       }
-      this.is_wawancaraEdit = item.is_interview? true:false;
-      this.is_surveyEdit = item.is_survey? true:false;
+      this.is_wawancaraEdit = item.is_interview ? true : false;
+      this.is_surveyEdit = item.is_survey ? true : false;
       this.toggleEdit = true;
-      
     },
-    sendEdit(){
+    sendEdit() {
       var awal_wawancara = "";
       var akhir_wawancara = "";
       var awal_survey = "";
       var akhir_survey = "";
       var awal_berkas = "";
       var akhir_berkas = "";
-      awal_berkas =
-        this.dateBerkasEdit[1] ? this.dateBerkasEdit[0] : null;
-      akhir_berkas =
-        this.dateBerkasEdit[1]
-          ? this.dateBerkasEdit[1]
-          : this.dateBerkasEdit[0];
+      awal_berkas = this.dateBerkasEdit[1] ? this.dateBerkasEdit[0] : null;
+      akhir_berkas = this.dateBerkasEdit[1]
+        ? this.dateBerkasEdit[1]
+        : this.dateBerkasEdit[0];
 
       if (this.is_wawancaraEdit) {
-        awal_wawancara =
-         this.dateWawancaraEdit[1]? this.dateWawancaraEdit[0] : null;
-        akhir_wawancara =
-          this.dateWawancaraEdit[1]
-            ? this.dateWawancaraEdit[1]
-            : this.dateWawancaraEdit[0];
+        awal_wawancara = this.dateWawancaraEdit[1]
+          ? this.dateWawancaraEdit[0]
+          : null;
+        akhir_wawancara = this.dateWawancaraEdit[1]
+          ? this.dateWawancaraEdit[1]
+          : this.dateWawancaraEdit[0];
       }
       if (this.is_surveyEdit) {
-        awal_survey =
-          this.dateSurveyEdit[1]? this.dateSurveyEdit[0] : null;
-        akhir_survey =
-       this.dateSurveyEdit[1]
-            ? this.dateSurveyEdit[1]
-            : this.dateSurveyEdit[0];
+        awal_survey = this.dateSurveyEdit[1] ? this.dateSurveyEdit[0] : null;
+        akhir_survey = this.dateSurveyEdit[1]
+          ? this.dateSurveyEdit[1]
+          : this.dateSurveyEdit[0];
       }
       var data = {
-        id:this.idEdit,
+        id: this.idEdit,
         nama: this.namaEdit,
         deskripsi: this.deskripsiEdit,
         kuota: this.kuotaEdit,
@@ -941,14 +951,15 @@ export default {
       };
       console.log(data);
       this.btnLoading = true;
-      this.editBeasiswa(data).then(response=>{
-        this.btnLoading = false;
-        this.toggleEdit = false
-        console.log("what");
-      }).catch(error=>{
-        this.btnLoading = false;
-        
-      });
+      this.editBeasiswa(data)
+        .then(response => {
+          this.btnLoading = false;
+          this.toggleEdit = false;
+          console.log("what");
+        })
+        .catch(error => {
+          this.btnLoading = false;
+        });
     },
     compareType(a, b) {
       a == b ? true : false;
@@ -964,28 +975,22 @@ export default {
         console.log("sama");
       }
       console.log(typeof this.dateBerkas);
-      awal_berkas =
-        this.dateBerkas[1] ? this.dateBerkas[0] : null;
-      akhir_berkas =
-        this.dateBerkas[1]
-          ? this.dateBerkas[1]
-          : this.dateBerkas[0];
+      awal_berkas = this.dateBerkas[1] ? this.dateBerkas[0] : null;
+      akhir_berkas = this.dateBerkas[1]
+        ? this.dateBerkas[1]
+        : this.dateBerkas[0];
 
       if (this.is_wawancara) {
-        awal_wawancara =
-         this.dateWawancara[1]? this.dateWawancara[0] : null;
-        akhir_wawancara =
-          this.dateWawancara[1]
-            ? this.dateWawancara[1]
-            : this.dateWawancara[0];
+        awal_wawancara = this.dateWawancara[1] ? this.dateWawancara[0] : null;
+        akhir_wawancara = this.dateWawancara[1]
+          ? this.dateWawancara[1]
+          : this.dateWawancara[0];
       }
       if (this.is_survey) {
-        awal_survey =
-          this.dateSurvey[1]? this.dateSurvey[0] : null;
-        akhir_survey =
-       this.dateSurvey[1]
-            ? this.dateSurvey[1]
-            : this.dateSurvey[0];
+        awal_survey = this.dateSurvey[1] ? this.dateSurvey[0] : null;
+        akhir_survey = this.dateSurvey[1]
+          ? this.dateSurvey[1]
+          : this.dateSurvey[0];
       }
       var data = {
         nama: this.nama,
@@ -1004,27 +1009,29 @@ export default {
       };
       console.log(data);
       this.btnLoading = true;
-      this.storeBeasiswa(data).then(response=>{
-        this.btnLoading = false;
-        this.toggleBeasiswa = false
-        
-      }).catch(error=>{
-        this.btnLoading = false;
-        
-      });
+      this.storeBeasiswa(data)
+        .then(response => {
+          this.btnLoading = false;
+          this.toggleBeasiswa = false;
+        })
+        .catch(error => {
+          this.btnLoading = false;
+        });
     },
-    width(){
+    width() {
       // console.log(this.windowWidth)
-      if(this.windowWidth<=600){ return "100%"}
-      else if(this.windowWidth<=960){return "70%"}
-      else{
-        return "50%"
-      };
+      if (this.windowWidth <= 600) {
+        return "100%";
+      } else if (this.windowWidth <= 960) {
+        return "70%";
+      } else {
+        return "50%";
+      }
     },
-    batal(){
+    batal() {
       this.toggleBeasiswa = false;
     },
-    addFieldsEdit(){
+    addFieldsEdit() {
       this.fieldsEdit.push({
         type: "Jawaban Pendek",
         pertanyaan: "",
@@ -1032,11 +1039,11 @@ export default {
           ? this.fieldsEdit[this.fieldsEdit.length - 1].index + 1
           : 0,
         value: "",
-        date:false,
+        date: false,
         pilihan: {
-            required: false,
-            items: [{ label: "" }]
-          },
+          required: false,
+          items: [{ label: "" }]
+        },
         required: true
       });
       console.log(this.fieldsEdit);
@@ -1050,11 +1057,11 @@ export default {
           ? this.fields[this.fields.length - 1].index + 1
           : 0,
         value: "",
-        date:false,
+        date: false,
         pilihan: {
-            required: false,
-            items: [{ label: "" }]
-          },
+          required: false,
+          items: [{ label: "" }]
+        },
         required: true
       });
       console.log(this.fields);
@@ -1066,10 +1073,10 @@ export default {
       this.fieldsEdit.splice(this.fieldsEdit.indexOf(field), 1);
     },
     addPilihanItem(field_index) {
-      this.fields[field_index-1].pilihan.items.push({ label: "" });
+      this.fields[field_index - 1].pilihan.items.push({ label: "" });
     },
     addPilihanItemEdit(field_index) {
-      this.fieldsEdit[field_index-1].pilihan.items.push({ label: "" });
+      this.fieldsEdit[field_index - 1].pilihan.items.push({ label: "" });
     },
     deletePilihanItemEdit(field, label) {
       var item = this.fieldsEdit[this.fieldsEdit.indexOf(field)].pilihan.items;
@@ -1081,7 +1088,13 @@ export default {
     }
   },
   computed: {
-    ...mapState(["beasiswa", "isOpenBeasiswa", "instansi","isTableLoading","isLoading"]),
+    ...mapState([
+      "beasiswa",
+      "isOpenBeasiswa",
+      "instansi",
+      "isTableLoading",
+      "isLoading"
+    ]),
     toggleBeasiswa: {
       get: function() {
         return this.isOpenBeasiswa;
@@ -1093,14 +1106,24 @@ export default {
   },
   data() {
     return {
-      idEdit:null,
+      ops: {
+        scrollPanel: {
+          easing: "easeInQuad",
+          speed: 800
+        },
+        vuescroll: {
+          wheelScrollDuration: 0,
+          wheelDirectionReverse: true
+        }
+      },
+      idEdit: null,
       deleteDialog: false,
-      deleteId:null,
-      btnLoadingEdit:false,
+      deleteId: null,
+      btnLoadingEdit: false,
       namaEdit: "",
       deskripsiEdit: "",
       selected_instansiEdit: "",
-      fieldsEdit:{},
+      fieldsEdit: {},
       isBerkasEdit: false,
       is_wawancaraEdit: false,
       is_surveyEdit: false,
@@ -1108,25 +1131,25 @@ export default {
       dateWawancaraEdit: [new Date().toISOString().substr(0, 10)],
       dateSurveyEdit: [new Date().toISOString().substr(0, 10)],
       kuotaEdit: 1,
-      toggleEdit:false,
+      toggleEdit: false,
 
-      btnLoading:false,
+      btnLoading: false,
       nama: "",
       deskripsi: "",
       selected_instansi: "",
       fields: [
         {
-         type: "Jawaban Pendek",
+          type: "Jawaban Pendek",
           pertanyaan: "",
           index: 1,
           value: "",
-          date:false,
+          date: false,
           pilihan: {
             required: true,
             items: [{ label: "" }]
           },
           required: true
-        },
+        }
       ],
       itemTypes: [
         "Jawaban Pendek",

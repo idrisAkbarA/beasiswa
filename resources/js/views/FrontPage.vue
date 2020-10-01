@@ -23,7 +23,7 @@
         </div>
         <div class="bg-pattern ">
           <v-app-bar
-          class="hidden-sm-and-up"
+            class="hidden-sm-and-up"
             flat
             color="transparent"
             hide-on-scroll
@@ -37,12 +37,12 @@
             <div style="width:100%; -webkit-app-region: drag;">
               <v-toolbar-title>
                 <span class="font-weight-bold ml-4">
-                               Aplikasi
-              Pendaftaran Beasiswa
-              Uin Suska Riau
+                  Aplikasi
+                  Pendaftaran Beasiswa
+                  Uin Suska Riau
                 </span>
                 <!-- Change this automaticly later usig VUEX -->
-               
+
               </v-toolbar-title>
             </div>
           </v-app-bar>
@@ -111,7 +111,15 @@
             v-model="sheet"
           >
             <v-card>
-              <v-card-title> <span>Rincian Beasiswa</span> <v-spacer></v-spacer> <v-btn icon @click="sheet=false"><v-icon>close</v-icon></v-btn></v-card-title>
+              <v-card-title> <span>Rincian Beasiswa</span>
+                <v-spacer></v-spacer>
+                <v-btn
+                  icon
+                  @click="sheet=false"
+                >
+                  <v-icon>close</v-icon>
+                </v-btn>
+              </v-card-title>
               <v-card-subtitle>{{beasiswaSingle.nama}}</v-card-subtitle>
               <v-card-text>
                 <v-container>
