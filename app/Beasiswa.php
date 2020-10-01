@@ -86,6 +86,6 @@ class Beasiswa extends Model
 
     public function pemohon()
     {
-        return $this->hasMany('App\PemohonBeasiswa','beasiswa_id');
+        return $this->hasMany('App\PemohonBeasiswa','beasiswa_id')->whereNull('is_berkas_passed');
     }
 }
