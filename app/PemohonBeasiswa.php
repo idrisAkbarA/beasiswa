@@ -6,9 +6,56 @@ use Illuminate\Database\Eloquent\Model;
 
 class PemohonBeasiswa extends Model
 {
-    protected $appends = [
-        'mahasiswa'
+    protected $hidden = [
+        'verificator_id',
+        'interviewer_id',
+        'surveyor_id',
+        'selector_id',
     ];
+
+    protected $appends = [
+        'mahasiswa',
+        'verificator',
+        'interviewer',
+        'surveyor',
+        'selector',
+    ];
+
+    public function getVerificatorAttribute()
+    {
+        $petugas = UserPetugas::find($this->verificator_id);
+        if (!$petugas){
+            return '-';
+        }
+        return $petugas->nama_lengkap;
+    }
+
+    public function getInterviewerAttribute()
+    {
+        $petugas = UserPetugas::find($this->interviewer_id);
+        if (!$petugas){
+            return '-';
+        }
+        return $petugas->nama_lengkap;
+    }
+
+    public function getSurveyorAttribute()
+    {
+        $petugas = UserPetugas::find($this->surveyor_id);
+        if (!$petugas){
+            return '-';
+        }
+        return $petugas->nama_lengkap;
+    }
+
+    public function getSelectorAttribute()
+    {
+        $petugas = UserPetugas::find($this->selector_id);
+        if (!$petugas){
+            return '-';
+        }
+        return $petugas->nama_lengkap;
+    }
 
     public function setIsSelectionPassedAttribute($value)
     {

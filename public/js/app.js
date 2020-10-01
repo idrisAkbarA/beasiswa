@@ -5764,6 +5764,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }, {
           text: "NIM",
           value: "mhs_id"
+        }, {
+          text: "Berkas",
+          value: "verificator"
+        }, {
+          text: "Interview",
+          value: "interviewer"
+        }, {
+          text: "Survey",
+          value: "surveyor"
+        }, {
+          text: "Lulus",
+          value: "selector"
         }]
       }
     };

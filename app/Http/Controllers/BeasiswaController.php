@@ -19,8 +19,8 @@ class BeasiswaController extends Controller
     }
     public function getActive()
     {
-        $beasiswa = Beasiswa::active();
-            // ->sortByDesc('id');
+        $beasiswa = Beasiswa::active()
+            ->sortByDesc('id');
         $beasiswa->makeHidden(['interview', 'survey', 'selection', 'lulus']);
         return response()->json($beasiswa);
     }

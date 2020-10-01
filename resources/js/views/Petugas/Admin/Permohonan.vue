@@ -124,9 +124,11 @@ export default {
                   sortable: false,
                   value: "mahasiswa.nama"
                 },
-                {
-                    text: "NIM", value: "mhs_id"
-                }
+                { text: "NIM", value: "mhs_id" },
+                { text: "Berkas", value: "verificator" },
+                { text: "Interview", value: "interviewer" },
+                { text: "Survey", value: "surveyor" },
+                { text: "Lulus", value: "selector" },
           ]
       }
     };
