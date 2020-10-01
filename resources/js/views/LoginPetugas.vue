@@ -87,14 +87,17 @@ export default {
                 this.$router.push({
                   path: `/surveyor/${response.data.user.name}/home`
                 });
-              } 
+              }
               else if (response.data.user.role == 4) {
                 console.log("interviewer");
                 this.$router.push({
-                  path: `/petinggi/${response.data.user.name}/home`
+                    path: `/petinggi/${response.data.user.name}/home`
                 });
               }else if(response.data.user.role == 0){
-
+                console.log("asd");
+                this.$router.push({
+                    path: `/super/${response.data.user.name}`
+                });
               }
             } else {
               this.error = "Invalid username/password";

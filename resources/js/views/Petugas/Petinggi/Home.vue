@@ -46,7 +46,7 @@
                   <v-divider></v-divider>
                 </v-row>
                 <span>
-                  Kuota penerima beasiswa : {{item.lulus.length}} / {{item.quota}} Orang
+                  Kuota penerima beasiswa : {{Object.keys(item.lulus).length}} / {{item.quota}} Orang
                 </span>
                 <v-badge
                   inline
@@ -135,7 +135,7 @@
                           <v-row
                 no-gutters=""
                 class="ma-5"
-                v-for="(field,index) in selectedMahasiswa.form"
+                v-for="(field,index) in JSON.parse(selectedMahasiswa.form)"
                 :key="index"
               >
 
@@ -241,7 +241,7 @@
 import { mapActions, mapMutations, mapState } from "vuex";
 export default {
   created() {
-    this.getBeasiswa();
+    this.getBeasiswaWithPermohonan();
   },
   methods: {
     width(){
@@ -252,7 +252,7 @@ export default {
         return "70%"
       };
     },
-    ...mapActions(["getBeasiswa", "deleteBeasiswa"]),
+    ...mapActions(["getBeasiswaWithPermohonan", "deleteBeasiswa"]),
     lulus() {
         console.log(this.selectedMahasiswa);
         this.btnLoading = true;
@@ -269,7 +269,7 @@ export default {
                     message: "Kuota beasiswa sudah penuh!",
                 }
             }else {
-                this.getBeasiswa();
+                this.getBeasiswaWithPermohonan();
             }
             this.btnLoading = false;
             this.dialogDetail = false;
@@ -286,7 +286,7 @@ export default {
                 color: "blue",
                 message: "Beasiswa telah ditutup!",
             }
-            getBeasiswa();
+            getBeasiswaWithPermohonan();
           })
           .catch(error => {
             this.btnLoading = false;

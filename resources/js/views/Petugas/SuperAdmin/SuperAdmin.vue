@@ -178,27 +178,27 @@ export default {
         {
           icon: "mdi-school",
           title: "Beasiswa",
-          to: `/${petugas}/beasiswa`
+          to: `/super/${petugas}/beasiswa`
         },
         {
           icon: "mdi-account-details",
           title: "Permohonan",
-          to: `/${petugas}/permohonan`
+          to: `/super/${petugas}/permohonan`
         },
         {
           icon: "mdi-account-group",
           title: "Petugas",
-          to: `/${petugas}/petugas`
+          to: `/super/${petugas}/petugas`
         },
         {
           icon: "mdi-office-building",
           title: "Instansi",
-          to: `/${petugas}/instansi`
+          to: `/super/${petugas}/instansi`
         },
         {
           icon: "mdi-account-supervisor-circle",
           title: "Mahasiswa",
-          to: `/${petugas}/mahasiswa`
+          to: `/super/${petugas}/mahasiswa`
         }
       ];
     }

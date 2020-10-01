@@ -6,10 +6,16 @@ use App\Beasiswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 class BeasiswaController extends Controller
-{ 
+{
 
     public function getAll(){
-        return response()->json( Beasiswa::all());
+        $beasiswa = Beasiswa::orderBy('id', 'DESC')->get();
+        $beasiswa->makeHidden(['interview', 'survey', 'selection', 'lulus']);
+        return response()->json($beasiswa);
+    }
+    public function getAllWithPermohonan()
+    {
+        return response()->json( Beasiswa::orderBy('id', 'DESC')->get());
     }
     public function countBeasiswa(){
         return count(Beasiswa::all());

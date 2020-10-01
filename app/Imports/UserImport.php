@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\User;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Hash;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToCollection;
@@ -34,7 +35,7 @@ class UserImport implements ToCollection, WithHeadingRow
                 [
                     'nama'  => $nama,
                     'nim'  => $nim,
-                    'password'  => $password,
+                    'password'  => Hash::make($password),
                     'email'  => $email,
                 ]
             );
