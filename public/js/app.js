@@ -6329,6 +6329,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
@@ -6373,6 +6391,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     tutup: function tutup(item) {
+      this.dialogDelete = true;
+      this.selectedBeasiswa = item;
+    },
+    deleteBeasiswa: function deleteBeasiswa() {
       var _this2 = this;
 
       this.btnLoading = true;
@@ -6398,9 +6420,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["beasiswa", "url"])),
   data: function data() {
     return {
+      selectedBeasiswa: {},
       selectedMahasiswa: {},
-      btnLoading: false,
+      dialogDelete: false,
       dialogDetail: false,
+      btnLoading: false,
       snackbar: {
         show: false
       },
@@ -53185,7 +53209,7 @@ var render = function() {
                                 )
                               ]),
                               _vm._v(" "),
-                              item.lulus.length == item.quota
+                              Object.keys(item.lulus).length == item.quota
                                 ? _c("v-badge", {
                                     attrs: { inline: "", content: " Terpenuhi" }
                                   })
@@ -53341,7 +53365,12 @@ var render = function() {
                                   _c(
                                     "v-btn",
                                     {
-                                      attrs: { dark: "", color: "#2E7D32" },
+                                      staticClass: "mr-3",
+                                      attrs: {
+                                        disabled: _vm.btnLoading,
+                                        dark: !_vm.btnLoading,
+                                        color: "#2E7D32"
+                                      },
                                       on: {
                                         click: function($event) {
                                           return _vm.tutup(item)
@@ -53600,6 +53629,143 @@ var render = function() {
                               _vm._v("Lulus\n          ")
                             ],
                             1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.dialogDelete
+        ? _c(
+            "div",
+            { staticClass: "text-center" },
+            [
+              _c(
+                "v-dialog",
+                {
+                  attrs: { width: "400", "overlay-color": "#2E7D32" },
+                  model: {
+                    value: _vm.dialogDelete,
+                    callback: function($$v) {
+                      _vm.dialogDelete = $$v
+                    },
+                    expression: "dialogDelete"
+                  }
+                },
+                [
+                  _c(
+                    "v-card",
+                    [
+                      _c(
+                        "v-card-title",
+                        {
+                          staticClass: "headline white--text",
+                          attrs: { "primary-title": "" }
+                        },
+                        [
+                          _c("i", {
+                            staticClass:
+                              "mdi mdi-checkbox-marked-circle-outline mr-2"
+                          }),
+                          _vm._v(" Tutup Penerimaan Beasiswa\n        ")
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-card-text",
+                        { staticClass: "white--text text-center mt-2" },
+                        [
+                          _c("strong", { staticClass: "d-block" }, [
+                            _vm._v(_vm._s(this.selectedBeasiswa.nama))
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "small",
+                            [
+                              _vm._v(
+                                "\n                Kuota penerima beasiswa : " +
+                                  _vm._s(
+                                    Object.keys(this.selectedBeasiswa.lulus)
+                                      .length
+                                  ) +
+                                  " / " +
+                                  _vm._s(this.selectedBeasiswa.quota) +
+                                  " Orang\n          "
+                              ),
+                              Object.keys(this.selectedBeasiswa.lulus).length ==
+                              this.selectedBeasiswa.quota
+                                ? _c("v-badge", {
+                                    attrs: { inline: "", content: " Terpenuhi" }
+                                  })
+                                : _vm._e(),
+                              _vm._v(" "),
+                              Object.keys(this.selectedBeasiswa.lulus).length <
+                              this.selectedBeasiswa.quota
+                                ? _c("v-badge", {
+                                    attrs: {
+                                      inline: "",
+                                      color: "red",
+                                      content: " Tdk Terpenuhi"
+                                    }
+                                  })
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-card-text",
+                        { staticClass: "white--text text-center pb-0" },
+                        [
+                          _vm._v(
+                            "\n          Apakah anda yakin akan menutup beasiswa ini ?\n        "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("v-divider"),
+                      _vm._v(" "),
+                      _c(
+                        "v-card-actions",
+                        [
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { color: "white", text: "" },
+                              on: {
+                                click: function($event) {
+                                  _vm.dialogDelete = false
+                                }
+                              }
+                            },
+                            [_vm._v("batal")]
+                          ),
+                          _vm._v(" "),
+                          _c("v-spacer"),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { color: "#2E7D32", dark: "" },
+                              on: {
+                                click: function($event) {
+                                  ;(_vm.dialogDelete = false),
+                                    _vm.deleteBeasiswa()
+                                }
+                              }
+                            },
+                            [_vm._v("\n            Selesai\n          ")]
                           )
                         ],
                         1
