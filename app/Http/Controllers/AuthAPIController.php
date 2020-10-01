@@ -11,7 +11,7 @@ class authAPIController extends Controller
         return response()->json(Auth::guard("mahasiswa")->user());
     }
     public function retrieveUserPetugas(){
-        return response()->json(Auth::user());
+        return response()->json(Auth::guard("mahasiswa")->user());
     }
 
     // Check user sebelumnya pernah login sebagai mhs atau petugas,

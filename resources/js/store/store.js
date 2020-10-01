@@ -114,6 +114,17 @@ export default new Vuex.Store({
 
       })
     },
+    getBeasiswaNoAuth({commit,dispatch,state}){
+      return new Promise((resolve,reject)=>{
+        commit("mutateTableLoading",true);
+        Axios.get(state.url+"/api/beasiswa/no-auth").then(response=>{
+          commit('mutateBeasiswa',response.data)
+          commit("mutateTableLoading",false);
+          resolve(response.data)
+        })
+        
+      });
+    },
     getBeasiswaWithPermohonan({commit,dispatch,state}){
       commit("mutateTableLoading",true);
       Axios.get(state.url+"/api/beasiswa/with-permohonan").then(response=>{

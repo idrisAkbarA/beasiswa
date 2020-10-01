@@ -14,7 +14,10 @@ import Vuetify from 'vuetify';
 import store from './store/store'
 import router from './router/router'
 import VueWindowSize from 'vue-window-size';
- 
+import vuescroll from 'vuescroll';
+import moment from './moment.js';
+Vue.use(moment);
+Vue.use(vuescroll);
 Vue.use(VueWindowSize);
 Vue.use(Vuex)
 Vue.use(Vuetify);
