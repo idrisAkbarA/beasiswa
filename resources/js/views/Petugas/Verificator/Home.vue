@@ -8,7 +8,7 @@
     style="overflow-y: auto"
   >
     <v-card-text>
-      <v-subheader>Permohonan Beasiswa {{petugas.nama_lengkap}}</v-subheader>
+      <v-subheader><strong class="text-dark">Permohonan Beasiswa {{petugas.fakultas.nama}}</strong></v-subheader>
       <v-row class="pl-8 pr-8">
         <v-text-field
           prepend-inner-icon="mdi-magnify"
