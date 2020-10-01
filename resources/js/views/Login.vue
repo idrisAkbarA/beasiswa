@@ -75,6 +75,7 @@ export default {
             password: this.pass
           })
           .then(response => {
+            window.localStorage.setItem("user", response.data.role);
             console.log(response.data);
             this.mutateNim(this.nim);
             if (response.data.status == "Authenticated") {

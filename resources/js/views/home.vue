@@ -1,34 +1,15 @@
 <template>
-  <v-app id="inspire">
-    <v-main class="bg-pattern">
-      <v-container
-        class="fill-height"
-        fluid
-      >
-        <v-row
-          align="center"
-          justify="center"
-        >
-          <v-col
-            cols="12"
-            sm="1"
-            md="1"
-          >
-            <v-progress-circular
-              style="margin:auto"
-              :size="50"
-              color="amber"
-              indeterminate
-            ></v-progress-circular>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-main>
-  </v-app>
+  <component :is="component"></component>
 </template>
 
 <script>
+
+import Loading from './Loading'
+import FrontPage from './FrontPage'
 export default {
+  components:{
+    Loading,FrontPage
+  },
   created() {
     if (!window.localStorage.getItem("user")) {
       this.$router.push("login");
@@ -58,10 +39,18 @@ export default {
             })
             .catch(error => {
               console.log(error.response.status);
-              this.$router.push(login_url);
+              // this.$router.push(login_url);
+              this.isAuthenticated = false
+              this.component = "FrontPage"
             });
         });
     });
-  }
+  },
+  data() {
+    return {
+      component:"Loading",
+      isAuthenticated:null,
+    }
+  },
 };
 </script>
