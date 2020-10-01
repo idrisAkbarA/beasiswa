@@ -16,10 +16,6 @@ class User extends Authenticatable
      * @var array
      */
     protected $guard = 'mahasiswa';
-    public function permohonanBeasiswa()
-    {
-        return $this->hasMany('App\PemohonMahasiswa');
-    }
 
     protected $fillable = [
         'nama', 'nim', 'email', 'hp', 'password', 'semester', 'ipk', 'tmpt_lahir', 'tgl_lahir'

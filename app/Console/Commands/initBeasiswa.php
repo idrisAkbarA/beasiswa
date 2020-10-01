@@ -37,13 +37,13 @@ class initBeasiswa extends Command
      * @return int
      */
     public function handle()
-    {   
+    {
         $faker = Faker::create("id_ID");
-        for ($i=0; $i < 10 ; $i++) { 
+        for ($i=0; $i < 10 ; $i++) {
             $beasiswa = new Beasiswa;
             $beasiswa->nama = $faker->text($maxNbChars = 10);
             $beasiswa->deskripsi = $faker->sentence;
-            $beasiswa->instansi_id = "1";
+            $beasiswa->instansi_id = random_int(1, 10);
             $beasiswa->is_interview = $faker->boolean($chanceOfGettingTrue = 50);
             $beasiswa->is_survey = $faker->boolean($chanceOfGettingTrue = 50);
             $beasiswa->quota = $faker->randomDigit;

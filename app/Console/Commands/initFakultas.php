@@ -3,22 +3,24 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Fakultas;
+use Faker\Factory as Faker;
 
-class initAll extends Command
+class initFakultas extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'initAll';
+    protected $signature = 'initFakultas';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'initialize all test data';
+    protected $description = 'Command description';
 
     /**
      * Create a new command instance.
@@ -37,11 +39,14 @@ class initAll extends Command
      */
     public function handle()
     {
-        $this->call("migrate:fresh");
-        $this->call("initFakultas");
-        $this->call("initAdmin");
-        $this->call("initInstansi");
-        $this->call("initBeasiswa");
-        $this->call("initMhs");
+        $faker = Faker::create("id_ID");
+        for ($i=0; $i < 8 ; $i++) {
+            Fakultas::create([
+                'nama' => $faker->text(20),
+                'singkatan' => $faker->text(5)
+            ]);
+        }
+
+        echo "\nFakultas Created\n";
     }
 }

@@ -11,6 +11,7 @@ export default new Vuex.Store({
     name:"idris",
     akunPetugas:[],
     nim:"",
+    fakultas: [],
     cekBerkas:[],
     cekInterview:[],
     cekSurvey:[],
@@ -55,6 +56,9 @@ export default new Vuex.Store({
     },
     mutateInstansi(state,data){
       state.instansi = data;
+    },
+    mutateFakultas(state,data){
+      state.fakultas = data;
     },
     toggleOpenBeasiswa(state,data){
       state.isOpenBeasiswa = data;
@@ -217,6 +221,11 @@ export default new Vuex.Store({
       Axios.put(state.url+"/api/instansi/"+data.id,{name:data.name}).then(response=>{
         dispatch('getInstansi')
       })
+    },
+    getFakultas({commit,dispatch,state}){
+        Axios.get(state.url+"/api/fakultas").then(response=>{
+          commit('mutateFakultas',response.data)
+        })
     },
   },
   modules: {

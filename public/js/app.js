@@ -3254,12 +3254,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
+    this.getFakultas();
     this.getAkunPetugas();
   },
-  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["nim", "url", "isTableLoading", "akunPetugas", "isOpenBeasiswa"])), {}, {
+  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["nim", "url", "isTableLoading", "akunPetugas", "isOpenBeasiswa", "fakultas"])), {}, {
     toggleAkunPetugas: {
       get: function get() {
         return this.isOpenBeasiswa;
@@ -3269,7 +3272,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     }
   }),
-  methods: _objectSpread(_objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(["toggleOpenBeasiswa"])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getAkunPetugas", "storeAkunPetugas", "editAkunPetugas"])), {}, {
+  methods: _objectSpread(_objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(["toggleOpenBeasiswa"])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getFakultas", "getAkunPetugas", "storeAkunPetugas", "editAkunPetugas"])), {}, {
     edit: function edit(item) {
       this.toggleEdit = true;
       this.editItem.name = item.name;
@@ -3310,26 +3313,36 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       editItem: {
         name: "",
+        nama_lengkap: "",
         role: "",
         password: ""
       },
       storeItem: {
         name: "",
+        nama_lengkap: "",
         role: "",
         password: ""
       },
       role: [{
         id: 1,
-        role: "Administrator"
+        role: "Administrator",
+        color: "red"
       }, {
         id: 2,
-        role: "Pewawancara"
+        role: "Pewawancara",
+        color: "green"
       }, {
         id: 3,
-        role: "Surveyor"
+        role: "Surveyor",
+        color: "blue"
       }, {
         id: 4,
-        role: "Petinggi"
+        role: "Petinggi",
+        color: "orange"
+      }, {
+        id: 5,
+        role: "Verificator",
+        color: "cyan"
       }],
       toggleEdit: false,
       sheetMsg: "",
@@ -47728,45 +47741,17 @@ var render = function() {
                 fn: function(ref) {
                   var item = ref.item
                   return [
-                    item.role == 1
-                      ? _c("v-chip", { attrs: { color: "red" } }, [
-                          _vm._v(
-                            "\n          " +
-                              _vm._s(_vm.convertRole(item.role)) +
-                              "\n        "
-                          )
-                        ])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    item.role == 2
-                      ? _c("v-chip", { attrs: { color: "green" } }, [
-                          _vm._v(
-                            "\n          " +
-                              _vm._s(_vm.convertRole(item.role)) +
-                              "\n        "
-                          )
-                        ])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    item.role == 3
-                      ? _c("v-chip", { attrs: { color: "blue" } }, [
-                          _vm._v(
-                            "\n          " +
-                              _vm._s(_vm.convertRole(item.role)) +
-                              "\n        "
-                          )
-                        ])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    item.role == 4
-                      ? _c("v-chip", { attrs: { color: "orange" } }, [
-                          _vm._v(
-                            "\n          " +
-                              _vm._s(_vm.convertRole(item.role)) +
-                              "\n        "
-                          )
-                        ])
-                      : _vm._e()
+                    _c(
+                      "v-chip",
+                      { attrs: { color: _vm.role[item.role - 1].color } },
+                      [
+                        _vm._v(
+                          "\n          " +
+                            _vm._s(_vm.role[item.role - 1].role) +
+                            "\n        "
+                        )
+                      ]
+                    )
                   ]
                 }
               },
@@ -47989,13 +47974,13 @@ var render = function() {
                         { attrs: { cols: "4", xs: "12" } },
                         [
                           _c("v-text-field", {
-                            attrs: { color: "white", label: "Username" },
+                            attrs: { color: "white", label: "Nama Lengkap" },
                             model: {
-                              value: _vm.storeItem.name,
+                              value: _vm.storeItem.nama_lengkap,
                               callback: function($$v) {
-                                _vm.$set(_vm.storeItem, "name", $$v)
+                                _vm.$set(_vm.storeItem, "nama_lengkap", $$v)
                               },
-                              expression: "storeItem.name"
+                              expression: "storeItem.nama_lengkap"
                             }
                           })
                         ],
@@ -48006,20 +47991,14 @@ var render = function() {
                         "v-col",
                         { attrs: { cols: "4", xs: "12" } },
                         [
-                          _c("v-select", {
-                            attrs: {
-                              label: "Role",
-                              color: "white",
-                              items: _vm.role,
-                              "item-text": "role",
-                              "item-value": "id"
-                            },
+                          _c("v-text-field", {
+                            attrs: { color: "white", label: "Username" },
                             model: {
-                              value: _vm.storeItem.role,
+                              value: _vm.storeItem.name,
                               callback: function($$v) {
-                                _vm.$set(_vm.storeItem, "role", $$v)
+                                _vm.$set(_vm.storeItem, "name", $$v)
                               },
-                              expression: "storeItem.role"
+                              expression: "storeItem.name"
                             }
                           })
                         ],
@@ -48046,7 +48025,59 @@ var render = function() {
                           })
                         ],
                         1
-                      )
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        {
+                          staticClass: "mx-auto",
+                          attrs: { cols: "4", xs: "12" }
+                        },
+                        [
+                          _c("v-select", {
+                            attrs: {
+                              label: "Role",
+                              color: "white",
+                              items: _vm.role,
+                              "item-text": "role",
+                              "item-value": "id"
+                            },
+                            model: {
+                              value: _vm.storeItem.role,
+                              callback: function($$v) {
+                                _vm.$set(_vm.storeItem, "role", $$v)
+                              },
+                              expression: "storeItem.role"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _vm.storeItem.role == 5
+                        ? _c(
+                            "v-col",
+                            [
+                              _c("v-select", {
+                                attrs: {
+                                  label: "Fakultas",
+                                  color: "white",
+                                  items: _vm.fakultas,
+                                  "item-text": "nama",
+                                  "item-value": "id"
+                                },
+                                model: {
+                                  value: _vm.storeItem.fakultas_id,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.storeItem, "fakultas_id", $$v)
+                                  },
+                                  expression: "storeItem.fakultas_id"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        : _vm._e()
                     ],
                     1
                   )
@@ -118812,6 +118843,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     name: "idris",
     akunPetugas: [],
     nim: "",
+    fakultas: [],
     cekBerkas: [],
     cekInterview: [],
     cekSurvey: [],
@@ -118856,6 +118888,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     },
     mutateInstansi: function mutateInstansi(state, data) {
       state.instansi = data;
+    },
+    mutateFakultas: function mutateFakultas(state, data) {
+      state.fakultas = data;
     },
     toggleOpenBeasiswa: function toggleOpenBeasiswa(state, data) {
       state.isOpenBeasiswa = data;
@@ -119069,6 +119104,14 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         name: data.name
       }).then(function (response) {
         dispatch('getInstansi');
+      });
+    },
+    getFakultas: function getFakultas(_ref18) {
+      var commit = _ref18.commit,
+          dispatch = _ref18.dispatch,
+          state = _ref18.state;
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(state.url + "/api/fakultas").then(function (response) {
+        commit('mutateFakultas', response.data);
       });
     }
   },

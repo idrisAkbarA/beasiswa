@@ -55,9 +55,9 @@ Route::middleware('auth:petugas,mahasiswa')->get('/user/{id}','UserController@ge
 Route::middleware('auth:petugas')->delete('/user/{id}','UserController@delete');
 Route::middleware('auth:petugas')->post('/user/import','UserController@import');
 
-Route::middleware('auth:petugas')->delete('/beasiswa/{id}','BeasiswaController@delete');
-Route::get('/pemohon/count-beasiswa', 'BeasiswaController@countBeasiswa');
+Route::get('/fakultas', 'FakultasController@getAll');
 
+Route::get('/pemohon/count-beasiswa', 'BeasiswaController@countBeasiswa');
 Route::get('/pemohon', 'PemohonBeasiswaController@getAll');
 Route::post('/pemohon/file', 'PemohonBeasiswaController@storeFile');
 Route::post('/pemohon', 'PemohonBeasiswaController@store');

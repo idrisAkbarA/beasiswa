@@ -16,9 +16,11 @@ class CreatePemohonBeasiswasTable extends Migration
         Schema::create('pemohon_beasiswas', function (Blueprint $table) {
             $table->id();
             $table->string('mhs_id');
-            $table->string('beasiswa_id');
-            $table->string('interviewer_id')->nullable();
-            $table->string('surveyor_id')->nullable();
+            $table->integer('beasiswa_id');
+            $table->integer('verificator_id')->nullable();
+            $table->integer('interviewer_id')->nullable();
+            $table->integer('surveyor_id')->nullable();
+            $table->integer('selector_id')->nullable();
             $table->boolean('is_berkas_passed')->nullable();
             $table->boolean('is_interview_passed')->nullable();
             $table->boolean('is_survey_passed')->nullable();
