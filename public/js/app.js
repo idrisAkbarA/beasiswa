@@ -5931,54 +5931,69 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
-    this.getCekInterview();
+    this.getBeasiswaWithPermohonan();
   },
-  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getCekInterview"])), {}, {
-    lulusButton: function lulusButton(item) {
-      this.dialog = true;
-      this.id = item.id;
-      this.bool = 1;
-      this.msg = "Apakah anda yakin bahwa pemohon <strong>lulus</strong> tahap wawancara?";
-    },
-    tidakLulusButton: function tidakLulusButton(item) {
-      this.dialog = true;
-      this.id = item.id;
-      this.bool = 0;
-      this.msg = "Apakah anda yakin bahwa pemohon <strong>tidak lulus</strong> tahap wawancara?";
-    },
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["getBeasiswaWithPermohonan"])), {}, {
     link: function link(url) {
       var a = this.url + "/" + url;
       var link = a.replace(" ", "%20");
       console.log(link);
       location = link;
     },
-    setInterview: function setInterview() {
+    setInterview: function setInterview(bool) {
       var _this = this;
 
       this.btnLoading = true;
       axios.put("".concat(this.url, "/api/pemohon/set-interview"), {
-        bool: this.bool,
-        id: this.id
+        id: this.selectedPermohonan.id,
+        bool: bool
       }).then(function (response) {
-        _this.getCekInterview();
+        _this.getBeasiswaWithPermohonan();
 
         console.log(response.data);
-        _this.dialog = false;
+        _this.sheetDetail = false;
+        _this.dialogDelete = false;
         _this.btnLoading = false;
       });
     }
   }),
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["cekInterview", "url"])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["beasiswa", "url"])),
   data: function data() {
     return {
+      selectedPermohonan: {},
+      dialogDelete: {
+        show: false
+      },
       btnLoading: false,
-      dialog: false,
-      msg: "",
-      bool: 0,
-      id: 0,
+      sheetDetail: false,
       headers: [{
         text: "Nama Instansi",
         align: "start",
@@ -13314,7 +13329,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.area[data-v-7caf252a] {\n  width: 70%;\n  margin: auto;\n  position: absolute;\n  height: 100%;\n  background: white;\n}\n", ""]);
+exports.push([module.i, "\na[data-v-7caf252a] {\n  text-decoration: none !important;\n}\n.area[data-v-7caf252a] {\n  width: 70%;\n  margin: auto;\n  position: absolute;\n  height: 100%;\n  background: white;\n}\n", ""]);
 
 // exports
 
@@ -52696,320 +52711,176 @@ var render = function() {
           _c(
             "v-row",
             [
-              _vm.cekInterview == []
-                ? _c("p", [_vm._v("Tidak ada peserta wawancara")])
-                : _vm._e(),
-              _vm._v(" "),
               _c(
-                "v-expansion-panels",
-                { attrs: { hover: "", inset: "" } },
-                _vm._l(_vm.cekInterview, function(item, i) {
-                  return _c(
-                    "v-expansion-panel",
-                    { key: i },
-                    [
-                      _c(
-                        "v-expansion-panel-header",
+                "v-card-text",
+                [
+                  !_vm.beasiswa
+                    ? _c("p", { staticClass: "text-center" }, [
+                        _vm._v("Tidak ada peserta interview")
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c(
+                    "v-expansion-panels",
+                    { attrs: { hover: "", inset: "" } },
+                    _vm._l(_vm.beasiswa, function(item, i) {
+                      return _c(
+                        "v-expansion-panel",
+                        { key: i },
                         [
                           _c(
-                            "v-row",
-                            {
-                              attrs: {
-                                "no-gutters": "",
-                                justify: "space-between"
-                              }
-                            },
+                            "v-expansion-panel-header",
                             [
-                              _c("v-col", { attrs: { cols: "4" } }, [
-                                _vm._v(_vm._s(item.nama))
+                              _c(
+                                "v-row",
+                                {
+                                  attrs: {
+                                    "no-gutters": "",
+                                    justify: "space-between"
+                                  }
+                                },
+                                [
+                                  _c("v-col", { attrs: { cols: "4" } }, [
+                                    _c("strong", [_vm._v(_vm._s(item.nama))])
+                                  ])
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-expansion-panel-content",
+                            [
+                              _c("span", { staticClass: "text-muted" }, [
+                                _vm._v(_vm._s(item.deskripsi))
                               ]),
                               _vm._v(" "),
-                              _c("v-col", { attrs: { cols: "4" } }, [
-                                _vm._v(_vm._s(item.nama_beasiswa))
-                              ])
+                              _c(
+                                "v-row",
+                                [_c("v-divider", { staticClass: "mb-0" })],
+                                1
+                              ),
+                              _vm._v(" "),
+                              !item.interview.length
+                                ? _c(
+                                    "p",
+                                    {
+                                      staticClass: "text-center text-muted mt-2"
+                                    },
+                                    [_vm._v("Tidak ada peserta interview")]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              item.interview.length > 0
+                                ? _c(
+                                    "v-list",
+                                    [
+                                      _c("v-subheader", [
+                                        _vm._v(
+                                          "Permohonan Masuk (" +
+                                            _vm._s(item.interview.length) +
+                                            ")"
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-list-item-group",
+                                        {
+                                          staticClass: "bg-white",
+                                          attrs: { color: "primary" }
+                                        },
+                                        [
+                                          _vm._l(item.interview, function(
+                                            permohonan,
+                                            index
+                                          ) {
+                                            return [
+                                              _c(
+                                                "v-list-item",
+                                                {
+                                                  key: permohonan.nama,
+                                                  on: {
+                                                    click: function($event) {
+                                                      ;(_vm.sheetDetail = true),
+                                                        (_vm.selectedPermohonan = permohonan)
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  [
+                                                    _c(
+                                                      "v-list-item-content",
+                                                      [
+                                                        _c(
+                                                          "v-list-item-title",
+                                                          {
+                                                            domProps: {
+                                                              textContent: _vm._s(
+                                                                permohonan
+                                                                  .mahasiswa
+                                                                  .nama
+                                                              )
+                                                            }
+                                                          }
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "v-list-item-subtitle",
+                                                          {
+                                                            domProps: {
+                                                              textContent: _vm._s(
+                                                                "Teknik Informatika" +
+                                                                  " (" +
+                                                                  "Fakultas Sains dan Teknologi" +
+                                                                  ")"
+                                                              )
+                                                            }
+                                                          }
+                                                        )
+                                                      ],
+                                                      1
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "v-list-item-action",
+                                                      [
+                                                        _c("v-icon", [
+                                                          _vm._v(
+                                                            "mdi-chevron-right"
+                                                          )
+                                                        ])
+                                                      ],
+                                                      1
+                                                    )
+                                                  ]
+                                                ],
+                                                2
+                                              ),
+                                              _vm._v(" "),
+                                              index < item.interview.length - 1
+                                                ? _c("v-divider", {
+                                                    key: index,
+                                                    staticClass: "my-0"
+                                                  })
+                                                : _vm._e()
+                                            ]
+                                          })
+                                        ],
+                                        2
+                                      )
+                                    ],
+                                    1
+                                  )
+                                : _vm._e()
                             ],
                             1
                           )
                         ],
                         1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-expansion-panel-content",
-                        [
-                          _c("p", [_vm._v("Rincian")]),
-                          _vm._v(" "),
-                          _c("table", [
-                            _c("tr", [
-                              _c("td", [_vm._v("Nama")]),
-                              _vm._v(" "),
-                              _c("td", [_vm._v(":")]),
-                              _vm._v(" "),
-                              _c("td", [_vm._v(_vm._s(item.nama))])
-                            ]),
-                            _vm._v(" "),
-                            _c("tr", [
-                              _c("td", [_vm._v("NIM")]),
-                              _vm._v(" "),
-                              _c("td", [_vm._v(":")]),
-                              _vm._v(" "),
-                              _c("td", [_vm._v(_vm._s(item.mhs_id))])
-                            ]),
-                            _vm._v(" "),
-                            _c("tr", [
-                              _c("td", [_vm._v("Beasiswa")]),
-                              _vm._v(" "),
-                              _c("td", [_vm._v(":")]),
-                              _vm._v(" "),
-                              _c("td", [_vm._v(_vm._s(item.nama_beasiswa))])
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("v-row", [_c("v-divider")], 1),
-                          _vm._v(" "),
-                          _c("p", [_vm._v("Berkas")]),
-                          _vm._v(" "),
-                          _vm._l(item.form, function(field, index) {
-                            return _c(
-                              "v-row",
-                              {
-                                key: index,
-                                staticClass: "ma-5",
-                                attrs: { "no-gutters": "" }
-                              },
-                              [
-                                _c(
-                                  "v-col",
-                                  {
-                                    staticStyle: {
-                                      "padding-bottom": "0 !important"
-                                    }
-                                  },
-                                  [
-                                    _c("p", [_vm._v(_vm._s(field.pertanyaan))]),
-                                    _vm._v(" "),
-                                    field.type == "Pilihan"
-                                      ? _c("p", [
-                                          _c(
-                                            "span",
-                                            [
-                                              _c("v-icon", [
-                                                _vm._v("mdi-text-short")
-                                              ]),
-                                              _vm._v(
-                                                _vm._s(field.value) +
-                                                  "\n                  "
-                                              )
-                                            ],
-                                            1
-                                          )
-                                        ])
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    field.type == "Jawaban Pendek"
-                                      ? _c("p", [
-                                          _c(
-                                            "span",
-                                            [
-                                              _c("v-icon", [
-                                                _vm._v("mdi-text-short")
-                                              ]),
-                                              _vm._v(
-                                                _vm._s(field.value) +
-                                                  "\n                  "
-                                              )
-                                            ],
-                                            1
-                                          )
-                                        ])
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    field.type == "Jawaban Angka"
-                                      ? _c("p", [
-                                          _c(
-                                            "span",
-                                            [
-                                              _c("v-icon", [
-                                                _vm._v("mdi-text-short")
-                                              ]),
-                                              _vm._v(
-                                                _vm._s(field.value) +
-                                                  "\n                  "
-                                              )
-                                            ],
-                                            1
-                                          )
-                                        ])
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    field.type == "Tanggal"
-                                      ? _c("p", [
-                                          _c(
-                                            "span",
-                                            [
-                                              _c("v-icon", [
-                                                _vm._v("mdi-text-short")
-                                              ]),
-                                              _vm._v(
-                                                _vm._s(field.value) +
-                                                  "\n                  "
-                                              )
-                                            ],
-                                            1
-                                          )
-                                        ])
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    field.type == "Upload File"
-                                      ? _c(
-                                          "v-btn",
-                                          {
-                                            attrs: { small: "" },
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.link(field.value)
-                                              }
-                                            }
-                                          },
-                                          [_vm._v("lihat file")]
-                                        )
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    field.type == "Paragraf"
-                                      ? _c("p", [
-                                          _c(
-                                            "span",
-                                            [
-                                              _c("v-icon", [
-                                                _vm._v("mdi-text-short")
-                                              ]),
-                                              _vm._v(
-                                                _vm._s(field.value) +
-                                                  "\n                  "
-                                              )
-                                            ],
-                                            1
-                                          )
-                                        ])
-                                      : _vm._e()
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-col",
-                                  { attrs: { cols: "12" } },
-                                  [_c("v-divider")],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c("v-col", { attrs: { cols: "12" } })
-                              ],
-                              1
-                            )
-                          }),
-                          _vm._v(" "),
-                          _c(
-                            "v-row",
-                            { attrs: { justify: "end" } },
-                            [
-                              _c(
-                                "v-btn",
-                                {
-                                  attrs: { text: "" },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.tidakLulusButton(item)
-                                    }
-                                  }
-                                },
-                                [_vm._v("Tidak Lulus")]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-btn",
-                                {
-                                  attrs: { dark: "", color: "#2E7D32" },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.lulusButton(item)
-                                    }
-                                  }
-                                },
-                                [_vm._v("Lulus")]
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        2
                       )
-                    ],
-                    1
-                  )
-                }),
-                1
-              )
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-dialog",
-        {
-          attrs: { width: "460", "overlay-color": "#69F0AE" },
-          model: {
-            value: _vm.dialog,
-            callback: function($$v) {
-              _vm.dialog = $$v
-            },
-            expression: "dialog"
-          }
-        },
-        [
-          _c(
-            "v-card",
-            [
-              _c("v-card-title", { staticClass: "mt-2" }, [
-                _c("span", { domProps: { innerHTML: _vm._s(_vm.msg) } }),
-                _vm._v(" "),
-                _c("p", { staticStyle: { "font-weight": "bold" } })
-              ]),
-              _vm._v(" "),
-              _c(
-                "v-card-actions",
-                [
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { text: "" },
-                      on: {
-                        click: function($event) {
-                          _vm.dialog = false
-                        }
-                      }
-                    },
-                    [_vm._v("\n          Batal\n        ")]
-                  ),
-                  _vm._v(" "),
-                  _c("v-spacer"),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    {
-                      staticClass: "green",
-                      attrs: { dark: "", loading: _vm.btnLoading },
-                      on: { click: _vm.setInterview }
-                    },
-                    [
-                      _c("v-icon", { attrs: { left: "" } }, [
-                        _vm._v("mdi-check")
-                      ]),
-                      _vm._v("\n          iya\n        ")
-                    ],
+                    }),
                     1
                   )
                 ],
@@ -53020,7 +52891,369 @@ var render = function() {
           )
         ],
         1
-      )
+      ),
+      _vm._v(" "),
+      _vm.sheetDetail
+        ? _c(
+            "v-bottom-sheet",
+            {
+              attrs: {
+                width: "60%",
+                inset: "",
+                scrollable: "",
+                "overlay-color": "#69F0AE"
+              },
+              model: {
+                value: _vm.sheetDetail,
+                callback: function($$v) {
+                  _vm.sheetDetail = $$v
+                },
+                expression: "sheetDetail"
+              }
+            },
+            [
+              _c(
+                "v-card",
+                [
+                  _c(
+                    "v-card-title",
+                    {
+                      staticClass: "headline white--text",
+                      attrs: { "primary-title": "" }
+                    },
+                    [
+                      _c("i", { staticClass: "mdi mdi-account mr-2" }),
+                      _vm._v(
+                        " " +
+                          _vm._s(_vm.selectedPermohonan.mahasiswa.nama) +
+                          "\n          "
+                      ),
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _c(
+                        "v-icon",
+                        {
+                          attrs: { color: "red" },
+                          on: {
+                            click: function($event) {
+                              _vm.sheetDetail = false
+                            }
+                          }
+                        },
+                        [_vm._v("mdi-close-box")]
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-text",
+                    { staticClass: "mt-2 white--text" },
+                    [
+                      _vm._v(
+                        "\n          Persyaratan Permohonan Beasiswa\n                        "
+                      ),
+                      _vm._l(JSON.parse(_vm.selectedPermohonan.form), function(
+                        field,
+                        index
+                      ) {
+                        return _c(
+                          "v-row",
+                          {
+                            key: index,
+                            staticClass: "ma-5",
+                            attrs: { "no-gutters": "" }
+                          },
+                          [
+                            _c(
+                              "v-col",
+                              {
+                                staticStyle: {
+                                  "padding-bottom": "0 !important"
+                                }
+                              },
+                              [
+                                _c("p", [_vm._v(_vm._s(field.pertanyaan))]),
+                                _vm._v(" "),
+                                field.type == "Pilihan"
+                                  ? _c("p", [
+                                      _c(
+                                        "span",
+                                        [
+                                          _c("v-icon", [
+                                            _vm._v("mdi-text-short")
+                                          ]),
+                                          _vm._v(
+                                            _vm._s(field.value) +
+                                              "\n                  "
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ])
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                field.type == "Jawaban Pendek"
+                                  ? _c("p", [
+                                      _c(
+                                        "span",
+                                        [
+                                          _c("v-icon", [
+                                            _vm._v("mdi-text-short")
+                                          ]),
+                                          _vm._v(
+                                            _vm._s(field.value) +
+                                              "\n                  "
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ])
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                field.type == "Jawaban Angka"
+                                  ? _c("p", [
+                                      _c(
+                                        "span",
+                                        [
+                                          _c("v-icon", [
+                                            _vm._v("mdi-text-short")
+                                          ]),
+                                          _vm._v(
+                                            _vm._s(field.value) +
+                                              "\n                  "
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ])
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                field.type == "Tanggal"
+                                  ? _c("p", [
+                                      _c(
+                                        "span",
+                                        [
+                                          _c("v-icon", [
+                                            _vm._v("mdi-text-short")
+                                          ]),
+                                          _vm._v(
+                                            _vm._s(field.value) +
+                                              "\n                  "
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ])
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                field.type == "Upload File"
+                                  ? _c(
+                                      "v-btn",
+                                      {
+                                        attrs: { small: "" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.link(field.value)
+                                          }
+                                        }
+                                      },
+                                      [_vm._v("lihat file")]
+                                    )
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                field.type == "Paragraf"
+                                  ? _c("p", [
+                                      _c(
+                                        "span",
+                                        [
+                                          _c("v-icon", [
+                                            _vm._v("mdi-text-short")
+                                          ]),
+                                          _vm._v(
+                                            _vm._s(field.value) +
+                                              "\n                  "
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ])
+                                  : _vm._e()
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-col",
+                              { attrs: { cols: "12" } },
+                              [_c("v-divider")],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c("v-col", { attrs: { cols: "12" } })
+                          ],
+                          1
+                        )
+                      })
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _c("v-divider"),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-actions",
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { light: "", color: "grey" },
+                          on: {
+                            click: function($event) {
+                              _vm.dialogDelete = { show: true, value: false }
+                            }
+                          }
+                        },
+                        [
+                          _c("v-icon", [_vm._v("close")]),
+                          _vm._v(" Tidak Lulus")
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "#2E7D32", dark: "" },
+                          on: {
+                            click: function($event) {
+                              _vm.dialogDelete = { show: true, value: true }
+                            }
+                          }
+                        },
+                        [
+                          _c("v-icon", [_vm._v("check")]),
+                          _vm._v(" Lulus\n          ")
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.dialogDelete.show
+        ? _c(
+            "div",
+            { staticClass: "text-center" },
+            [
+              _c(
+                "v-dialog",
+                {
+                  attrs: { width: "400", "overlay-color": "#2E7D32" },
+                  model: {
+                    value: _vm.dialogDelete.show,
+                    callback: function($$v) {
+                      _vm.$set(_vm.dialogDelete, "show", $$v)
+                    },
+                    expression: "dialogDelete.show"
+                  }
+                },
+                [
+                  _c(
+                    "v-card",
+                    [
+                      _c(
+                        "v-card-title",
+                        {
+                          staticClass: "headline white--text",
+                          attrs: { "primary-title": "" }
+                        },
+                        [
+                          _c("i", {
+                            staticClass:
+                              "mdi mdi-checkbox-marked-circle-outline mr-2"
+                          }),
+                          _vm._v(" Kelulusan Interview\n        ")
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-card-text",
+                        { staticClass: "white--text text-center mt-2 pb-0" },
+                        [
+                          _c("strong", { staticClass: "d-block" }, [
+                            _vm._v(
+                              _vm._s(this.selectedPermohonan.mahasiswa.nama)
+                            )
+                          ]),
+                          _vm._v(" akan dinyatakan "),
+                          _c("strong", [
+                            _vm._v(
+                              _vm._s(
+                                _vm.dialogDelete.value ? "Lulus" : "Tidak Lulus"
+                              )
+                            )
+                          ]),
+                          _vm._v(" interview ?\n        ")
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("v-divider"),
+                      _vm._v(" "),
+                      _c(
+                        "v-card-actions",
+                        [
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { color: "white", text: "" },
+                              on: {
+                                click: function($event) {
+                                  _vm.dialogDelete = false
+                                }
+                              }
+                            },
+                            [_vm._v("Batal")]
+                          ),
+                          _vm._v(" "),
+                          _c("v-spacer"),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { color: "#2E7D32", dark: "" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.setInterview(
+                                    _vm.dialogDelete.value
+                                  )
+                                }
+                              }
+                            },
+                            [_vm._v("\n            Ya\n          ")]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e()
     ],
     1
   )
