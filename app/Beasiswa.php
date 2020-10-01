@@ -12,7 +12,7 @@ class Beasiswa extends Model
     use SoftDeletes;
 
     protected $hidden = [
-        'pemohon'
+        'permohonan'
     ];
     protected $appends = [
         'berkas',
@@ -24,14 +24,16 @@ class Beasiswa extends Model
 
     public function getBerkasAttribute()
     {
-        return $this->pemohon
-            ->whereNull('is_berkas_passed');
+        $petugas = Auth::guard('petugas')->user();
+        return $this->permohonan
+            ->whereNull('is_berkas_passed')
+            ->where('mahasiswa.fakultas.id', $petugas->fakultas_id);
     }
 
     public function getInterviewAttribute()
     {
         if ($this->is_interview){
-            return $this->pemohon
+            return $this->permohonan
                 ->where('is_berkas_passed', 1)
                 ->whereNull('is_interview_passed');
         }
@@ -41,7 +43,7 @@ class Beasiswa extends Model
     public function getSurveyAttribute()
     {
         if ($this->is_survey){
-            return $this->pemohon
+            return $this->permohonan
                 ->where('is_berkas_passed', 1)
                 ->when($this->is_interview == 1, function ($q) {
                     return $q->where('is_interview_passed', 1);
@@ -53,7 +55,7 @@ class Beasiswa extends Model
 
     public function getSelectionAttribute()
     {
-        return $this->pemohon
+        return $this->permohonan
             ->where('is_berkas_passed', 1)
             ->when($this->is_interview == 1, function ($q) {
                 return $q->where('is_interview_passed', 1);
@@ -66,7 +68,7 @@ class Beasiswa extends Model
 
     public function getLulusAttribute()
     {
-        return $this->pemohon
+        return $this->permohonan
             ->where('is_berkas_passed', 1)
             ->when($this->is_interview == 1, function ($q) {
                 return $q->where('is_interview_passed', 1);
@@ -95,8 +97,8 @@ class Beasiswa extends Model
         return $this->belongsTo('App\Instansi');
     }
 
-    public function pemohon()
+    public function permohonan()
     {
-        return $this->hasMany('App\PemohonBeasiswa','beasiswa_id');
+        return $this->hasMany('App\PemohonBeasiswa','beasiswa_id')->with('mahasiswa');
     }
 }

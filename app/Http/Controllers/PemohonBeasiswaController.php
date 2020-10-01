@@ -33,7 +33,6 @@ class PemohonBeasiswaController extends Controller
                                     ->where("akhir_berkas",">=",Carbon::now())
                                     ->join("beasiswas","beasiswas.id","=","pemohon_beasiswas.beasiswa_id")
                                     ->join("users","users.nim","=","pemohon_beasiswas.mhs_id")
-                                    ->join("users","users.jurusan_id","=","jurusans.id")
                                     ->select(["pemohon_beasiswas.*","beasiswas.nama AS nama_beasiswa","beasiswas.akhir_berkas","users.nama"])
                                     ->get();
 
