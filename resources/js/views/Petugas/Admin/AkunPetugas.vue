@@ -29,9 +29,7 @@
           </v-icon>
         </template>
         <template v-slot:item.role="{ item }">
-          <v-chip
-            :color="role[item.role - 1].color"
-          >
+          <v-chip :color="role[item.role - 1].color">
             {{ role[item.role - 1].role }}
           </v-chip>
         </template>
@@ -51,7 +49,7 @@
         <v-card-title> <span>Edit Petugas</span>
           <v-spacer></v-spacer>
           <v-btn
-            @click="tidakLulusButton"
+            @click="toggleEdit = false"
             text
           >Batal</v-btn>
           <v-btn
@@ -118,13 +116,12 @@
         <v-card-title> <span>Tambah Petugas</span>
           <v-spacer></v-spacer>
           <v-btn
-            @click="tidakLulusButton"
+            @click="toggleAkunPetugas = false"
             text
           >Batal</v-btn>
           <v-btn
             color="#2E7D32"
             :loading="btnLoading"
-            v-model="openSheet"
             @click="store()"
           >Tambah Petugas</v-btn>
         </v-card-title>
@@ -179,7 +176,7 @@
               ></v-select>
             </v-col>
             <v-col v-if="storeItem.role == 5">
-                <v-select
+              <v-select
                 label="Fakultas"
                 color="white"
                 :items="fakultas"
@@ -235,7 +232,14 @@ export default {
     this.getAkunPetugas();
   },
   computed: {
-    ...mapState(["nim", "url", "isTableLoading", "akunPetugas", "isOpenBeasiswa", "fakultas"]),
+    ...mapState([
+      "nim",
+      "url",
+      "isTableLoading",
+      "akunPetugas",
+      "isOpenBeasiswa",
+      "fakultas"
+    ]),
     toggleAkunPetugas: {
       get: function() {
         return this.isOpenBeasiswa;
@@ -247,7 +251,12 @@ export default {
   },
   methods: {
     ...mapMutations(["toggleOpenBeasiswa"]),
-    ...mapActions(["getFakultas", "getAkunPetugas", "storeAkunPetugas", "editAkunPetugas"]),
+    ...mapActions([
+      "getFakultas",
+      "getAkunPetugas",
+      "storeAkunPetugas",
+      "editAkunPetugas"
+    ]),
     edit(item) {
       this.toggleEdit = true;
       this.editItem.name = item.name;
@@ -301,18 +310,13 @@ export default {
         { id: 2, role: "Pewawancara", color: "green" },
         { id: 3, role: "Surveyor", color: "blue" },
         { id: 4, role: "Petinggi", color: "orange" },
-        { id: 5, role: "Verificator", color: "cyan" },
+        { id: 5, role: "Verificator", color: "cyan" }
       ],
       toggleEdit: false,
-      sheetMsg: "",
-      lulusButton: false,
-      tidakLulusButton: false,
-      opensheet: false,
       dialog: false,
       msg: "",
       rincian: {},
       btnLoading: false,
-      openSheet: false,
       headers: [
         {
           text: "Username",

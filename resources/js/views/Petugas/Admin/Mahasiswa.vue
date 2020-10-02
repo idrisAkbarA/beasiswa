@@ -54,7 +54,6 @@
             <v-btn
               color="#2E7D32"
               :loading="btnLoading"
-              v-model="toggleMahasiswa"
               @click="save()"
             >Simpan</v-btn>
           </v-card-title>
