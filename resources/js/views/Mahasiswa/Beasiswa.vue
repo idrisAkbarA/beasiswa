@@ -14,19 +14,17 @@
       justify="start"
     >
       <v-col cols="4">
-        <v-card
-          ripple
+
+        <v-img
           class="ma-3 item"
-          :height="300"
-          :width="200"
+          :max-height="300"
+          :min-width="200"
+          gradient="to top right, rgba(58, 231, 87, 0.33), rgba(25,32,72,.7)"
+          :src="'https://picsum.photos/200/300?random'"
         >
-          <v-img
-            gradient="to top right, rgba(58, 231, 87, 0.33), rgba(25,32,72,.7)"
-            :src="'https://picsum.photos/200/300?random'"
-          >
-            <!-- <v-img :src="'https://picsum.photos/200/300?grayscale&blur=1&random='+index"> -->
-          </v-img>
-        </v-card>
+          <!-- <v-img :src="'https://picsum.photos/200/300?grayscale&blur=1&random='+index"> -->
+        </v-img>
+
       </v-col>
       <v-col>
         <v-row>
@@ -36,18 +34,20 @@
           <p>{{beasiswaSingle.deskripsi}}</p>
         </v-row>
         <v-row>
-          <p>Batas upload berkas <span v-if="beasiswaSingle.awal_berkas">{{beasiswaSingle.awal_berkas}} sampai </span> {{beasiswaSingle.akhir_berkas}} </p>
-        </v-row>
-        <v-row v-if="beasiswaSingle.is_interview">
-          <p>Waktu wawancara <span v-if="beasiswaSingle.awal_interview">{{beasiswaSingle.awal_interview}} sampai </span> {{beasiswaSingle.akhir_interview}} </p>
+          {{beasiswaSingle.deskripsi}}
+          <br><br>
+          Batas upload berkas <span v-if="beasiswaSingle.awal_berkas"><strong>{{parseDate(beasiswaSingle.awal_berkas)}}</strong> sampai </span> <strong> {{parseDate(beasiswaSingle.akhir_berkas)}}</strong>
+          <br>
+          <span v-if="beasiswaSingle.is_interview">Waktu wawancara <span v-if="beasiswaSingle.awal_interview"><strong>{{parseDate(beasiswaSingle.awal_interview)}} </strong>sampai </span> <strong>{{parseDate(beasiswaSingle.akhir_interview)}}</strong> </span>
+          <br>
+          <span v-if="beasiswaSingle.is_survey">Waktu survey <span v-if="beasiswaSingle.awal_survey"><strong>{{parseDate(beasiswaSingle.awal_interview)}}</strong> sampai </span> <strong>{{parseDate(beasiswaSingle.akhir_interview)}} </strong> </span>
         </v-row>
       </v-col>
     </v-row>
     <v-row>
       <v-sheet
         width="100%"
-        hight="100%"
-        class="pa-5"
+        class="pa-5 "
       >
         <h3>Form Pendaftaran</h3>
         <v-row
@@ -158,13 +158,16 @@ export default {
   },
   methods: {
     ...mapActions(["getBeasiswaSingle"]),
-
+    parseDate(date) {
+      return this.$moment(date, "YYYY-MM-DD").format("Do MMMM YYYY");
+    },
     getUserPermohonan() {
       axios.get(this.url + "/api/pemohon/cek-isHas").then(response => {
         console.log(response.data);
         response.data.forEach(element => {
           if (element.beasiswa_id == this.$route.params.id) {
-            this.msg="Anda telah mendaftar pada beasiswa ini sebelumnya, lihat status permohonan"
+            this.msg =
+              "Anda telah mendaftar pada beasiswa ini sebelumnya, lihat status permohonan";
             this.isAlreadyHas = true;
           }
         });
@@ -222,9 +225,9 @@ export default {
         })
         .then(response => {
           console.log(response.data);
-          this.msg="Permohonan beasiswa berhasil dikirim, lihat status permohonan beasiswa"
-          this.isAlreadyHas=true;
-          
+          this.msg =
+            "Permohonan beasiswa berhasil dikirim, lihat status permohonan beasiswa";
+          this.isAlreadyHas = true;
         })
         .catch(error => {
           console.log(error);

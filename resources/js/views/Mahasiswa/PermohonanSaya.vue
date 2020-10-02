@@ -1,80 +1,225 @@
 <template>
   <v-container>
-      <v-row justify="center" v-if="permohonans.length<1">
-          <h2>Tidak ada permohonan</h2>
-      </v-row>
-      <v-row v-for="(item,index) in permohonans" :key="index">
-          <v-card class="ma-5" :color="checkColor(item)">
-              <v-card-title>
-                  {{item.beasiswa.nama}}
-              </v-card-title>
-              <v-card-text>
-                  {{checkStatus(item)}}
-              </v-card-text>
-          </v-card>
-      </v-row>
+    <v-row
+      justify="center"
+      v-if="permohonans.length<1"
+    >
+      <h2>Tidak ada permohonan</h2>
+    </v-row>
+    <v-row
+      v-for="(item,index) in permohonans"
+      :key="index"
+    >
+      <v-card
+        class="ma-10"
+        :color="checkColor(item)"
+      >
+        <v-card-title>
+          {{item.beasiswa.nama}}
+        </v-card-title>
+        <v-card-subtitle>
+          Status: <strong>
+            {{checkStatus(item)}} </strong>
+        </v-card-subtitle>
+        <v-divider></v-divider>
+        <v-card-text>
+          <v-row>
+            <v-col cols="12">
+              <v-simple-table class="teal darken-4">
+                <template v-slot:default>
+                  <thead>
+                    <tr>
+                      <th class="text-left">
+                        Kegiatan
+                      </th>
+                      <th class="text-left">
+                        Jadwal
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Pengisian Berkas</td>
+                      <td><span v-if="item.beasiswa.awal_berkas"><strong>{{parseDate(item.beasiswa.awal_berkas)}}</strong> sampai </span> <strong> {{parseDate(item.beasiswa.akhir_berkas)}}</strong></td>
+                    </tr>
+                    <tr>
+                      <td>Wawancara</td>
+                      <td><span v-if="item.beasiswa.is_interview"><span v-if="item.beasiswa.awal_interview"><strong>{{parseDate(item.beasiswa.awal_interview)}} </strong>sampai </span> <strong>{{parseDate(item.beasiswa.akhir_interview)}}</strong> </span></td>
+                    </tr>
+                    <tr>
+                      <td>Survey</td>
+                      <td><span v-if="item.beasiswa.awal_survey"><strong>{{parseDate(item.beasiswa.awal_survey)}}</strong> sampai </span> <strong>{{parseDate(item.beasiswa.akhir_survey)}} </strong> </td>
+                    </tr>
+                  </tbody>
+                </template>
+              </v-simple-table>
+
+            </v-col>
+            <v-col cols="12">
+              <v-timeline dense>
+                <v-slide-x-reverse-transition
+                  group
+                  hide-on-leave
+                >
+                  <v-timeline-item
+                    v-for="(time,index) in item.timeline"
+                    :key="index"
+                    small
+                    fill-dot
+                    :icon="time.is_done? 'mdi-check' :'mdi-calendar-clock'"
+                    :color="time.is_done? 'green darken-2' :'grey darken-3'"
+                  >
+                    <v-row>
+                      <v-col cols="12" xl="4">{{parseDate(time.awal_tgl)  + " - " + parseDate(time.akhir_tgl) }}</v-col>
+                      <v-col cols="12" xl="8">
+                        <v-alert :class="time.is_done? 'green darken-2' :'grey darken-2'">
+                          {{time.msg}}
+                        </v-alert>
+                      </v-col>
+                    </v-row>
+
+                  </v-timeline-item>
+                </v-slide-x-reverse-transition>
+              </v-timeline>
+
+            </v-col>
+          </v-row>
+        </v-card-text>
+      </v-card>
+    </v-row>
   </v-container>
 </template>
 
 <script>
 import { mapState, mapActions } from "vuex";
 export default {
-    created(){
-        this.getUserPermohonan()
-    },
+  created() {
+    this.getUserPermohonan();
+  },
   methods: {
-      checkStatus(item){
-          if(item.is_berkas_passed==0){
-              return "Maaf permohonan anda didiskualifikasi"
-          }
-          if(item.is_interview_passed==0){
-              return "Maaf permohonan anda didiskualifikasi"
-          }
-          if(item.is_survey_passed==0){
-              return "Maaf permohonan anda didiskualifikasi"
-          }
-          if(item.is_survey_passed==0){
-              return "Maaf permohonan anda didiskualifikasi"
-          }
-          if(item.is_selection_passed==1){
-              return "Selamat permohonan anda lulus"
-          }
-          return "Permohonan anda sedang di proses"
-      },
-      checkColor(item){
-          if(item.is_berkas_passed==0){
-              return "red"
-          }
-          if(item.is_interview_passed==0){
-              return "red"
-          }
-          if(item.is_survey_passed==0){
-              return "red"
-          }
-          if(item.is_survey_passed==0){
-              return "red"
-          }
-          if(item.is_selection_passed==1){
-              return "green"
-          }
-          return "brown"
-      },
+    checkStatus(item) {
+      if (item.is_selection_passed == 1) {
+        return "Selamat permohonan anda lulus.";
+      }
+      if (item.is_berkas_passed == 0) {
+        return "Maaf permohonan anda didiskualifikasi.";
+      }
+      if (item.is_interview_passed == 0) {
+        return "Maaf permohonan anda didiskualifikasi.";
+      }
+      if (item.is_survey_passed == 0) {
+        return "Maaf permohonan anda didiskualifikasi.";
+      }
+      if (item.is_survey_passed == 0) {
+        return "Maaf permohonan anda didiskualifikasi.";
+      }
+
+      if (item.is_survey_passed == 1) {
+        return "Menunggu seleksi pimpinan.";
+      }
+      if (item.is_interview_passed == 1) {
+        return "Team surveyor segera melakukan survey ke lokasi anda, harap menunggu.";
+      }
+      if (item.is_berkas_passed == 1) {
+        return "Segera lakukan wawancara pada tanggal yang ditentukan.";
+      }
+      return "Permohonan anda sedang di proses";
+    },
+    checkColor(item) {
+      if (item.is_berkas_passed == 0) {
+        return "red";
+      }
+      if (item.is_interview_passed == 0) {
+        return "red";
+      }
+      if (item.is_survey_passed == 0) {
+        return "red";
+      }
+      if (item.is_survey_passed == 0) {
+        return "red";
+      }
+      if (item.is_selection_passed == 1) {
+        return "green";
+      }
+      return "#2e7d323b";
+    },
+    parseDate(date) {
+      return this.$moment(date, "YYYY-MM-DD").format("Do MMMM YYYY");
+    },
     getUserPermohonan() {
       axios.get(this.url + "/api/pemohon/cek-isHas").then(response => {
         console.log(response.data);
-        this.permohonans = response.data
+        this.permohonans = response.data;
+        this.addTimeline(response.data);
       });
+    },
+    addTimeline(permohonans) {
+      var timeline = [];
+      permohonans.forEach((element, index) => {
+        timeline.push({
+          kegiatan: "Pengisian Berkas",
+          awal_tgl: element.beasiswa.awal_berkas,
+          akhir_tgl: element.beasiswa.akhir_berkas,
+          msg: "Pengisian berkas",
+          is_done: true
+        });
+        if (element.beasiswa.is_interview == 1) {
+          var is_done = false;
+          if (element.is_interview_passed == 1) {
+            is_done = true;
+          }
+          timeline.push({
+            kegiatan: "Wawancara",
+            awal_tgl: element.beasiswa.awal_interview,
+            akhir_tgl: element.beasiswa.akhir_interview,
+            is_done,
+            msg: `Lakukan wawancara pada tanggal 
+            ${
+              element.beasiswa.awal_interview
+                ? this.parseDate(element.awal_interview) + " sampai "
+                : ""
+            }  ${element.beasiswa.akhir_interview}`
+          });
+        }
+        if (element.beasiswa.is_survey == 1) {
+          var is_done = false;
+          if (element.is_interview_survey == 1) {
+            is_done = true;
+          }
+          timeline.push({
+            kegiatan: "Wawancara",
+            awal_tgl: element.beasiswa.awal_survey,
+            akhir_tgl: element.beasiswa.akhir_survey,
+            is_done,
+            msg: `Team survey akan melakukan survey pada  
+            ${
+              element.beasiswa.awal_survey
+                ? this.parseDate(element.awal_survey) + " sampai "
+                : ""
+            }  ${element.beasiswa.akhir_survey}, harap menunggu`
+          });
+        }
+        timeline.push({
+          kegiatan: "Seleksi pimpinan",
+          awal_tgl: null,
+          akhir_tgl: null,
+          msg: "Harap menunggu hasil seleksi pimpinan"
+        });
+        permohonans[index]["timeline"] = timeline;
+        timeline = [];
+      });
+      console.log(permohonans);
     }
   },
   computed: {
-      ...mapState(['url']),
+    ...mapState(["url"])
   },
   data() {
-      return {
-          permohonans:[],
-          color:""
-      }
-  },
+    return {
+      permohonans: [],
+      color: ""
+    };
+  }
 };
 </script>
 
