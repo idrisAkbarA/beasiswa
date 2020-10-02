@@ -40,7 +40,7 @@ class initBeasiswa extends Command
     public function handle()
     {
         $faker = Faker::create("id_ID");
-        for ($i=0; $i < 10 ; $i++) {
+        for ($i=0; $i < 15 ; $i++) {
 
             $date = CarbonImmutable::createFromTimeStamp($faker->dateTimeBetween('-7 days', '+7 days')->getTimestamp());
             
@@ -54,7 +54,7 @@ class initBeasiswa extends Command
             $akhir_survey= $awal_survey->add(2,'day');
 
             $beasiswa = new Beasiswa;
-            $beasiswa->nama = $faker->text($maxNbChars = 10);
+            $beasiswa->nama = $faker->text($maxNbChars = 20);
             $beasiswa->deskripsi = $faker->realText($maxNbChars = 200, $indexSize = 2);
             $beasiswa->instansi_id = random_int(1, 10);
             $beasiswa->is_interview = $faker->boolean($chanceOfGettingTrue = 50);
@@ -82,7 +82,7 @@ class initBeasiswa extends Command
             $akhir_survey= $awal_survey->add(2,'day');
 
             $beasiswa = new Beasiswa;
-            $beasiswa->nama = $faker->text($maxNbChars = 10);
+            $beasiswa->nama = $faker->text($maxNbChars = 20);
             $beasiswa->deskripsi = $faker->realText($maxNbChars = 200, $indexSize = 2);
             $beasiswa->instansi_id = random_int(1, 10);
             $beasiswa->is_interview = 1;
