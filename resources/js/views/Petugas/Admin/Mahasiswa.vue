@@ -54,9 +54,11 @@
             <v-btn
               color="#2E7D32"
               :loading="btnLoading"
+              v-model="toggleMahasiswa"
               @click="save()"
             >Simpan</v-btn>
           </v-card-title>
+
           <v-tabs
             v-model="tab"
             fixed-tabs
@@ -70,241 +72,245 @@
               Tambah massal Mahasiswa
             </v-tab>
           </v-tabs>
-          <v-tabs-items v-model="tab">
-            <v-tab-item value="single">
-              <v-card-text style="height: 900px;">
-                <v-row
-                  dense
-                  class="mx-1"
-                >
-                  <v-col>
-                    <v-text-field
-                      color="#C8E6C9"
-                      label="Nama"
-                      v-model="form.nama"
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-                <v-row
-                  dense
-                  class="mx-1"
-                >
-                  <v-col>
-                    <v-text-field
-                      color="#C8E6C9"
-                      label="Password"
-                      v-model="form.password"
-                      type="password"
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-                <v-row
-                  dense
-                  class="mx-1"
-                >
-                  <v-col>
-                    <v-text-field
-                      color="#C8E6C9"
-                      label="NIM"
-                      v-model="form.nim"
-                      type="number"
-                      min="0"
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-                <v-row
-                  dense
-                  class="mx-1"
-                >
-                  <v-col>
-                    <v-text-field
-                      color="#C8E6C9"
-                      label="Email"
-                      v-model="form.email"
-                      type="email"
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-                <v-row
-                  dense
-                  class="mx-1"
-                >
-                  <v-col>
-                    <v-text-field
-                      color="#C8E6C9"
-                      label="Tempat Lahir"
-                      v-model="form.tmpt_lahir"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="6">
-                    <v-menu
-                      v-model="tglLahir"
-                      :close-on-content-click="false"
-                      :nudge-right="40"
-                      transition="scale-transition"
-                      offset-y
-                      min-width="290px"
+          <v-card-text>
+            <vue-scroll :ops="ops">
+              <v-tabs-items v-model="tab">
+                <v-tab-item :value="'single'">
+                  <v-card-text>
+                    <v-row
+                      dense
+                      class="mx-1"
                     >
-                      <template v-slot:activator="{ on, attrs }">
+                      <v-col>
                         <v-text-field
-                          v-model="form.tgl_lahir"
-                          label="Tanggal Lahir"
-                          prepend-icon="event"
-                          readonly
-                          v-bind="attrs"
-                          v-on="on"
+                          color="#C8E6C9"
+                          label="Nama"
+                          v-model="form.nama"
                         ></v-text-field>
-                      </template>
-                      <v-date-picker
-                        v-model="form.tgl_lahir"
-                        locale="id-ID"
+                      </v-col>
+                    </v-row>
+                    <v-row
+                      dense
+                      class="mx-1"
+                    >
+                      <v-col>
+                        <v-text-field
+                          color="#C8E6C9"
+                          label="Password"
+                          v-model="form.password"
+                          type="password"
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
+                    <v-row
+                      dense
+                      class="mx-1"
+                    >
+                      <v-col>
+                        <v-text-field
+                          color="#C8E6C9"
+                          label="NIM"
+                          v-model="form.nim"
+                          type="number"
+                          min="0"
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
+                    <v-row
+                      dense
+                      class="mx-1"
+                    >
+                      <v-col>
+                        <v-text-field
+                          color="#C8E6C9"
+                          label="Email"
+                          v-model="form.email"
+                          type="email"
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
+                    <v-row
+                      dense
+                      class="mx-1"
+                    >
+                      <v-col>
+                        <v-text-field
+                          color="#C8E6C9"
+                          label="Tempat Lahir"
+                          v-model="form.tmpt_lahir"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="6">
+                        <v-menu
+                          v-model="tglLahir"
+                          :close-on-content-click="false"
+                          :nudge-right="40"
+                          transition="scale-transition"
+                          offset-y
+                          min-width="290px"
+                        >
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-text-field
+                              v-model="form.tgl_lahir"
+                              label="Tanggal Lahir"
+                              prepend-icon="event"
+                              readonly
+                              v-bind="attrs"
+                              v-on="on"
+                            ></v-text-field>
+                          </template>
+                          <v-date-picker
+                            v-model="form.tgl_lahir"
+                            locale="id-ID"
+                          >
+                          </v-date-picker>
+                        </v-menu>
+                      </v-col>
+                    </v-row>
+                    <v-row
+                      dense
+                      class="mx-1"
+                    >
+                      <v-col>
+                        <v-text-field
+                          color="#C8E6C9"
+                          label="No. Handphone"
+                          v-model="form.hp"
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
+                    <v-row
+                      dense
+                      class="mx-1"
+                    >
+                      <v-col>
+                        <v-text-field
+                          color="#C8E6C9"
+                          label="Semester"
+                          v-model="form.semester"
+                          type="number"
+                          min="0"
+                          max="14"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col>
+                        <v-text-field
+                          color="#C8E6C9"
+                          label="IPK"
+                          v-model="form.ipk"
+                          type="number"
+                          min="0"
+                          max="4"
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
+                  </v-card-text>
+                </v-tab-item>
+                <v-tab-item :value="'mass'">
+                  <v-card-text class="mx-3 my-2">
+                    <v-timeline
+                      align-top
+                      dense
+                    >
+                      <v-timeline-item
+                        color="blue"
+                        small
                       >
-                      </v-date-picker>
-                    </v-menu>
-                  </v-col>
-                </v-row>
-                <v-row
-                  dense
-                  class="mx-1"
-                >
-                  <v-col>
-                    <v-text-field
-                      color="#C8E6C9"
-                      label="No. Handphone"
-                      v-model="form.hp"
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-                <v-row
-                  dense
-                  class="mx-1"
-                >
-                  <v-col>
-                    <v-text-field
-                      color="#C8E6C9"
-                      label="Semester"
-                      v-model="form.semester"
-                      type="number"
-                      min="0"
-                      max="14"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col>
-                    <v-text-field
-                      color="#C8E6C9"
-                      label="IPK"
-                      v-model="form.ipk"
-                      type="number"
-                      min="0"
-                      max="4"
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-              </v-card-text>
-            </v-tab-item>
-            <v-tab-item value="mass">
-              <v-card-text class="mx-3 my-2">
-                <v-timeline
-                  align-top
-                  dense
-                >
-                  <v-timeline-item
-                    color="blue"
-                    small
-                  >
-                    <div>
-                      <div class="font-weight-normal">
-                        <strong>Download file .xlx</strong>
-                      </div>
-                      <div>
-                        <p>
-                          Download file template excel
-                        </p>
-                        <v-btn
-                          color="#2E7D32"
-                          :loading="btnLoading"
-                          @click="downloadTemplate()"
-                        ><i class="mdi mdi-download mr-2"></i> Download template excel kosong</v-btn>
-                      </div>
-                    </div>
-                  </v-timeline-item>
-                  <v-timeline-item
-                    color="blue"
-                    small
-                  >
-                    <div>
-                      <div class="font-weight-normal">
-                        <strong>Tambahkan info mahasiswa dalam template excel.</strong>
-                      </div>
-                      <div class="pr-5">
-                        <p>
-                          Kolom yang wajib diisi adalah nama, nim, jurusan_id, password, dan email.
-                        </p>
-                        <v-simple-table light>
-                          <thead>
-                            <tr>
-                              <th>A</th>
-                              <th>B</th>
-                              <th>C</th>
-                              <th>D</th>
-                              <th>E</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td><strong>Nama</strong></td>
-                              <td><strong>NIM</strong></td>
-                              <td><strong>Jurusan_id</strong></td>
-                              <td><strong>Password</strong></td>
-                              <td><strong>Email</strong></td>
-                            </tr>
-                            <tr>
-                              <td>Jhon</td>
-                              <td>11750115076</td>
-                              <td>1</td>
-                              <td>Password123</td>
-                              <td>11750115076@students.uin-suska.ac.id</td>
-                            </tr>
-                          </tbody>
-                        </v-simple-table>
-                      </div>
-                    </div>
-                  </v-timeline-item>
-                  <v-timeline-item
-                    color="blue"
-                    small
-                  >
-                    <div>
-                      <div class="font-weight-normal">
-                        <strong>Upload file .xlx</strong>
-                      </div>
-                      <div>
-                        <div v-if="file">
-                          <p class="text-muted">File terlampir</p>
-                          <p>{{file.name}} <i
-                              class="mdi mdi-close"
-                              @click="file=''"
-                            ></i></p>
+                        <div>
+                          <div class="font-weight-normal">
+                            <strong>Download file .xlx</strong>
+                          </div>
+                          <div>
+                            <p>
+                              Download file template excel
+                            </p>
+                            <v-btn
+                              color="#2E7D32"
+                              :loading="btnLoading"
+                              @click="downloadTemplate()"
+                            ><i class="mdi mdi-download mr-2"></i> Download template excel kosong</v-btn>
+                          </div>
                         </div>
-                        <v-btn
-                          color="#2E7D32"
-                          :loading="btnLoading"
-                          @click="uploadTemplate()"
-                        ><i class="mdi mdi-attachment mr-2"></i> Lampirkan file excel</v-btn>
-                        <v-file-input
-                          id="upload"
-                          v-model="file"
-                          hide-input
-                          truncate-length="1"
-                          class="d-none"
-                        ></v-file-input>
-                      </div>
-                    </div>
-                  </v-timeline-item>
-                </v-timeline>
-              </v-card-text>
-            </v-tab-item>
-          </v-tabs-items>
+                      </v-timeline-item>
+                      <v-timeline-item
+                        color="blue"
+                        small
+                      >
+                        <div>
+                          <div class="font-weight-normal">
+                            <strong>Tambahkan info mahasiswa dalam template excel.</strong>
+                          </div>
+                          <div class="pr-5">
+                            <p>
+                              Kolom yang wajib diisi adalah nama, nim, password, dan email.
+                            </p>
+                            <v-simple-table
+                              light
+                              dense
+                            >
+                              <thead>
+                                <tr>
+                                  <th>A</th>
+                                  <th>B</th>
+                                  <th>C</th>
+                                  <th>D</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td><strong>Nama</strong></td>
+                                  <td><strong>NIM</strong></td>
+                                  <td><strong>Password</strong></td>
+                                  <td><strong>Email</strong></td>
+                                </tr>
+                                <tr>
+                                  <td>Jhon</td>
+                                  <td>11750115076</td>
+                                  <td>Password123</td>
+                                  <td>11750115076@students.uin-suska.ac.id</td>
+                                </tr>
+                              </tbody>
+                            </v-simple-table>
+                          </div>
+                        </div>
+                      </v-timeline-item>
+                      <v-timeline-item
+                        color="blue"
+                        small
+                      >
+                        <div>
+                          <div class="font-weight-normal">
+                            <strong>Upload file .xlx</strong>
+                          </div>
+                          <div>
+                            <div v-if="file">
+                              <p class="text-muted">File terlampir</p>
+                              <p>{{file.name}} <i
+                                  class="mdi mdi-close"
+                                  @click="file=''"
+                                ></i></p>
+                            </div>
+                            <v-btn
+                              color="#2E7D32"
+                              :loading="btnLoading"
+                              @click="uploadTemplate()"
+                            ><i class="mdi mdi-attachment mr-2"></i> Lampirkan file excel</v-btn>
+                            <v-file-input
+                              id="upload"
+                              v-model="file"
+                              hide-input
+                              truncate-length="1"
+                              class="d-none"
+                            ></v-file-input>
+                          </div>
+                        </div>
+                      </v-timeline-item>
+                    </v-timeline>
+                  </v-card-text>
+                </v-tab-item>
+              </v-tabs-items>
+            </vue-scroll>
+          </v-card-text>
         </v-card>
       </template>
     </v-bottom-sheet>
@@ -693,6 +699,17 @@ export default {
   },
   data() {
     return {
+      ops: {
+        scrollPanel: {
+          easing: "easeInQuad",
+          speed: 800,
+          scrollingX: false
+        },
+        vuescroll: {
+          wheelScrollDuration: 0,
+          wheelDirectionReverse: true
+        }
+      },
       btnLoading: false,
       id: "",
       file: "",
