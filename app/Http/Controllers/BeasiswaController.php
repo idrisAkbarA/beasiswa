@@ -12,12 +12,13 @@ class BeasiswaController extends Controller
     public function getAll()
     {
         $beasiswa = Beasiswa::orderBy('id', 'DESC')->get();
-        $beasiswa->makeHidden(['berkas', 'interview', 'survey', 'selection', 'lulus']);
         return response()->json($beasiswa);
     }
     public function getAllWithPermohonan()
     {
-        return response()->json(Beasiswa::orderBy('id', 'DESC')->get());
+        $beasiswa = Beasiswa::orderBy('id', 'DESC')->get();
+        $beasiswa->makeVisible(['berkas', 'interview', 'survey', 'selection', 'lulus']);
+        return response()->json($beasiswa);
     }
     public function getActive()
     {
