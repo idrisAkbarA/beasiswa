@@ -19,7 +19,7 @@ class authAPIController extends Controller
             [
                 'nama'=>$response["data"]["user"]["nm_pd"],
                 'password'=>Hash::make($response["data"]["token"]),
-                'jurusan_id'=>$response["data"]["user"]["id_pd"][4], // jurusan diambil dari digit ke 5 nim
+                'jurusan_id'=>$response["data"]["user"]["id_pd"][5], // jurusan diambil dari digit ke 5 nim
                 'email'=>$response["data"]["user"]["email"],
                 'hp'=>$response["data"]["user"]["telepon_seluler"],
                 'semester'=>null,
