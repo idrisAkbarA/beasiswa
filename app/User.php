@@ -20,7 +20,7 @@ class User extends Authenticatable
     protected $guard = 'mahasiswa';
 
     protected $fillable = [
-        'nama', 'nim', 'email', 'hp', 'password', 'semester', 'ipk', 'tmpt_lahir', 'tgl_lahir'
+        'nama', 'nim', 'email', 'hp', 'password', 'semester', 'ipk', 'tmpt_lahir', 'tgl_lahir', 'jurusan_id'
     ];
 
     /**
