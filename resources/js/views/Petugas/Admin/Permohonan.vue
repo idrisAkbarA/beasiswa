@@ -17,13 +17,13 @@
         <template v-slot:top>
           <v-toolbar flat>
             <v-toolbar-title>
-              Beasiswa Selesai
+              Beasiswa {{tab}}
             </v-toolbar-title>
             <v-spacer>
             </v-spacer>
             <v-btn @click="tab = 'progress'">
               <small>
-                Beasiswa sedang di proses <v-icon>mdi-chevron-right</v-icon>
+                Beasiswa {{tab}} <v-icon>mdi-chevron-right</v-icon>
               </small>
             </v-btn>
           </v-toolbar>
