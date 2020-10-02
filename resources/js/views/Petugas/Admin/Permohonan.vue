@@ -30,36 +30,42 @@
 
     <!-- Dialog Delete -->
     <div class="text-center">
-      <v-dialog v-model="sheet" width="800">
+      <v-dialog
+        v-model="sheet"
+        width="800"
+      >
         <v-card>
-          <v-card-title class="headline white--text" primary-title>
+          <v-card-title
+            class="headline white--text"
+            primary-title
+          >
             <i class="mdi mdi-account-check mr-2"></i> Penerima Beasiswa
           </v-card-title>
 
           <v-card-text class="mt-2 white--text">
             <v-card-text>
-                <h5>Beasiswa {{selectedBeasiswa.nama}}</h5>
-                <p>Kuota ({{pemohon.length}}/{{selectedBeasiswa.quota}})</p>
+              <h5>Beasiswa {{selectedBeasiswa.nama}}</h5>
+              <p>Kuota ({{Object.keys(pemohon).length}}/{{selectedBeasiswa.quota}})</p>
             </v-card-text>
             <v-data-table
-                :headers="headers.pemohon"
-                :items="pemohon"
-                :items-per-page="10"
-                style="background-color: #2e7d323b"
-                class="elevation-10 mb-10"
+              :headers="headers.pemohon"
+              :items="pemohon"
+              :items-per-page="10"
+              style="background-color: #2e7d323b"
+              class="elevation-10 mb-10"
             >
-                <template v-slot:item.actions="{ item }">
+              <template v-slot:item.actions="{ item }">
                 <v-icon
-                    small
-                    @click="info(item)"
-                    title="Lihat detail"
+                  small
+                  @click="info(item)"
+                  title="Lihat detail"
                 >
-                    mdi-information-outline
+                  mdi-information-outline
                 </v-icon>
-                </template>
-                <template v-slot:no-data>
+              </template>
+              <template v-slot:no-data>
                 no data
-                </template>
+              </template>
             </v-data-table>
           </v-card-text>
         </v-card>
@@ -82,14 +88,20 @@ export default {
     compareType(a, b) {
       a == b ? true : false;
     },
-    info(item){
-        this.selectedBeasiswa = item;
-        this.sheet = true;
-        this.pemohon = item.lulus;
+    info(item) {
+      this.selectedBeasiswa = item;
+      this.sheet = true;
+      this.pemohon = item.lulus;
     }
   },
   computed: {
-    ...mapState(["beasiswa", "isOpenBeasiswa", "instansi","isTableLoading","isLoading"]),
+    ...mapState([
+      "beasiswa",
+      "isOpenBeasiswa",
+      "instansi",
+      "isTableLoading",
+      "isLoading"
+    ]),
     toggleBeasiswa: {
       get: function() {
         return this.isOpenBeasiswa;
@@ -101,35 +113,34 @@ export default {
   },
   data() {
     return {
-      btnLoading:false,
+      btnLoading: false,
       selectedBeasiswa: "",
       pemohon: [],
       sheet: false,
       headers: {
-          beasiswa: [
-                {
-                    text: "Beasiswa",
-                    align: "start",
-                    sortable: false,
-                    value: "nama"
-                    },
-                    { text: "Deskripsi", value: "deskripsi" },
-                    { text: "Actions", value: "actions", sortable: false
-                }
-          ],
-          pemohon: [
-                {
-                  text: "Nama",
-                  align: "start",
-                  sortable: false,
-                  value: "mahasiswa.nama"
-                },
-                { text: "NIM", value: "mhs_id" },
-                { text: "Berkas", value: "verificator" },
-                { text: "Interview", value: "interviewer" },
-                { text: "Survey", value: "surveyor" },
-                { text: "Lulus", value: "selector" },
-          ]
+        beasiswa: [
+          {
+            text: "Beasiswa",
+            align: "start",
+            sortable: false,
+            value: "nama"
+          },
+          { text: "Deskripsi", value: "deskripsi" },
+          { text: "Actions", value: "actions", sortable: false }
+        ],
+        pemohon: [
+          {
+            text: "Nama",
+            align: "start",
+            sortable: false,
+            value: "mahasiswa.nama"
+          },
+          { text: "NIM", value: "mhs_id" },
+          { text: "Berkas", value: "verificator" },
+          { text: "Interview", value: "interviewer" },
+          { text: "Survey", value: "surveyor" },
+          { text: "Lulus", value: "selector" }
+        ]
       }
     };
   }

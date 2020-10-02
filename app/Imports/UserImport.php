@@ -24,17 +24,15 @@ class UserImport implements ToCollection, WithHeadingRow
         foreach ($rows as $row) {
             $nama = $row['nama'];
             $nim = $row['nim'];
+            $jurusan_id = $row['jurusan_id'];
             $password = $row['password'];
             $email = $row['email'];
-
-            // if (!isset($jumlah)) {
-            //     return null;
-            // }
 
             User::create(
                 [
                     'nama'  => $nama,
                     'nim'  => $nim,
+                    'jurusan_id'  => $jurusan_id,
                     'password'  => Hash::make($password),
                     'email'  => $email,
                 ]

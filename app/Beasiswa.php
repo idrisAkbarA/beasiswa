@@ -12,8 +12,14 @@ class Beasiswa extends Model
     use SoftDeletes;
 
     protected $hidden = [
-        'permohonan'
+        'permohonan',
+        'berkas',
+        'interview',
+        'survey',
+        'selection',
+        'lulus'
     ];
+
     protected $appends = [
         'berkas',
         'interview',
@@ -32,7 +38,7 @@ class Beasiswa extends Model
 
     public function getInterviewAttribute()
     {
-        if ($this->is_interview){
+        if ($this->is_interview) {
             return $this->permohonan
                 ->where('is_berkas_passed', 1)
                 ->whereNull('is_interview_passed');
@@ -42,7 +48,7 @@ class Beasiswa extends Model
 
     public function getSurveyAttribute()
     {
-        if ($this->is_survey){
+        if ($this->is_survey) {
             return $this->permohonan
                 ->where('is_berkas_passed', 1)
                 ->when($this->is_interview == 1, function ($q) {
@@ -84,10 +90,10 @@ class Beasiswa extends Model
         $today = Carbon::today();
         $beasiswa =  self::whereDate('akhir_berkas', '>=', $today)->get();
         $beasiswa = $beasiswa->reject(function ($value, $key) use ($today) {
-            if ($value->awal_berkas == NULL){
+            if ($value->awal_berkas == NULL) {
                 return false;
             }
-            return $value->awal_berkas.'+1 day' < $today;
+            return $value->awal_berkas . '+1 day' < $today;
         });
         return $beasiswa;
     }
@@ -99,6 +105,6 @@ class Beasiswa extends Model
 
     public function permohonan()
     {
-        return $this->hasMany('App\PemohonBeasiswa','beasiswa_id')->with('mahasiswa');
+        return $this->hasMany('App\PemohonBeasiswa', 'beasiswa_id')->with('mahasiswa');
     }
 }
