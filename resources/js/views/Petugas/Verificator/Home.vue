@@ -53,6 +53,7 @@
                     clearable
                     label="Pencarian"
                     v-model="queryPermohonan"
+                    @change="searchPermohonanResult(item.berkas)"
                   ></v-text-field>
                   <v-subheader>Permohonan Masuk ({{Object.keys(item.berkas).length}})</v-subheader>
                   <v-list-item-group
@@ -224,7 +225,7 @@ export default {
     this.getPetugas();
   },
   methods: {
-    ...mapActions(["getBeasiswaWithPermohonan"]),
+    ...mapActions(["getBeasiswaWithPermohonan", "searchPermohonan"]),
     getPetugas() {
       axios.get(`${this.url}/api/user/petugas`).then(response => {
         this.petugas = response.data;
@@ -251,7 +252,21 @@ export default {
           this.dialogDelete = false;
           this.btnLoading = false;
         });
+    },
+    searchPermohonanResult(item) {
+      const q = this.queryPermohonan;
+      this.searchPermohonan(q).then(response => {
+        console.log(response);
+        item = response.data;
+      });
     }
+  },
+  watch: {
+    // queryPermohonan: function(q) {
+    //   this.searchPermohonan(q).then(response => {
+    //     console.log(response.data);
+    //   });
+    // }
   },
   computed: {
     ...mapState(["beasiswa", "url"])

@@ -2,23 +2,25 @@
 
 namespace App\Console\Commands;
 
+use App\Jurusan;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Hash;
 
-class initAll extends Command
+class initJurusan extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'initAll';
+    protected $signature = 'initJurusan';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'initialize all test data';
+    protected $description = 'Command description';
 
     /**
      * Create a new command instance.
@@ -37,12 +39,11 @@ class initAll extends Command
      */
     public function handle()
     {
-        $this->call("migrate:fresh");
-        $this->call("initFakultas");
-        $this->call("initJurusan");
-        $this->call("initAdmin");
-        $this->call("initInstansi");
-        $this->call("initBeasiswa");
-        $this->call("initMhs");
+        $admin = new Jurusan;
+        $admin->fakultas_id      = 1;
+        $admin->nama             = "Teknik Informatika";
+        $admin->singkatan        = "TIF";
+        $admin->save();
+        echo "Jurusan Created\n";
     }
 }

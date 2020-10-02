@@ -42,6 +42,7 @@ class initMhs extends Command
         $admin = new User;
         $admin->nama        = "Idris Akbar Adyusman";
         $admin->nim         = "11751101939";
+        $admin->jurusan_id  = 1;
         $admin->email       = "11751101939@students.uin-suska.ac.id";
         $admin->hp          = "081275553496";
         $admin->semester    = 7;
