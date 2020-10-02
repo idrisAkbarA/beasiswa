@@ -82,8 +82,18 @@ class BeasiswaController extends Controller
     }
     public function selesai()
     {
-        $beasiswa = Beasiswa::onlyTrashed()->get();
-        $beasiswa->makeVisible(['berkas', 'interview', 'survey', 'selection', 'lulus']);
+        $beasiswaSelesai = Beasiswa::onlyTrashed()->get();
+        $beasiswaSelesai->makeVisible(['berkas', 'interview', 'survey', 'selection', 'lulus']);
+        $beasiswaOnProgress = Beasiswa::active();
+        $beasiswaOnProgress->makeVisible(['berkas', 'interview', 'survey', 'selection', 'lulus']);
+        $temp = [];
+        foreach ($beasiswaOnProgress as $row) {
+            array_push($temp, $row);
+        }
+        $beasiswa = [
+            'selesai' => $beasiswaSelesai,
+            'aktif' => $temp
+        ];
         return response()->json($beasiswa);
     }
 }

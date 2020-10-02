@@ -7,12 +7,62 @@
     >
 
       <v-data-table
+        v-if="tab == 'selesai'"
         :headers="headers.beasiswa"
-        :items="beasiswa"
+        :items="beasiswa.selesai"
         :items-per-page="10"
         style="background-color: #2e7d323b"
         class="elevation-10 mb-10"
       >
+        <template v-slot:top>
+          <v-toolbar flat>
+            <v-toolbar-title>
+              Beasiswa Selesai
+            </v-toolbar-title>
+            <v-spacer>
+            </v-spacer>
+            <v-btn @click="tab = 'progress'">
+              <small>
+                Beasiswa sedang di proses <v-icon>mdi-chevron-right</v-icon>
+              </small>
+            </v-btn>
+          </v-toolbar>
+        </template>
+        <template v-slot:item.actions="{ item }">
+          <v-icon
+            small
+            @click="info(item)"
+            title="Lihat detail"
+          >
+            mdi-information-outline
+          </v-icon>
+        </template>
+        <template v-slot:no-data>
+          no data
+        </template>
+      </v-data-table>
+      <v-data-table
+        v-if="tab == 'progress'"
+        :headers="headers.beasiswa"
+        :items="beasiswa.aktif"
+        :items-per-page="10"
+        style="background-color: #2e7d323b"
+        class="elevation-10 mb-10"
+      >
+        <template v-slot:top>
+          <v-toolbar flat>
+            <v-toolbar-title>
+              Beasiswa Selesai
+            </v-toolbar-title>
+            <v-spacer>
+            </v-spacer>
+            <v-btn @click="tab = 'progress'">
+              <small>
+                Beasiswa sedang di proses <v-icon>mdi-chevron-right</v-icon>
+              </small>
+            </v-btn>
+          </v-toolbar>
+        </template>
         <template v-slot:item.actions="{ item }">
           <v-icon
             small
@@ -113,6 +163,7 @@ export default {
   },
   data() {
     return {
+      tab: "selesai",
       btnLoading: false,
       selectedBeasiswa: "",
       pemohon: [],
@@ -125,7 +176,7 @@ export default {
             sortable: false,
             value: "nama"
           },
-          { text: "Deskripsi", value: "deskripsi" },
+          { text: "Instansi", value: "instansi_id" },
           { text: "Actions", value: "actions", sortable: false }
         ],
         pemohon: [
