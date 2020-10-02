@@ -34,12 +34,29 @@
           <p>{{beasiswaSingle.deskripsi}}</p>
         </v-row>
         <v-row>
+          <table>
+            <tr>
+              <td>
+                <span>Batas upload berkas <span v-if="beasiswaSingle.awal_berkas"><strong>{{" "+parseDate(beasiswaSingle.awal_berkas)}}</strong> sampai </span> <strong> {{" "+parseDate(beasiswaSingle.akhir_berkas)}}</strong> </span>
+
+              </td>
+
+            </tr>
+            <tr>
+              <td>
+                <span v-if="beasiswaSingle.is_interview">Waktu wawancara <span v-if="beasiswaSingle.awal_interview"><strong>{{parseDate(beasiswaSingle.awal_interview)}} </strong>sampai </span> <strong>{{parseDate(beasiswaSingle.akhir_interview)}}</strong> </span>
+
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span v-if="beasiswaSingle.is_survey"> Waktu survey <span v-if="beasiswaSingle.awal_survey"><strong>{{parseDate(beasiswaSingle.awal_interview)}}</strong> sampai </span> <strong>{{parseDate(beasiswaSingle.akhir_interview)}} </strong> </span>
+
+              </td>
+            </tr>
+          </table>
           <br>
-          <span>Batas upload berkas </span>   <span v-if="beasiswaSingle.awal_berkas"><strong>{{parseDate(beasiswaSingle.awal_berkas)}}</strong> sampai </span> <strong> {{parseDate(beasiswaSingle.akhir_berkas)}}</strong>
-          <br>
-          <span v-if="beasiswaSingle.is_interview">Waktu wawancara <span v-if="beasiswaSingle.awal_interview"><strong>{{parseDate(beasiswaSingle.awal_interview)}} </strong>sampai </span> <strong>{{parseDate(beasiswaSingle.akhir_interview)}}</strong> </span>
-          <br>
-          <span v-if="beasiswaSingle.is_survey">Waktu survey <span v-if="beasiswaSingle.awal_survey"><strong>{{parseDate(beasiswaSingle.awal_interview)}}</strong> sampai </span> <strong>{{parseDate(beasiswaSingle.akhir_interview)}} </strong> </span>
+
         </v-row>
       </v-col>
     </v-row>
@@ -135,6 +152,8 @@
         <v-row>
           <v-col>
             <v-btn
+              :disabled="isAlreadyHas"
+              :loading="loadingBtn"
               @click="save()"
               color="#2E7D32"
             >Daftar</v-btn>
@@ -181,6 +200,7 @@ export default {
       });
     },
     async save() {
+      this.loadingBtn = true;
       var finalForm = [];
       this.fields.forEach(element => {
         finalForm.push(element);
@@ -227,6 +247,7 @@ export default {
           this.msg =
             "Permohonan beasiswa berhasil dikirim, lihat status permohonan beasiswa";
           this.isAlreadyHas = true;
+          this.loadingBtn = false;
         })
         .catch(error => {
           console.log(error);
@@ -238,6 +259,7 @@ export default {
   },
   data() {
     return {
+      loadingBtn: false,
       msg: "",
       isAlreadyHas: false,
       fields: {},

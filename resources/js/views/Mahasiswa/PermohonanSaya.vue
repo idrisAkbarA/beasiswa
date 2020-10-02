@@ -25,7 +25,7 @@
         <v-card-text>
           <v-row>
             <v-col cols="12">
-              <v-simple-table class="teal darken-4">
+              <v-simple-table class="transparent">
                 <template v-slot:default>
                   <thead>
                     <tr>
@@ -48,7 +48,7 @@
                     </tr>
                     <tr>
                       <td>Survey</td>
-                      <td><span v-if="item.beasiswa.awal_survey"><strong>{{parseDate(item.beasiswa.awal_survey)}}</strong> sampai </span> <strong>{{parseDate(item.beasiswa.akhir_survey)}} </strong> </td>
+                      <td><span v-if="item.beasiswa.is_survey"><strong>{{parseDate(item.beasiswa.awal_survey)}}</strong> sampai </span> <strong>{{parseDate(item.beasiswa.akhir_survey)}} </strong> </td>
                     </tr>
                   </tbody>
                 </template>
@@ -72,7 +72,7 @@
                     <v-row>
                       <v-col cols="12" xl="4">{{parseDate(time.awal_tgl)  + " - " + parseDate(time.akhir_tgl) }}</v-col>
                       <v-col cols="12" xl="8">
-                        <v-alert :class="time.is_done? 'green darken-2' :'grey darken-2'">
+                        <v-alert :class="time.is_done? 'green darken-2' :'transparent'">
                           {{time.msg}}
                         </v-alert>
                       </v-col>
