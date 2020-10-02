@@ -20,6 +20,8 @@ Route::middleware('auth:mahasiswa')->get('/user', 'AuthAPIController@retrieveUse
 
 Route::get('/check', 'AuthAPIController@check');
 
+Route::post('/login-server', 'AuthAPIController@loginServer');
+
 Route::post('/authenticate', 'AuthAPIController@login');
 Route::post('/authenticate/petugas', 'AuthAPIController@loginPetugas');
 Route::get('/logout', 'AuthAPIController@logout');
