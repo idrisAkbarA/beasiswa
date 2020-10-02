@@ -82,6 +82,8 @@ class BeasiswaController extends Controller
     }
     public function selesai()
     {
-        return response()->json(Beasiswa::onlyTrashed()->get());
+        $beasiswa = Beasiswa::onlyTrashed()->get();
+        $beasiswa->makeVisible(['berkas', 'interview', 'survey', 'selection', 'lulus']);
+        return response()->json($beasiswa);
     }
 }
