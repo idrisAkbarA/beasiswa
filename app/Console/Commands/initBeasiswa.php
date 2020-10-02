@@ -48,10 +48,10 @@ class initBeasiswa extends Command
             $akhir_berkas = $awal_berkas->add(2,'day');
 
             $awal_interview = $akhir_berkas->add(2,'day');
-            $akhir_interview = $akhir_berkas->add(2,'day');
+            $akhir_interview = $awal_interview->add(2,'day');
             
             $awal_survey = $akhir_interview->add(2,'day');
-            $akhir_survey= $akhir_interview->add(2,'day');
+            $akhir_survey= $awal_survey->add(2,'day');
 
             $beasiswa = new Beasiswa;
             $beasiswa->nama = $faker->text($maxNbChars = 10);
@@ -72,15 +72,14 @@ class initBeasiswa extends Command
         for ($i=0; $i < 10 ; $i++) {
 
             $date = CarbonImmutable::createFromTimeStamp($faker->dateTimeBetween('-7 days', '+7 days')->getTimestamp());
-            
             $awal_berkas = $date;
             $akhir_berkas = $awal_berkas->add(2,'day');
 
             $awal_interview = $akhir_berkas->add(2,'day');
-            $akhir_interview = $akhir_berkas->add(2,'day');
+            $akhir_interview = $awal_interview->add(2,'day');
             
             $awal_survey = $akhir_interview->add(2,'day');
-            $akhir_survey= $akhir_interview->add(2,'day');
+            $akhir_survey= $awal_survey->add(2,'day');
 
             $beasiswa = new Beasiswa;
             $beasiswa->nama = $faker->text($maxNbChars = 10);
