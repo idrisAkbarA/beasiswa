@@ -122,7 +122,7 @@ export default new Vuex.Store({
 
             })
         },
-        getBeasiswaACtive({ commit, dispatch, state }) {
+        getBeasiswaActive({ commit, dispatch, state }) {
             commit("mutateTableLoading", true);
             Axios.get(state.url + "/api/beasiswa/get-active").then(response => {
                 commit('mutateBeasiswa', response.data)

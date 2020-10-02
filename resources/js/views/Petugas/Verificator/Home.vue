@@ -53,7 +53,7 @@
                     clearable
                     label="Pencarian"
                     v-model="queryPermohonan"
-                    @change="searchPermohonanResult(item.berkas)"
+                    @change="searchPermohonanResult(i)"
                   ></v-text-field>
                   <v-subheader>Permohonan Masuk ({{Object.keys(item.berkas).length}})</v-subheader>
                   <v-list-item-group
@@ -252,13 +252,6 @@ export default {
           this.dialogDelete = false;
           this.btnLoading = false;
         });
-    },
-    searchPermohonanResult(item) {
-      const q = this.queryPermohonan;
-      this.searchPermohonan(q).then(response => {
-        console.log(response);
-        item = response.data;
-      });
     }
   },
   watch: {

@@ -22,9 +22,9 @@ class BeasiswaController extends Controller
     }
     public function getActive()
     {
-        $beasiswa = Beasiswa::active()
+        $beasiswa = Beasiswa::active();
+        $beasiswa->makeHidden(['interview', 'survey', 'selection', 'lulus'])
             ->sortByDesc('id');
-        $beasiswa->makeHidden(['interview', 'survey', 'selection', 'lulus']);
         return response()->json($beasiswa);
     }
     public function countBeasiswa()

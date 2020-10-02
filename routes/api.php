@@ -69,7 +69,7 @@ Route::get('/pemohon', 'PemohonBeasiswaController@getAll');
 Route::post('/pemohon/file', 'PemohonBeasiswaController@storeFile');
 Route::post('/pemohon', 'PemohonBeasiswaController@store');
 Route::get('/pemohon/cek-berkas', 'PemohonBeasiswaController@cekBerkas');
-Route::get('/pemohon/cek-isHas', 'PemohonBeasiswaController@isHasBeasiswa');
+Route::middleware('auth:mahasiswa')->get('/pemohon/cek-isHas', 'PemohonBeasiswaController@isHasBeasiswa');
 Route::put('/pemohon/set-berkas', 'PemohonBeasiswaController@setBerkas');
 Route::get('/pemohon/cek-interview', 'PemohonBeasiswaController@cekinterview');
 Route::get('/pemohon/cek-selection', 'PemohonBeasiswaController@cekSelection');
