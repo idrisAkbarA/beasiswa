@@ -7,9 +7,8 @@
     >
 
       <v-data-table
-        v-if="tab == 'selesai'"
         :headers="headers.beasiswa"
-        :items="beasiswa.selesai"
+        :items="table == 'selesai' ? beasiswa.selesai : beasiswa.aktif"
         :items-per-page="10"
         style="background-color: #2e7d323b"
         class="elevation-10 mb-10"
@@ -17,48 +16,13 @@
         <template v-slot:top>
           <v-toolbar flat>
             <v-toolbar-title>
-              Beasiswa {{tab}}
+              Beasiswa {{table == 'selesai' ? 'selesai' : 'dalam proses'}}
             </v-toolbar-title>
             <v-spacer>
             </v-spacer>
-            <v-btn @click="tab = 'progress'">
+            <v-btn @click="table == 'progress' ? table = 'selesai' : table = 'progress'">
               <small>
-                Beasiswa {{tab}} <v-icon>mdi-chevron-right</v-icon>
-              </small>
-            </v-btn>
-          </v-toolbar>
-        </template>
-        <template v-slot:item.actions="{ item }">
-          <v-icon
-            small
-            @click="info(item)"
-            title="Lihat detail"
-          >
-            mdi-information-outline
-          </v-icon>
-        </template>
-        <template v-slot:no-data>
-          no data
-        </template>
-      </v-data-table>
-      <v-data-table
-        v-if="tab == 'progress'"
-        :headers="headers.beasiswa"
-        :items="beasiswa.aktif"
-        :items-per-page="10"
-        style="background-color: #2e7d323b"
-        class="elevation-10 mb-10"
-      >
-        <template v-slot:top>
-          <v-toolbar flat>
-            <v-toolbar-title>
-              Beasiswa Selesai
-            </v-toolbar-title>
-            <v-spacer>
-            </v-spacer>
-            <v-btn @click="tab = 'progress'">
-              <small>
-                Beasiswa sedang di proses <v-icon>mdi-chevron-right</v-icon>
+                Beasiswa {{table == 'progress' ? 'selesai' : 'sedang di proses'}} <v-icon>mdi-chevron-right</v-icon>
               </small>
             </v-btn>
           </v-toolbar>
@@ -94,29 +58,48 @@
 
           <v-card-text class="mt-2 white--text">
             <v-card-text>
-              <h5>Beasiswa {{selectedBeasiswa.nama}}</h5>
+              <h5>Beasiswa : {{selectedBeasiswa.nama}}</h5>
               <p>Kuota ({{Object.keys(pemohon).length}}/{{selectedBeasiswa.quota}})</p>
             </v-card-text>
-            <v-data-table
-              :headers="headers.pemohon"
-              :items="pemohon"
-              :items-per-page="10"
-              style="background-color: #2e7d323b"
-              class="elevation-10 mb-10"
+            <v-tabs
+              fixed-tabs
+              dark
+              v-model="tab"
             >
-              <template v-slot:item.actions="{ item }">
-                <v-icon
-                  small
-                  @click="info(item)"
-                  title="Lihat detail"
+              <v-tab
+                v-for="item in tabs"
+                :key="item"
+              >
+                {{item}}
+              </v-tab>
+            </v-tabs>
+            <v-tabs-items v-model="tab">
+              <v-tab-item
+                v-for="item in tabs"
+                :key="item"
+              >
+                <v-data-table
+                  :headers="headers.pemohon"
+                  :items="selectedBeasiswa[item]"
+                  :items-per-page="10"
+                  style="background-color: #2e7d323b"
+                  class="elevation-10 mb-10"
                 >
-                  mdi-information-outline
-                </v-icon>
-              </template>
-              <template v-slot:no-data>
-                no data
-              </template>
-            </v-data-table>
+                  <template v-slot:item.actions="{ item }">
+                    <v-icon
+                      small
+                      @click="info(item)"
+                      title="Lihat detail"
+                    >
+                      mdi-information-outline
+                    </v-icon>
+                  </template>
+                  <template v-slot:no-data>
+                    no data
+                  </template>
+                </v-data-table>
+              </v-tab-item>
+            </v-tabs-items>
           </v-card-text>
         </v-card>
       </v-dialog>
@@ -163,11 +146,13 @@ export default {
   },
   data() {
     return {
-      tab: "selesai",
+      table: "selesai",
       btnLoading: false,
       selectedBeasiswa: "",
       pemohon: [],
       sheet: false,
+      tab: null,
+      tabs: ["permohonan", "lulus"],
       headers: {
         beasiswa: [
           {
