@@ -55,7 +55,7 @@ class initBeasiswa extends Command
 
             $beasiswa = new Beasiswa;
             $beasiswa->nama = $faker->text($maxNbChars = 10);
-            $beasiswa->deskripsi = $faker->sentence;
+            $beasiswa->deskripsi = $faker->realText($maxNbChars = 200, $indexSize = 2);
             $beasiswa->instansi_id = random_int(1, 10);
             $beasiswa->is_interview = $faker->boolean($chanceOfGettingTrue = 50);
             $beasiswa->is_survey = $faker->boolean($chanceOfGettingTrue = 50);
@@ -83,7 +83,7 @@ class initBeasiswa extends Command
 
             $beasiswa = new Beasiswa;
             $beasiswa->nama = $faker->text($maxNbChars = 10);
-            $beasiswa->deskripsi = $faker->sentence;
+            $beasiswa->deskripsi = $faker->realText($maxNbChars = 200, $indexSize = 2);
             $beasiswa->instansi_id = random_int(1, 10);
             $beasiswa->is_interview = 1;
             $beasiswa->is_survey = 1;

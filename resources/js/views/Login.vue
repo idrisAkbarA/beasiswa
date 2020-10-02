@@ -70,35 +70,56 @@ export default {
       this.loading = true;
       axios.get("http://beasiswa.test/sanctum/csrf-cookie").then(response => {
         axios
-          .post("http://beasiswa.test/api/login-server", {
-            username: this.nim,
+          .post("http://beasiswa.test/api/authenticate", {
+            nim: this.nim,
             password: this.pass
           })
-          .then(response => {
-            console.log(response)
-            axios
-              .post("http://beasiswa.test/api/authenticate", {
-                nim: this.nim,
-                password: response.data.token
-              })
-              .then(result => {
-                window.localStorage.setItem("user", result.data.role);
-                console.log(result);
-                this.mutateNim(this.nim);
-                if (result.data.status == "Authenticated") {
-                  this.$router.push({ path: `/mahasiswa/home` });
-                } else {
-                  this.error = "Invalid username/password";
-                  this.loading = false;
-                }
-              });
-          })
-          .catch(error => {
-            this.loading = false;
-            console.log(error);
+          .then(result => {
+            window.localStorage.setItem("user", result.data.role);
+            console.log(result);
+            this.mutateNim(this.nim);
+            if (result.data.status == "Authenticated") {
+              this.$router.push({ path: `/mahasiswa/home` });
+            } else {
+              this.error = "Invalid username/password";
+              this.loading = false;
+            }
           });
       });
     }
+    // login() {
+    //   this.loading = true;
+    //   axios.get("http://beasiswa.test/sanctum/csrf-cookie").then(response => {
+    //     axios
+    //       .post("http://beasiswa.test/api/login-server", {
+    //         username: this.nim,
+    //         password: this.pass
+    //       })
+    //       .then(response => {
+    //         console.log(response)
+    //         axios
+    //           .post("http://beasiswa.test/api/authenticate", {
+    //             nim: this.nim,
+    //             password: response.data.token
+    //           })
+    //           .then(result => {
+    //             window.localStorage.setItem("user", result.data.role);
+    //             console.log(result);
+    //             this.mutateNim(this.nim);
+    //             if (result.data.status == "Authenticated") {
+    //               this.$router.push({ path: `/mahasiswa/home` });
+    //             } else {
+    //               this.error = "Invalid username/password";
+    //               this.loading = false;
+    //             }
+    //           });
+    //       })
+    //       .catch(error => {
+    //         this.loading = false;
+    //         console.log(error);
+    //       });
+    //   });
+    // },
   },
   created() {
     axios

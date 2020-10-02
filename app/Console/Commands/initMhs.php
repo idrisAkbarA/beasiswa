@@ -5,6 +5,8 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\User;
 use Illuminate\Support\Facades\Hash;
+use Faker\Factory as Faker;
+
 
 class initMhs extends Command
 {
@@ -46,11 +48,31 @@ class initMhs extends Command
         $admin->email       = "11751101939@students.uin-suska.ac.id";
         $admin->hp          = "081275553496";
         $admin->semester    = 7;
+        $admin->ips         = 3.02;
         $admin->ipk         = 3.02;
         $admin->tgl_lahir   = "1998-12-07";
-        $admin->tmpt_lahir  = "11751101939@students.uin-suska.ac.id";
+        $admin->tmpt_lahir  = "Dumai";
+        $admin->jml_bayar   = "4600000";
         $admin->password    = Hash::make("123");
         $admin->save();
         echo "\nMhs Account Created\n\nNIM: 11751101939\nPass: 123";
+
+        $faker = Faker::create("id_ID");
+        for ($i=0; $i < 10 ; $i++) { 
+            $nim = $faker->numerify('117########');
+            $admin = new User;
+            $admin->nama        = $faker->name;
+            $admin->nim         = $nim;
+            $admin->jurusan_id  = 1;
+            $admin->email       = $nim."@students.uin-suska.ac.id";
+            $admin->hp          = "081275553496";
+            $admin->semester    = 7;
+            $admin->ipk         = 3.02;
+            $admin->tgl_lahir   = "1998-12-07";
+            $admin->tmpt_lahir  = "Dumai";
+            $admin->password    = Hash::make("123");
+            $admin->save();
+            // echo "\nMhs Account Created\n\nNIM: 11751101939\nPass: 123";.
+        }
     }
 }
