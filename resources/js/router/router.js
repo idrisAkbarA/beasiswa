@@ -73,17 +73,17 @@ const routes = [
         component: Petugas,
         async beforeEnter(to, from, next) {
             if (from.name == null) {
-               await axios
+                await axios
                     .get("http://beasiswa.test/api/user/petugas")
                     .then(response => {
                         console.log(response.data);
-                     next()
+                        next()
                     })
                     .catch(error => {
                         console.log(error.response.status);
-                        next({name:"Login Petugas"});
+                        next({ name: "Login Petugas" });
                     });
-            }else{
+            } else {
                 next()
             }
         },
@@ -135,17 +135,17 @@ const routes = [
         component: SuperAdmin,
         async beforeEnter(to, from, next) {
             if (from.name == null) {
-               await axios
+                await axios
                     .get("http://beasiswa.test/api/user/petugas")
                     .then(response => {
                         console.log(response.data);
-                     next()
+                        next()
                     })
                     .catch(error => {
                         console.log(error.response.status);
-                        next({name:"Login Petugas"});
+                        next({ name: "Login Petugas" });
                     });
-            }else{
+            } else {
                 next()
             }
         },
@@ -204,17 +204,17 @@ const routes = [
         component: Interviewer,
         async beforeEnter(to, from, next) {
             if (from.name == null) {
-               await axios
+                await axios
                     .get("http://beasiswa.test/api/user/petugas")
                     .then(response => {
                         console.log(response.data);
-                     next()
+                        next()
                     })
                     .catch(error => {
                         console.log(error.response.status);
-                        next({name:"Login Petugas"});
+                        next({ name: "Login Petugas" });
                     });
-            }else{
+            } else {
                 next()
             }
         },
@@ -231,17 +231,17 @@ const routes = [
         component: Surveyor,
         async beforeEnter(to, from, next) {
             if (from.name == null) {
-               await axios
+                await axios
                     .get("http://beasiswa.test/api/user/petugas")
                     .then(response => {
                         console.log(response.data);
-                     next()
+                        next()
                     })
                     .catch(error => {
                         console.log(error.response.status);
-                        next({name:"Login Petugas"});
+                        next({ name: "Login Petugas" });
                     });
-            }else{
+            } else {
                 next()
             }
         },
@@ -258,17 +258,17 @@ const routes = [
         component: Petinggi,
         async beforeEnter(to, from, next) {
             if (from.name == null) {
-               await axios
+                await axios
                     .get("http://beasiswa.test/api/user/petugas")
                     .then(response => {
                         console.log(response.data);
-                     next()
+                        next()
                     })
                     .catch(error => {
                         console.log(error.response.status);
-                        next({name:"Login Petugas"});
+                        next({ name: "Login Petugas" });
                     });
-            }else{
+            } else {
                 next()
             }
         },
@@ -285,17 +285,17 @@ const routes = [
         component: Verificator,
         async beforeEnter(to, from, next) {
             if (from.name == null) {
-               await axios
+                await axios
                     .get("http://beasiswa.test/api/user/petugas")
                     .then(response => {
                         console.log(response.data);
-                     next()
+                        next()
                     })
                     .catch(error => {
                         console.log(error.response.status);
-                        next({name:"Login Petugas"});
+                        next({ name: "Login Petugas" });
                     });
-            }else{
+            } else {
                 next()
             }
         },

@@ -60,10 +60,9 @@ export default {
     goto(item) {
       console.log("hello");
       this.$router.push({ path: "/mahasiswa/daftar-beasiswa/" + item.id });
-    },
+    }
   },
-  mounted() {
-  },
+  mounted() {},
   created() {
     this.getBeasiswa();
   },
