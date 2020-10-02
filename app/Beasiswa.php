@@ -93,7 +93,7 @@ class Beasiswa extends Model
             if ($value->awal_berkas == NULL) {
                 return false;
             }
-            return $value->awal_berkas . '+1 day' < $today;
+            return $value->awal_berkas > $today;
         });
         return $beasiswa;
     }
