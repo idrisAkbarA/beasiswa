@@ -89,6 +89,7 @@ class Beasiswa extends Model
     {
         $today = Carbon::today();
         $beasiswa =  self::whereDate('akhir_berkas', '>=', $today)->get();
+        // $beasiswa->makeVisible(['berkas', 'interview', 'survey', 'selection', 'lulus']);
         $beasiswa = $beasiswa->reject(function ($value, $key) use ($today) {
             if ($value->awal_berkas == NULL) {
                 return false;
