@@ -975,7 +975,7 @@ export default {
         console.log("sama");
       }
       console.log(typeof this.dateBerkas);
-      awal_berkas = this.dateBerkas[1] ? this.dateBerkas[0] : null;
+      awal_berkas = this.dateBerkas[1] ? this.dateBerkas[0] : Date.now();
       akhir_berkas = this.dateBerkas[1]
         ? this.dateBerkas[1]
         : this.dateBerkas[0];

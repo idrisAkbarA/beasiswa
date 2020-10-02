@@ -31,6 +31,9 @@
                     @click="save()"
                 >Simpan</v-btn>
                 </v-card-title>
+
+
+                
                 <v-tabs
                     v-model="tab"
                     fixed-tabs
@@ -44,9 +47,11 @@
                     Tambah massal Mahasiswa
                     </v-tab>
                 </v-tabs>
+                                <v-card-text>
+                <vue-scroll :ops="ops">
                 <v-tabs-items v-model="tab">
                     <v-tab-item :value="'single'">
-                        <v-card-text style="height: 900px;">
+                        <v-card-text >
                             <v-row dense class="mx-1">
                                 <v-col>
                                 <v-text-field color="#C8E6C9" label="Nama" v-model="form.nama"></v-text-field>
@@ -151,7 +156,7 @@
                                             <p>
                                                 Kolom yang wajib diisi adalah nama, nim, password, dan email.
                                             </p>
-                                            <v-simple-table light>
+                                            <v-simple-table light dense>
                                                 <thead>
                                                     <tr>
                                                         <th>A</th>
@@ -210,6 +215,8 @@
                         </v-card-text>
                     </v-tab-item>
                 </v-tabs-items>
+                </vue-scroll>
+                </v-card-text>
             </v-card>
         </template>
     </v-bottom-sheet>
@@ -499,6 +506,17 @@ export default {
   },
   data() {
     return {
+       ops: {
+        scrollPanel: {
+          easing: "easeInQuad",
+          speed: 800,
+          scrollingX: false,
+        },
+        vuescroll: {
+          wheelScrollDuration: 0,
+          wheelDirectionReverse: true
+        }
+      },
       btnLoading: false,
       id: "",
       file: "",

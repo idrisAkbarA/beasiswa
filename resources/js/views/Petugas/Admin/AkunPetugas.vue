@@ -299,9 +299,9 @@ export default {
       role: [
         { id: 1, role: "Administrator", color: "red" },
         { id: 2, role: "Pewawancara", color: "green" },
-        { id: 3, role: "Surveyor", color: "blue" },
+        { id: 3, role: "Surveyor", color: "blue darken-1" },
         { id: 4, role: "Petinggi", color: "orange" },
-        { id: 5, role: "Verificator", color: "cyan" },
+        { id: 5, role: "Verificator", color: "cyan darken-4" },
       ],
       toggleEdit: false,
       sheetMsg: "",
