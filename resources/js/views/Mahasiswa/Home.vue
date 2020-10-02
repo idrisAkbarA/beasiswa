@@ -9,7 +9,7 @@
       justify="center"
       v-if="beasiswa.length<1"
     >
-      <h2>Tidak ada permohonan</h2>
+      <h2>Tidak ada beasiswa yang tersedia</h2>
     </v-row>
     <v-row justify="center">
 
@@ -55,7 +55,7 @@
 import { mapState, mapActions } from "vuex";
 export default {
   methods: {
-    ...mapActions(["getBeasiswa"]),
+    ...mapActions(["getBeasiswaActive"]),
 
     goto(item) {
       console.log("hello");
@@ -64,7 +64,7 @@ export default {
   },
   mounted() {},
   created() {
-    this.getBeasiswa();
+    this.getBeasiswaActive();
   },
   computed: {
     ...mapState(["beasiswa", "url"])

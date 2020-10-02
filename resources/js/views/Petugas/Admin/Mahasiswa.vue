@@ -126,7 +126,7 @@
                           :items="jurusan"
                           item-text="nama"
                           item-value="id"
-                          v-model="form.role"
+                          v-model="form.jurusan_id"
                         ></v-select>
                       </v-col>
                     </v-row>
