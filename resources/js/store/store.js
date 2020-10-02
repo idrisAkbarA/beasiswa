@@ -11,6 +11,7 @@ export default new Vuex.Store({
         name: "idris",
         akunPetugas: [],
         nim: "",
+        jurusan: [],
         fakultas: [],
         cekBerkas: [],
         cekInterview: [],
@@ -59,6 +60,9 @@ export default new Vuex.Store({
         },
         mutateFakultas(state, data) {
             state.fakultas = data;
+        },
+        mutateJurusan(state, data) {
+            state.jurusan = data;
         },
         toggleOpenBeasiswa(state, data) {
             state.isOpenBeasiswa = data;
@@ -238,6 +242,11 @@ export default new Vuex.Store({
         getFakultas({ commit, dispatch, state }) {
             Axios.get(state.url + "/api/fakultas").then(response => {
                 commit('mutateFakultas', response.data)
+            })
+        },
+        getJurusan({ commit, dispatch, state }) {
+            Axios.get(state.url + "/api/jurusan").then(response => {
+                commit('mutateJurusan', response.data)
             })
         },
         searchPermohonan({ commit, dispatch, state }, query) {

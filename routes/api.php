@@ -59,6 +59,8 @@ Route::middleware('auth:petugas')->post('/user/import', 'UserController@import')
 
 Route::get('/fakultas', 'FakultasController@getAll');
 
+Route::get('/jurusan', 'JurusanController@getAll');
+
 Route::get('/pemohon/count-beasiswa', 'BeasiswaController@countBeasiswa');
 Route::get('/pemohon/search', 'PemohonBeasiswaController@search');
 Route::get('/pemohon', 'PemohonBeasiswaController@getAll');

@@ -54,7 +54,6 @@
             <v-btn
               color="#2E7D32"
               :loading="btnLoading"
-              v-model="toggleMahasiswa"
               @click="save()"
             >Simpan</v-btn>
           </v-card-title>
@@ -96,6 +95,20 @@
                       <v-col>
                         <v-text-field
                           color="#C8E6C9"
+                          label="NIM"
+                          v-model="form.nim"
+                          type="number"
+                          min="0"
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
+                    <v-row
+                      dense
+                      class="mx-1"
+                    >
+                      <v-col>
+                        <v-text-field
+                          color="#C8E6C9"
                           label="Password"
                           v-model="form.password"
                           type="password"
@@ -107,13 +120,14 @@
                       class="mx-1"
                     >
                       <v-col>
-                        <v-text-field
-                          color="#C8E6C9"
-                          label="NIM"
-                          v-model="form.nim"
-                          type="number"
-                          min="0"
-                        ></v-text-field>
+                        <v-select
+                          label="Jurusan"
+                          color="white"
+                          :items="jurusan"
+                          item-text="nama"
+                          item-value="id"
+                          v-model="form.role"
+                        ></v-select>
                       </v-col>
                     </v-row>
                     <v-row
@@ -488,7 +502,7 @@
             <v-btn
               color="red"
               dark
-              @click="dialogDelete = false,deleteConfirmed()"
+              @click="dialogDelete = false, deleteConfirmed()"
             >
               <v-icon>delete</v-icon>Hapus
             </v-btn>
@@ -568,11 +582,13 @@
 import { mapActions, mapMutations, mapState } from "vuex";
 export default {
   created() {
+    this.getJurusan();
     this.getMahasiswa();
   },
   methods: {
     ...mapMutations(["toggleOpenBeasiswa"]),
     ...mapActions([
+      "getJurusan",
       "getMahasiswa",
       "storeMahasiswa",
       "editMahasiswa",
@@ -616,7 +632,7 @@ export default {
     },
     deleteItem(item) {
       this.dialogDelete = true;
-      this.id = item.id;
+      this.id = item.nim;
     },
     deleteConfirmed() {
       this.btnLoading = true;
@@ -682,6 +698,7 @@ export default {
   },
   computed: {
     ...mapState([
+      "jurusan",
       "url",
       "isOpenBeasiswa",
       "mhs",
