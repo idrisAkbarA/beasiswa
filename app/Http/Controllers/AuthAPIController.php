@@ -4,9 +4,18 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use App\User;
 class authAPIController extends Controller
 {
+    public function loginServer(Request $request){
+        $response = Http::post('https://api-iraise.uin-suska.ac.id/login', [
+            'username' => $request["username"],
+            'password' =>  $request["password"],
+        ]);
+        return $response;
+    }
+
     public function retrieveUserMhs(){
         return response()->json(Auth::guard("mahasiswa")->user());
     }
