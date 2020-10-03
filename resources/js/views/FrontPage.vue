@@ -45,7 +45,7 @@
             <div style="width:100%; -webkit-app-region: drag;">
               <v-toolbar-title>
                 <span class="font-weight-bold ml-4">
-                  Aplikasi
+                  App
                   Pendaftaran Beasiswa
                   Uin Suska Riau
                 </span>
@@ -87,6 +87,8 @@
                   :width="200*1.2"
                 >
                   <v-img
+                       :height="300*1.2"
+                  :width="200*1.2"
                     gradient="to top right, rgba(58, 231, 87, 0.33), rgba(25,32,72,.7)"
                     :src="'https://picsum.photos/200/300?random='+index"
                   >
@@ -104,8 +106,8 @@
                     <v-card-title><span>{{index+1}}</span>
                       <v-spacer></v-spacer><span class="caption">Tersedia</span>
                     </v-card-title>
-                    <v-card-text>
-                      <h1>{{item.nama}}</h1>
+                    <v-card-text style="height:100%">
+                      <h2>{{item.nama.length>60 ? item.nama.substring(0,60) + " ..." : item.nama}}</h2>
                     </v-card-text>
                   </v-img>
                 </v-card>
@@ -297,7 +299,7 @@ export default {
   computed: {
     ...mapState(["beasiswa", "url"]),
     count() {
-      return this.beasiswa.lenght;
+      return this.beasiswa.length;
     }
   },
   data() {

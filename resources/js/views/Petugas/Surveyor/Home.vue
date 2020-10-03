@@ -33,9 +33,36 @@
               <v-expansion-panel-header>
                 <v-row
                   no-gutters
+                  align="center"
                   justify="space-between"
                 >
-                  <v-col cols="4"><strong>{{item.nama}}</strong></v-col>
+                  <v-col cols="6"><strong>{{item.nama}}</strong></v-col>
+                  <v-col
+                    cols="4"
+                    v-if="Object.keys(item.survey).length < 1"
+                  >
+                     <span
+                     class="caption"
+                      >
+                    Belum ada pemohon masuk
+                   
+                    </span>
+                  </v-col>
+                  <v-col
+                    cols="4"
+                    v-if="Object.keys(item.survey).length > 0"
+                  >
+                   <v-chip
+                   class="mx-auto text-right"
+                        small
+                        label
+                        dark
+                        color="green"
+                      >
+                    Jumlah pemohon masuk {{item.survey.length}}
+                   
+                    </v-chip>
+                  </v-col>
                 </v-row>
               </v-expansion-panel-header>
               <v-expansion-panel-content>

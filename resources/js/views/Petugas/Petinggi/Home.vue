@@ -35,8 +35,31 @@
                   no-gutters
                   justify="space-between"
                 >
-                  <v-col cols="4"><strong>{{item.nama}}</strong></v-col>
+                  <v-col cols="6"><strong>{{item.nama}}</strong></v-col>
+                  <v-col
+                    cols="4"
+                    v-if="Object.keys(item.selection).length < 1"
+                  >
+                    <span class="caption">
+                      Belum ada pemohon masuk
 
+                    </span>
+                  </v-col>
+                  <v-col
+                    cols="4"
+                    v-if="Object.keys(item.selection).length > 0"
+                  >
+                    <v-chip
+                      class="mx-auto text-right"
+                      small
+                      label
+                      dark
+                      color="green"
+                    >
+                      Jumlah pemohon masuk {{item.selection.length}}
+
+                    </v-chip>
+                  </v-col>
                 </v-row>
 
               </v-expansion-panel-header>
@@ -134,43 +157,43 @@
 
           <v-card-text class="mt-2 white--text">
             detail
-                          <v-row
-                no-gutters=""
-                class="ma-5"
-                v-for="(field,index) in JSON.parse(selectedMahasiswa.form)"
-                :key="index"
-              >
+            <v-row
+              no-gutters=""
+              class="ma-5"
+              v-for="(field,index) in JSON.parse(selectedMahasiswa.form)"
+              :key="index"
+            >
 
-                <v-col style="padding-bottom:0 !important;">
-                  <p>{{field.pertanyaan}}</p>
-                  <p v-if="field.type == 'Pilihan'"><span>
-                      <v-icon>mdi-text-short</v-icon>{{field.value}}
-                    </span></p>
-                  <p v-if="field.type == 'Jawaban Pendek'"><span>
-                      <v-icon>mdi-text-short</v-icon>{{field.value}}
-                    </span></p>
-                  <p v-if="field.type == 'Jawaban Angka'"><span>
-                      <v-icon>mdi-text-short</v-icon>{{field.value}}
-                    </span></p>
-                  <p v-if="field.type == 'Tanggal'"><span>
-                      <v-icon>mdi-text-short</v-icon>{{field.value}}
-                    </span></p>
-                  <v-btn
-                    v-if="field.type == 'Upload File'"
-                    small
-                    @click="link(field.value)"
-                  >lihat file</v-btn>
-                  <p v-if="field.type == 'Paragraf'"><span>
-                      <v-icon>mdi-text-short</v-icon>{{field.value}}
-                    </span></p>
-                </v-col>
-                <v-col cols="12">
-                  <v-divider></v-divider>
-                </v-col>
-                <v-col cols="12">
+              <v-col style="padding-bottom:0 !important;">
+                <p>{{field.pertanyaan}}</p>
+                <p v-if="field.type == 'Pilihan'"><span>
+                    <v-icon>mdi-text-short</v-icon>{{field.value}}
+                  </span></p>
+                <p v-if="field.type == 'Jawaban Pendek'"><span>
+                    <v-icon>mdi-text-short</v-icon>{{field.value}}
+                  </span></p>
+                <p v-if="field.type == 'Jawaban Angka'"><span>
+                    <v-icon>mdi-text-short</v-icon>{{field.value}}
+                  </span></p>
+                <p v-if="field.type == 'Tanggal'"><span>
+                    <v-icon>mdi-text-short</v-icon>{{field.value}}
+                  </span></p>
+                <v-btn
+                  v-if="field.type == 'Upload File'"
+                  small
+                  @click="link(field.value)"
+                >lihat file</v-btn>
+                <p v-if="field.type == 'Paragraf'"><span>
+                    <v-icon>mdi-text-short</v-icon>{{field.value}}
+                  </span></p>
+              </v-col>
+              <v-col cols="12">
+                <v-divider></v-divider>
+              </v-col>
+              <v-col cols="12">
 
-                </v-col>
-              </v-row>
+              </v-col>
+            </v-row>
           </v-card-text>
 
           <v-divider></v-divider>
@@ -194,28 +217,38 @@
       </v-dialog>
     </div>
     <!-- Dialog Delete -->
-    <div class="text-center" v-if="dialogDelete">
-      <v-dialog v-model="dialogDelete" width="400" overlay-color="#2E7D32">
+    <div
+      class="text-center"
+      v-if="dialogDelete"
+    >
+      <v-dialog
+        v-model="dialogDelete"
+        width="400"
+        overlay-color="#2E7D32"
+      >
         <v-card>
-          <v-card-title class="headline white--text" primary-title>
+          <v-card-title
+            class="headline white--text"
+            primary-title
+          >
             <i class="mdi mdi-checkbox-marked-circle-outline mr-2"></i> Tutup Penerimaan Beasiswa
           </v-card-title>
 
           <v-card-text class="white--text text-center mt-2">
             <strong class="d-block">{{this.selectedBeasiswa.nama}}</strong>
             <small>
-                  Kuota penerima beasiswa : {{Object.keys(this.selectedBeasiswa.lulus).length}} / {{this.selectedBeasiswa.quota}} Orang
-            <v-badge
+              Kuota penerima beasiswa : {{Object.keys(this.selectedBeasiswa.lulus).length}} / {{this.selectedBeasiswa.quota}} Orang
+              <v-badge
                 inline
                 content=" Terpenuhi"
                 v-if="Object.keys(this.selectedBeasiswa.lulus).length == this.selectedBeasiswa.quota"
-            ></v-badge>
-            <v-badge
+              ></v-badge>
+              <v-badge
                 inline
                 color="red"
                 content=" Tdk Terpenuhi"
                 v-if="Object.keys(this.selectedBeasiswa.lulus).length < this.selectedBeasiswa.quota"
-            ></v-badge>
+              ></v-badge>
             </small>
           </v-card-text>
           <v-card-text class="white--text text-center pb-0">
@@ -225,9 +258,17 @@
           <v-divider></v-divider>
 
           <v-card-actions>
-            <v-btn @click="dialogDelete = false" color="white" text>batal</v-btn>
+            <v-btn
+              @click="dialogDelete = false"
+              color="white"
+              text
+            >batal</v-btn>
             <v-spacer></v-spacer>
-            <v-btn color="#2E7D32" dark @click="deleteSelectedBeasiswa()">
+            <v-btn
+              color="#2E7D32"
+              dark
+              @click="deleteSelectedBeasiswa()"
+            >
               Selesai
             </v-btn>
           </v-card-actions>
@@ -262,59 +303,64 @@ export default {
     this.getBeasiswaWithPermohonan();
   },
   methods: {
-    width(){
+    width() {
       // console.log(this.windowWidth)
-      if(this.windowWidth<=600){ return "100%"}
-      else if(this.windowWidth<=960){return "85%"}
-      else{
-        return "70%"
-      };
+      if (this.windowWidth <= 600) {
+        return "100%";
+      } else if (this.windowWidth <= 960) {
+        return "85%";
+      } else {
+        return "70%";
+      }
     },
-    ...mapActions(["getBeasiswaWithPermohonan", "deleteBeasiswaWithPermohonan"]),
+    ...mapActions([
+      "getBeasiswaWithPermohonan",
+      "deleteBeasiswaWithPermohonan"
+    ]),
     lulus() {
-        console.log(this.selectedMahasiswa);
-        this.btnLoading = true;
-        axios
+      console.log(this.selectedMahasiswa);
+      this.btnLoading = true;
+      axios
         .put(`${this.url}/api/pemohon/set-selection`, {
-            bool: this.selectedMahasiswa.is_selection_passed == 1 ? 0 : 1,
-            id: this.selectedMahasiswa.id
+          bool: this.selectedMahasiswa.is_selection_passed == 1 ? 0 : 1,
+          id: this.selectedMahasiswa.id
         })
         .then(response => {
-            if (!response.data.status){
-                this.snackbar = {
-                    show: true,
-                    color: "red",
-                    message: "Kuota beasiswa sudah penuh!",
-                }
-            }else {
-                this.getBeasiswaWithPermohonan();
-            }
-            this.btnLoading = false;
-            this.dialogDetail = false;
-            this.selectedMahasiswa = {};
+          if (!response.data.status) {
+            this.snackbar = {
+              show: true,
+              color: "red",
+              message: "Kuota beasiswa sudah penuh!"
+            };
+          } else {
+            this.getBeasiswaWithPermohonan();
+          }
+          this.btnLoading = false;
+          this.dialogDetail = false;
+          this.selectedMahasiswa = {};
         });
     },
     tutup(item) {
-        this.dialogDelete = true;
-        this.selectedBeasiswa = item;
+      this.dialogDelete = true;
+      this.selectedBeasiswa = item;
     },
     deleteSelectedBeasiswa() {
-        this.btnLoading = true;
-        this.deleteBeasiswaWithPermohonan(this.selectedBeasiswa.id)
-          .then(response => {
-            this.btnLoading = false;
-            this.dialogDelete = false;
-            this.selectedBeasiswa = {};
-            this.snackbar = {
-                show: true,
-                color: "blue",
-                message: "Beasiswa telah ditutup!",
-            }
-          })
-          .catch(error => {
-            this.btnLoading = false;
-            this.dialogDelete = false;
-          });
+      this.btnLoading = true;
+      this.deleteBeasiswaWithPermohonan(this.selectedBeasiswa.id)
+        .then(response => {
+          this.btnLoading = false;
+          this.dialogDelete = false;
+          this.selectedBeasiswa = {};
+          this.snackbar = {
+            show: true,
+            color: "blue",
+            message: "Beasiswa telah ditutup!"
+          };
+        })
+        .catch(error => {
+          this.btnLoading = false;
+          this.dialogDelete = false;
+        });
     },
     link(url) {
       var a = this.url + "/" + url;
@@ -324,7 +370,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["beasiswa","url"])
+    ...mapState(["beasiswa", "url"])
   },
   data() {
     return {
@@ -332,9 +378,9 @@ export default {
       selectedMahasiswa: {},
       dialogDelete: false,
       dialogDetail: false,
-      btnLoading:false,
+      btnLoading: false,
       snackbar: {
-          show: false
+        show: false
       },
       headers: [
         {

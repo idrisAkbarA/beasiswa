@@ -24,7 +24,7 @@
                 <v-text-field
                   prepend-inner-icon="mdi-account-circle"
                   color="white"
-                  v-model="nim"
+                  v-model="name"
                   label="Username"
                 ></v-text-field>
                 <v-text-field

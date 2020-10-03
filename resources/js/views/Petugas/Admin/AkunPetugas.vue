@@ -207,6 +207,7 @@
           <v-btn
             text
             @click="dialog = false"
+            :loading="btnLoading"
           >
             Batal
           </v-btn>
@@ -264,6 +265,7 @@ export default {
       this.editItem.id = item.id;
     },
     storeEdit() {
+      this.btnLoading = true;
       var data = {
         name: this.editItem.name,
         password: this.editItem.password,
@@ -271,12 +273,17 @@ export default {
       };
       this.editAkunPetugas(this.editItem).then(response => {
         console.log(response.data);
+        this.toggleEdit = false;
+        this.btnLoading = false;
       });
     },
     store() {
+      this.btnLoading = true;
       console.log(this.storeItem);
       this.storeAkunPetugas(this.storeItem).then(response => {
         this.storeItem = {};
+        this.btnLoading = false;
+        this.toggleAkunPetugas = false;
       });
     },
     convertRole(role) {

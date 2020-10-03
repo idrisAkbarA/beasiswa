@@ -41,7 +41,7 @@
             <v-spacer></v-spacer><span class="caption">Tersedia</span>
           </v-card-title>
           <v-card-text>
-            <h1>{{item.nama}}</h1>
+            <h1>{{item.nama.length>60 ? item.nama.substring(0,50) + " ..." : item.nama}}</h1>
           </v-card-text>
         </v-img>
 
