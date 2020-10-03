@@ -212,7 +212,7 @@ export default {
         }
         if (element.beasiswa.is_survey == 1) {
           var is_done = false;
-          if (element.is_interview_survey == 1) {
+          if (element.is_survey_passed == 1) {
             is_done = true;
           }
           timeline.push({
@@ -230,10 +230,15 @@ export default {
             )}, harap menunggu.`
           });
         }
+        var is_done = false;
+        if(element.is_selection_passed){
+          is_done = true;
+        }
         timeline.push({
           kegiatan: "Seleksi pimpinan",
           awal_tgl: null,
           akhir_tgl: null,
+          is_done,
           msg: "Harap menunggu hasil seleksi pimpinan."
         });
         permohonans[index]["timeline"] = timeline;
