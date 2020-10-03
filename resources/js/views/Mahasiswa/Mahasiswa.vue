@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <v-navigation-drawer
+      style="z-index:11"
       :src="'/images/drawer-bg.jpg'"
       v-model="drawer"
       app

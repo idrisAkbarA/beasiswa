@@ -14,13 +14,18 @@
         class="elevation-10 mb-10"
       >
         <template v-slot:item.actions="{ item }">
-          <v-icon
-            small
+          <v-btn
+            :disabled="isDisabled(item)"
+            icon
+            x-small=""
             class="mr-2"
             @click="edit(item)"
           >
-            mdi-pencil
-          </v-icon>
+            <v-icon>
+              mdi-pencil
+            </v-icon>
+
+          </v-btn>
           <v-icon
             small
             @click="deleteBea(item)"
@@ -963,6 +968,13 @@ export default {
     },
     compareType(a, b) {
       a == b ? true : false;
+    },
+    isDisabled(item) {
+      var date = Date.parse(item.awal_berkas);
+      var now = Date.now();
+      var value = date >= now ? false : true;
+      console.log(value);
+      return value;
     },
     save() {
       var awal_wawancara = "";
