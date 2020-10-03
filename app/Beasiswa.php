@@ -88,8 +88,9 @@ class Beasiswa extends Model
     public static function active()
     {
         $today = Carbon::today();
-        $beasiswa =  self::whereDate('akhir_berkas', '>=', $today)->get();
-        // $beasiswa->makeVisible(['berkas', 'interview', 'survey', 'selection', 'lulus']);
+        $beasiswa =  self::whereDate('akhir_berkas', '>=', $today)
+            ->with('instansi')
+            ->get();
         $beasiswa = $beasiswa->reject(function ($value, $key) use ($today) {
             if ($value->awal_berkas == NULL) {
                 return false;

@@ -27,7 +27,6 @@
             inset
           >
             <v-expansion-panel
-            
               v-for="(item,i) in beasiswa"
               :key="i"
             >
@@ -42,26 +41,24 @@
                     cols="4"
                     v-if="Object.keys(item.interview).length < 1"
                   >
-                     <span
-                     class="caption"
-                      >
-                    Belum ada pemohon masuk
-                   
+                    <span class="caption">
+                      Belum ada pemohon masuk
+
                     </span>
                   </v-col>
                   <v-col
                     cols="4"
                     v-if="Object.keys(item.interview).length > 0"
                   >
-                   <v-chip
-                   class="mx-auto text-right"
-                        small
-                        label
-                        dark
-                        color="green"
-                      >
-                    Jumlah pemohon masuk {{item.interview.length}}
-                   
+                    <v-chip
+                      class="mx-auto text-right"
+                      small
+                      label
+                      dark
+                      color="green"
+                    >
+                      Jumlah pemohon masuk {{item.interview.length}}
+
                     </v-chip>
                   </v-col>
                 </v-row>
@@ -249,8 +246,7 @@ export default {
     link(url) {
       var a = this.url + "/" + url;
       var link = a.replace(" ", "%20");
-      console.log(link);
-      location = link;
+      window.open(link, "_blank");
     },
     setInterview(bool) {
       this.btnLoading = true;

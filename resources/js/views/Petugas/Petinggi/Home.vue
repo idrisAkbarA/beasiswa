@@ -26,7 +26,7 @@
             hover
             inset
           >
-      
+
             <v-expansion-panel
               v-for="(item,i) in beasiswa"
               :key="i"
@@ -135,7 +135,7 @@
                 </v-row>
               </v-expansion-panel-content>
             </v-expansion-panel>
-  
+
           </v-expansion-panels>
         </v-card-text>
       </v-row>
@@ -367,8 +367,7 @@ export default {
     link(url) {
       var a = this.url + "/" + url;
       var link = a.replace(" ", "%20");
-      console.log(link);
-      location = link;
+      window.open(link, "_blank");
     }
   },
   computed: {

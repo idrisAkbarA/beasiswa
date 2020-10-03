@@ -41,26 +41,24 @@
                     cols="4"
                     v-if="Object.keys(item.survey).length < 1"
                   >
-                     <span
-                     class="caption"
-                      >
-                    Belum ada pemohon masuk
-                   
+                    <span class="caption">
+                      Belum ada pemohon masuk
+
                     </span>
                   </v-col>
                   <v-col
                     cols="4"
                     v-if="Object.keys(item.survey).length > 0"
                   >
-                   <v-chip
-                   class="mx-auto text-right"
-                        small
-                        label
-                        dark
-                        color="green"
-                      >
-                    Jumlah pemohon masuk {{item.survey.length}}
-                   
+                    <v-chip
+                      class="mx-auto text-right"
+                      small
+                      label
+                      dark
+                      color="green"
+                    >
+                      Jumlah pemohon masuk {{item.survey.length}}
+
                     </v-chip>
                   </v-col>
                 </v-row>
@@ -252,8 +250,7 @@ export default {
     link(url) {
       var a = this.url + "/" + url;
       var link = a.replace(" ", "%20");
-      console.log(link);
-      location = link;
+      window.open(link, "_blank");
     },
     setSurvey(bool) {
       this.btnLoading = true;

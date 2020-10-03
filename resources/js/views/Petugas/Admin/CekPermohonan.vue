@@ -153,8 +153,7 @@ export default {
     link(url) {
       var a = this.url + "/" + url;
       var link = a.replace(" ", "%20");
-      console.log(link);
-      location = link;
+      window.open(link, "_blank");
     },
     lulusButton() {
       this.dialog = true;
@@ -173,10 +172,10 @@ export default {
           id: this.rincian.id
         })
         .then(response => {
-            this.getCekBerkas();
+          this.getCekBerkas();
           console.log(response.data);
           this.dialog = false;
-          this.openSheet=false
+          this.openSheet = false;
         });
     }
   },
