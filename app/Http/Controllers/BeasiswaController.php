@@ -84,7 +84,7 @@ class BeasiswaController extends Controller
     }
     public function selesai()
     {
-        $beasiswaSelesai = Beasiswa::onlyTrashed()->get();
+        $beasiswaSelesai = Beasiswa::with('instansi')->onlyTrashed()->get();
         $beasiswaSelesai->makeVisible(['berkas', 'interview', 'survey', 'selection', 'lulus', 'permohonan']);
         $beasiswaOnProgress = Beasiswa::active();
         $beasiswaOnProgress->makeVisible(['berkas', 'interview', 'survey', 'selection', 'lulus', 'permohonan']);

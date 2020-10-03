@@ -161,7 +161,7 @@ export default {
             sortable: false,
             value: "nama"
           },
-          { text: "Instansi", value: "instansi_id" },
+          { text: "Instansi", value: "instansi.name" },
           { text: "Actions", value: "actions", sortable: false }
         ],
         pemohon: [
