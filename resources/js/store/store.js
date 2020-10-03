@@ -171,6 +171,16 @@ export default new Vuex.Store({
                 })
             })
         },
+        deleteAkunPetugas({ commit, dispatch, state }, data) {
+            return new Promise((resolve, reject) => {
+                Axios.delete(state.url + "/api/petugas/" + data.id).then(response => {
+                    dispatch('getAkunPetugas')
+                    resolve(response)
+                }).catch(error => {
+                    reject(error)
+                })
+            })
+        },
         editBeasiswa({ commit, dispatch, state }, data) {
             return new Promise((resolve, reject) => {
                 console.log(data + "pante")

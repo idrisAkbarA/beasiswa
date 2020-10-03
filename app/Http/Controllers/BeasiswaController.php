@@ -11,7 +11,9 @@ class BeasiswaController extends Controller
 
     public function getAll()
     {
-        $beasiswa = Beasiswa::orderBy('id', 'DESC')->with('instansi')->get();
+        $beasiswa = Beasiswa::orderBy('id', 'DESC')
+            ->with('instansi')
+            ->get();
         return response()->json($beasiswa);
     }
     public function getAllWithPermohonan()

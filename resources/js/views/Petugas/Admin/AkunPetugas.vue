@@ -17,15 +17,16 @@
           <v-icon
             small
             class="mr-2"
-            @click="edit(item)"
-          >
-            mdi-pencil
+            @click="showChangePass(item)"
+            title="Ubah Pasword"
+          >mdi-textbox-password
           </v-icon>
           <v-icon
             small
+            v-if="item.id != petugas.id"
+            title="Hapus Akun"
             @click="deleteItem(item)"
-          >
-            mdi-delete
+          >mdi-delete
           </v-icon>
         </template>
         <template v-slot:item.role="{ item }">
@@ -38,69 +39,50 @@
         </template>
       </v-data-table>
     </v-skeleton-loader>
+
+    <!-- change pass modal -->
     <v-bottom-sheet
-      scrollable
       width="60%"
       inset
       overlay-color="#69F0AE"
-      v-model="toggleEdit"
+      v-model="toggleChangePass"
     >
       <v-card>
-        <v-card-title> <span>Edit Petugas</span>
+        <v-card-title>
+          <span>Ubah Password</span>
           <v-spacer></v-spacer>
           <v-btn
-            @click="toggleEdit = false"
+            @click="toggleChangePass = false"
             text
-          >Batal</v-btn>
+          >batal</v-btn>
           <v-btn
             color="#2E7D32"
             :loading="btnLoading"
-            @click="storeEdit"
+            @click="changePass()"
           >Simpan</v-btn>
         </v-card-title>
-        <v-card-text>
-          <v-row class="ma-5">
-            <v-col
-              cols="4"
-              xs="12"
-            >
+        <v-card-text style="height: 100px;">
+          <v-row
+            dense
+            class="mx-1"
+          >
+            <v-col>
               <v-text-field
-                color="white"
-                label="Username"
-                v-model="editItem.name"
-              >
-              </v-text-field>
-            </v-col>
-            <v-col
-              cols="4"
-              xs="12"
-            >
-              <v-select
-                label="Role"
-                color="white"
-                :items="role"
-                item-text="role"
-                item-value="id"
-                v-model="editItem.role"
-              ></v-select>
-            </v-col>
-            <v-col
-              cols="4"
-              xs="12"
-            >
-              <v-text-field
-                color="white"
-                label="Password"
+                color="#C8E6C9"
+                label="Password Baru"
+                v-model="form.password"
                 type="password"
-                hint="Isi untuk ganti password"
-                persistent-hint
-                v-model="editItem.password"
-              >
-
-              </v-text-field>
+              ></v-text-field>
+            </v-col>
+            <v-col>
+              <v-text-field
+                color="#C8E6C9"
+                label="Konfirmasi Password Baru"
+                v-model="form.password2"
+                type="password"
+              ></v-text-field>
             </v-col>
           </v-row>
-
         </v-card-text>
       </v-card>
     </v-bottom-sheet>
@@ -193,20 +175,22 @@
     <v-dialog
       width="400"
       overlay-color="#69F0AE"
-      v-model="dialog"
+      v-model="dialogDelete"
     >
       <v-card>
         <v-card-title class="mt-2">
-          {{msg}}
-          <p style="font-weight:bold">
-            <!-- {{itemtoDelete.nama}}? -->
-          </p>
+          <v-icon
+            color="white"
+            class="mr-2"
+          >delete</v-icon> Hapus Akun
         </v-card-title>
+        <v-card-text class="mt-2 white--text text-center">
+          Apakah anda yakin akan menghapus akun ini ?
+        </v-card-text>
         <v-card-actions>
-
           <v-btn
             text
-            @click="dialog = false"
+            @click="dialogDelete = false"
             :loading="btnLoading"
           >
             Batal
@@ -215,13 +199,32 @@
           <v-btn
             dark
             class="green"
+            @click="deleteConfirmed()"
           >
             <v-icon left>mdi-check</v-icon>
-            iya
+            Ya
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <!-- Snackbar -->
+    <v-snackbar
+      v-model="snackbar.show"
+      :timeout="2000"
+    >
+      {{ snackbar.message }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          :color="snackbar.color"
+          text
+          v-bind="attrs"
+          @click="snackbar.show = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -230,6 +233,7 @@ import { mapActions, mapMutations, mapState } from "vuex";
 export default {
   created() {
     this.getFakultas();
+    this.getPetugas();
     this.getAkunPetugas();
   },
   computed: {
@@ -256,26 +260,72 @@ export default {
       "getFakultas",
       "getAkunPetugas",
       "storeAkunPetugas",
-      "editAkunPetugas"
+      "editAkunPetugas",
+      "deleteAkunPetugas"
     ]),
-    edit(item) {
-      this.toggleEdit = true;
-      this.editItem.name = item.name;
-      this.editItem.role = item.role;
-      this.editItem.id = item.id;
-    },
-    storeEdit() {
+    getPetugas() {
       this.btnLoading = true;
-      var data = {
-        name: this.editItem.name,
-        password: this.editItem.password,
-        role: this.editItem.role
-      };
-      this.editAkunPetugas(this.editItem).then(response => {
-        console.log(response.data);
-        this.toggleEdit = false;
+      axios.get(`${this.url}/api/user/petugas`).then(response => {
+        this.petugas = response.data;
         this.btnLoading = false;
       });
+    },
+    showChangePass(item) {
+      this.toggleChangePass = true;
+      this.form = item;
+      this.id = item.id;
+    },
+    changePass() {
+      var data = this.form;
+      if (data.password == data.password2) {
+        this.btnLoading = true;
+        this.editAkunPetugas(data)
+          .then(response => {
+            this.btnLoading = false;
+            this.toggleChangePass = false;
+            this.form = {};
+            this.snackbar = {
+              show: true,
+              color: "blue",
+              message: "Ubah password berhasil!"
+            };
+          })
+          .catch(error => {
+            this.btnLoading = false;
+          });
+      } else {
+        this.snackbar = {
+          show: true,
+          color: "red",
+          message: "Konfirmasi password harus sama!"
+        };
+      }
+    },
+    deleteItem(item) {
+      this.dialogDelete = true;
+      this.form.id = item.id;
+    },
+    deleteConfirmed() {
+      this.btnLoading = true;
+      this.deleteAkunPetugas(this.form)
+        .then(response => {
+          this.btnLoading = false;
+          this.dialogDelete = false;
+          this.form = {};
+          this.snackbar = {
+            show: true,
+            color: "blue",
+            message: "Hapus akun berhasil!"
+          };
+        })
+        .catch(error => {
+          this.btnLoading = false;
+          this.snackbar = {
+            show: true,
+            color: "red",
+            message: error
+          };
+        });
     },
     store() {
       this.btnLoading = true;
@@ -284,22 +334,26 @@ export default {
         this.storeItem = {};
         this.btnLoading = false;
         this.toggleAkunPetugas = false;
+        this.snackbar = {
+          show: true,
+          color: "blue",
+          message: "Tambah akun baru berhasil!"
+        };
       });
-    },
-    convertRole(role) {
-      if (role == 1) {
-        return "Administrator";
-      } else if (role == 2) {
-        return "Pewawancara";
-      } else if (role == 3) {
-        return "Surveyor";
-      } else if (role == 4) {
-        return "Petinggi";
-      }
     }
   },
   data() {
     return {
+      form: {},
+      petugas: {},
+      rincian: {},
+      msg: "",
+      toggleChangePass: false,
+      dialogDelete: false,
+      btnLoading: false,
+      snackbar: {
+        show: false
+      },
       editItem: {
         name: "",
         nama_lengkap: "",
@@ -319,11 +373,6 @@ export default {
         { id: 4, role: "Petinggi", color: "orange" },
         { id: 5, role: "Verificator", color: "cyan darken-4" }
       ],
-      toggleEdit: false,
-      dialog: false,
-      msg: "",
-      rincian: {},
-      btnLoading: false,
       headers: [
         {
           text: "Username",
