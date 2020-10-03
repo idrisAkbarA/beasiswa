@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use App\User;
+use App\Jurusan;
+use App\Fakultas;
 class authAPIController extends Controller
 {
     public function loginServer(Request $request){
@@ -13,16 +15,32 @@ class authAPIController extends Controller
             'username' => $request["username"],
             'password' =>  $request["password"],
         ]);
+        
+        $fakultas = Fakultas::updateOrCreate(
+            ['nama'=>$response["data"]["user"]["fakultas"]]
+        );
+        $fakultas_id = $fakultas->id;
+
+        $jurusan = Jurusan::updateOrCreate(
+            ['singkatan'=>$response["data"]["user"]["regpd_id_sms"]],
+            [
+                'nama'=>$response["data"]["user"]["prodi"],
+                'fakultas_id'=>$fakultas_id
+            ]
+        );
+
+        $jurusan_id = $jurusan->id;
 
         $user = User::updateOrCreate(
             ['nim'=>$response["data"]["user"]["id_pd"]],
             [
                 'nama'=>$response["data"]["user"]["nm_pd"],
                 'password'=>Hash::make($response["data"]["token"]),
-                'jurusan_id'=>$response["data"]["user"]["id_pd"][5], // jurusan diambil dari digit ke 5 nim
+                // 'jurusan_id'=>$response["data"]["user"]["id_pd"][5], // jurusan diambil dari digit ke 5 nim
+                'jurusan_id'=>$jurusan_id, // jurusan diambil dari digit ke 5 nim
                 'email'=>$response["data"]["user"]["email"],
                 'hp'=>$response["data"]["user"]["telepon_seluler"],
-                'semester'=>null,
+                'semester'=>$response["data"]["user"]["semester"],
                 'ips'=>$response["data"]["user"]["ips"],
                 'ipk'=>$response["data"]["user"]["ipk"],
                 'tgl_lahir'=>$response["data"]["user"]["tgl_lahir"],
