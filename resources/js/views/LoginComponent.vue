@@ -6,16 +6,20 @@
     <v-card-text>
       <p class="red--text">{{error}}</p>
       <v-text-field
+        prepend-inner-icon="mdi-account-circle"
         color="white"
         v-model="nim"
         label="Username"
       ></v-text-field>
       <v-text-field
+        prepend-inner-icon="mdi-lock"
         color="white"
         v-model="pass"
-        type="password"
+        :type="show1 ? 'text' : 'password'"
         @keyup.enter="login"
         label="Password"
+        @click:append="show1 = !show1"
+        :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
       ></v-text-field>
 
       <v-btn
@@ -40,7 +44,8 @@ export default {
       pass: "",
       error: "",
       loading: false,
-      isServer: true
+      isServer: true,
+      show1: false
     };
   },
   methods: {

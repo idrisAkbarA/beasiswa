@@ -16,33 +16,7 @@
             md="4"
             lg="3"
           >
-            <v-card elevation="14">
-              <v-card-title>
-                Login
-              </v-card-title>
-              <v-card-text>
-                <p class="red--text">{{error}}</p>
-                <v-text-field
-                  color="white"
-                  v-model="nim"
-                  label="Username"
-                ></v-text-field>
-                <v-text-field
-                  color="white"
-                  v-model="pass"
-                  type="password"
-                  @keyup.enter="login"
-                  label="Password"
-                ></v-text-field>
-
-                <v-btn
-                  color="green"
-                  :loading="loading"
-                  @click="(isServer)?loginServer():login()"
-                >login</v-btn>
-
-              </v-card-text>
-            </v-card>
+            <LoginComponent></LoginComponent>
           </v-col>
         </v-row>
       </v-container>
@@ -52,10 +26,14 @@
 </template>
 
 <script>
+import LoginComponent from './LoginComponent';
 import axios from "axios";
 axios.defaults.withCredentials = true;
 import { mapMutations } from "vuex";
 export default {
+  components:{
+    LoginComponent
+  },
   data() {
     return {
       nim: "",

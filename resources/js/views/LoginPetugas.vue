@@ -22,19 +22,27 @@
               <v-card-text>
                 <p class="red--text">{{error}}</p>
                 <v-text-field
-                color="white"
-                  v-model="name"
+                  prepend-inner-icon="mdi-account-circle"
+                  color="white"
+                  v-model="nim"
                   label="Username"
                 ></v-text-field>
                 <v-text-field
-                color="white"
+                  prepend-inner-icon="mdi-lock"
+                  color="white"
                   v-model="pass"
-                  type="password"
+                  :type="show1 ? 'text' : 'password'"
                   @keyup.enter="login"
                   label="Password"
+                  @click:append="show1 = !show1"
+                  :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                 ></v-text-field>
 
-                <v-btn color="green" :loading="loading" @click="login">login</v-btn>
+                <v-btn
+                  color="green"
+                  :loading="loading"
+                  @click="login"
+                >login</v-btn>
 
               </v-card-text>
             </v-card>
@@ -53,10 +61,11 @@ axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 export default {
   data() {
     return {
+      show1: false,
       name: "",
       pass: "",
       error: "",
-      loading:false,
+      loading: false
     };
   },
   methods: {
@@ -87,20 +96,19 @@ export default {
                 this.$router.push({
                   path: `/surveyor/${response.data.user.name}/home`
                 });
-              }
-              else if (response.data.user.role == 4) {
+              } else if (response.data.user.role == 4) {
                 console.log("interviewer");
                 this.$router.push({
-                    path: `/petinggi/${response.data.user.name}/home`
+                  path: `/petinggi/${response.data.user.name}/home`
                 });
-              }else if(response.data.user.role == 5){
+              } else if (response.data.user.role == 5) {
                 this.$router.push({
-                    path: `/verificator/${response.data.user.name}/home`
+                  path: `/verificator/${response.data.user.name}/home`
                 });
-              }else if(response.data.user.role == 0){
+              } else if (response.data.user.role == 0) {
                 console.log("asd");
                 this.$router.push({
-                    path: `/super/${response.data.user.name}`
+                  path: `/super/${response.data.user.name}`
                 });
               }
             } else {
