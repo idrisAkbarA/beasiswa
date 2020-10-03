@@ -7,7 +7,7 @@
       <h2>Tidak ada permohonan</h2>
     </v-row>
     <v-row
-    justify="center"
+      justify="center"
       v-for="(item,index) in permohonans"
       :key="index"
     >
@@ -18,8 +18,8 @@
         </v-card-title>
         <v-card-subtitle>
           <span class="title">
-          Status: <strong>
-            {{checkStatus(item)}} </strong>
+            Status: <strong>
+              {{checkStatus(item)}} </strong>
 
           </span>
         </v-card-subtitle>
@@ -58,7 +58,8 @@
 
             </v-col>
             <v-col cols="12">
-              <v-timeline dense
+              <v-timeline
+                dense
                 v-if="isShowTimeline(item)"
               >
                 <v-slide-x-reverse-transition
@@ -77,7 +78,11 @@
                       <v-col
                         cols="12"
                         xl="4"
-                      >{{parseDate(time.awal_tgl)  + " - " + parseDate(time.akhir_tgl) }}</v-col>
+                      >{{
+                        time.awal_tgl && time.akhir_tgl?
+                        parseDate(time.awal_tgl)  + " - " + parseDate(time.akhir_tgl) 
+                        : "-"
+                        }}</v-col>
                       <v-col
                         cols="12"
                         xl="8"
@@ -106,8 +111,8 @@ export default {
     this.getUserPermohonan();
   },
   methods: {
-    isShowTimeline(item){
-       if (item.is_selection_passed == 1) {
+    isShowTimeline(item) {
+      if (item.is_selection_passed == 1) {
         return true;
       }
       if (item.is_berkas_passed == 0) {
@@ -200,9 +205,9 @@ export default {
             msg: `Lakukan wawancara pada tanggal 
             ${
               element.beasiswa.awal_interview
-                ? this.parseDate(element.awal_interview) + " sampai "
+                ? this.parseDate(element.beasiswa.awal_interview) + " sampai "
                 : ""
-            }  ${element.beasiswa.akhir_interview}`
+            }  ${this.parseDate(element.beasiswa.akhir_interview)}`
           });
         }
         if (element.beasiswa.is_survey == 1) {
@@ -218,16 +223,18 @@ export default {
             msg: `Team survey akan melakukan survey pada  
             ${
               element.beasiswa.awal_survey
-                ? this.parseDate(element.awal_survey) + " sampai "
+                ? this.parseDate(element.beasiswa.awal_survey) + " sampai "
                 : ""
-            }  ${element.beasiswa.akhir_survey}, harap menunggu`
+            }  ${this.parseDate(
+              element.beasiswa.akhir_survey
+            )}, harap menunggu.`
           });
         }
         timeline.push({
           kegiatan: "Seleksi pimpinan",
           awal_tgl: null,
           akhir_tgl: null,
-          msg: "Harap menunggu hasil seleksi pimpinan"
+          msg: "Harap menunggu hasil seleksi pimpinan."
         });
         permohonans[index]["timeline"] = timeline;
         timeline = [];

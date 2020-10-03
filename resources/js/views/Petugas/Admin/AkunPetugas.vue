@@ -258,6 +258,7 @@ export default {
       "storeAkunPetugas",
       "editAkunPetugas"
     ]),
+
     edit(item) {
       this.toggleEdit = true;
       this.editItem.name = item.name;
