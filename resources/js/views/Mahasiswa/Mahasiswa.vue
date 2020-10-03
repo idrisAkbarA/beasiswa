@@ -113,10 +113,10 @@ export default {
           }
         })
         .then(response => {
-          this.$router.push({ name: "Login" });
+          this.$router.push({ name: "Landing Page" });
         })
         .catch(() => {
-          this.$router.push({ path: "/login" });
+          this.$router.push({ name: "Landing Page" });
         });
     }
   },

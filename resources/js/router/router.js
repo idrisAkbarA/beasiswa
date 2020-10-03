@@ -47,7 +47,7 @@ Vue.use(VueRouter);
 const routes = [
     {
         path: "/",
-        name: "Home",
+        name: "Landing Page",
         component: Home
     },
     {

@@ -59,7 +59,7 @@
             class="font-weight-light ma-7"
           >Beasiswa Tersedia</h4>
           <v-btn
-            :to="{path:'/login'}"
+            @click="dialog=true"
             text
             color="green"
             style="z-index:3; position:fixed; right:0;"
@@ -114,7 +114,7 @@
             </v-sheet>
           </vue-scroll>
           <v-bottom-sheet
-          scrollable
+            scrollable
             inset
             overlay-color="green"
             v-model="sheet"
@@ -132,119 +132,120 @@
               <v-card-subtitle>{{beasiswaSingle.nama}}</v-card-subtitle>
               <v-card-text>
                 <vue-scroll :ops="opsSheet">
-                <v-container>
-                  {{beasiswaSingle.deskripsi}}
-                  <br><br>
-                  Batas upload berkas <span v-if="beasiswaSingle.awal_berkas"><strong>{{parseDate(beasiswaSingle.awal_berkas)}}</strong> sampai </span> <strong> {{parseDate(beasiswaSingle.akhir_berkas)}}</strong>
-                  <br>
-                  <span v-if="beasiswaSingle.is_interview">Waktu wawancara <span v-if="beasiswaSingle.awal_interview"><strong>{{parseDate(beasiswaSingle.awal_interview)}} </strong>sampai </span> <strong>{{parseDate(beasiswaSingle.akhir_interview)}}</strong> </span>
-                  <br>
-                  <span v-if="beasiswaSingle.is_survey">Waktu survey <span v-if="beasiswaSingle.awal_survey"><strong>{{parseDate(beasiswaSingle.awal_interview)}}</strong> sampai </span> <strong>{{parseDate(beasiswaSingle.akhir_interview)}} </strong> </span>
-                </v-container>
+                  <v-container>
+                    {{beasiswaSingle.deskripsi}}
+                    <br><br>
+                    Batas upload berkas <span v-if="beasiswaSingle.awal_berkas"><strong>{{parseDate(beasiswaSingle.awal_berkas)}}</strong> sampai </span> <strong> {{parseDate(beasiswaSingle.akhir_berkas)}}</strong>
+                    <br>
+                    <span v-if="beasiswaSingle.is_interview">Waktu wawancara <span v-if="beasiswaSingle.awal_interview"><strong>{{parseDate(beasiswaSingle.awal_interview)}} </strong>sampai </span> <strong>{{parseDate(beasiswaSingle.akhir_interview)}}</strong> </span>
+                    <br>
+                    <span v-if="beasiswaSingle.is_survey">Waktu survey <span v-if="beasiswaSingle.awal_survey"><strong>{{parseDate(beasiswaSingle.awal_interview)}}</strong> sampai </span> <strong>{{parseDate(beasiswaSingle.akhir_interview)}} </strong> </span>
+                  </v-container>
 
-                <v-divider></v-divider>
-                <v-container
-                  fluid
-                  v-if="beasiswaSingle.fields"
-                >
-                  <v-row>
-                    <v-col>
-                      <span>Preview pengisian berkas. <router-link :to="{ path: '/login'}">Login</router-link> untuk mengisi</span>
-
-                    </v-col>
-
-                  </v-row>
-
-                  <v-row
-                    v-for="(field,index) in JSON.parse(beasiswaSingle.fields)"
-                    :key="index"
-                    no-gutters
-                    dense
+                  <v-divider></v-divider>
+                  <v-container
+                    fluid
+                    v-if="beasiswaSingle.fields"
                   >
-                    <v-col style="padding-bottom:0 !important;">
-                      <p>{{field.pertanyaan}}</p>
-                      <v-radio-group
-                        disabled
-                        v-if="field.type == 'Pilihan'"
-                        column
-                        :mandatory="field.pilihan.required"
-                        v-model="field.value"
-                      >
-                        <v-radio
-                          v-for="(item,index) in field.pilihan.items"
-                          :key="index"
-                          :value="item.label"
-                          color="white"
-                          :label="item.label"
-                        >
-                        </v-radio>
-                      </v-radio-group>
-                      <v-text-field
-                        disabled
-                        prepend-icon="mdi-text-short"
-                        v-if="field.type == 'Jawaban Pendek'"
-                        dense
-                        color="white"
-                        v-model="field.value"
-                        placeholder="Jawaban Anda"
-                      ></v-text-field>
-                      <v-text-field
-                        disabled
-                        prepend-icon="mdi-numeric"
-                        v-if="field.type == 'Jawaban Angka'"
-                        dense
-                        v-model="field.value"
-                        color="white"
-                        type="number"
-                        placeholder="Jawaban Anda"
-                      ></v-text-field>
-                      <v-menu
-                        v-if="field.type == 'Tanggal'"
-                        v-model="field.date"
-                        :close-on-content-click="false"
-                        :nudge-right="40"
-                        transition="scale-transition"
-                        offset-y
-                        min-width="290px"
-                      >
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-text-field
-                            disabled
-                            v-model="field.value"
-                            label="Tanggal"
-                            prepend-icon="mdi-calendar"
-                            readonly
-                            v-bind="attrs"
-                            color="white"
-                            v-on="on"
-                          ></v-text-field>
-                        </template>
-                        <v-date-picker
+                    <v-row>
+                      <v-col>
+                        <!-- <span>Preview pengisian berkas. <router-link :to="{ path: '/login'}">Login</router-link> untuk mengisi</span> -->
+                        <span>Preview pengisian berkas. <span><v-chip color="green" small label outlined="" @click="dialog=true">login</v-chip></span> untuk mengisi</span>
+
+                      </v-col>
+
+                    </v-row>
+
+                    <v-row
+                      v-for="(field,index) in JSON.parse(beasiswaSingle.fields)"
+                      :key="index"
+                      no-gutters
+                      dense
+                    >
+                      <v-col style="padding-bottom:0 !important;">
+                        <p>{{field.pertanyaan}}</p>
+                        <v-radio-group
+                          disabled
+                          v-if="field.type == 'Pilihan'"
+                          column
+                          :mandatory="field.pilihan.required"
                           v-model="field.value"
-                          @input="menu2 = false"
-                        ></v-date-picker>
-                      </v-menu>
-                      <v-file-input
-                        disabled
-                        v-if="field.type == 'Upload File'"
-                        dense
-                        v-model="field.value"
-                        color="white"
-                        placeholder="Upload File"
-                      ></v-file-input>
-                      <v-textarea
-                        disabled
-                        v-model="field.value"
-                        prepend-icon="mdi-view-headline"
-                        v-if="field.type == 'Paragraf'"
-                        color="white"
-                        rows="1"
-                        dense
-                        label="Paragraf"
-                      ></v-textarea>
-                    </v-col>
-                  </v-row>
-                </v-container>
+                        >
+                          <v-radio
+                            v-for="(item,index) in field.pilihan.items"
+                            :key="index"
+                            :value="item.label"
+                            color="white"
+                            :label="item.label"
+                          >
+                          </v-radio>
+                        </v-radio-group>
+                        <v-text-field
+                          disabled
+                          prepend-icon="mdi-text-short"
+                          v-if="field.type == 'Jawaban Pendek'"
+                          dense
+                          color="white"
+                          v-model="field.value"
+                          placeholder="Jawaban Anda"
+                        ></v-text-field>
+                        <v-text-field
+                          disabled
+                          prepend-icon="mdi-numeric"
+                          v-if="field.type == 'Jawaban Angka'"
+                          dense
+                          v-model="field.value"
+                          color="white"
+                          type="number"
+                          placeholder="Jawaban Anda"
+                        ></v-text-field>
+                        <v-menu
+                          v-if="field.type == 'Tanggal'"
+                          v-model="field.date"
+                          :close-on-content-click="false"
+                          :nudge-right="40"
+                          transition="scale-transition"
+                          offset-y
+                          min-width="290px"
+                        >
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-text-field
+                              disabled
+                              v-model="field.value"
+                              label="Tanggal"
+                              prepend-icon="mdi-calendar"
+                              readonly
+                              v-bind="attrs"
+                              color="white"
+                              v-on="on"
+                            ></v-text-field>
+                          </template>
+                          <v-date-picker
+                            v-model="field.value"
+                            @input="menu2 = false"
+                          ></v-date-picker>
+                        </v-menu>
+                        <v-file-input
+                          disabled
+                          v-if="field.type == 'Upload File'"
+                          dense
+                          v-model="field.value"
+                          color="white"
+                          placeholder="Upload File"
+                        ></v-file-input>
+                        <v-textarea
+                          disabled
+                          v-model="field.value"
+                          prepend-icon="mdi-view-headline"
+                          v-if="field.type == 'Paragraf'"
+                          color="white"
+                          rows="1"
+                          dense
+                          label="Paragraf"
+                        ></v-textarea>
+                      </v-col>
+                    </v-row>
+                  </v-container>
                 </vue-scroll>
               </v-card-text>
             </v-card>
@@ -252,10 +253,16 @@
         </div>
       </v-sheet>
     </v-main>
+    <v-dialog v-model="dialog" :width="width()" overlay-color="green">
+     
+          <LoginComponent></LoginComponent>
+
+    </v-dialog>
   </v-app>
 </template>
 
 <script>
+import LoginComponent from "./LoginComponent";
 import { mapState, mapActions } from "vuex";
 export default {
   created() {
@@ -278,13 +285,14 @@ export default {
     width() {
       // console.log(this.windowWidth)
       if (this.windowWidth <= 600) {
-        return "100%";
+        return "70%";
       } else if (this.windowWidth <= 960) {
         return "30%";
       } else {
-        return "25%";
+        return "20%";
       }
-    }
+    },
+    
   },
   computed: {
     ...mapState(["beasiswa", "url"]),
@@ -294,6 +302,7 @@ export default {
   },
   data() {
     return {
+      dialog: false,
       sheet: false,
       beasiswaSingle: {},
       loading: false,
@@ -318,6 +327,9 @@ export default {
         }
       }
     };
+  },
+  components: {
+    LoginComponent
   }
 };
 </script>
