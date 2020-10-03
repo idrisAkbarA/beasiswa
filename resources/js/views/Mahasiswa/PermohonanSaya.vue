@@ -112,6 +112,9 @@ export default {
   },
   methods: {
     isShowTimeline(item) {
+      if (item.is_selection_passed == 0) {
+        return false;
+      }
       if (item.is_selection_passed == 1) {
         return true;
       }
@@ -127,6 +130,9 @@ export default {
       return true;
     },
     checkStatus(item) {
+      if (item.is_selection_passed == 0) {
+        return "Maaf permohonan anda didiskualifikasi.";
+      }
       if (item.is_selection_passed == 1) {
         return "Selamat permohonan anda lulus.";
       }
@@ -165,6 +171,9 @@ export default {
         return "ditolak";
       }
       if (item.is_survey_passed == 0) {
+        return "ditolak";
+      }
+      if (item.is_selection_passed == 0) {
         return "ditolak";
       }
       if (item.is_selection_passed == 1) {
@@ -231,7 +240,7 @@ export default {
           });
         }
         var is_done = false;
-        if(element.is_selection_passed){
+        if (element.is_selection_passed) {
           is_done = true;
         }
         timeline.push({
