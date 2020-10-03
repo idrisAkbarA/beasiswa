@@ -20,6 +20,14 @@
           <h4 class="mt-10 ml-10 mr-10 font-weight-light">Aplikasi
             Pendaftaran Beasiswa
             Uin Suska Riau</h4>
+          <v-divider></v-divider>
+          <h5 class="mt-10 ml-10 mr-10">Beasiswa tersedia: <span>
+              <v-chip
+                class="elevation-10"
+                color="green"
+                small
+              >{{beasiswa.length}}</v-chip>
+            </span></h5>
         </div>
         <div class="bg-pattern ">
           <v-app-bar
@@ -106,6 +114,7 @@
             </v-sheet>
           </vue-scroll>
           <v-bottom-sheet
+          scrollable
             inset
             overlay-color="green"
             v-model="sheet"
@@ -122,6 +131,7 @@
               </v-card-title>
               <v-card-subtitle>{{beasiswaSingle.nama}}</v-card-subtitle>
               <v-card-text>
+                <vue-scroll :ops="opsSheet">
                 <v-container>
                   {{beasiswaSingle.deskripsi}}
                   <br><br>
@@ -235,7 +245,7 @@
                     </v-col>
                   </v-row>
                 </v-container>
-
+                </vue-scroll>
               </v-card-text>
             </v-card>
           </v-bottom-sheet>
@@ -277,7 +287,10 @@ export default {
     }
   },
   computed: {
-    ...mapState(["beasiswa", "url"])
+    ...mapState(["beasiswa", "url"]),
+    count() {
+      return this.beasiswa.lenght;
+    }
   },
   data() {
     return {
@@ -292,6 +305,16 @@ export default {
         vuescroll: {
           wheelScrollDuration: 0,
           wheelDirectionReverse: true
+        }
+      },
+      opsSheet: {
+        scrollPanel: {
+          easing: "easeInQuad",
+          speed: 800
+        },
+        vuescroll: {
+          wheelScrollDuration: 0,
+          wheelDirectionReverse: false
         }
       }
     };
