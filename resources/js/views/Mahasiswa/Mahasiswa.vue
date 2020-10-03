@@ -25,7 +25,8 @@
       </v-row>
       <v-list dense>
         <!-- :to="page.to" -->
-        <v-list-item v-if="$route.name!='List Beasiswa'"
+        <v-list-item
+          v-if="$route.name!='List Beasiswa'"
           exact
           @click="goback"
         >
@@ -84,26 +85,28 @@
       <!-- Provides the application the proper gutter -->
       <v-container fluid>
 
-
         <!-- If using vue-router -->
-        <router-view></router-view>
+        <transition
+          name="slide-fade"
+          mode="out-in"
+        >
+          <router-view></router-view>
+        </transition>
       </v-container>
-     
+
     </v-main>
   </v-app>
 </template>
 
 <script>
 export default {
-    created(){
-
-    },
+  created() {},
   methods: {
-    goback(){
-      this.$router.push({name:"List Beasiswa"})
+    goback() {
+      this.$router.push({ name: "List Beasiswa" });
     },
-    goToPermohonan(){
-      this.$router.push({name:"Permohonan Saya"})
+    goToPermohonan() {
+      this.$router.push({ name: "Permohonan Saya" });
     },
     logout() {
       axios
@@ -135,5 +138,23 @@ export default {
 }
 a {
   text-decoration: none !important;
+}
+.slide-fade-enter-active {
+  transition: all 0.2s ease-out;
+}
+.slide-fade-leave-active {
+  transition: all 0.2s ease-in;
+}
+.slide-fade-enter
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: scale(1.1);
+
+  opacity: 0;
+}
+.slide-fade-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: scale(0.9);
+
+  opacity: 0;
 }
 </style>

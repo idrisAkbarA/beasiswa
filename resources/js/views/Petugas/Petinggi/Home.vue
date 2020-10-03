@@ -26,6 +26,7 @@
             hover
             inset
           >
+      
             <v-expansion-panel
               v-for="(item,i) in beasiswa"
               :key="i"
@@ -134,6 +135,7 @@
                 </v-row>
               </v-expansion-panel-content>
             </v-expansion-panel>
+  
           </v-expansion-panels>
         </v-card-text>
       </v-row>

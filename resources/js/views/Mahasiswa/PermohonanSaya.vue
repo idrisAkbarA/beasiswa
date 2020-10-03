@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fill-height>
     <v-row
       justify="center"
       v-if="permohonans.length<1"
@@ -7,19 +7,21 @@
       <h2>Tidak ada permohonan</h2>
     </v-row>
     <v-row
+    justify="center"
       v-for="(item,index) in permohonans"
       :key="index"
     >
-      <v-card
-        class="ma-10"
-        :color="checkColor(item)"
-      >
+      <!-- :color="checkColor(item)" -->
+      <v-card :class="checkColor(item)">
         <v-card-title>
           {{item.beasiswa.nama}}
         </v-card-title>
         <v-card-subtitle>
+          <span class="title">
           Status: <strong>
             {{checkStatus(item)}} </strong>
+
+          </span>
         </v-card-subtitle>
         <v-divider></v-divider>
         <v-card-text>
@@ -56,7 +58,9 @@
 
             </v-col>
             <v-col cols="12">
-              <v-timeline dense>
+              <v-timeline dense
+                v-if="isShowTimeline(item)"
+              >
                 <v-slide-x-reverse-transition
                   group
                   hide-on-leave
@@ -70,8 +74,14 @@
                     :color="time.is_done? 'green darken-2' :'grey darken-3'"
                   >
                     <v-row>
-                      <v-col cols="12" xl="4">{{parseDate(time.awal_tgl)  + " - " + parseDate(time.akhir_tgl) }}</v-col>
-                      <v-col cols="12" xl="8">
+                      <v-col
+                        cols="12"
+                        xl="4"
+                      >{{parseDate(time.awal_tgl)  + " - " + parseDate(time.akhir_tgl) }}</v-col>
+                      <v-col
+                        cols="12"
+                        xl="8"
+                      >
                         <v-alert :class="time.is_done? 'green darken-2' :'transparent'">
                           {{time.msg}}
                         </v-alert>
@@ -81,7 +91,6 @@
                   </v-timeline-item>
                 </v-slide-x-reverse-transition>
               </v-timeline>
-
             </v-col>
           </v-row>
         </v-card-text>
@@ -97,6 +106,21 @@ export default {
     this.getUserPermohonan();
   },
   methods: {
+    isShowTimeline(item){
+       if (item.is_selection_passed == 1) {
+        return true;
+      }
+      if (item.is_berkas_passed == 0) {
+        return false;
+      }
+      if (item.is_interview_passed == 0) {
+        return false;
+      }
+      if (item.is_survey_passed == 0) {
+        return false;
+      }
+      return true;
+    },
     checkStatus(item) {
       if (item.is_selection_passed == 1) {
         return "Selamat permohonan anda lulus.";
@@ -127,19 +151,19 @@ export default {
     },
     checkColor(item) {
       if (item.is_berkas_passed == 0) {
-        return "red";
+        return "ditolak";
       }
       if (item.is_interview_passed == 0) {
-        return "red";
+        return "ditolak";
       }
       if (item.is_survey_passed == 0) {
-        return "red";
+        return "ditolak";
       }
       if (item.is_survey_passed == 0) {
-        return "red";
+        return "ditolak";
       }
       if (item.is_selection_passed == 1) {
-        return "green";
+        return "diterima";
       }
       return "#2e7d323b";
     },
@@ -223,5 +247,24 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.diproses {
+  background: #2e7d323b;
+}
+.ditolak {
+  background: rgb(241, 34, 31);
+  background: linear-gradient(
+    180deg,
+    rgba(241, 34, 31, 0.5885951792826505) 0%,
+    rgba(251, 187, 114, 0.17122823250393904) 100%
+  );
+}
+.diterima {
+  background: rgb(4, 131, 17);
+  background: linear-gradient(
+    180deg,
+    rgba(4, 131, 17, 0.5885951792826505) 0%,
+    rgba(114, 251, 141, 0.17122823250393904) 100%
+  );
+}
 </style>

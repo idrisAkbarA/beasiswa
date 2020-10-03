@@ -13,7 +13,7 @@
       align="center"
       justify="start"
     >
-      <v-col cols="4">
+      <v-col cols="12" lg="4" md="4">
 
         <v-img
           class="ma-3 item"
@@ -24,9 +24,8 @@
         >
           <!-- <v-img :src="'https://picsum.photos/200/300?grayscale&blur=1&random='+index"> -->
         </v-img>
-
       </v-col>
-      <v-col>
+      <v-col cols="12"  lg="6" md="6" :class="windowWidth <= 600 ?' ma-5 pa-5':''">
         <v-row>
           <h1>{{beasiswaSingle.nama}}</h1>
         </v-row>
@@ -50,7 +49,7 @@
             </tr>
             <tr>
               <td>
-                <span v-if="beasiswaSingle.is_survey"> Waktu survey <span v-if="beasiswaSingle.awal_survey"><strong>{{parseDate(beasiswaSingle.awal_interview)}}</strong> sampai </span> <strong>{{parseDate(beasiswaSingle.akhir_interview)}} </strong> </span>
+                <span v-if="beasiswaSingle.is_survey"> Waktu survey <span v-if="beasiswaSingle.awal_survey"><strong>{{parseDate(beasiswaSingle.awal_survey)}}</strong> sampai </span> <strong>{{parseDate(beasiswaSingle.akhir_survey)}} </strong> </span>
 
               </td>
             </tr>
