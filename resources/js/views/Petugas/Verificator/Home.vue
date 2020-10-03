@@ -260,8 +260,7 @@ export default {
     link(url) {
       var a = this.url + "/" + url;
       var link = a.replace(" ", "%20");
-      console.log(link);
-      location = link;
+      window.open(link, "_blank");
     },
     setBerkas(bool) {
       this.btnLoading = true;
