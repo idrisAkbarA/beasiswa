@@ -148,6 +148,7 @@
                     ></v-text-field>
                   </template>
                   <v-date-picker
+                    color="green lighten-1"
                     range
                     v-model="dateBerkasEdit"
                     locale="id-ID"
@@ -189,6 +190,7 @@
                     range
                     v-model="dateWawancaraEdit"
                     locale="id-ID"
+                    color="green lighten-1"
                   >
                   </v-date-picker>
                 </v-menu>
@@ -227,6 +229,7 @@
                     range
                     v-model="dateSurveyEdit"
                     locale="id-ID"
+                    color="green lighten-1"
                   >
                   </v-date-picker>
                 </v-menu>
@@ -576,9 +579,11 @@
                     ></v-text-field>
                   </template>
                   <v-date-picker
+                    :min="hariIni()"
                     range
                     v-model="dateBerkas"
                     locale="id-ID"
+                    color="green lighten-1"
                   >
                   </v-date-picker>
                 </v-menu>
@@ -617,6 +622,7 @@
                     range
                     v-model="dateWawancara"
                     locale="id-ID"
+                    color="green lighten-1"
                   >
                   </v-date-picker>
                 </v-menu>
@@ -655,6 +661,7 @@
                     range
                     v-model="dateSurvey"
                     locale="id-ID"
+                    color="green lighten-1"
                   >
                   </v-date-picker>
                 </v-menu>
@@ -936,6 +943,7 @@ export default {
   created() {
     this.getBeasiswa();
     this.getInstansi();
+    console.log(this.hariIni());
   },
   methods: {
     ...mapMutations(["toggleOpenBeasiswa"]),
@@ -1076,15 +1084,21 @@ export default {
       //   console.log("sama");
       // }
       this.fields.forEach(element => {
-        if(element.type=="Checkboxes"){
-          console.log("change me")
+        if (element.type == "Checkboxes") {
+          console.log("change me");
           element.value = [];
           console.log(element.value);
-      
         }
       });
       // console.log(typeof this.dateBerkas);
-      awal_berkas = this.dateBerkas[1] ? this.dateBerkas[0] : Date.now();
+      var today = new Date();
+      var formatedToday =
+        today.getFullYear() +
+        "-" +
+        (today.getMonth() + 1) +
+        "-" +
+        today.getDate();
+      awal_berkas = this.dateBerkas[1] ? this.dateBerkas[0] : formatedToday;
       akhir_berkas = this.dateBerkas[1]
         ? this.dateBerkas[1]
         : this.dateBerkas[0];
@@ -1215,10 +1229,17 @@ export default {
       var item = this.fieldsEdit[this.fieldsEdit.indexOf(field)].checkboxes
         .items;
       item.splice(item.indexOf(label), 1);
+    },
+    hariIni() {
+      var today = new Date();
+      var day = today.getDate() < 10 ? "0" + today.getDate() : today.getDate();
+      var formatedToday =
+        today.getFullYear() + "-" + (today.getMonth() + 1) + "-"+day;
+
+      return formatedToday;
     }
   },
 
-  
   computed: {
     ...mapState([
       "beasiswa",
@@ -1259,9 +1280,9 @@ export default {
       isBerkasEdit: false,
       is_wawancaraEdit: false,
       is_surveyEdit: false,
-      dateBerkasEdit: [new Date().toISOString().substr(0, 10)],
-      dateWawancaraEdit: [new Date().toISOString().substr(0, 10)],
-      dateSurveyEdit: [new Date().toISOString().substr(0, 10)],
+      dateBerkasEdit: [this.hariIni()],
+      dateWawancaraEdit: [this.hariIni()],
+      dateSurveyEdit: [this.hariIni()],
       kuotaEdit: 1,
       toggleEdit: false,
 
@@ -1305,9 +1326,9 @@ export default {
       isBerkas: false,
       is_wawancara: false,
       is_survey: false,
-      dateBerkas: [new Date().toISOString().substr(0, 10)],
-      dateWawancara: [new Date().toISOString().substr(0, 10)],
-      dateSurvey: [new Date().toISOString().substr(0, 10)],
+      dateBerkas: [this.hariIni()],
+      dateWawancara: [this.hariIni()],
+      dateSurvey: [this.hariIni()],
       kuota: 1,
       headers: [
         {
