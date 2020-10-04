@@ -335,6 +335,51 @@
                           </v-icon>
                         </v-btn>
                       </v-radio-group>
+
+                      <!-- checkme -->
+                      <v-container v-if="field.type == 'Checkboxes'">
+                        <v-row
+                          align="center"
+                          v-for="(item,index) in field.checkboxes.items"
+                          :key="index"
+                          :value="item.label"
+                        >
+                          <v-checkbox
+                            color="white"
+                            hide-details
+                            class="shrink mr-2 mt-0"
+                          ></v-checkbox>
+                          <v-text-field
+                            v-model="item.label"
+                            dense
+                            color="white"
+                            filled
+                            label="Label"
+                          ></v-text-field>
+                          <v-btn
+                            class="ma-2"
+                            icon
+                            color="white"
+                            @click="deleteCheckboxesItemEdit(field,item.label)"
+                          >
+                            <v-icon>mdi-close</v-icon>
+                          </v-btn>
+                        </v-row>
+                        <v-row>
+                          <v-btn
+                            class="mt-2 grey darken-3"
+                            fab
+                            dark
+                            small
+                            @click="addCheckboxesItemEdit(field.index)"
+                          >
+                            <v-icon dark>
+                              mdi-plus
+                            </v-icon>
+                          </v-btn>
+                        </v-row>
+                      </v-container>
+
                       <v-text-field
                         prepend-icon="mdi-text-short"
                         v-if="field.type == 'Jawaban Pendek'"
@@ -717,6 +762,50 @@
                           </v-icon>
                         </v-btn>
                       </v-radio-group>
+                      <!-- cb -->
+                      <v-container v-if="field.type == 'Checkboxes'">
+                        <v-row
+                          align="center"
+                          v-for="(item,index) in field.checkboxes.items"
+                          :key="index"
+                          :value="item.label"
+                        >
+                          <v-checkbox
+                            color="white"
+                            hide-details
+                            class="shrink mr-2 mt-0"
+                          ></v-checkbox>
+                          <v-text-field
+                            v-model="item.label"
+                            dense
+                            color="white"
+                            filled
+                            label="Label"
+                          ></v-text-field>
+                          <v-btn
+                            class="ma-2"
+                            icon
+                            color="white"
+                            @click="deleteCheckboxesItem(field,item.label)"
+                          >
+                            <v-icon>mdi-close</v-icon>
+                          </v-btn>
+                        </v-row>
+                        <v-row>
+                          <v-btn
+                            class="mt-2 grey darken-3"
+                            fab
+                            dark
+                            small
+                            @click="addCheckboxesItem(field.index)"
+                          >
+                            <v-icon dark>
+                              mdi-plus
+                            </v-icon>
+                          </v-btn>
+                        </v-row>
+                      </v-container>
+
                       <v-text-field
                         prepend-icon="mdi-text-short"
                         v-if="field.type == 'Jawaban Pendek'"
@@ -1051,6 +1140,9 @@ export default {
           : 0,
         value: "",
         date: false,
+        checkboxes: {
+          items: [{ label: "" }]
+        },
         pilihan: {
           required: false,
           items: [{ label: "" }]
@@ -1069,6 +1161,9 @@ export default {
           : 0,
         value: "",
         date: false,
+        checkboxes: {
+          items: [{ label: "" }]
+        },
         pilihan: {
           required: false,
           items: [{ label: "" }]
@@ -1086,6 +1181,12 @@ export default {
     addPilihanItem(field_index) {
       this.fields[field_index - 1].pilihan.items.push({ label: "" });
     },
+    addCheckboxesItem(field_index) {
+      this.fields[field_index - 1].checkboxes.items.push({ label: "" });
+    },
+    addCheckboxesItemEdit(field_index) {
+      this.fieldsEdit[field_index - 1].checkboxes.items.push({ label: "" });
+    },
     addPilihanItemEdit(field_index) {
       this.fieldsEdit[field_index - 1].pilihan.items.push({ label: "" });
     },
@@ -1096,8 +1197,19 @@ export default {
     deletePilihanItem(field, label) {
       var item = this.fields[this.fields.indexOf(field)].pilihan.items;
       item.splice(item.indexOf(label), 1);
+    },
+    deleteCheckboxesItem(field, label) {
+      var item = this.fields[this.fields.indexOf(field)].checkboxes.items;
+      item.splice(item.indexOf(label), 1);
+    },
+    deleteCheckboxesItemEdit(field, label) {
+      var item = this.fieldsEdit[this.fieldsEdit.indexOf(field)].checkboxes
+        .items;
+      item.splice(item.indexOf(label), 1);
     }
   },
+
+  
   computed: {
     ...mapState([
       "beasiswa",
@@ -1155,6 +1267,9 @@ export default {
           index: 1,
           value: "",
           date: false,
+          checkboxes: {
+            items: [{ label: "" }]
+          },
           pilihan: {
             required: true,
             items: [{ label: "" }]
@@ -1168,6 +1283,7 @@ export default {
         "Paragraf",
         "Upload File",
         "Pilihan",
+        "Checkboxes",
         "Tanggal"
       ],
       sheet: false,
