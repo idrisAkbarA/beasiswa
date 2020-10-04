@@ -189,7 +189,7 @@ export default new Vuex.Store({
                     nama: data.nama,
                     deskripsi: data.deskripsi,
                     kuota: data.kuota,
-                    instansi: data.id,
+                    instansi: data.instansi,
                     fields: data.fields,
                     is_survey: data.is_survey,
                     is_wawancara: data.is_wawancara,
