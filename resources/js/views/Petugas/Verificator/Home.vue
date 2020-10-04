@@ -38,26 +38,28 @@
                 >
                   <v-col cols="6"><strong>{{item.nama}}</strong></v-col>
                   <v-col
+                    class="text-right mr-3"
                     cols="4"
                     v-if="Object.keys(item.berkas).length < 1"
                   >
-                    <span class="caption">
+                    <span class="caption text-muted">
                       Belum ada permohonan masuk
 
                     </span>
                   </v-col>
                   <v-col
+                    class="text-right mr-3"
                     cols="4"
                     v-if="Object.keys(item.berkas).length > 0"
                   >
                     <v-chip
-                      class="mx-auto text-right"
+                      class="text-center"
                       small
                       label
                       dark
                       color="green"
                     >
-                      Jumlah permohonan masuk {{item.berkas.length}}
+                      {{Object.keys(item.berkas).length}} Permohonan masuk
 
                     </v-chip>
                   </v-col>
@@ -191,6 +193,7 @@
           <v-btn
             color="#2E7D32"
             dark
+            :disabled="btnLoading"
             @click="dialogDelete = { show : true, value : true}"
           >
             <v-icon>check</v-icon> Lulus
@@ -239,6 +242,24 @@
         </v-card>
       </v-dialog>
     </div>
+    <!-- Snackbar -->
+    <v-snackbar
+      v-model="snackbar.show"
+      :timeout="2000"
+    >
+      {{ snackbar.message }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          :color="snackbar.color"
+          text
+          v-bind="attrs"
+          @click="snackbar.show = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-card>
 </template>
 
@@ -274,6 +295,11 @@ export default {
           this.sheetDetail = false;
           this.dialogDelete = false;
           this.btnLoading = false;
+          this.snackbar = {
+            show: true,
+            color: "blue",
+            message: "Berhasil!"
+          };
         });
     }
   },
@@ -284,6 +310,12 @@ export default {
     ...mapState(["beasiswa", "url"]),
     resultQuery() {
       if (this.searchQuery) {
+        if (typeof this.beasiswa[this.index].berkas == "object") {
+          console.log("object");
+          this.beasiswa[this.index].berkas = Object.values(
+            this.beasiswa[this.index].berkas
+          );
+        }
         return this.beasiswa[this.index].berkas.filter(item => {
           return this.searchQuery
             .toLowerCase()
@@ -299,11 +331,12 @@ export default {
     return {
       index: 0,
       searchQuery: "",
-      petugas: { fakultas: { nama: "" } },
-      selectedPermohonan: {},
-      dialogDelete: { show: false },
       btnLoading: false,
       sheetDetail: false,
+      selectedPermohonan: {},
+      snackbar: { show: false },
+      petugas: { fakultas: { nama: "" } },
+      dialogDelete: { show: false },
       headers: [
         {
           text: "Nama Instansi",
