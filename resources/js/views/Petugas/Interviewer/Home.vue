@@ -38,26 +38,28 @@
                 >
                   <v-col cols="6"><strong>{{item.nama}}</strong></v-col>
                   <v-col
+                    class="text-right mr-3"
                     cols="4"
                     v-if="Object.keys(item.interview).length < 1"
                   >
-                    <span class="caption">
-                      Belum ada pemohon masuk
+                    <span class="caption text-muted">
+                      Belum ada permohonan masuk
 
                     </span>
                   </v-col>
                   <v-col
+                    class="text-right mr-3"
                     cols="4"
                     v-if="Object.keys(item.interview).length > 0"
                   >
                     <v-chip
-                      class="mx-auto text-right"
+                      class="text-center"
                       small
                       label
                       dark
                       color="green"
                     >
-                      Jumlah pemohon masuk {{item.interview.length}}
+                      {{Object.keys(item.interview).length}} Permohonan masuk
 
                     </v-chip>
                   </v-col>
@@ -68,17 +70,20 @@
                 <v-row>
                   <v-divider class="mb-0"></v-divider>
                 </v-row>
-                <p
-                  v-if="!item.interview.length"
-                  class="text-center text-muted mt-2"
-                >Tidak ada peserta interview</p>
-                <v-list v-if="item.interview.length > 0">
-                  <v-subheader>Permohonan Masuk ({{item.interview.length}})</v-subheader>
+                <v-list>
+                  <v-text-field
+                    prepend-inner-icon="mdi-magnify"
+                    clearable
+                    label="Pencarian"
+                    v-model="searchQuery"
+                    @focus="index = i"
+                  ></v-text-field>
+                  <v-subheader>Permohonan Masuk ({{!searchQuery ? Object.keys(item.interview).length : resultQuery.length}})</v-subheader>
                   <v-list-item-group
                     class="bg-white"
                     color="primary"
                   >
-                    <template v-for="(permohonan, index) in item.interview">
+                    <template v-for="(permohonan, index) in !searchQuery ? item.interview : resultQuery">
                       <v-list-item
                         :key="permohonan.nama"
                         @click="sheetDetail = true, selectedPermohonan = permohonan"
@@ -232,6 +237,24 @@
         </v-card>
       </v-dialog>
     </div>
+    <!-- Snackbar -->
+    <v-snackbar
+      v-model="snackbar.show"
+      :timeout="2000"
+    >
+      {{ snackbar.message }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          :color="snackbar.color"
+          text
+          v-bind="attrs"
+          @click="snackbar.show = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-card>
 </template>
 
@@ -257,19 +280,44 @@ export default {
         })
         .then(response => {
           this.getBeasiswaWithPermohonan();
-          console.log(response.data);
           this.sheetDetail = false;
           this.dialogDelete = false;
           this.btnLoading = false;
+          this.snackbar = {
+            show: true,
+            color: "blue",
+            message: "Berhasil!"
+          };
         });
     }
   },
   computed: {
-    ...mapState(["beasiswa", "url"])
+    ...mapState(["beasiswa", "url"]),
+    resultQuery() {
+      if (this.searchQuery) {
+        if (typeof this.beasiswa[this.index].interview == "object") {
+          console.log("object");
+          this.beasiswa[this.index].interview = Object.values(
+            this.beasiswa[this.index].interview
+          );
+        }
+        return this.beasiswa[this.index].interview.filter(item => {
+          return this.searchQuery
+            .toLowerCase()
+            .split(" ")
+            .every(v => item.mahasiswa.nama.toLowerCase().includes(v));
+        });
+      } else {
+        return this.beasiswa.interview;
+      }
+    }
   },
   data() {
     return {
+      index: 0,
+      searchQuery: "",
       selectedPermohonan: {},
+      snackbar: { show: false },
       dialogDelete: { show: false },
       btnLoading: false,
       sheetDetail: false,

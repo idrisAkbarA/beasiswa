@@ -38,26 +38,28 @@
                 >
                   <v-col cols="6"><strong>{{item.nama}}</strong></v-col>
                   <v-col
+                    class="text-right mr-3"
                     cols="4"
                     v-if="Object.keys(item.survey).length < 1"
                   >
-                    <span class="caption">
-                      Belum ada pemohon masuk
+                    <span class="caption text-muted">
+                      Belum ada permohonan masuk
 
                     </span>
                   </v-col>
                   <v-col
+                    class="text-right mr-3"
                     cols="4"
                     v-if="Object.keys(item.survey).length > 0"
                   >
                     <v-chip
-                      class="mx-auto text-right"
+                      class="text-center"
                       small
                       label
                       dark
                       color="green"
                     >
-                      Jumlah pemohon masuk {{item.survey.length}}
+                      {{Object.keys(item.survey).length}} Permohonan masuk
 
                     </v-chip>
                   </v-col>
@@ -68,17 +70,20 @@
                 <v-row>
                   <v-divider class="mb-0"></v-divider>
                 </v-row>
-                <p
-                  v-if="!item.survey.length"
-                  class="text-center text-muted mt-2"
-                >Tidak ada peserta survey</p>
-                <v-list v-if="item.survey.length > 0">
-                  <v-subheader>Permohonan Masuk ({{item.survey.length}})</v-subheader>
+                <v-list>
+                  <v-text-field
+                    prepend-inner-icon="mdi-magnify"
+                    clearable
+                    label="Pencarian"
+                    v-model="searchQuery"
+                    @focus="index = i"
+                  ></v-text-field>
+                  <v-subheader>Permohonan Masuk ({{!searchQuery ? Object.keys(item.survey).length : resultQuery.length}})</v-subheader>
                   <v-list-item-group
                     class="bg-white"
                     color="primary"
                   >
-                    <template v-for="(permohonan, index) in item.survey">
+                    <template v-for="(permohonan, index) in !searchQuery ? item.survey : resultQuery">
                       <v-list-item
                         :key="permohonan.nama"
                         @click="sheetDetail = true, selectedPermohonan = permohonan"
@@ -209,9 +214,6 @@
             <i class="mdi mdi-checkbox-marked-circle-outline mr-2"></i> Kelulusan Survey
           </v-card-title>
 
-          <!-- <v-card-text class="white--text text-center mt-2">
-            Apakah anda yakin akan menutup beasiswa ini ?
-          </v-card-text> -->
           <v-card-text class="white--text text-center mt-2 pb-0">
             <strong class="d-block">{{this.selectedPermohonan.mahasiswa.nama}}</strong> akan dinyatakan <strong>{{dialogDelete.value ? 'Lulus' : 'Tidak Lulus'}}</strong> survey ?
           </v-card-text>
@@ -236,6 +238,24 @@
         </v-card>
       </v-dialog>
     </div>
+    <!-- Snackbar -->
+    <v-snackbar
+      v-model="snackbar.show"
+      :timeout="2000"
+    >
+      {{ snackbar.message }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          :color="snackbar.color"
+          text
+          v-bind="attrs"
+          @click="snackbar.show = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-card>
 </template>
 
@@ -261,19 +281,45 @@ export default {
         })
         .then(response => {
           this.getBeasiswaWithPermohonan();
-          console.log(response.data);
           this.sheetDetail = false;
           this.dialogDelete = false;
           this.btnLoading = false;
+          this.snackbar = {
+            show: true,
+            color: "blue",
+            message: "Berhasil!"
+          };
+          console.log(this.snackbar.show);
         });
     }
   },
   computed: {
-    ...mapState(["beasiswa", "url"])
+    ...mapState(["beasiswa", "url"]),
+    resultQuery() {
+      if (this.searchQuery) {
+        if (typeof this.beasiswa[this.index].survey == "object") {
+          console.log("object");
+          this.beasiswa[this.index].survey = Object.values(
+            this.beasiswa[this.index].survey
+          );
+        }
+        return this.beasiswa[this.index].survey.filter(item => {
+          return this.searchQuery
+            .toLowerCase()
+            .split(" ")
+            .every(v => item.mahasiswa.nama.toLowerCase().includes(v));
+        });
+      } else {
+        return this.beasiswa.survey;
+      }
+    }
   },
   data() {
     return {
+      index: 0,
+      searchQuery: "",
       selectedPermohonan: {},
+      snackbar: { show: false },
       dialogDelete: { show: false },
       btnLoading: false,
       sheetDetail: false,

@@ -70,10 +70,6 @@
                 <v-row>
                   <v-divider class="mb-0"></v-divider>
                 </v-row>
-                <!-- <p
-                  v-if="Object.keys(item.berkas).length < 1"
-                  class="text-center text-muted mt-2"
-                >Tidak ada berkas</p> -->
                 <v-list>
                   <v-text-field
                     prepend-inner-icon="mdi-magnify"
@@ -82,7 +78,7 @@
                     v-model="searchQuery"
                     @focus="index = i"
                   ></v-text-field>
-                  <v-subheader>Permohonan Masuk ({{!searchQuery ? item.berkas.length : resultQuery.length}})</v-subheader>
+                  <v-subheader>Permohonan Masuk ({{!searchQuery ? Object.keys(item.berkas).length : resultQuery.length}})</v-subheader>
                   <v-list-item-group
                     class="bg-white"
                     color="primary"
