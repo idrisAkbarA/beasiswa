@@ -168,6 +168,26 @@
 
               <v-col style="padding-bottom:0 !important;">
                 <p>{{field.pertanyaan}}</p>
+                <v-container v-if="field.type == 'Checkboxes'">
+                <v-row
+                  align="center"
+                  v-for="(item,index) in field.checkboxes.items"
+                  :key="index"
+                >
+                  <v-checkbox
+                    disabled
+                    v-model="field.value"
+                    :value="item.label"
+                    color="white"
+                    hide-details
+                    class="shrink mr-2 mt-0"
+                  ></v-checkbox>
+                  <span>
+                    {{item.label}}
+                  </span>
+                </v-row>
+
+              </v-container>
                 <p v-if="field.type == 'Pilihan'"><span>
                     <v-icon>mdi-text-short</v-icon>{{field.value}}
                   </span></p>

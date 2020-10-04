@@ -87,8 +87,8 @@
                   :width="200*1.2"
                 >
                   <v-img
-                       :height="300*1.2"
-                  :width="200*1.2"
+                    :height="300*1.2"
+                    :width="200*1.2"
                     gradient="to top right, rgba(58, 231, 87, 0.33), rgba(25,32,72,.7)"
                     :src="'https://picsum.photos/200/300?random='+index"
                   >
@@ -152,7 +152,15 @@
                     <v-row>
                       <v-col>
                         <!-- <span>Preview pengisian berkas. <router-link :to="{ path: '/login'}">Login</router-link> untuk mengisi</span> -->
-                        <span>Preview pengisian berkas. <span><v-chip color="green" small label outlined="" @click="dialog=true">login</v-chip></span> untuk mengisi</span>
+                        <span>Preview pengisian berkas. <span>
+                            <v-chip
+                              color="green"
+                              small
+                              label
+                              outlined=""
+                              @click="dialog=true"
+                            >login</v-chip>
+                          </span> untuk mengisi</span>
 
                       </v-col>
 
@@ -166,6 +174,32 @@
                     >
                       <v-col style="padding-bottom:0 !important;">
                         <p>{{field.pertanyaan}}</p>
+                        <v-container v-if="field.type == 'Checkboxes'">
+                          <v-row
+                            align="center"
+                            v-for="(item,index) in field.checkboxes.items"
+                            :key="index"
+                            :value="item.label"
+                          >
+                            <v-checkbox
+                            disabled
+                              color="white"
+                              hide-details
+                              class="shrink mr-2 mt-0"
+                            ></v-checkbox>
+                            <span>
+                              {{item.label}}
+                            </span>
+                            <!-- <v-text-field
+                              v-model="item.label"
+                              dense
+                              color="white"
+                              filled
+                              label="Label"
+                            ></v-text-field> -->
+                          </v-row>
+            
+                        </v-container>
                         <v-radio-group
                           disabled
                           v-if="field.type == 'Pilihan'"
@@ -255,9 +289,13 @@
         </div>
       </v-sheet>
     </v-main>
-    <v-dialog v-model="dialog" :width="width()" overlay-color="green">
-     
-          <LoginComponent></LoginComponent>
+    <v-dialog
+      v-model="dialog"
+      :width="width()"
+      overlay-color="green"
+    >
+
+      <LoginComponent></LoginComponent>
 
     </v-dialog>
   </v-app>
@@ -293,8 +331,7 @@ export default {
       } else {
         return "20%";
       }
-    },
-    
+    }
   },
   computed: {
     ...mapState(["beasiswa", "url"]),

@@ -774,6 +774,7 @@
                             color="white"
                             hide-details
                             class="shrink mr-2 mt-0"
+                            :value="item.label"
                           ></v-checkbox>
                           <v-text-field
                             v-model="item.label"
@@ -1072,10 +1073,18 @@ export default {
       var akhir_survey = "";
       var awal_berkas = "";
       var akhir_berkas = "";
-      if (typeof this.dateBerkas == "object") {
-        console.log("sama");
-      }
-      console.log(typeof this.dateBerkas);
+      // if (typeof this.dateBerkas == "object") {
+      //   console.log("sama");
+      // }
+      this.fields.forEach(element => {
+        if(element.type=="Checkboxes"){
+          console.log("change me")
+          element.value = [];
+          console.log(element.value);
+      
+        }
+      });
+      // console.log(typeof this.dateBerkas);
       awal_berkas = this.dateBerkas[1] ? this.dateBerkas[0] : Date.now();
       akhir_berkas = this.dateBerkas[1]
         ? this.dateBerkas[1]
@@ -1139,7 +1148,7 @@ export default {
         index: this.fieldsEdit[0]
           ? this.fieldsEdit[this.fieldsEdit.length - 1].index + 1
           : 0,
-        value: "",
+        value: null,
         date: false,
         checkboxes: {
           items: [{ label: "" }]
@@ -1160,7 +1169,7 @@ export default {
         index: this.fields[0]
           ? this.fields[this.fields.length - 1].index + 1
           : 0,
-        value: "",
+        value: null,
         date: false,
         checkboxes: {
           items: [{ label: "" }]
