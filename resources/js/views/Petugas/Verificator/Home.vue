@@ -42,7 +42,7 @@
                     v-if="Object.keys(item.berkas).length < 1"
                   >
                     <span class="caption">
-                      Belum ada pemohon masuk
+                      Belum ada permohonan masuk
 
                     </span>
                   </v-col>
@@ -57,7 +57,7 @@
                       dark
                       color="green"
                     >
-                      Jumlah pemohon masuk {{item.berkas.length}}
+                      Jumlah permohonan masuk {{item.berkas.length}}
 
                     </v-chip>
                   </v-col>
@@ -68,24 +68,24 @@
                 <v-row>
                   <v-divider class="mb-0"></v-divider>
                 </v-row>
-                <p
+                <!-- <p
                   v-if="Object.keys(item.berkas).length < 1"
                   class="text-center text-muted mt-2"
-                >Tidak ada berkas</p>
-                <v-list v-if="Object.keys(item.berkas).length > 0">
+                >Tidak ada berkas</p> -->
+                <v-list>
                   <v-text-field
                     prepend-inner-icon="mdi-magnify"
                     clearable
                     label="Pencarian"
-                    v-model="queryPermohonan"
-                    @change="searchPermohonanResult(i)"
+                    v-model="searchQuery"
+                    @focus="index = i"
                   ></v-text-field>
-                  <v-subheader>Permohonan Masuk ({{Object.keys(item.berkas).length}})</v-subheader>
+                  <v-subheader>Permohonan Masuk ({{!searchQuery ? item.berkas.length : resultQuery.length}})</v-subheader>
                   <v-list-item-group
                     class="bg-white"
                     color="primary"
                   >
-                    <template v-for="(permohonan, index) in item.berkas">
+                    <template v-for="(permohonan, index) in !searchQuery ? item.berkas : resultQuery">
                       <v-list-item
                         :key="index"
                         @click="sheetDetail = true, selectedPermohonan = permohonan"
@@ -250,7 +250,7 @@ export default {
     this.getPetugas();
   },
   methods: {
-    ...mapActions(["getBeasiswaWithPermohonan", "searchPermohonan"]),
+    ...mapActions(["getBeasiswaWithPermohonan"]),
     getPetugas() {
       axios.get(`${this.url}/api/user/petugas`).then(response => {
         this.petugas = response.data;
@@ -271,7 +271,6 @@ export default {
         })
         .then(response => {
           this.getBeasiswaWithPermohonan();
-          console.log(response.data);
           this.sheetDetail = false;
           this.dialogDelete = false;
           this.btnLoading = false;
@@ -279,18 +278,27 @@ export default {
     }
   },
   watch: {
-    // queryPermohonan: function(q) {
-    //   this.searchPermohonan(q).then(response => {
-    //     console.log(response.data);
-    //   });
-    // }
+    //
   },
   computed: {
-    ...mapState(["beasiswa", "url"])
+    ...mapState(["beasiswa", "url"]),
+    resultQuery() {
+      if (this.searchQuery) {
+        return this.beasiswa[this.index].berkas.filter(item => {
+          return this.searchQuery
+            .toLowerCase()
+            .split(" ")
+            .every(v => item.mahasiswa.nama.toLowerCase().includes(v));
+        });
+      } else {
+        return this.beasiswa.berkas;
+      }
+    }
   },
   data() {
     return {
-      queryPermohonan: "",
+      index: 0,
+      searchQuery: "",
       petugas: { fakultas: { nama: "" } },
       selectedPermohonan: {},
       dialogDelete: { show: false },
