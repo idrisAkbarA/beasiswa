@@ -310,12 +310,12 @@ export default {
     ...mapState(["beasiswa", "url"]),
     resultQuery() {
       if (this.searchQuery) {
-        // console.log(typeof this.beasiswa[this.index].berkas);
-        // if (typeof this.beasiswa[this.index].berkas == "object") {
-        //   this.beasiswa[this.index].berkas = Object.keys(
-        //     this.beasiswa[this.index].berkas
-        //   );
-        // }
+        if (typeof this.beasiswa[this.index].berkas == "object") {
+          console.log("object");
+          this.beasiswa[this.index].berkas = Object.values(
+            this.beasiswa[this.index].berkas
+          );
+        }
         return this.beasiswa[this.index].berkas.filter(item => {
           return this.searchQuery
             .toLowerCase()
