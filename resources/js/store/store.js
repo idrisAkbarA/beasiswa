@@ -144,6 +144,9 @@ export default new Vuex.Store({
         getBeasiswaWithPermohonan({ commit, dispatch, state }) {
             commit("mutateTableLoading", true);
             Axios.get(state.url + "/api/beasiswa/with-permohonan").then(response => {
+                const beasiswa = response.data.map((x) => {
+                    //
+                });
                 commit('mutateBeasiswa', response.data)
                 commit("mutateTableLoading", false);
 
