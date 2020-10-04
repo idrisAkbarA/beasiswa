@@ -11,16 +11,45 @@ use App\Fakultas;
 class authAPIController extends Controller
 {
     public function loginServer(Request $request){
+        // get data from webservice
         $response = Http::post('https://api-iraise.uin-suska.ac.id/login', [
             'username' => $request["username"],
             'password' =>  $request["password"],
         ]);
+        // from here we are going to store new data or update db
         
-        $fakultas = Fakultas::updateOrCreate(
-            ['nama'=>$response["data"]["user"]["fakultas"]]
-        );
-        $fakultas_id = $fakultas->id;
+        // update fakultas 
+        $value = $response["data"]["user"]["fakultas"];
+        $fakultas = null;
+        $words = explode(" DAN ",$value);
+            // set singkatan
+            if(count($words)>2){
+                $first_letter = substr($words[0],0,1);
+                $second_letter = substr($words[2],0,1);
+                $fakultas = Fakultas::updateOrCreate(
+                    ['nama'=>$value],
+                    ['singkatan'=> "F".$first_letter.$second_letter]
+                );
+            }else if(count($words) >1){
+                $first_letter = substr($words[0],0,1);
+                $second_letter = substr($words[1],0,1);
+                $fakultas = Fakultas::updateOrCreate(
+                    ['nama'=>$value],
+                    ['singkatan'=> "F".$first_letter.$second_letter]
+                );
+            }
+            else{
+                $first_letter = substr($words[0],0,2);
+                // $second_letter = substr($words[0],1,2);
+                $fakultas = Fakultas::updateOrCreate(
+                    ['nama'=>$value],
+                    ['singkatan'=> "F".$first_letter]
+                );
+            }
 
+        $fakultas_id = $fakultas->id; // jurusan id needed for user table
+
+        //update/create jurusan
         $jurusan = Jurusan::updateOrCreate(
             ['singkatan'=>$response["data"]["user"]["regpd_id_sms"]],
             [
