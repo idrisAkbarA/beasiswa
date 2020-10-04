@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->integer('semester')->nullable();
             $table->float('ips')->nullable();
             $table->float('ipk')->nullable();
+            $table->integer('total_sks')->nullable();
             $table->string('tgl_lahir')->nullable();
             $table->string('tmpt_lahir')->nullable();
             $table->string('jml_bayar')->nullable();
