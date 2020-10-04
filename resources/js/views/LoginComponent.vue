@@ -36,6 +36,7 @@
 <script>
 import axios from "axios";
 axios.defaults.withCredentials = true;
+axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 import { mapMutations } from "vuex";
 export default {
   data() {
@@ -49,7 +50,7 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["mutateNim"]),
+    ...mapMutations(["mutateNim",'url']),
     login() {
       this.loading = true;
       axios.get("http://beasiswa.test/sanctum/csrf-cookie").then(response => {
