@@ -8,7 +8,7 @@
 
       <v-data-table
         :headers="headers.beasiswa"
-        :items="table == 'selesai' ? beasiswa.selesai : beasiswa.aktif"
+        :items="table == 'selesai' ? beasiswaProgress.selesai : beasiswaProgress.aktif"
         :items-per-page="10"
         style="background-color: #2e7d323b"
         class="elevation-10 mb-10"
@@ -129,7 +129,7 @@ export default {
   },
   computed: {
     ...mapState([
-      "beasiswa",
+      "beasiswaProgress",
       "isOpenBeasiswa",
       "instansi",
       "isTableLoading",

@@ -27,6 +27,9 @@ class CreateBeasiswasTable extends Migration
             $table->date('akhir_interview')->nullable();
             $table->date('awal_survey')->nullable();
             $table->date('akhir_survey')->nullable();
+            $table->integer('total_sks')->nullable();
+            $table->bigInteger('ukt')->nullable();
+            $table->boolean('is_first')->default(false);
             $table->json('fields');
             $table->timestamps();
             $table->softDeletes();

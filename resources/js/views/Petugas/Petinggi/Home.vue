@@ -34,35 +34,37 @@
               <v-expansion-panel-header>
                 <v-row
                   no-gutters
+                  align="center"
                   justify="space-between"
                 >
                   <v-col cols="6"><strong>{{item.nama}}</strong></v-col>
                   <v-col
+                    class="text-right mr-3"
                     cols="4"
                     v-if="Object.keys(item.selection).length < 1"
                   >
-                    <span class="caption">
-                      Belum ada pemohon masuk
+                    <span class="caption text-muted">
+                      Belum ada permohonan masuk
 
                     </span>
                   </v-col>
                   <v-col
+                    class="text-right mr-3"
                     cols="4"
                     v-if="Object.keys(item.selection).length > 0"
                   >
                     <v-chip
-                      class="mx-auto text-right"
+                      class="text-center"
                       small
                       label
                       dark
                       color="green"
                     >
-                      Jumlah pemohon masuk {{item.selection.length}}
+                      {{Object.keys(item.selection).length}} Permohonan masuk
 
                     </v-chip>
                   </v-col>
                 </v-row>
-
               </v-expansion-panel-header>
               <v-expansion-panel-content>
                 <span class="text-muted">{{item.deskripsi}}</span>

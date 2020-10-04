@@ -20,7 +20,7 @@ class User extends Authenticatable
     protected $guard = 'mahasiswa';
 
     protected $fillable = [
-        'nama', 'nim', 'email', 'hp', 'password', 'semester', 'ipk','ips','jml_bayar', 'tmpt_lahir', 'tgl_lahir', 'jurusan_id'
+        'nama', 'nim', 'email', 'hp', 'password', 'semester', 'ipk', 'ips', 'jml_bayar', 'tmpt_lahir', 'tgl_lahir', 'jurusan_id'
     ];
 
     /**
@@ -42,7 +42,8 @@ class User extends Authenticatable
     ];
 
     protected $appends = [
-        'fakultas'
+        'fakultas',
+        // 'ukt'
     ];
 
     public function getNamaAttribute($value)
@@ -55,6 +56,10 @@ class User extends Authenticatable
         return $this->jurusan->fakultas;
     }
 
+    // public function GetUktAttribute()
+    // {
+    //     return isset($this->jurusan->ukt);
+    // }
     public function permohonan()
     {
         return $this->hasMany('App\PemohonBeasiswa', 'mhs_id');
@@ -62,6 +67,6 @@ class User extends Authenticatable
 
     public function jurusan()
     {
-        return $this->belongsTo('App\Jurusan');
+        return $this->belongsTo('App\Jurusan')->with('ukt');
     }
 }

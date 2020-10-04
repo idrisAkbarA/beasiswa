@@ -958,17 +958,16 @@ export default {
     },
     edit(item) {
       this.idEdit = item.id;
-      console.log(item);
       this.kuotaEdit = item.quota;
       this.namaEdit = item.nama;
       this.fieldsEdit = JSON.parse(item.fields);
       this.deskripsiEdit = item.deskripsi;
       this.valueEdit = item.instansi_id;
+      console.log("asdd" + this.valueEdit);
 
       this.instansi.forEach(element => {
         if (element.id == item.instansi_id) {
           this.selected_instansiEdit = { id: element.id, name: element.name };
-          console.log(this.selected_instansiEdit);
         }
       });
 

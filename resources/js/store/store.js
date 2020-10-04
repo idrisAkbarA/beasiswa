@@ -19,6 +19,7 @@ export default new Vuex.Store({
         cekSelection: [],
         isLoading: false,
         isTableLoading: false,
+        beasiswaProgress: {},
         beasiswa: [],
         beasiswaSingle: {},
         instansi: [],
@@ -48,6 +49,9 @@ export default new Vuex.Store({
         },
         mutateTableLoading(state, data) {
             state.isTableLoading = data;
+        },
+        mutateBeasiswaProgress(state, data) {
+            state.beasiswaProgress = data;
         },
         mutateBeasiswa(state, data) {
             state.beasiswa = data;
@@ -189,7 +193,7 @@ export default new Vuex.Store({
                     nama: data.nama,
                     deskripsi: data.deskripsi,
                     kuota: data.kuota,
-                    instansi: data.id,
+                    instansi: data.instansi,
                     fields: data.fields,
                     is_survey: data.is_survey,
                     is_wawancara: data.is_wawancara,

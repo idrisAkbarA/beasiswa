@@ -381,6 +381,7 @@ export default {
           value: "name"
         },
         { text: "Role", value: "role" },
+        { text: "Fakultas", value: "fakultas.nama" },
         { text: "Actions", value: "actions", sortable: false }
       ]
     };
