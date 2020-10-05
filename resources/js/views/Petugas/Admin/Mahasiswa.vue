@@ -693,7 +693,7 @@ export default {
       document.getElementById("upload").click();
     },
     downloadTemplate() {
-      location = this.url + "/api/user/export";
+      location =  "/api/user/export";
     }
   },
   computed: {

@@ -111,11 +111,10 @@
                       <h2>{{item.nama.length>60 ? item.nama.substring(0,60) + " ..." : item.nama}}</h2>
                     </v-card-text>
                   </v-img>
-                  <p class="caption">
-                  <li class="caption">
-                    Be<span></span>
-                    </li>
-                  <li>test</li>
+                  <p>
+                    Syarat dan Ketentuan
+                    <br>
+                    <span v-if="item.total_sks">{{"Minimum "+ item.total_sks+" SKS"}}</span>
                   </p>
                 </v-card>
                 
@@ -322,6 +321,7 @@ export default {
     parseDate(date) {
       return this.$moment(date, "YYYY-MM-DD").format("Do MMMM YYYY");
     },
+    
     goto(item) {
       this.sheet = true;
       this.beasiswaSingle = item;

@@ -115,7 +115,7 @@ export default {
     },
     logout() {
       axios
-        .get(this.url +"/api/logout", {
+        .get("/api/logout", {
           params: {
             user: window.localStorage.getItem("user")
           }

@@ -149,7 +149,7 @@ export default {
     upload: async (data) => {
       return axios({
         method: "post",
-        url: this.url + "/api/pemohon/file",
+        url:  "/api/pemohon/file",
         onUploadProgress: function(progressEvent) {
         //   var percentage = progressEvent.loaded * (100 / progressEvent.total);
         //   ini.loading = percentage;
@@ -192,7 +192,7 @@ export default {
         data.append("id", beasiswa_id);
         axios({
           method: "post",
-          url: this.url + "/api/pemohon/file",
+          url:  "/api/pemohon/file",
           onUploadProgress: function(progressEvent) {
             var percentage = progressEvent.loaded * (100 / progressEvent.total);
             ini.loading = percentage;

@@ -53,7 +53,7 @@ export default {
   methods: {
         logout() {
       axios
-        .get(this.url +"/api/logout-petugas", {
+        .get("/api/logout-petugas", {
           params: {
             user: window.localStorage.getItem("user")
           }

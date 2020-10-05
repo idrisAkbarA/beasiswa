@@ -220,7 +220,7 @@ export default {
       return this.$moment(date, "YYYY-MM-DD").format("Do MMMM YYYY");
     },
     getUserPermohonan() {
-      axios.get(this.url + "/api/pemohon/cek-isHas").then(response => {
+      axios.get( "/api/pemohon/cek-isHas").then(response => {
         console.log(response.data);
         response.data.forEach(element => {
           if (element.beasiswa_id == this.$route.params.id) {
@@ -233,7 +233,7 @@ export default {
     },
     cekPersyaratan(id) {
       axios
-        .get(this.url + "/api/beasiswa/cek/" + id)
+        .get( "/api/beasiswa/cek/" + id)
         .then(response => {
           console.log(typeof response.data.message);
           if (response.data.status) {

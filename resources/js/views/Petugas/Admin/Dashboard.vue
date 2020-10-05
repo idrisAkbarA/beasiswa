@@ -81,20 +81,20 @@ export default {
   },
   created() {
     axios
-      .get(this.url +"/api/pemohon/count-interview")
+      .get("/api/pemohon/count-interview")
       .then(response => {
         this.interview = response.data;
       });
     axios
-      .get(this.url +"/api/pemohon/count-berkas")
+      .get("/api/pemohon/count-berkas")
       .then(response => {
         this.berkas = response.data;
       });
-    axios.get(this.url +"/api/pemohon/count-lulus").then(response => {
+    axios.get("/api/pemohon/count-lulus").then(response => {
       this.lulus = response.data;
     });
     axios
-      .get(this.url +"/api/pemohon/count-beasiswa")
+      .get("/api/pemohon/count-beasiswa")
       .then(response => {
         this.beasiswa = response.data;
         // console.log(response.data);

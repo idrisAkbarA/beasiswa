@@ -53,9 +53,9 @@ export default {
     ...mapMutations(["mutateNim",'url']),
     login() {
       this.loading = true;
-      axios.get("http://beasiswa.test/sanctum/csrf-cookie").then(response => {
+      axios.get("/sanctum/csrf-cookie").then(response => {
         axios
-          .post("http://beasiswa.test/api/authenticate", {
+          .post("/api/authenticate", {
             nim: this.nim,
             password: this.pass
           })
@@ -74,16 +74,16 @@ export default {
     },
     loginServer() {
       this.loading = true;
-      axios.get("http://beasiswa.test/sanctum/csrf-cookie").then(response => {
+      axios.get("/sanctum/csrf-cookie").then(response => {
         axios
-          .post("http://beasiswa.test/api/login-server", {
+          .post("/api/login-server", {
             username: this.nim,
             password: this.pass
           })
           .then(response => {
             console.log(response);
             axios
-              .post("http://beasiswa.test/api/authenticate", {
+              .post("/api/authenticate", {
                 nim: this.nim,
                 password: response.data.token
               })
@@ -108,7 +108,7 @@ export default {
   },
   created() {
     axios
-      .get("http://beasiswa.test/api/user")
+      .get("/api/user")
       .then(response => {
         console.log(response.data);
         console.log("go");

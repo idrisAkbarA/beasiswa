@@ -185,7 +185,7 @@ export default {
       return this.$moment(date, "YYYY-MM-DD").format("Do MMMM YYYY");
     },
     getUserPermohonan() {
-      axios.get(this.url + "/api/pemohon/cek-isHas").then(response => {
+      axios.get( "/api/pemohon/cek-isHas").then(response => {
         console.log(response.data);
         this.permohonans = response.data;
         this.addTimeline(response.data);

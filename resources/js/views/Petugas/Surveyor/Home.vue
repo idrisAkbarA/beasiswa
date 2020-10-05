@@ -288,7 +288,7 @@ export default {
   methods: {
     ...mapActions(["getBeasiswaWithPermohonan"]),
     link(url) {
-      var a = this.url + "/" + url;
+      var a =  "/" + url;
       var link = a.replace(" ", "%20");
       window.open(link, "_blank");
     },

@@ -70,15 +70,13 @@ export default {
     };
   },
   methods: {
-    computed:{
-      ...mapState(['url'])
-    },
+
     login() {
       this.loading = true;
-      axios.get(this.url +"/sanctum/csrf-cookie").then(response => {
+      axios.get("/sanctum/csrf-cookie").then(response => {
         // console.log(response)
         axios
-          .post(this.url +"/api/authenticate/petugas", {
+          .post("/api/authenticate/petugas", {
             name: this.name,
             password: this.pass
           })
@@ -124,11 +122,12 @@ export default {
     }
   },
   created() {
-    axios.get(this.url +"/sanctum/csrf-cookie").then(response => {
+    console.log(this.url)
+    axios.get("/sanctum/csrf-cookie").then(response => {
       // console.log(response)
 
       axios
-        .get(this.url +"/api/user/petugas")
+        .get("/api/user/petugas")
         .then(response => {
           console.log(response.data);
           this.$router.push({ path: `/${response.data["name"]}/dashboard` });
