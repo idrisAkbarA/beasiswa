@@ -56,6 +56,30 @@
         </v-row>
         <v-row>
           <table>
+            <tr v-if="beasiswaSingle.total_sks">
+              <td>
+                <span v-if="beasiswaSingle.total_sks">{{"Minimum "+ beasiswaSingle.total_sks+" SKS"}}</span>
+              </td>
+            </tr>
+            <tr v-if="beasiswaSingle.semester">
+              <td>
+                <span v-if="beasiswaSingle.semester">{{"Semester "+ beasiswaSingle.semester}}</span>
+              </td>
+            </tr>
+            <tr v-if="beasiswaSingle.is_first">
+              <td>
+                <span v-if="beasiswaSingle.is_first">Belum pernah mengikuti beasiswa</span>
+              </td>
+            </tr>
+            <tr v-if="beasiswaSingle.ukt">
+              <td>
+                <span v-if="beasiswaSingle.ukt">Dibawah nominal UKT {{beasiswaSingle.ukt | currency("Rp.")}}</span>
+              </td>
+            </tr>
+          </table>
+      
+          
+          <table class="mt-2">
             <tr>
               <td>
                 <span>Batas upload berkas <span v-if="beasiswaSingle.awal_berkas"><strong>{{" "+parseDate(beasiswaSingle.awal_berkas)}}</strong> sampai </span> <strong> {{" "+parseDate(beasiswaSingle.akhir_berkas)}}</strong> </span>
@@ -220,7 +244,7 @@ export default {
       return this.$moment(date, "YYYY-MM-DD").format("Do MMMM YYYY");
     },
     getUserPermohonan() {
-      axios.get( "/api/pemohon/cek-isHas").then(response => {
+      axios.get("/api/pemohon/cek-isHas").then(response => {
         console.log(response.data);
         response.data.forEach(element => {
           if (element.beasiswa_id == this.$route.params.id) {
@@ -233,7 +257,7 @@ export default {
     },
     cekPersyaratan(id) {
       axios
-        .get( "/api/beasiswa/cek/" + id)
+        .get("/api/beasiswa/cek/" + id)
         .then(response => {
           console.log(typeof response.data.message);
           if (response.data.status) {

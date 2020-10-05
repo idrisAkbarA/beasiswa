@@ -16,6 +16,9 @@ import router from './router/router'
 import VueWindowSize from 'vue-window-size';
 import vuescroll from 'vuescroll';
 import moment from './moment.js';
+import Vue2Filters from 'vue2-filters'
+
+Vue.use(Vue2Filters)
 Vue.use(moment);
 Vue.use(vuescroll);
 Vue.use(VueWindowSize);

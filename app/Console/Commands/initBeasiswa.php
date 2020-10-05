@@ -103,7 +103,7 @@ class initBeasiswa extends Command
             $beasiswa->semester = ["1,3,5","7", null][random_int(0,2)];
             $beasiswa->is_first = random_int(0,1);
             $beasiswa->total_sks = [0,100,120][random_int(0,2)];
-            $beasiswa->ukt = [4600000,3000000,2200000][random_int(0,2)];
+            $beasiswa->ukt = [4600000,3000000,null][random_int(0,2)];
             $beasiswa->save();
         }
 
