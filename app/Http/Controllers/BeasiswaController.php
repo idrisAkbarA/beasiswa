@@ -24,8 +24,8 @@ class BeasiswaController extends Controller
     }
     public function getActive()
     {
-        $beasiswa = Beasiswa::active();
-        $beasiswa->cekPersyaratan(Auth::guard('mahasiswa')->user());
+        $user = Auth::guard('mahasiswa')->user();
+        $beasiswa = Beasiswa::cekPersyaratan($user);
         $beasiswa->makeHidden(['interview', 'survey', 'selection', 'lulus'])
             ->sortByDesc('id');
         return response()->json($beasiswa);

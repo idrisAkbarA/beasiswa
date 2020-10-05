@@ -91,39 +91,45 @@ class Beasiswa extends Model
     {
         $today = Carbon::today();
         $beasiswa =  self::whereDate('akhir_berkas', '>=', $today)
+            ->whereDate('awal_berkas', '<=', $today)
             ->with('instansi')
             ->get();
-        $beasiswa = $beasiswa->reject(function ($value, $key) use ($today) {
-            if ($value->awal_berkas == NULL) {
-                return false;
-            }
-            return $value->awal_berkas > $today;
-        });
         return $beasiswa;
     }
 
-    public function cekSemester($id)
+    public function isActive(Beasiswa $beasiswa)
     {
-        $beasiswa = self::findOrFail($id);
-        $semester = explode(',', $beasiswa->semester);
-        dd($semester);
-        return true;
+        $today = Carbon::today();
+
+        if ($beasiswa->awal_berkas <= $today && $today <= $beasiswa->akhir_berkas) {
+            return true;
+        }
+        return false;
     }
 
-    public function cekPersyaratan($id)
+    public static function cekSemester(Beasiswa $beasiswa, User $user)
     {
-        $user = User::findOrFail($id);
+        $semester = explode(',', $beasiswa->semester);
+        return !is_null($beasiswa->semester) && (in_array($user->semester, $semester));
+    }
 
-        $sks = !is_null($this->total_sks) && $user->total_sks < $this->total_sks;
-        $ukt = !is_null($this->ukt) && $user->jml_bayar > $this->ukt;
-        $first = $this->is_first && $user->permohonan->count() > 0;
-        $syarat = [
-            'sks' => !$sks,
-            'ukt' => !$ukt,
-            'first' => !$first,
-            'semester' => $this->cekSemester($this->id)
-        ];
-        return $syarat;
+    public static function cekPersyaratan(User $user)
+    {
+        $beasiswa = self::active();
+
+        foreach ($beasiswa as $row) {
+            $sks = !is_null($row->total_sks) && $user->total_sks < $row->total_sks;
+            $ukt = !is_null($row->ukt) && $user->jml_bayar >= $row->ukt;
+            $first = $row->is_first && $user->permohonan->count() > 0;
+            $syarat = [
+                'sks' => !$sks,
+                'ukt' => !$ukt,
+                'first' => !$first,
+                'semester' => self::cekSemester($row, $user)
+            ];
+            $row->syarat = $syarat;
+        }
+        return $beasiswa;
     }
 
     public function instansi()
