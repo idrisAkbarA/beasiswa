@@ -95,6 +95,24 @@
 
           <v-col style="padding-bottom:0 !important;">
             <p>{{field.pertanyaan}}</p>
+            <v-container v-if="field.type == 'Checkboxes'">
+              <v-row
+                align="center"
+                v-for="(item,index) in field.checkboxes.items"
+                :key="index"
+              >
+                <v-checkbox
+                  v-model="field.value"
+                  :value="item.label"
+                  color="white"
+                  hide-details
+                  class="shrink mr-2 mt-0"
+                ></v-checkbox>
+
+                <span>{{item.label}}</span>
+              </v-row>
+
+            </v-container>
             <v-radio-group
               v-if="field.type == 'Pilihan'"
               column
@@ -280,6 +298,7 @@ export default {
         finalForm[element.index].value = element.newName;
         console.log(finalForm);
       }
+      console.log(finalForm);
       axios
         .post(`${this.url}/api/pemohon`, {
           beasiswa_id,

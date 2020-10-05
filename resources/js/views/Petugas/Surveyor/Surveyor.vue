@@ -45,11 +45,15 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
+  computed: {
+    ...mapState(["url"])
+  },
   methods: {
         logout() {
       axios
-        .get("http://beasiswa.test/api/logout-petugas", {
+        .get(this.url +"/api/logout-petugas", {
           params: {
             user: window.localStorage.getItem("user")
           }

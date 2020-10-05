@@ -122,7 +122,7 @@ export default {
     },
     logout() {
       axios
-        .get("http://beasiswa.test/api/logout-petugas", {
+        .get(this.url +"/api/logout-petugas", {
           params: {
             user: window.localStorage.getItem("user")
           }
@@ -139,7 +139,7 @@ export default {
     source: String
   },
   computed: {
-    ...mapState(["isOpenBeasiswa"]),
+    ...mapState(["isOpenBeasiswa","url"]),
     nama() {
       return this.$store.state.name;
     },

@@ -100,7 +100,11 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
+  computed: {
+    ...mapState(["url"])
+  },
   created() {},
   methods: {
     goback() {
@@ -111,7 +115,7 @@ export default {
     },
     logout() {
       axios
-        .get("http://beasiswa.test/api/logout", {
+        .get(this.url +"/api/logout", {
           params: {
             user: window.localStorage.getItem("user")
           }

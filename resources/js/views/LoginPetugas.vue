@@ -55,6 +55,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import axios from "axios";
 axios.defaults.withCredentials = true;
 axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
@@ -69,12 +70,15 @@ export default {
     };
   },
   methods: {
+    computed:{
+      ...mapState(['url'])
+    },
     login() {
       this.loading = true;
-      axios.get("http://beasiswa.test/sanctum/csrf-cookie").then(response => {
+      axios.get(this.url +"/sanctum/csrf-cookie").then(response => {
         // console.log(response)
         axios
-          .post("http://beasiswa.test/api/authenticate/petugas", {
+          .post(this.url +"/api/authenticate/petugas", {
             name: this.name,
             password: this.pass
           })
@@ -120,11 +124,11 @@ export default {
     }
   },
   created() {
-    axios.get("http://beasiswa.test/sanctum/csrf-cookie").then(response => {
+    axios.get(this.url +"/sanctum/csrf-cookie").then(response => {
       // console.log(response)
 
       axios
-        .get("http://beasiswa.test/api/user/petugas")
+        .get(this.url +"/api/user/petugas")
         .then(response => {
           console.log(response.data);
           this.$router.push({ path: `/${response.data["name"]}/dashboard` });

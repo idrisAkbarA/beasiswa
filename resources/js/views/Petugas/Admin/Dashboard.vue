@@ -66,7 +66,11 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
+  computed: {
+    ...mapState(["url"])
+  },
   data() {
     return {
       interview: "",
@@ -77,20 +81,20 @@ export default {
   },
   created() {
     axios
-      .get("http://beasiswa.test/api/pemohon/count-interview")
+      .get(this.url +"/api/pemohon/count-interview")
       .then(response => {
         this.interview = response.data;
       });
     axios
-      .get("http://beasiswa.test/api/pemohon/count-berkas")
+      .get(this.url +"/api/pemohon/count-berkas")
       .then(response => {
         this.berkas = response.data;
       });
-    axios.get("http://beasiswa.test/api/pemohon/count-lulus").then(response => {
+    axios.get(this.url +"/api/pemohon/count-lulus").then(response => {
       this.lulus = response.data;
     });
     axios
-      .get("http://beasiswa.test/api/pemohon/count-beasiswa")
+      .get(this.url +"/api/pemohon/count-beasiswa")
       .then(response => {
         this.beasiswa = response.data;
         // console.log(response.data);
