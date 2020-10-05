@@ -246,8 +246,7 @@
                     <v-col cols="6">
                       <v-checkbox
                         label="IPK"
-                        v-model="checked.ipk"
-                        @
+                        v-model="lainnya.ipk"
                       ></v-checkbox>
                     </v-col>
                     <v-col cols="6">
@@ -255,8 +254,8 @@
                         label="IPK minimal"
                         type="number"
                         ref="ipk"
-                        v-model="form.ipk"
-                        :disabled="!checked.ipk"
+                        v-model="lainnya.ipk"
+                        :disabled="!lainnya.ipk"
                       >
                       </v-text-field>
                     </v-col>
@@ -279,7 +278,7 @@
                     <v-col cols="6">
                       <v-checkbox
                         label="Semester"
-                        v-model="checked.semester"
+                        v-model="lainnya.semester"
                       ></v-checkbox>
                     </v-col>
                     <v-col cols="6">
@@ -287,8 +286,25 @@
                         label="Semester"
                         type="text"
                         ref="semester"
-                        v-model="form.semester"
-                        :disabled="!checked.semester"
+                        v-model="lainnya.semester"
+                        :disabled="!lainnya.semester"
+                      >
+                      </v-text-field>
+                      <small>berupa angka dipisah oleh koma, cth: 1,3</small>
+                    </v-col>
+                    <v-col cols="6">
+                      <v-checkbox
+                        label="UKT"
+                        v-model="lainnya.ukt"
+                      ></v-checkbox>
+                    </v-col>
+                    <v-col cols="6">
+                      <v-text-field
+                        label="Batas UKT"
+                        type="number"
+                        ref="ukt"
+                        v-model="lainnya.ukt"
+                        :disabled="!lainnya.ukt"
                       >
                       </v-text-field>
                       <small>berupa angka dipisah oleh koma, cth: 1,3</small>
@@ -1140,6 +1156,12 @@ export default {
       this.fieldsEdit = JSON.parse(item.fields);
       this.deskripsiEdit = item.deskripsi;
       this.valueEdit = item.instansi_id;
+      this.lainnya = {
+        ipk: item.ipk,
+        semester: item.semester,
+        ukt: item.is_first,
+        is_first: item.ukt
+      };
       console.log("asdd" + this.valueEdit);
 
       this.instansi.forEach(element => {
@@ -1218,7 +1240,11 @@ export default {
         awal_survey,
         akhir_survey,
         awal_berkas,
-        akhir_berkas
+        akhir_berkas,
+        ipk: this.lainnya.ipk ?? null,
+        semester: this.lainnya.semester ?? null,
+        ukt: this.lainnya.ukt ?? null,
+        is_first: this.lainnya.is_first ?? null
       };
       console.log(data);
       this.btnLoading = true;
@@ -1447,6 +1473,7 @@ export default {
       },
       checked: {},
       form: {},
+      lainnya: {},
       idEdit: null,
       deleteDialog: false,
       deleteId: null,

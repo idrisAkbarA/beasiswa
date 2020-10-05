@@ -125,7 +125,7 @@ class BeasiswaController extends Controller
             return response()->json($reply);
         }
         // sks cukup
-        if (!Beasiswa::cekSemester($beasiswa, $user)) {
+        if (Beasiswa::cekSemester($beasiswa, $user)) {
             $reply['status'] = false;
             array_push($reply['message'], 'Semester tdk memenuhi syarat');
         }
