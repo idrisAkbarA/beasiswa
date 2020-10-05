@@ -7,7 +7,10 @@
     >
       <v-card>
         <v-card-text>
-          <h5 class="mb-5">Mohon maaf, anda tidak dapat mendaftar pada beasiswa ini</h5>
+          <h5
+            v-if="typeof overlay.message == 'string'"
+            class="mb-5"
+          >Mohon maaf, anda tidak dapat mendaftar pada beasiswa ini</h5>
           <ul v-if="typeof overlay.message != 'string'">
             <li
               v-for="item in overlay.message"
@@ -78,8 +81,7 @@
               </td>
             </tr>
           </table>
-      
-          
+
           <table class="mt-2">
             <tr>
               <td>
