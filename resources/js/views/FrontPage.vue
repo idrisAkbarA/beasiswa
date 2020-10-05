@@ -49,7 +49,7 @@
                   Pendaftaran Beasiswa
                   Uin Suska Riau
                 </span>
-                <!-- Change this automaticly later usig VUEX -->
+
 
               </v-toolbar-title>
             </div>
@@ -73,6 +73,7 @@
               color="transparent"
               class="d-flex align-center align-self-center list-beasiswa "
             >
+            
               <v-hover
                 v-for="(item,index) in beasiswa"
                 :key="index"
@@ -110,8 +111,16 @@
                       <h2>{{item.nama.length>60 ? item.nama.substring(0,60) + " ..." : item.nama}}</h2>
                     </v-card-text>
                   </v-img>
+                  <p class="caption">
+                  <li class="caption">
+                    Be<span></span>
+                    </li>
+                  <li>test</li>
+                  </p>
                 </v-card>
+                
               </v-hover>
+              
 
             </v-sheet>
           </vue-scroll>
