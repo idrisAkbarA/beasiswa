@@ -57,6 +57,30 @@
         <!-- Persyaratan -->
         <v-row>
           <table>
+            <tr v-if="beasiswaSingle.total_sks">
+              <td>
+                <span v-if="beasiswaSingle.total_sks">{{"Minimum "+ beasiswaSingle.total_sks+" SKS"}}</span>
+              </td>
+            </tr>
+            <tr v-if="beasiswaSingle.semester">
+              <td>
+                <span v-if="beasiswaSingle.semester">{{"Semester "+ beasiswaSingle.semester}}</span>
+              </td>
+            </tr>
+            <tr v-if="beasiswaSingle.is_first">
+              <td>
+                <span v-if="beasiswaSingle.is_first">Belum pernah mengikuti beasiswa</span>
+              </td>
+            </tr>
+            <tr v-if="beasiswaSingle.ukt">
+              <td>
+                <span v-if="beasiswaSingle.ukt">Dibawah nominal UKT {{beasiswaSingle.ukt | currency("Rp.")}}</span>
+              </td>
+            </tr>
+          </table>
+      
+          
+          <table class="mt-2">
             <tr>
               <td>
                 <span>Batas upload berkas <span v-if="beasiswaSingle.awal_berkas"><strong>{{" "+parseDate(beasiswaSingle.awal_berkas)}}</strong> sampai </span> <strong> {{" "+parseDate(beasiswaSingle.akhir_berkas)}}</strong> </span>

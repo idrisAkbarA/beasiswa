@@ -50,7 +50,6 @@
                   Uin Suska Riau
                 </span>
 
-
               </v-toolbar-title>
             </div>
           </v-app-bar>
@@ -73,7 +72,7 @@
               color="transparent"
               class="d-flex align-center align-self-center list-beasiswa "
             >
-            
+
               <v-hover
                 v-for="(item,index) in beasiswa"
                 :key="index"
@@ -84,12 +83,12 @@
                   @click="goto(item)"
                   ripple
                   class="ma-6"
-                  :height="300*1.2"
-                  :width="200*1.2"
+                  :height="300"
+                  :width="200"
                 >
                   <v-img
-                    :height="300*1.2"
-                    :width="200*1.2"
+                    :height="300"
+                    :width="200"
                     gradient="to top right, rgba(58, 231, 87, 0.33), rgba(25,32,72,.7)"
                     :src="'https://picsum.photos/200/300?random='+index"
                   >
@@ -111,15 +110,20 @@
                       <h2>{{item.nama.length>60 ? item.nama.substring(0,60) + " ..." : item.nama}}</h2>
                     </v-card-text>
                   </v-img>
-                  <p>
-                    Syarat dan Ketentuan
-                    <br>
+                  <p class="caption pa-1">
+
+                    <br v-if="item.total_sks">
                     <span v-if="item.total_sks">{{"Minimum "+ item.total_sks+" SKS"}}</span>
+                    <br v-if="item.semester">
+                    <span v-if="item.semester">{{"Semester "+ item.semester}}</span>
+                    <br v-if="item.is_first">
+                    <span v-if="item.is_first">Belum pernah mengikuti beasiswa</span>
+                    <br v-if="item.ukt">
+                    <span v-if="item.ukt">Dibawah nominal UKT {{item.ukt | currency("Rp.")}}</span>
                   </p>
                 </v-card>
-                
+
               </v-hover>
-              
 
             </v-sheet>
           </vue-scroll>
@@ -144,6 +148,15 @@
                 <vue-scroll :ops="opsSheet">
                   <v-container>
                     {{beasiswaSingle.deskripsi}}
+                    <br><br>
+                    <br v-if="beasiswaSingle.total_sks">
+                    <span v-if="beasiswaSingle.total_sks">{{"Minimum "+ beasiswaSingle.total_sks+" SKS"}}</span>
+                    <br v-if="beasiswaSingle.semester">
+                    <span v-if="beasiswaSingle.semester">{{"Semester "+ beasiswaSingle.semester}}</span>
+                    <br v-if="beasiswaSingle.is_first">
+                    <span v-if="beasiswaSingle.is_first">Belum pernah mengikuti beasiswa</span>
+                    <br v-if="beasiswaSingle.ukt">
+                    <span v-if="beasiswaSingle.ukt">Dibawah nominal UKT {{beasiswaSingle.ukt | ccurrency("Rp.")}}</span>
                     <br><br>
                     Batas upload berkas <span v-if="beasiswaSingle.awal_berkas"><strong>{{parseDate(beasiswaSingle.awal_berkas)}}</strong> sampai </span> <strong> {{parseDate(beasiswaSingle.akhir_berkas)}}</strong>
                     <br>
@@ -190,7 +203,7 @@
                             :value="item.label"
                           >
                             <v-checkbox
-                            disabled
+                              disabled
                               color="white"
                               hide-details
                               class="shrink mr-2 mt-0"
@@ -206,7 +219,7 @@
                               label="Label"
                             ></v-text-field> -->
                           </v-row>
-            
+
                         </v-container>
                         <v-radio-group
                           disabled
@@ -318,10 +331,17 @@ export default {
   },
   methods: {
     ...mapActions(["getBeasiswaNoAuth"]),
+    isNoRule(item) {
+      if (item.semester && item.total_sks && item.ukt && is_first) {
+        return false;
+      } else {
+        return true;
+      }
+    },
     parseDate(date) {
       return this.$moment(date, "YYYY-MM-DD").format("Do MMMM YYYY");
     },
-    
+
     goto(item) {
       this.sheet = true;
       this.beasiswaSingle = item;
