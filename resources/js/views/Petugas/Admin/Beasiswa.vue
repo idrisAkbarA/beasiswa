@@ -236,6 +236,82 @@
               </v-col>
             </v-row>
 
+            <v-expansion-panels>
+              <v-expansion-panel>
+                <v-expansion-panel-header>
+                  Syarat lainnya
+                </v-expansion-panel-header>
+                <v-expansion-panel-content>
+                  <v-row>
+                    <v-col cols="6">
+                      <v-checkbox
+                        label="IPK"
+                        v-model="checked.ipk"
+                        @
+                      ></v-checkbox>
+                    </v-col>
+                    <v-col cols="6">
+                      <v-text-field
+                        label="IPK minimal"
+                        type="number"
+                        ref="ipk"
+                        v-model="form.ipk"
+                        :disabled="!checked.ipk"
+                      >
+                      </v-text-field>
+                    </v-col>
+                    <!-- <v-col cols="6">
+                      <v-checkbox
+                        label="SKS"
+                        v-model="checked.sks"
+                      ></v-checkbox>
+                    </v-col>
+                    <v-col cols="6">
+                      <v-text-field
+                        label="Jumlah SKS minimal"
+                        type="number"
+                        ref="sks"
+                        v-model="form.total_sks"
+                        :disabled="!checked.sks"
+                      >
+                      </v-text-field>
+                    </v-col> -->
+                    <v-col cols="6">
+                      <v-checkbox
+                        label="Semester"
+                        v-model="checked.semester"
+                      ></v-checkbox>
+                    </v-col>
+                    <v-col cols="6">
+                      <v-text-field
+                        label="Semester"
+                        type="text"
+                        ref="semester"
+                        v-model="form.semester"
+                        :disabled="!checked.semester"
+                      >
+                      </v-text-field>
+                      <small>berupa angka dipisah oleh koma, cth: 1,3</small>
+                    </v-col>
+                    <v-col cols="6">
+                      <v-checkbox
+                        label="Tidak menerima beasiswa lain"
+                        v-model="form.is_first"
+                      ></v-checkbox>
+                    </v-col>
+                    <v-col cols="6">
+                      <!-- <v-text-field
+                        label="Jumlah SKS minimal"
+                        type="number"
+                        ref="sks"
+                        :disabled="!checked.sks"
+                      >
+                      </v-text-field> -->
+                    </v-col>
+                  </v-row>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-expansion-panels>
             <v-row>
               <v-divider></v-divider>
             </v-row>
@@ -726,6 +802,23 @@
                     </v-col>
                     <v-col cols="6">
                       <v-checkbox
+                        label="UKT"
+                        v-model="checked.ukt"
+                      ></v-checkbox>
+                    </v-col>
+                    <v-col cols="6">
+                      <v-text-field
+                        label="Batas UKT"
+                        type="number"
+                        ref="ukt"
+                        v-model="form.ukt"
+                        :disabled="!checked.ukt"
+                      >
+                      </v-text-field>
+                      <!-- <small>berupa angka dipisah oleh koma, cth: 1,3</small> -->
+                    </v-col>
+                    <v-col cols="6">
+                      <v-checkbox
                         label="Tidak menerima beasiswa lain"
                         v-model="form.is_first"
                       ></v-checkbox>
@@ -1205,11 +1298,11 @@ export default {
         akhir_survey,
         awal_berkas,
         akhir_berkas,
-        // ipk: this.form.ipk,
-        total_sks: this.form.total_sks,
-        ukt: this.form.ukt,
-        semester: this.form.semester,
-        is_first: this.form.is_first
+        // total_sks: this.form.total_sks,
+        ipk: this.form.ipk ?? null,
+        ukt: this.form.ukt ?? null,
+        semester: this.form.semester ?? null,
+        is_first: this.form.is_first ?? 0
       };
       console.log(data);
       this.btnLoading = true;
@@ -1217,6 +1310,8 @@ export default {
         .then(response => {
           this.btnLoading = false;
           this.toggleBeasiswa = false;
+          this.form = {};
+          this.checked = {};
         })
         .catch(error => {
           this.btnLoading = false;
