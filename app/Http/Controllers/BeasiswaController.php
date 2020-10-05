@@ -25,6 +25,7 @@ class BeasiswaController extends Controller
     public function getActive()
     {
         $beasiswa = Beasiswa::active();
+        $beasiswa->cekPersyaratan(Auth::guard('mahasiswa')->user());
         $beasiswa->makeHidden(['interview', 'survey', 'selection', 'lulus'])
             ->sortByDesc('id');
         return response()->json($beasiswa);
@@ -53,6 +54,10 @@ class BeasiswaController extends Controller
         $Beasiswa->akhir_berkas     = $request['data']['akhir_berkas'];
         $Beasiswa->awal_survey      = $request['data']['awal_survey'];
         $Beasiswa->akhir_survey     = $request['data']['akhir_survey'];
+        $Beasiswa->total_sks        = $request['data']['total_sks'];
+        $Beasiswa->ukt              = $request['data']['ukt'];
+        $Beasiswa->semester         = $request['data']['semester'];
+        $Beasiswa->is_first         = $request['data']['is_first'];
         $Beasiswa->fields           = json_encode($request['data']['fields']);
         $Beasiswa->save();
         return response()->json(['status' => "Success: Beasiswa Added"]);
@@ -72,6 +77,10 @@ class BeasiswaController extends Controller
         $Beasiswa->akhir_berkas     = $request['akhir_berkas'];
         $Beasiswa->awal_survey      = $request['awal_survey'];
         $Beasiswa->akhir_survey     = $request['akhir_survey'];
+        $Beasiswa->total_sks        = $request['data']['total_sks'];
+        $Beasiswa->ukt              = $request['data']['ukt'];
+        $Beasiswa->semester         = $request['data']['semester'];
+        $Beasiswa->is_first         = $request['data']['is_first'];
         $Beasiswa->fields           = json_encode($request['fields']);
         $Beasiswa->save();
         return response()->json(['status' => "Success: Beasiswa Updated"]);
@@ -97,5 +106,35 @@ class BeasiswaController extends Controller
             'aktif' => $temp
         ];
         return response()->json($beasiswa);
+    }
+
+    public function cekPersyaratan(Request $request, $id)
+    {
+        $beasiswa = Beasiswa::find($id);
+        $user = Auth::guard('mahasiswa')->user();
+        $reply['status'] = true;
+        $reply['message'] = [];
+        // beasiswa ada
+        if (is_null($beasiswa)) {
+            $reply['status'] = false;
+            $reply['message'] = 'Beasiswa tidak ditemukan!';
+            return response()->json($reply);
+        }
+        // sks cukup
+        if (!is_null($beasiswa->total_sks) && $user->total_sks < $beasiswa->total_sks) {
+            $reply['status'] = false;
+            array_push($reply['message'], 'Total sks tidak mencukupi');
+        }
+        // ukt
+        if (!is_null($beasiswa->ukt) && $user->jml_bayar > $beasiswa->ukt) {
+            $reply['status'] = false;
+            array_push($reply['message'], 'UKT tidak memenuhi syarat');
+        }
+        // first
+        if ($beasiswa->is_first && $user->permohonan->count() > 0) {
+            $reply['status'] = false;
+            array_push($reply['message'], 'Sudah pernah menerima beasiswa');
+        }
+        return response()->json($reply);
     }
 }

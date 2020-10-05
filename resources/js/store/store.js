@@ -278,6 +278,9 @@ export default new Vuex.Store({
                 }
             })
         },
+        cekPersyaratan({ commit, dispatch, state }, id) {
+            Axios.get(state.url + '/api/beasiswa/cek/' + id)
+        }
     },
     modules: {
         mhs: mhsModule

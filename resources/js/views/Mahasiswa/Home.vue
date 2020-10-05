@@ -48,6 +48,24 @@
       </v-card>
     </v-row>
 
+    <!-- Snackbar -->
+    <v-snackbar
+      v-model="snackbar.show"
+      :timeout="2000"
+    >
+      {{ snackbar.message }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          :color="snackbar.color"
+          text
+          v-bind="attrs"
+          @click="snackbar.show = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -58,8 +76,9 @@ export default {
     ...mapActions(["getBeasiswaActive"]),
 
     goto(item) {
-      console.log("hello");
-      this.$router.push({ path: "/mahasiswa/daftar-beasiswa/" + item.id });
+      this.$router.push({
+        path: "/mahasiswa/daftar-beasiswa/" + item.id
+      });
     }
   },
   mounted() {},
@@ -71,7 +90,8 @@ export default {
   },
   data() {
     return {
-      loading: true
+      loading: true,
+      snackbar: { show: false }
     };
   }
 };

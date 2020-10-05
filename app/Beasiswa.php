@@ -11,6 +11,8 @@ class Beasiswa extends Model
 {
     use SoftDeletes;
 
+    protected $guarded = ['id'];
+
     protected $hidden = [
         'permohonan',
         'berkas',
@@ -98,6 +100,30 @@ class Beasiswa extends Model
             return $value->awal_berkas > $today;
         });
         return $beasiswa;
+    }
+
+    public function cekSemester($id)
+    {
+        $beasiswa = self::findOrFail($id);
+        $semester = explode(',', $beasiswa->semester);
+        dd($semester);
+        return true;
+    }
+
+    public function cekPersyaratan($id)
+    {
+        $user = User::findOrFail($id);
+
+        $sks = !is_null($this->total_sks) && $user->total_sks < $this->total_sks;
+        $ukt = !is_null($this->ukt) && $user->jml_bayar > $this->ukt;
+        $first = $this->is_first && $user->permohonan->count() > 0;
+        $syarat = [
+            'sks' => !$sks,
+            'ukt' => !$ukt,
+            'first' => !$first,
+            'semester' => $this->cekSemester($this->id)
+        ];
+        return $syarat;
     }
 
     public function instansi()

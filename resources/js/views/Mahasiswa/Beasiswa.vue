@@ -2,18 +2,35 @@
   <v-sheet color="transparent">
     <v-overlay
       :absolute="false"
-      :value="isAlreadyHas"
+      :value="overlay.show"
       color="green"
     >
       <v-card>
-        <v-card-text>{{msg}}</v-card-text>
+        <v-card-text>
+          <h5 class="mb-5">Mohon maaf, anda tidak dapat mendaftar pada beasiswa ini</h5>
+          <ul v-if="typeof overlay.message != 'string'">
+            <li
+              v-for="item in overlay.message"
+              :key="item"
+            >
+              {{item}}
+            </li>
+          </ul>
+          <p v-else>
+            {{overlay.message}}
+          </p>
+        </v-card-text>
       </v-card>
     </v-overlay>
     <v-row
       align="center"
       justify="start"
     >
-      <v-col cols="12" lg="4" md="4">
+      <v-col
+        cols="12"
+        lg="4"
+        md="4"
+      >
 
         <v-img
           class="ma-3 item"
@@ -25,7 +42,12 @@
           <!-- <v-img :src="'https://picsum.photos/200/300?grayscale&blur=1&random='+index"> -->
         </v-img>
       </v-col>
-      <v-col cols="12"  lg="6" md="6" :class="windowWidth <= 600 ?' ma-5 pa-5':''">
+      <v-col
+        cols="12"
+        lg="6"
+        md="6"
+        :class="windowWidth <= 600 ?' ma-5 pa-5':''"
+      >
         <v-row>
           <h1>{{beasiswaSingle.nama}}</h1>
         </v-row>
@@ -151,7 +173,7 @@
         <v-row>
           <v-col>
             <v-btn
-              :disabled="isAlreadyHas"
+              :disabled="overlay.show"
               :loading="loadingBtn"
               @click="save()"
               color="#2E7D32"
@@ -171,6 +193,7 @@ export default {
     this.getBeasiswaSingle(this.$route.params.id).then(response => {
       this.fields = JSON.parse(response.fields);
     });
+    this.cekPersyaratan(this.$route.params.id);
     this.getUserPermohonan();
   },
   methods: {
@@ -183,12 +206,33 @@ export default {
         console.log(response.data);
         response.data.forEach(element => {
           if (element.beasiswa_id == this.$route.params.id) {
-            this.msg =
+            this.overlay.message =
               "Anda telah mendaftar pada beasiswa ini sebelumnya, lihat status permohonan";
-            this.isAlreadyHas = true;
+            this.overlay.show = true;
           }
         });
       });
+    },
+    cekPersyaratan(id) {
+      axios
+        .get(this.url + "/api/beasiswa/cek/" + id)
+        .then(response => {
+          console.log(typeof response.data.message);
+          if (response.data.status) {
+            //
+          } else {
+            this.overlay = {
+              show: true,
+              message: response.data.message
+            };
+          }
+        })
+        .catch(error => {
+          this.overlay = {
+            show: true,
+            message: error.message
+          };
+        });
     },
     upload: async (data, url) => {
       return axios({
@@ -243,9 +287,9 @@ export default {
         })
         .then(response => {
           console.log(response.data);
-          this.msg =
+          this.overlay.message =
             "Permohonan beasiswa berhasil dikirim, lihat status permohonan beasiswa";
-          this.isAlreadyHas = true;
+          this.overlay.show = true;
           this.loadingBtn = false;
         })
         .catch(error => {
@@ -259,8 +303,9 @@ export default {
   data() {
     return {
       loadingBtn: false,
-      msg: "",
-      isAlreadyHas: false,
+      //   msg: "",
+      //   isAlreadyHas: false,
+      overlay: { show: false },
       fields: {},
       loading: 0,
       loadText: ""
