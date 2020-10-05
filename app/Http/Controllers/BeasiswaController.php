@@ -25,7 +25,7 @@ class BeasiswaController extends Controller
     public function getActive()
     {
         $user = Auth::guard('mahasiswa')->user();
-        $beasiswa = Beasiswa::cekPersyaratan($user);
+        $beasiswa = Beasiswa::cekAllPersyaratan($user);
         $beasiswa->makeHidden(['interview', 'survey', 'selection', 'lulus'])
             ->sortByDesc('id');
         return response()->json($beasiswa);
@@ -36,7 +36,9 @@ class BeasiswaController extends Controller
     }
     public function get($id)
     {
+        $user = Auth::guard('mahasiswa')->user();
         $beasiswa = Beasiswa::findOrFail($id);
+        $beasiswa->cekPersyaratan($user);
         $beasiswa->makeHidden(['berkas', 'interview', 'survey', 'selection', 'lulus']);
         return response()->json($beasiswa);
     }
@@ -123,12 +125,17 @@ class BeasiswaController extends Controller
             return response()->json($reply);
         }
         // sks cukup
+        if (!Beasiswa::cekSemester($beasiswa, $user)) {
+            $reply['status'] = false;
+            array_push($reply['message'], 'Semester tdk memenuhi syarat');
+        }
+        // sks cukup
         if (!is_null($beasiswa->total_sks) && $user->total_sks < $beasiswa->total_sks) {
             $reply['status'] = false;
             array_push($reply['message'], 'Total sks tidak mencukupi');
         }
         // ukt
-        if (!is_null($beasiswa->ukt) && $user->jml_bayar > $beasiswa->ukt) {
+        if (!is_null($beasiswa->ukt) && $user->jml_bayar >= $beasiswa->ukt) {
             $reply['status'] = false;
             array_push($reply['message'], 'UKT tidak memenuhi syarat');
         }
