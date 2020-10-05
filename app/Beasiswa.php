@@ -113,7 +113,7 @@ class Beasiswa extends Model
         return !is_null($beasiswa->semester) && (in_array($user->semester, $semester));
     }
 
-    public static function cekPersyaratan(User $user)
+    public static function cekAllPersyaratan(User $user)
     {
         $beasiswa = self::active();
 
@@ -130,6 +130,20 @@ class Beasiswa extends Model
             $row->syarat = $syarat;
         }
         return $beasiswa;
+    }
+
+    public function cekPersyaratan(User $user)
+    {
+        $sks = !is_null($this->total_sks) && $user->total_sks < $this->total_sks;
+        $ukt = !is_null($this->ukt) && $user->jml_bayar >= $this->ukt;
+        $first = $this->is_first && $user->permohonan->count() > 0;
+        $syarat = [
+            'sks' => !$sks,
+            'ukt' => !$ukt,
+            'first' => !$first,
+            'semester' => self::cekSemester($this, $user)
+        ];
+        $this->syarat = $syarat;
     }
 
     public function instansi()
