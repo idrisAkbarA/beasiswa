@@ -54,7 +54,8 @@ class BeasiswaController extends Controller
         $Beasiswa->akhir_berkas     = $request['data']['akhir_berkas'];
         $Beasiswa->awal_survey      = $request['data']['awal_survey'];
         $Beasiswa->akhir_survey     = $request['data']['akhir_survey'];
-        $Beasiswa->total_sks        = $request['data']['total_sks'];
+        $Beasiswa->ipk              = $request['data']['ipk'];
+        // $Beasiswa->total_sks        = $request['data']['total_sks'];
         $Beasiswa->ukt              = $request['data']['ukt'];
         $Beasiswa->semester         = $request['data']['semester'];
         $Beasiswa->is_first         = $request['data']['is_first'];
@@ -77,6 +78,7 @@ class BeasiswaController extends Controller
         $Beasiswa->akhir_berkas     = $request['akhir_berkas'];
         $Beasiswa->awal_survey      = $request['awal_survey'];
         $Beasiswa->akhir_survey     = $request['akhir_survey'];
+        $Beasiswa->ipk              = $request['data']['ipk'];
         $Beasiswa->total_sks        = $request['data']['total_sks'];
         $Beasiswa->ukt              = $request['data']['ukt'];
         $Beasiswa->semester         = $request['data']['semester'];

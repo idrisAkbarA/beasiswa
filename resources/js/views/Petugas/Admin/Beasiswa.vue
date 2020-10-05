@@ -667,6 +667,82 @@
                 </v-menu>
               </v-col>
             </v-row>
+            <v-expansion-panels>
+              <v-expansion-panel>
+                <v-expansion-panel-header>
+                  Syarat lainnya
+                </v-expansion-panel-header>
+                <v-expansion-panel-content>
+                  <v-row>
+                    <v-col cols="6">
+                      <v-checkbox
+                        label="IPK"
+                        v-model="checked.ipk"
+                        @
+                      ></v-checkbox>
+                    </v-col>
+                    <v-col cols="6">
+                      <v-text-field
+                        label="IPK minimal"
+                        type="number"
+                        ref="ipk"
+                        v-model="form.ipk"
+                        :disabled="!checked.ipk"
+                      >
+                      </v-text-field>
+                    </v-col>
+                    <!-- <v-col cols="6">
+                      <v-checkbox
+                        label="SKS"
+                        v-model="checked.sks"
+                      ></v-checkbox>
+                    </v-col>
+                    <v-col cols="6">
+                      <v-text-field
+                        label="Jumlah SKS minimal"
+                        type="number"
+                        ref="sks"
+                        v-model="form.total_sks"
+                        :disabled="!checked.sks"
+                      >
+                      </v-text-field>
+                    </v-col> -->
+                    <v-col cols="6">
+                      <v-checkbox
+                        label="Semester"
+                        v-model="checked.semester"
+                      ></v-checkbox>
+                    </v-col>
+                    <v-col cols="6">
+                      <v-text-field
+                        label="Semester"
+                        type="text"
+                        ref="semester"
+                        v-model="form.semester"
+                        :disabled="!checked.semester"
+                      >
+                      </v-text-field>
+                      <small>berupa angka dipisah oleh koma, cth: 1,3</small>
+                    </v-col>
+                    <v-col cols="6">
+                      <v-checkbox
+                        label="Tidak menerima beasiswa lain"
+                        v-model="form.is_first"
+                      ></v-checkbox>
+                    </v-col>
+                    <v-col cols="6">
+                      <!-- <v-text-field
+                        label="Jumlah SKS minimal"
+                        type="number"
+                        ref="sks"
+                        :disabled="!checked.sks"
+                      >
+                      </v-text-field> -->
+                    </v-col>
+                  </v-row>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-expansion-panels>
             <v-row>
               <v-divider></v-divider>
             </v-row>
@@ -1128,7 +1204,12 @@ export default {
         awal_survey,
         akhir_survey,
         awal_berkas,
-        akhir_berkas
+        akhir_berkas,
+        // ipk: this.form.ipk,
+        total_sks: this.form.total_sks,
+        ukt: this.form.ukt,
+        semester: this.form.semester,
+        is_first: this.form.is_first
       };
       console.log(data);
       this.btnLoading = true;
@@ -1234,7 +1315,7 @@ export default {
       var today = new Date();
       var day = today.getDate() < 10 ? "0" + today.getDate() : today.getDate();
       var formatedToday =
-        today.getFullYear() + "-" + (today.getMonth() + 1) + "-"+day;
+        today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + day;
 
       return formatedToday;
     }
@@ -1269,6 +1350,8 @@ export default {
           wheelDirectionReverse: true
         }
       },
+      checked: {},
+      form: {},
       idEdit: null,
       deleteDialog: false,
       deleteId: null,
