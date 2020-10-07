@@ -204,10 +204,25 @@
             <v-tab-item>
               <v-row>
                 <v-col cols="12">
-                  Nama
+                  Nama : {{selectedPermohonan.mahasiswa.nama}}
                 </v-col>
                 <v-col cols="12">
-                  NIM
+                  NIM : {{selectedPermohonan.mahasiswa.nim}}
+                </v-col>
+                <v-col cols="12">
+                  Semester : {{selectedPermohonan.mahasiswa.semester}}
+                </v-col>
+                <v-col cols="12">
+                  Jurusan : {{selectedPermohonan.mahasiswa.jurusan.nama}}
+                </v-col>
+                <v-col cols="12">
+                  Fakultas : {{selectedPermohonan.mahasiswa.fakultas.nama}}
+                </v-col>
+                <v-col cols="12">
+                  IPS : {{selectedPermohonan.mahasiswa.ips}}
+                </v-col>
+                <v-col cols="12">
+                  IPK : {{selectedPermohonan.mahasiswa.ipk}}
                 </v-col>
               </v-row>
             </v-tab-item>
