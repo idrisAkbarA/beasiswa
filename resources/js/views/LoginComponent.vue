@@ -50,7 +50,7 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["mutateNim",'url']),
+    ...mapMutations(["mutateNim",'url','mutateUser']),
     login() {
       this.loading = true;
       axios.get("/sanctum/csrf-cookie").then(response => {
@@ -81,7 +81,7 @@ export default {
             password: this.pass
           })
           .then(response => {
-            console.log(response);
+            // console.log(response);
             axios
               .post("/api/authenticate", {
                 nim: this.nim,
@@ -89,9 +89,11 @@ export default {
               })
               .then(result => {
                 window.localStorage.setItem("user", result.data.role);
-                console.log(result);
+                // console.log(result);
                 this.mutateNim(this.nim);
                 if (result.data.status == "Authenticated") {
+                window.localStorage.setItem("userDetail", JSON.stringify(result.data.user));
+                  // this.mutateUser(result.data.user);
                   this.$router.push({ path: `/mahasiswa/home` });
                 } else {
                   this.error = "Invalid username/password";

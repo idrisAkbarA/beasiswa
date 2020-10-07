@@ -20,6 +20,9 @@
       </v-card>
       <v-row>
         <p class="subtitle ml-8 mr-10">
+          Assalamualaikum <strong>{{user.nama}}</strong>
+        </p>
+        <p class="subtitle ml-8 mr-10">
           Selamat datang di aplikasi Beasiswa UIN Suska Riau
         </p>
 
@@ -103,9 +106,14 @@
 import { mapState } from "vuex";
 export default {
   computed: {
-    ...mapState(["url"])
+    ...mapState(["url"]),
+    user(){
+      return window.localStorage.getItem("userDetail")
+    }
   },
-  created() {},
+  created() {
+    console.log(this.user)
+  },
   methods: {
     goback() {
       this.$router.push({ name: "List Beasiswa" });
