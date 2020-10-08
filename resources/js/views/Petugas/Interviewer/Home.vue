@@ -145,6 +145,40 @@
 
             <v-col style="padding-bottom:0 !important;">
               <p>{{field.pertanyaan}}</p>
+                                <v-container v-if="field.type == 'Multiple Upload'">
+                    <v-row
+                      align="center"
+                      v-for="(item,index) in field.multiUpload.items"
+                      :key="index"
+                      :value="item.label"
+                      no-gutters
+                    >
+                      <v-col cols="1">
+                        <v-checkbox
+                          v-model="item.isSelected"
+                          color="white"
+                          hide-details
+                          class="shrink mr-2 mt-0"
+                          :value="item.label"
+                          disabled
+                        ></v-checkbox>
+
+                      </v-col>
+                      <v-col cols="6">
+                        <span>{{item.label}}</span>
+
+                      </v-col>
+                      <v-col cols="5">
+                        <v-btn
+                          v-if="item.file_name"
+                          small
+                          @click="link(item.file_name)"
+                        >lihat file</v-btn>
+                      </v-col>
+
+                    </v-row>
+
+                  </v-container>
               <v-container v-if="field.type == 'Checkboxes'">
                 <v-row
                   align="center"

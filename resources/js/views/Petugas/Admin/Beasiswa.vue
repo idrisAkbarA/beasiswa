@@ -6,11 +6,12 @@
       transition="fade-transition"
     >
 
+      <!-- style="background-color: #2e7d323b" -->
       <v-data-table
         :headers="headers"
         :items="beasiswa"
-        :items-per-page="10"
         style="background-color: #2e7d323b"
+        :items-per-page="10"
         class="elevation-10 mb-10"
       >
         <template v-slot:item.actions="{ item }">
@@ -237,7 +238,7 @@
             </v-row>
 
             <v-expansion-panels>
-              <v-expansion-panel>
+              <v-expansion-panel class="grey darken-3">
                 <v-expansion-panel-header>
                   Syarat lainnya
                 </v-expansion-panel-header>
@@ -312,7 +313,7 @@
                     <v-col cols="6">
                       <v-checkbox
                         label="Tidak menerima beasiswa lain"
-                        v-model="form.is_first"
+                        v-model="lainnya.is_first"
                       ></v-checkbox>
                     </v-col>
                     <v-col cols="6">
@@ -808,7 +809,7 @@
               </v-col>
             </v-row>
             <v-expansion-panels>
-              <v-expansion-panel>
+              <v-expansion-panel class="grey darken-3">
                 <v-expansion-panel-header>
                   Syarat lainnya
                 </v-expansion-panel-header>
@@ -1255,8 +1256,8 @@ export default {
       this.lainnya = {
         ipk: item.ipk,
         semester: item.semester,
-        ukt: item.is_first,
-        is_first: item.ukt
+        ukt: item.ukt,
+        is_first: item.is_first
       };
       console.log("asdd" + this.valueEdit);
 
@@ -1340,7 +1341,7 @@ export default {
         ipk: this.lainnya.ipk ?? null,
         semester: this.lainnya.semester ?? null,
         ukt: this.lainnya.ukt ?? null,
-        is_first: this.lainnya.is_first ?? null
+        is_first: this.lainnya.is_first ?? 0
       };
       console.log(data);
       this.btnLoading = true;
@@ -1461,9 +1462,9 @@ export default {
           : 0,
         value: null,
         date: false,
-          multiUpload: {
-            items: [{ label: "", isSelected:false, value:null }]
-          },
+        multiUpload: {
+          items: [{ label: "", isSelected: false, value: null }]
+        },
         checkboxes: {
           items: [{ label: "" }]
         },
@@ -1488,9 +1489,9 @@ export default {
         checkboxes: {
           items: [{ label: "" }]
         },
-          multiUpload: {
-            items: [{ label: "", isSelected:false, value:null }]
-          },
+        multiUpload: {
+          items: [{ label: "", isSelected: false, value: null }]
+        },
         pilihan: {
           required: false,
           items: [{ label: "" }]
@@ -1509,7 +1510,7 @@ export default {
       this.fields[field_index - 1].pilihan.items.push({ label: "" });
     },
     addMultiUploadItem(field_index) {
-      this.fields[field_index - 1].multiUpload.items.push({ label: "" });
+      this.fields[field_index - 1].multiUpload.items.push({ label: "", isSelected: false, value: null });
     },
     addCheckboxesItem(field_index) {
       this.fields[field_index - 1].checkboxes.items.push({ label: "" });
@@ -1521,7 +1522,7 @@ export default {
       this.fieldsEdit[field_index - 1].pilihan.items.push({ label: "" });
     },
     addMultiUploadItemEdit(field_index) {
-      this.fieldsEdit[field_index - 1].multiUpload.items.push({ label: "" });
+      this.fieldsEdit[field_index - 1].multiUpload.items.push({ label: "", isSelected: false, value: null });
     },
     deletePilihanItemEdit(field, label) {
       var item = this.fieldsEdit[this.fieldsEdit.indexOf(field)].pilihan.items;
@@ -1623,7 +1624,7 @@ export default {
             items: [{ label: "" }]
           },
           multiUpload: {
-            items: [{ label: "", isSelected:false, value:null }]
+            items: [{ label: "", isSelected: false, value: null }]
           },
           pilihan: {
             required: true,

@@ -202,7 +202,11 @@ export default new Vuex.Store({
                     awal_survey: data.awal_survey,
                     akhir_survey: data.akhir_survey,
                     awal_berkas: data.awal_berkas,
-                    akhir_berkas: data.akhir_berkas
+                    akhir_berkas: data.akhir_berkas,
+                    is_first: data.is_first,
+                    ukt: data.ukt,
+                    ipk: data.ipk,
+                    semester: data.semester
                 }).then(response => {
                     dispatch('getBeasiswa')
                     resolve(response)
