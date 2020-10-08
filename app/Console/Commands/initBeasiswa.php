@@ -70,7 +70,7 @@ class initBeasiswa extends Command
             $beasiswa->fields = "[{\"date\": false, \"type\": \"Jawaban Pendek\", \"index\": 1, \"value\": null, \"pilihan\": {\"items\": [{\"label\": null}], \"required\": true}, \"required\": true, \"pertanyaan\": \"Alamat\"}, {\"date\": false, \"type\": \"Jawaban Angka\", \"index\": 2, \"value\": null, \"pilihan\": {\"items\": [{\"label\": null}], \"required\": false}, \"required\": true, \"pertanyaan\": \"No. HP\"}, {\"date\": false, \"type\": \"Paragraf\", \"index\": 3, \"value\": null, \"pilihan\": {\"items\": [{\"label\": null}], \"required\": false}, \"required\": true, \"pertanyaan\": \"Motivasi mengikuti beasiswa ini\"}, {\"date\": false, \"type\": \"Upload File\", \"index\": 4, \"value\": null, \"pilihan\": {\"items\": [{\"label\": null}], \"required\": false}, \"required\": true, \"pertanyaan\": \"Scan KTP\"}, {\"date\": false, \"type\": \"Pilihan\", \"index\": 5, \"value\": null, \"pilihan\": {\"items\": [{\"label\": \"Bersama Orangtua\"}, {\"label\": \"Dalam Perantauan (Kost,kontrakan, dll)\"}], \"required\": true}, \"required\": true, \"pertanyaan\": \"Status tempat tinggal sekarang\"}, {\"date\": false, \"type\": \"Tanggal\", \"index\": 6, \"value\": null, \"pilihan\": {\"items\": [{\"label\": null}], \"required\": false}, \"required\": true, \"pertanyaan\": \"Tanggal Lahir\"}]";
 
             $beasiswa->is_first = random_int(0, 1);
-            $beasiswa->total_sks = [0, 100, 120][random_int(0, 2)];
+            $beasiswa->jenjang = random_int(0, 2);
             $beasiswa->ukt = [4600000, 3000000, 2200000][random_int(0, 2)];
             $beasiswa->save();
         }
