@@ -10,6 +10,7 @@ import Permohonan from "../views/Petugas/Admin/Permohonan.vue";
 import Instansi from "../views/Petugas/Admin/Instansi.vue";
 import Akun from "../views/Petugas/Admin/Akun.vue";
 import AkunPetugas from "../views/Petugas/Admin/AkunPetugas.vue";
+import Kelulusan from "../views/Petugas/Admin/Kelulusan.vue";
 import KelolaMhs from "../views/Petugas/Admin/Mahasiswa.vue";
 import CekPermohonan from "../views/Petugas/Admin/CekPermohonan.vue";
 
@@ -92,6 +93,11 @@ const routes = [
                 name: "Dashboard",
                 path: "dashboard",
                 component: Dashboard
+            },
+            {
+                name: "Kelulusan",
+                path: "kelulusan",
+                component: Kelulusan
             },
             {
                 name: "Beasiswa",

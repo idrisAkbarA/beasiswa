@@ -186,9 +186,14 @@ export default {
         },
         {
           icon: "mdi-clipboard-check-multiple",
-          title: "Cek Berkas Permohonan",
-          to: `/${petugas}/cek-berkas-permohonan`
+          title: "Kelulusan",
+          to: `/${petugas}/kelulusan`
         },
+        // {
+        //   icon: "mdi-clipboard-check-multiple",
+        //   title: "Cek Berkas Permohonan",
+        //   to: `/${petugas}/cek-berkas-permohonan`
+        // },
         {
           icon: "mdi-account-details",
           title: "List Permohonan",
