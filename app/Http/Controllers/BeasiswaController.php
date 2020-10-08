@@ -80,11 +80,11 @@ class BeasiswaController extends Controller
         $Beasiswa->akhir_berkas     = $request['akhir_berkas'];
         $Beasiswa->awal_survey      = $request['awal_survey'];
         $Beasiswa->akhir_survey     = $request['akhir_survey'];
-        $Beasiswa->ipk              = $request['data']['ipk'];
-        $Beasiswa->total_sks        = $request['data']['total_sks'];
-        $Beasiswa->ukt              = $request['data']['ukt'];
-        $Beasiswa->semester         = $request['data']['semester'];
-        $Beasiswa->is_first         = $request['data']['is_first'];
+        $Beasiswa->ipk              = $request['ipk'];
+        // $Beasiswa->total_sks        = $request['total_sks'];
+        $Beasiswa->ukt              = $request['ukt'];
+        $Beasiswa->semester         = $request['semester'];
+        $Beasiswa->is_first         = $request['is_first'];
         $Beasiswa->fields           = json_encode($request['fields']);
         $Beasiswa->save();
         return response()->json(['status' => "Success: Beasiswa Updated"]);
