@@ -7,7 +7,7 @@
       app
     >
       <v-card
-        class="d-flex justify-center pt-4 pr-2 pl-2 pb-4 mb-5"
+        class="d-flex justify-center pt-4 pr-2 pl-2 pb-4"
         flat
         tile
       >
@@ -18,10 +18,15 @@
         </v-img>
         <v-card-text> Aplikasi Beasiswa UIN Suska Riau</v-card-text>
       </v-card>
+      <v-card
+        class="d-flex justify-center  pr-2 pl-2  mb-5"
+        flat
+        tile
+      >
+        <v-card-text> {{user.nama}} <br> <span class="caption">{{user.nim}}</span></v-card-text>
+      </v-card>
       <v-row>
-        <p class="subtitle ml-8 mr-10">
-          Assalamualaikum <strong>{{user.nama}}</strong>
-        </p>
+
         <p class="subtitle ml-8 mr-10">
           Selamat datang di aplikasi Beasiswa UIN Suska Riau
         </p>
@@ -67,9 +72,11 @@
       ></v-app-bar-nav-icon>
       <div style="width:100%; -webkit-app-region: drag;">
         <v-toolbar-title>
-          <span class="font-weight-bold ml-4">
-            App Beasiswa
-          </span>
+          <router-link to="/mahasiswa/home">
+            <span class="font-weight-bold ml-4 white--text">
+              App Beasiswa
+            </span>
+          </router-link>
           <!-- Change this automaticly later usig VUEX -->
           <span> | {{$route.name}}</span>
         </v-toolbar-title>
@@ -107,12 +114,12 @@ import { mapState } from "vuex";
 export default {
   computed: {
     ...mapState(["url"]),
-    user(){
-      return window.localStorage.getItem("userDetail")
+    user() {
+      return JSON.parse(window.localStorage.getItem("userDetail"));
     }
   },
   created() {
-    console.log(this.user)
+    console.log(this.user);
   },
   methods: {
     goback() {

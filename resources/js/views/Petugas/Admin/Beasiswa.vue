@@ -432,6 +432,54 @@
                       </v-radio-group>
 
                       <!-- checkme -->
+                      <v-container v-if="field.type == 'Multiple Upload'">
+                        <v-row
+                          align="center"
+                          v-for="(item,index) in field.multiUpload.items"
+                          :key="index"
+                          :value="item.label"
+                        >
+                          <v-checkbox
+                            color="white"
+                            hide-details
+                            class="shrink mr-2 mt-0"
+                            :value="item.label"
+                          ></v-checkbox>
+                          <v-text-field
+                            v-model="item.label"
+                            dense
+                            color="white"
+                            filled
+                            label="Nama File"
+                          ></v-text-field>
+                          <v-file-input
+                            disabled
+                            filled
+                            label="Upload File"
+                          ></v-file-input>
+                          <v-btn
+                            class="ma-2"
+                            icon
+                            color="white"
+                            @click="deleteMultiUploadItemEdit(field,item.label)"
+                          >
+                            <v-icon>mdi-close</v-icon>
+                          </v-btn>
+                        </v-row>
+                        <v-row>
+                          <v-btn
+                            class="mt-2 grey darken-3"
+                            fab
+                            dark
+                            small
+                            @click="addMultiUploadItemEdit(field.index)"
+                          >
+                            <v-icon dark>
+                              mdi-plus
+                            </v-icon>
+                          </v-btn>
+                        </v-row>
+                      </v-container>
                       <v-container v-if="field.type == 'Checkboxes'">
                         <v-row
                           align="center"
@@ -935,7 +983,7 @@
                                 class="ma-2"
                                 icon
                                 color="white"
-                                @click="deletePilihanItemEdit(field,item.label)"
+                                @click="deletePilihanItem(field,item.label)"
                               >
                                 <v-icon>mdi-close</v-icon>
                               </v-btn>
@@ -991,6 +1039,54 @@
                             dark
                             small
                             @click="addCheckboxesItem(field.index)"
+                          >
+                            <v-icon dark>
+                              mdi-plus
+                            </v-icon>
+                          </v-btn>
+                        </v-row>
+                      </v-container>
+                      <v-container v-if="field.type == 'Multiple Upload'">
+                        <v-row
+                          align="center"
+                          v-for="(item,index) in field.multiUpload.items"
+                          :key="index"
+                          :value="item.label"
+                        >
+                          <v-checkbox
+                            color="white"
+                            hide-details
+                            class="shrink mr-2 mt-0"
+                            :value="item.label"
+                          ></v-checkbox>
+                          <v-text-field
+                            v-model="item.label"
+                            dense
+                            color="white"
+                            filled
+                            label="Nama File"
+                          ></v-text-field>
+                          <v-file-input
+                            disabled
+                            filled
+                            label="Upload File"
+                          ></v-file-input>
+                          <v-btn
+                            class="ma-2"
+                            icon
+                            color="white"
+                            @click="deleteMultiUploadItem(field,item.label)"
+                          >
+                            <v-icon>mdi-close</v-icon>
+                          </v-btn>
+                        </v-row>
+                        <v-row>
+                          <v-btn
+                            class="mt-2 grey darken-3"
+                            fab
+                            dark
+                            small
+                            @click="addMultiUploadItem(field.index)"
                           >
                             <v-icon dark>
                               mdi-plus
@@ -1365,6 +1461,9 @@ export default {
           : 0,
         value: null,
         date: false,
+          multiUpload: {
+            items: [{ label: "", isSelected:false, value:null }]
+          },
         checkboxes: {
           items: [{ label: "" }]
         },
@@ -1389,6 +1488,9 @@ export default {
         checkboxes: {
           items: [{ label: "" }]
         },
+          multiUpload: {
+            items: [{ label: "", isSelected:false, value:null }]
+          },
         pilihan: {
           required: false,
           items: [{ label: "" }]
@@ -1406,6 +1508,9 @@ export default {
     addPilihanItem(field_index) {
       this.fields[field_index - 1].pilihan.items.push({ label: "" });
     },
+    addMultiUploadItem(field_index) {
+      this.fields[field_index - 1].multiUpload.items.push({ label: "" });
+    },
     addCheckboxesItem(field_index) {
       this.fields[field_index - 1].checkboxes.items.push({ label: "" });
     },
@@ -1415,12 +1520,24 @@ export default {
     addPilihanItemEdit(field_index) {
       this.fieldsEdit[field_index - 1].pilihan.items.push({ label: "" });
     },
+    addMultiUploadItemEdit(field_index) {
+      this.fieldsEdit[field_index - 1].multiUpload.items.push({ label: "" });
+    },
     deletePilihanItemEdit(field, label) {
       var item = this.fieldsEdit[this.fieldsEdit.indexOf(field)].pilihan.items;
       item.splice(item.indexOf(label), 1);
     },
+    deleteMultiUploadItemEdit(field, label) {
+      var item = this.fieldsEdit[this.fieldsEdit.indexOf(field)].multiUpload
+        .items;
+      item.splice(item.indexOf(label), 1);
+    },
     deletePilihanItem(field, label) {
       var item = this.fields[this.fields.indexOf(field)].pilihan.items;
+      item.splice(item.indexOf(label), 1);
+    },
+    deleteMultiUploadItem(field, label) {
+      var item = this.fields[this.fields.indexOf(field)].multiUpload.items;
       item.splice(item.indexOf(label), 1);
     },
     deleteCheckboxesItem(field, label) {
@@ -1505,6 +1622,9 @@ export default {
           checkboxes: {
             items: [{ label: "" }]
           },
+          multiUpload: {
+            items: [{ label: "", isSelected:false, value:null }]
+          },
           pilihan: {
             required: true,
             items: [{ label: "" }]
@@ -1517,6 +1637,7 @@ export default {
         "Jawaban Angka",
         "Paragraf",
         "Upload File",
+        "Multiple Upload",
         "Pilihan",
         "Checkboxes",
         "Tanggal"

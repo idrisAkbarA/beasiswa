@@ -52,7 +52,7 @@ class initMhs extends Command
         $admin->ipk         = 3.02;
         $admin->tgl_lahir   = "1998-12-07";
         $admin->tmpt_lahir  = "Dumai";
-        $admin->jml_bayar   = "4600000";
+        $admin->ukt   = 5;
         $admin->password    = Hash::make("123");
         $admin->save();
         echo "\nMhs Account Created\n\nNIM: 11751101939\nPass: 123";
@@ -70,6 +70,7 @@ class initMhs extends Command
             $admin->ipk         = 3.02;
             $admin->tgl_lahir   = "1998-12-07";
             $admin->tmpt_lahir  = "Dumai";
+            $admin->ukt   = [1,2,3,4,5,6,7][random_int(0,6)];
             $admin->password    = Hash::make("123");
             $admin->save();
             // echo "\nMhs Account Created\n\nNIM: 11751101939\nPass: 123";.

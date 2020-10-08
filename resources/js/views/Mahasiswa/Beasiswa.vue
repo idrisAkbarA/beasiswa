@@ -155,6 +155,41 @@
               >
               </v-radio>
             </v-radio-group>
+            <v-container v-if="field.type == 'Multiple Upload'">
+              <v-row
+                align="center"
+                v-for="(item,index) in field.multiUpload.items"
+                :key="index"
+                :value="item.label"
+                no-gutters
+              >
+                <v-col cols="1">
+                  <v-checkbox
+                  v-model="item.isSelected"
+                    color="white"
+                    hide-details
+                    class="shrink mr-2 mt-0"
+                    :value="item.label"
+                  ></v-checkbox>
+
+                </v-col>
+                <v-col cols="6">
+                  <span>{{item.label}}</span>
+
+                </v-col>
+                <v-col cols="5">
+
+                  <v-file-input
+                  v-model="item.value"
+                    :disabled="!item.isSelected"
+                    filled
+                    :label="'Upload '+item.label"
+                  ></v-file-input>
+                </v-col>
+
+              </v-row>
+
+            </v-container>
             <v-text-field
               prepend-icon="mdi-text-short"
               v-if="field.type == 'Jawaban Pendek'"

@@ -27,7 +27,7 @@ class CreateUsersTable extends Migration
             $table->integer('total_sks')->nullable();
             $table->string('tgl_lahir')->nullable();
             $table->string('tmpt_lahir')->nullable();
-            $table->string('jml_bayar')->nullable();
+            $table->integer('ukt')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
