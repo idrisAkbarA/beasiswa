@@ -47,7 +47,6 @@ Route::middleware('auth:petugas,mahasiswa')->get('/beasiswa', 'BeasiswaControlle
 Route::get('/beasiswa/get-active', 'BeasiswaController@getActive');
 Route::middleware('auth:petugas,mahasiswa')->get('/beasiswa/with-permohonan', 'BeasiswaController@getAllWithPermohonan');
 Route::get('/beasiswa/selesai', 'BeasiswaController@selesai');
-Route::middleware('auth:mahasiswa')->get('/beasiswa/cek/{id}', 'BeasiswaController@cekPersyaratan');
 Route::middleware('auth:petugas,mahasiswa')->get('/beasiswa/{id}', 'BeasiswaController@get');
 Route::middleware('auth:petugas')->delete('/beasiswa/{id}', 'BeasiswaController@delete');
 

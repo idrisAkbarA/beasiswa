@@ -105,29 +105,9 @@ class BeasiswaController extends Controller
         foreach ($beasiswaOnProgress as $row) {
             array_push($temp, $row);
         }
-        $beasiswa = [
-            'selesai' => $beasiswaSelesai,
-            'aktif' => $temp
+        $data = [
+            'selesai' => $beasiswaSelesai->merge($beasiswaOnProgress),
         ];
-        return response()->json($beasiswa);
-    }
-
-    public function cekPersyaratan(Request $request, $id)
-    {
-        $beasiswa = Beasiswa::find($id);
-        $user = Auth::guard('mahasiswa')->user();
-        $reply['status'] = true;
-        $reply['message'] = [];
-        // beasiswa ada
-        if (is_null($beasiswa)) {
-            $reply['status'] = false;
-            $reply['message'] = 'Beasiswa tidak ditemukan!';
-            return response()->json($reply);
-        }
-        if (!$beasiswa->cekPersyaratan($user)) {
-            $reply['status'] = false;
-            $reply['message'] = '';
-        };
-        return response()->json($reply);
+        return response()->json($data);
     }
 }

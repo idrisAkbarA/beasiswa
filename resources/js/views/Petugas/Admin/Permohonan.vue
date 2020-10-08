@@ -8,33 +8,16 @@
 
       <v-data-table
         :headers="headers.beasiswa"
-        :items="table == 'selesai' ? beasiswaProgress.selesai : beasiswaProgress.aktif"
+        :items="beasiswaProgress.selesai"
         :items-per-page="10"
+        @click:row="info"
         style="background-color: #2e7d323b"
         class="elevation-10 mb-10"
       >
-        <template v-slot:top>
-          <v-toolbar flat>
-            <v-toolbar-title>
-              Beasiswa {{table == 'selesai' ? 'selesai' : 'dalam proses'}}
-            </v-toolbar-title>
-            <v-spacer>
-            </v-spacer>
-            <v-btn @click="table == 'progress' ? table = 'selesai' : table = 'progress'">
-              <small>
-                Beasiswa {{table == 'progress' ? 'selesai' : 'sedang di proses'}} <v-icon>mdi-chevron-right</v-icon>
-              </small>
-            </v-btn>
-          </v-toolbar>
-        </template>
-        <template v-slot:item.actions="{ item }">
-          <v-icon
-            small
-            @click="info(item)"
-            title="Lihat detail"
-          >
-            mdi-information-outline
-          </v-icon>
+        <template v-slot:item.status="{ item }">
+          <v-chip :color="item.status == 'Selesai' ? 'green' : 'orange'">
+            {{item.status}}
+          </v-chip>
         </template>
         <template v-slot:no-data>
           no data
@@ -42,68 +25,130 @@
       </v-data-table>
     </v-skeleton-loader>
 
-    <!-- Dialog Delete -->
-    <div class="text-center">
-      <v-dialog
-        v-model="sheet"
-        width="800"
-      >
-        <v-card>
-          <v-card-title
-            class="headline white--text"
-            primary-title
+    <v-dialog
+      v-model="dialog"
+      fullscreen
+      hide-overlay
+      transition="dialog-bottom-transition"
+    >
+      <v-card>
+        <v-toolbar dark>
+          <v-btn
+            icon
+            dark
+            @click="dialog = false"
           >
-            <i class="mdi mdi-account-check mr-2"></i> Penerima Beasiswa
-          </v-card-title>
-
-          <v-card-text class="mt-2 white--text">
-            <v-card-text>
-              <h5>Beasiswa : {{selectedBeasiswa.nama}}</h5>
-              <p>Kuota ({{Object.keys(pemohon).length}}/{{selectedBeasiswa.quota}})</p>
-            </v-card-text>
-            <v-tabs
-              fixed-tabs
-              dark
-              v-model="tab"
-            >
-              <v-tab
-                v-for="item in tabs"
-                :key="item"
-              >
-                {{item}}
-              </v-tab>
-            </v-tabs>
-            <v-tabs-items v-model="tab">
-              <v-tab-item
-                v-for="item in tabs"
-                :key="item"
-              >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <v-toolbar-title>{{selectedBeasiswa.nama}}</v-toolbar-title>
+          <v-spacer></v-spacer>
+        </v-toolbar>
+        <v-card-text class="mt-5">
+          <v-tabs fixed-tabs>
+            <v-tab>Laporan</v-tab>
+            <v-tab>Info</v-tab>
+            <v-tab-item>
+              <v-col cols="12">
+                <div class="mb-5">
+                  <v-chip
+                    color="blue"
+                    :outlined="filter != 'permohonan'"
+                    class="mr-2"
+                    @click="filter = 'permohonan'"
+                  >
+                    Semua ({{undefined !== selectedBeasiswa.permohonan ? selectedBeasiswa.permohonan.length : 0}})
+                  </v-chip>
+                  <v-chip
+                    color="red"
+                    :outlined="filter != 'tidak_lulus'"
+                    class="mr-2"
+                    @click="filter = 'tidak_lulus'"
+                  >
+                    Tidak Lulus ({{undefined !== selectedBeasiswa.tidak_lulus ? selectedBeasiswa.tidak_lulus.length : 0}})
+                  </v-chip>
+                  <v-chip
+                    color="green"
+                    :outlined="filter != 'lulus'"
+                    class="mr-2"
+                    @click="filter = 'lulus'"
+                  >
+                    Lulus ({{undefined !== selectedBeasiswa.lulus ? selectedBeasiswa.lulus.length : 0}})
+                  </v-chip>
+                </div>
                 <v-data-table
                   :headers="headers.pemohon"
-                  :items="selectedBeasiswa[item]"
+                  :items="selectedBeasiswa[filter]"
                   :items-per-page="10"
                   style="background-color: #2e7d323b"
                   class="elevation-10 mb-10"
                 >
-                  <template v-slot:item.actions="{ item }">
-                    <v-icon
-                      small
-                      @click="info(item)"
-                      title="Lihat detail"
+                  <template v-slot:item.verificator="{ item }">
+                    <v-chip
+                      dark
+                      :color="item.verificator != '-' ? 'green' : 'red'"
                     >
-                      mdi-information-outline
-                    </v-icon>
+                      <i :class="item.verificator != '-' ? 'mdi mdi-check' : 'mdi mdi-close'"></i>
+                    </v-chip>
+                  </template>
+                  <template
+                    v-slot:item.interviewer="{ item }"
+                    v-if="selectedBeasiswa.is_interview"
+                  >
+                    <v-chip
+                      dark
+                      :color="item.interviewer != '-' ? 'green' : 'red'"
+                    >
+                      <i :class="item.verificator != '-' ? 'mdi mdi-check' : 'mdi mdi-close'"></i>
+                    </v-chip>
+                  </template>
+                  <template v-slot:item.surveyor="{ item }">
+                    <v-chip
+                      dark
+                      :color="item.surveyor != '-' ? 'green' : 'red'"
+                    >
+                      <i :class="item.verificator != '-' ? 'mdi mdi-check' : 'mdi mdi-close'"></i>
+                    </v-chip>
+                  </template>
+                  <template v-slot:item.selector="{ item }">
+                    <v-chip
+                      dark
+                      :color="item.selector != '-' ? 'green' : 'red'"
+                    >
+                      <i :class="item.verificator != '-' ? 'mdi mdi-check' : 'mdi mdi-close'"></i>
+                    </v-chip>
                   </template>
                   <template v-slot:no-data>
                     no data
                   </template>
                 </v-data-table>
-              </v-tab-item>
-            </v-tabs-items>
-          </v-card-text>
-        </v-card>
-      </v-dialog>
-    </div>
+              </v-col>
+            </v-tab-item>
+            <v-tab-item>
+              <v-col cols="12">
+                <!-- <p>Instansi : {{selectedBeasiswa.instansi}}</p> -->
+                <p>Batas pengumpulan berkas : {{parseDate(selectedBeasiswa.awal_berkas)}} - {{parseDate(selectedBeasiswa.akhir_berkas)}}</p>
+                <p v-if="selectedBeasiswa.is_interview">Waktu wawancara : {{parseDate(selectedBeasiswa.awal_interview)}} - {{parseDate(selectedBeasiswa.akhir_interview)}}</p>
+                <p v-if="selectedBeasiswa.is_survey">Waktu survey : {{parseDate(selectedBeasiswa.awal_survey)}} - {{parseDate(selectedBeasiswa.akhir_survey)}}</p>
+                <p>Kuota ({{Object.keys(lulus).length}}/{{selectedBeasiswa.quota}})
+                  <v-badge
+                    inline
+                    content=" Terpenuhi"
+                    v-if="Object.keys(lulus).length == selectedBeasiswa.quota"
+                  ></v-badge>
+                  <v-badge
+                    inline
+                    color="red"
+                    content=" Tdk Terpenuhi"
+                    v-if="Object.keys(lulus).length < this.selectedBeasiswa.quota"
+                  ></v-badge>
+                </p>
+                <p class="">{{selectedBeasiswa.deskripsi}}</p>
+              </v-col>
+            </v-tab-item>
+          </v-tabs>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
     <!-- Akhir -->
   </v-container>
 </template>
@@ -123,8 +168,21 @@ export default {
     },
     info(item) {
       this.selectedBeasiswa = item;
-      this.sheet = true;
-      this.pemohon = item.lulus;
+      this.dialog = true;
+      this.lulus = item.lulus;
+      this.selectedBeasiswa.tidak_lulus = item.permohonan.filter(x => {
+        return x.is_selection_passed != 1;
+      });
+    },
+    parseDate: function(date) {
+      return this.$moment(date, "YYYY-MM-DD").format("Do MMMM YYYY");
+    }
+  },
+  watch: {
+    filter: function(val) {
+      if (val) {
+        this.selectedBeasiswa;
+      }
     }
   },
   computed: {
@@ -146,11 +204,12 @@ export default {
   },
   data() {
     return {
-      table: "selesai",
       btnLoading: false,
       selectedBeasiswa: "",
       pemohon: [],
-      sheet: false,
+      lulus: [],
+      dialog: false,
+      filter: "permohonan",
       tab: null,
       tabs: ["permohonan", "lulus"],
       headers: {
@@ -162,7 +221,7 @@ export default {
             value: "nama"
           },
           { text: "Instansi", value: "instansi.name" },
-          { text: "Actions", value: "actions", sortable: false }
+          { text: "Status", value: "status" }
         ],
         pemohon: [
           {
