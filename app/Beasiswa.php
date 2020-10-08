@@ -125,8 +125,8 @@ class Beasiswa extends Model
 
     public function cekPersyaratan(User $user)
     {
-        $jenjang = $this->jenjang == $user->jenjang;
-        $ukt = !is_null($this->ukt) && $user->ukt >= $this->ukt;
+        $jenjang = $this->jenjang == substr($user->nim, 0, 1);
+        $ukt = $this->ukt && $user->ukt > $this->ukt;
         $first = $this->is_first && $user->permohonan->count() > 0;
         $syarat = [
             'jenjang' => $jenjang,

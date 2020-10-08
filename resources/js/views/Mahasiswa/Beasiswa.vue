@@ -13,10 +13,12 @@
           >Mohon maaf, anda tidak dapat mendaftar pada beasiswa ini</h5>
           <ul v-if="typeof overlay.message != 'string'">
             <li
-              v-for="item in overlay.message"
+              v-for="(val, item) in overlay.message"
               :key="item"
             >
-              {{item}}
+              <span>
+                {{item}} <i :class="[val ? 'mdi mdi-check' : 'mdi mdi-close-circle']+' ml-2'"></i>
+              </span>
             </li>
           </ul>
           <p v-else>
@@ -77,7 +79,7 @@
             </tr>
             <tr v-if="beasiswaSingle.ukt">
               <td>
-                <span v-if="beasiswaSingle.ukt">Dibawah nominal UKT {{beasiswaSingle.ukt | currency("Rp.")}}</span>
+                <span v-if="beasiswaSingle.ukt">Maksimal UKT Gol.{{beasiswaSingle.ukt}}</span>
               </td>
             </tr>
           </table>
@@ -165,7 +167,7 @@
               >
                 <v-col cols="1">
                   <v-checkbox
-                  v-model="item.isSelected"
+                    v-model="item.isSelected"
                     color="white"
                     hide-details
                     class="shrink mr-2 mt-0"
@@ -180,7 +182,7 @@
                 <v-col cols="5">
 
                   <v-file-input
-                  v-model="item.value"
+                    v-model="item.value"
                     :disabled="!item.isSelected"
                     filled
                     :label="'Upload '+item.label"
@@ -272,8 +274,14 @@ export default {
   created() {
     this.getBeasiswaSingle(this.$route.params.id).then(response => {
       this.fields = JSON.parse(response.fields);
+      if (Object.values(response.syarat).includes(false)) {
+        console.log("overlay");
+        this.overlay = {
+          show: true,
+          message: response.syarat
+        };
+      }
     });
-    this.cekPersyaratan(this.$route.params.id);
     this.getUserPermohonan();
   },
   methods: {
@@ -293,27 +301,27 @@ export default {
         });
       });
     },
-    cekPersyaratan(id) {
-      axios
-        .get("/api/beasiswa/cek/" + id)
-        .then(response => {
-          console.log(typeof response.data.message);
-          if (response.data.status) {
-            //
-          } else {
-            this.overlay = {
-              show: true,
-              message: response.data.message
-            };
-          }
-        })
-        .catch(error => {
-          this.overlay = {
-            show: true,
-            message: error.message
-          };
-        });
-    },
+    // cekPersyaratan(id) {
+    //   axios
+    //     .get("/api/beasiswa/cek/" + id)
+    //     .then(response => {
+    //       console.log(typeof response.data.message);
+    //       if (response.data.status) {
+    //         //
+    //       } else {
+    //         this.overlay = {
+    //           show: true,
+    //           message: response.data.message
+    //         };
+    //       }
+    //     })
+    //     .catch(error => {
+    //       this.overlay = {
+    //         show: true,
+    //         message: error.message
+    //       };
+    //     });
+    // },
     upload: async (data, url) => {
       return axios({
         method: "post",
