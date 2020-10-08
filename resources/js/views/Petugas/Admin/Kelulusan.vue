@@ -10,6 +10,7 @@
       <v-subheader>Permohonan Beasiswa</v-subheader>
       <v-row class="pl-8 pr-8">
         <v-text-field
+        color="green lighten-3"
           prepend-inner-icon="mdi-magnify"
           clearable
           label="Pencarian"
