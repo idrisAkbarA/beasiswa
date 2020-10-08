@@ -251,6 +251,9 @@
               label="Paragraf"
             ></v-textarea>
           </v-col>
+          <v-col cols="12">
+            <v-divider></v-divider>
+          </v-col>
         </v-row>
         <v-row>
           <v-col>
@@ -341,11 +344,15 @@ export default {
       var files = [];
       var fileNames = [];
       var reqs = [];
+      var multiFiles = [];
 
       // store all file to new array (files)
       this.fields.forEach((element, index) => {
         if (element.type == "Upload File") {
           files.push({ file: element.value, index });
+        }
+        if (element.type == "Multiple Upload") {
+          multiFiles.push({ item: element.multiUpload.items, index });
         }
       });
       for (let i = 0; i < files.length; i++) {
@@ -364,9 +371,31 @@ export default {
       finalForm = JSON.parse(JSON.stringify(ini.fields));
       for (let i = 0; i < fileNames.length; i++) {
         const element = fileNames[i];
-        console.log(element.index);
+        // console.log(element.index);
         finalForm[element.index].value = element.newName;
-        console.log(finalForm);
+        // console.log(finalForm);
+      }
+      //multiple upload goes here
+
+      for (let i = 0; i < multiFiles.length; i++) {
+        const element = multiFiles[i];
+        // console.log(element)
+        for (let j = 0; j < element.item.length; j++) {
+          const tempMulti = element.item[j];
+          // console.log(tempMulti);
+          console.log(tempMulti.value);
+          if (tempMulti.value) {
+            var data = new FormData();
+            data.append("file", tempMulti.value);
+            data.append("id", 0);
+            await this.upload(data, this.url).then(response => {
+              tempMulti['file_name'] =response.data.file_name;
+              // console.log(tempMulti)
+              // console.log(finalForm[tempMulti.index])
+              finalForm[element.index].multiUpload.items[j]['file_name'] =  response.data.file_name
+            });
+          }
+        }
       }
       console.log(finalForm);
       axios
