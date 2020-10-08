@@ -8,7 +8,7 @@
       <v-card>
         <v-card-text>
           <h5
-            v-if="typeof overlay.message == 'string'"
+            v-if="typeof overlay.message != 'string'"
             class="mb-5"
           >Mohon maaf, anda tidak dapat mendaftar pada beasiswa ini</h5>
           <ul v-if="typeof overlay.message != 'string'">

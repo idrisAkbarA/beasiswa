@@ -135,64 +135,98 @@
         </v-card-title>
 
         <v-card-text class="mt-2 white--text">
-          Persyaratan Permohonan Beasiswa
-          <v-row
-            no-gutters=""
-            class="ma-5"
-            v-for="(field,index) in JSON.parse(selectedPermohonan.form)"
-            :key="index"
-          >
+          <v-tabs fixed-tabs>
+            <v-tab>
+              Permohonan Beasiswa
+            </v-tab>
+            <v-tab>
+              Biodata Mahasiswa
+            </v-tab>
+            <v-tab-item>
+              <v-row
+                no-gutters=""
+                class="ma-5"
+                v-for="(field,index) in JSON.parse(selectedPermohonan.form)"
+                :key="index"
+              >
 
-            <v-col style="padding-bottom:0 !important;">
-              <p>{{field.pertanyaan}}</p>
-              <v-container v-if="field.type == 'Checkboxes'">
-                <v-row
-                  align="center"
-                  v-for="(item,index) in field.checkboxes.items"
-                  :key="index"
-                >
-                  <v-checkbox
-                    disabled
-                    v-model="field.value"
-                    :value="item.label"
-                    color="white"
-                    hide-details
-                    class="shrink mr-2 mt-0"
-                  ></v-checkbox>
-                  <span>
-                    {{item.label}}
-                  </span>
-                </v-row>
+                <v-col style="padding-bottom:0 !important;">
+                  <p>{{field.pertanyaan}}</p>
+                  <v-container v-if="field.type == 'Checkboxes'">
+                    <v-row
+                      align="center"
+                      v-for="(item,index) in field.checkboxes.items"
+                      :key="index"
+                    >
+                      <v-checkbox
+                        disabled
+                        v-model="field.value"
+                        :value="item.label"
+                        color="white"
+                        hide-details
+                        class="shrink mr-2 mt-0"
+                      ></v-checkbox>
+                      <span>
+                        {{item.label}}
+                      </span>
+                    </v-row>
 
-              </v-container>
-              <p v-if="field.type == 'Pilihan'"><span>
-                  <v-icon>mdi-text-short</v-icon>{{field.value}}
-                </span></p>
-              <p v-if="field.type == 'Jawaban Pendek'"><span>
-                  <v-icon>mdi-text-short</v-icon>{{field.value}}
-                </span></p>
-              <p v-if="field.type == 'Jawaban Angka'"><span>
-                  <v-icon>mdi-text-short</v-icon>{{field.value}}
-                </span></p>
-              <p v-if="field.type == 'Tanggal'"><span>
-                  <v-icon>mdi-text-short</v-icon>{{field.value}}
-                </span></p>
-              <v-btn
-                v-if="field.type == 'Upload File'"
-                small
-                @click="link(field.value)"
-              >lihat file</v-btn>
-              <p v-if="field.type == 'Paragraf'"><span>
-                  <v-icon>mdi-text-short</v-icon>{{field.value}}
-                </span></p>
-            </v-col>
-            <v-col cols="12">
-              <v-divider></v-divider>
-            </v-col>
-            <v-col cols="12">
+                  </v-container>
+                  <p v-if="field.type == 'Pilihan'"><span>
+                      <v-icon>mdi-text-short</v-icon>{{field.value}}
+                    </span></p>
+                  <p v-if="field.type == 'Jawaban Pendek'"><span>
+                      <v-icon>mdi-text-short</v-icon>{{field.value}}
+                    </span></p>
+                  <p v-if="field.type == 'Jawaban Angka'"><span>
+                      <v-icon>mdi-text-short</v-icon>{{field.value}}
+                    </span></p>
+                  <p v-if="field.type == 'Tanggal'"><span>
+                      <v-icon>mdi-text-short</v-icon>{{field.value}}
+                    </span></p>
+                  <v-btn
+                    v-if="field.type == 'Upload File'"
+                    small
+                    @click="link(field.value)"
+                  >lihat file</v-btn>
+                  <p v-if="field.type == 'Paragraf'"><span>
+                      <v-icon>mdi-text-short</v-icon>{{field.value}}
+                    </span></p>
+                </v-col>
+                <v-col cols="12">
+                  <v-divider></v-divider>
+                </v-col>
+                <v-col cols="12">
 
-            </v-col>
-          </v-row>
+                </v-col>
+              </v-row>
+            </v-tab-item>
+            <v-tab-item>
+              <v-row>
+                <v-col cols="12">
+                  Nama : {{selectedPermohonan.mahasiswa.nama}}
+                </v-col>
+                <v-col cols="12">
+                  NIM : {{selectedPermohonan.mahasiswa.nim}}
+                </v-col>
+                <v-col cols="12">
+                  Semester : {{selectedPermohonan.mahasiswa.semester}}
+                </v-col>
+                <v-col cols="12">
+                  Jurusan : {{selectedPermohonan.mahasiswa.jurusan.nama}}
+                </v-col>
+                <v-col cols="12">
+                  Fakultas : {{selectedPermohonan.mahasiswa.fakultas.nama}}
+                </v-col>
+                <v-col cols="12">
+                  IPS : {{selectedPermohonan.mahasiswa.ips}}
+                </v-col>
+                <v-col cols="12">
+                  IPK : {{selectedPermohonan.mahasiswa.ipk}}
+                </v-col>
+              </v-row>
+            </v-tab-item>
+          </v-tabs>
         </v-card-text>
 
         <v-divider></v-divider>
@@ -295,7 +329,7 @@ export default {
       });
     },
     link(url) {
-      var a =  "/" + url;
+      var a = "/" + url;
       var link = a.replace(" ", "%20");
       window.open(link, "_blank");
     },

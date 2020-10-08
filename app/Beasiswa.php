@@ -110,7 +110,7 @@ class Beasiswa extends Model
     public static function cekSemester(Beasiswa $beasiswa, User $user)
     {
         $semester = explode(',', $beasiswa->semester);
-        return is_null($beasiswa->semester) || (!is_null($beasiswa->semester) && (in_array($user->semester, $semester)));
+        return is_null($beasiswa->semester) ||  in_array($user->semester, $semester);
     }
 
     public static function cekAllPersyaratan(User $user)
