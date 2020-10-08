@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use App\Beasiswa;
 use Faker\Factory as Faker;
 use Carbon\CarbonImmutable;
+
 class initBeasiswa extends Command
 {
     /**
@@ -40,18 +41,18 @@ class initBeasiswa extends Command
     public function handle()
     {
         $faker = Faker::create("id_ID");
-        for ($i=0; $i < 15 ; $i++) {
+        for ($i = 0; $i < 15; $i++) {
 
             $date = CarbonImmutable::createFromTimeStamp($faker->dateTimeBetween('-7 days', '+7 days')->getTimestamp());
-            
-            $awal_berkas = $date;
-            $akhir_berkas = $awal_berkas->add(2,'day');
 
-            $awal_interview = $akhir_berkas->add(2,'day');
-            $akhir_interview = $awal_interview->add(2,'day');
-            
-            $awal_survey = $akhir_interview->add(2,'day');
-            $akhir_survey= $awal_survey->add(2,'day');
+            $awal_berkas = $date;
+            $akhir_berkas = $awal_berkas->add(2, 'day');
+
+            $awal_interview = $akhir_berkas->add(2, 'day');
+            $akhir_interview = $awal_interview->add(2, 'day');
+
+            $awal_survey = $akhir_interview->add(2, 'day');
+            $akhir_survey = $awal_survey->add(2, 'day');
 
             $beasiswa = new Beasiswa;
             $beasiswa->nama = $faker->sentence($nbWords = random_int(1, 10), $variableNbWords = true);
@@ -67,23 +68,23 @@ class initBeasiswa extends Command
             $beasiswa->awal_survey = $awal_survey;
             $beasiswa->akhir_survey = $akhir_survey;
             $beasiswa->fields = "[{\"date\": false, \"type\": \"Jawaban Pendek\", \"index\": 1, \"value\": null, \"pilihan\": {\"items\": [{\"label\": null}], \"required\": true}, \"required\": true, \"pertanyaan\": \"Alamat\"}, {\"date\": false, \"type\": \"Jawaban Angka\", \"index\": 2, \"value\": null, \"pilihan\": {\"items\": [{\"label\": null}], \"required\": false}, \"required\": true, \"pertanyaan\": \"No. HP\"}, {\"date\": false, \"type\": \"Paragraf\", \"index\": 3, \"value\": null, \"pilihan\": {\"items\": [{\"label\": null}], \"required\": false}, \"required\": true, \"pertanyaan\": \"Motivasi mengikuti beasiswa ini\"}, {\"date\": false, \"type\": \"Upload File\", \"index\": 4, \"value\": null, \"pilihan\": {\"items\": [{\"label\": null}], \"required\": false}, \"required\": true, \"pertanyaan\": \"Scan KTP\"}, {\"date\": false, \"type\": \"Pilihan\", \"index\": 5, \"value\": null, \"pilihan\": {\"items\": [{\"label\": \"Bersama Orangtua\"}, {\"label\": \"Dalam Perantauan (Kost,kontrakan, dll)\"}], \"required\": true}, \"required\": true, \"pertanyaan\": \"Status tempat tinggal sekarang\"}, {\"date\": false, \"type\": \"Tanggal\", \"index\": 6, \"value\": null, \"pilihan\": {\"items\": [{\"label\": null}], \"required\": false}, \"required\": true, \"pertanyaan\": \"Tanggal Lahir\"}]";
-            
-            $beasiswa->is_first = random_int(0,1);
-            $beasiswa->total_sks = [0,100,120][random_int(0,2)];
-            $beasiswa->ukt = [4600000,3000000,2200000][random_int(0,2)];
+
+            $beasiswa->is_first = random_int(0, 1);
+            $beasiswa->jenjang = random_int(0, 2);
+            $beasiswa->ukt = [4600000, 3000000, 2200000][random_int(0, 2)];
             $beasiswa->save();
         }
-        for ($i=0; $i < 10 ; $i++) {
+        for ($i = 0; $i < 10; $i++) {
 
             $date = CarbonImmutable::createFromTimeStamp($faker->dateTimeBetween('-7 days', '+7 days')->getTimestamp());
             $awal_berkas = $date;
-            $akhir_berkas = $awal_berkas->add(2,'day');
+            $akhir_berkas = $awal_berkas->add(2, 'day');
 
-            $awal_interview = $akhir_berkas->add(2,'day');
-            $akhir_interview = $awal_interview->add(2,'day');
-            
-            $awal_survey = $akhir_interview->add(2,'day');
-            $akhir_survey= $awal_survey->add(2,'day');
+            $awal_interview = $akhir_berkas->add(2, 'day');
+            $akhir_interview = $awal_interview->add(2, 'day');
+
+            $awal_survey = $akhir_interview->add(2, 'day');
+            $akhir_survey = $awal_survey->add(2, 'day');
 
             $beasiswa = new Beasiswa;
             $beasiswa->nama = $faker->sentence($nbWords = random_int(1, 10), $variableNbWords = true);
@@ -99,15 +100,14 @@ class initBeasiswa extends Command
             $beasiswa->awal_survey = $awal_survey;
             $beasiswa->akhir_survey = $akhir_survey;
             $beasiswa->fields = "[{\"date\": false, \"type\": \"Jawaban Pendek\", \"index\": 1, \"value\": null, \"pilihan\": {\"items\": [{\"label\": null}], \"required\": true}, \"required\": true, \"pertanyaan\": \"Alamat\"}, {\"date\": false, \"type\": \"Jawaban Angka\", \"index\": 2, \"value\": null, \"pilihan\": {\"items\": [{\"label\": null}], \"required\": false}, \"required\": true, \"pertanyaan\": \"No. HP\"}, {\"date\": false, \"type\": \"Paragraf\", \"index\": 3, \"value\": null, \"pilihan\": {\"items\": [{\"label\": null}], \"required\": false}, \"required\": true, \"pertanyaan\": \"Motivasi mengikuti beasiswa ini\"}, {\"date\": false, \"type\": \"Upload File\", \"index\": 4, \"value\": null, \"pilihan\": {\"items\": [{\"label\": null}], \"required\": false}, \"required\": true, \"pertanyaan\": \"Scan KTP\"}, {\"date\": false, \"type\": \"Pilihan\", \"index\": 5, \"value\": null, \"pilihan\": {\"items\": [{\"label\": \"Bersama Orangtua\"}, {\"label\": \"Dalam Perantauan (Kost,kontrakan, dll)\"}], \"required\": true}, \"required\": true, \"pertanyaan\": \"Status tempat tinggal sekarang\"}, {\"date\": false, \"type\": \"Tanggal\", \"index\": 6, \"value\": null, \"pilihan\": {\"items\": [{\"label\": null}], \"required\": false}, \"required\": true, \"pertanyaan\": \"Tanggal Lahir\"}]";
-            
-            $beasiswa->semester = ["1,3,5","7", null][random_int(0,2)];
-            $beasiswa->is_first = random_int(0,1);
-            $beasiswa->total_sks = [0,100,120][random_int(0,2)];
-            $beasiswa->ukt = [4600000,3000000,null][random_int(0,2)];
+
+            $beasiswa->semester = ["1,3,5", "7", null][random_int(0, 2)];
+            $beasiswa->is_first = random_int(0, 1);
+            $beasiswa->jenjang = random_int(0, 2);
+            $beasiswa->ukt = [4600000, 3000000, null][random_int(0, 2)];
             $beasiswa->save();
         }
 
         echo "\nBeasiswa Created\n";
-
     }
 }
