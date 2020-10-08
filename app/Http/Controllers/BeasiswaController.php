@@ -124,26 +124,10 @@ class BeasiswaController extends Controller
             $reply['message'] = 'Beasiswa tidak ditemukan!';
             return response()->json($reply);
         }
-        // sks cukup
-        if (!Beasiswa::cekSemester($beasiswa, $user)) {
+        if (!$beasiswa->cekPersyaratan($user)) {
             $reply['status'] = false;
-            array_push($reply['message'], 'Semester tdk memenuhi syarat');
-        }
-        // sks cukup
-        if (!is_null($beasiswa->total_sks) && $user->total_sks < $beasiswa->total_sks) {
-            $reply['status'] = false;
-            array_push($reply['message'], 'Total sks tidak mencukupi');
-        }
-        // ukt
-        if (!is_null($beasiswa->ukt) && $user->jml_bayar >= $beasiswa->ukt) {
-            $reply['status'] = false;
-            array_push($reply['message'], 'UKT tidak memenuhi syarat');
-        }
-        // first
-        if ($beasiswa->is_first && $user->permohonan->count() > 0) {
-            $reply['status'] = false;
-            array_push($reply['message'], 'Sudah pernah menerima beasiswa');
-        }
+            $reply['message'] = '';
+        };
         return response()->json($reply);
     }
 }
