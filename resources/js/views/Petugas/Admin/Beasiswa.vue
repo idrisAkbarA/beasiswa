@@ -1461,9 +1461,9 @@ export default {
           : 0,
         value: null,
         date: false,
-        multiUpload: {
-          items: [{ label: "" }]
-        },
+          multiUpload: {
+            items: [{ label: "", isSelected:false, value:null }]
+          },
         checkboxes: {
           items: [{ label: "" }]
         },
@@ -1488,9 +1488,9 @@ export default {
         checkboxes: {
           items: [{ label: "" }]
         },
-        multiUpload: {
-          items: [{ label: "" }]
-        },
+          multiUpload: {
+            items: [{ label: "", isSelected:false, value:null }]
+          },
         pilihan: {
           required: false,
           items: [{ label: "" }]
@@ -1623,7 +1623,7 @@ export default {
             items: [{ label: "" }]
           },
           multiUpload: {
-            items: [{ label: "" }]
+            items: [{ label: "", isSelected:false, value:null }]
           },
           pilihan: {
             required: true,
