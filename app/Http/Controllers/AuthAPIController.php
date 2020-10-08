@@ -76,12 +76,12 @@ class authAPIController extends Controller
                 'ipk' => $response["data"]["ipipk"]["ipk"],
                 'tgl_lahir' => $response["data"]["user"]["tgl_lahir"],
                 'tmpt_lahir' => $response["data"]["user"]["tmpt_lahir"],
-                'jml_bayar' => $response["data"]["user"]["jlh_bayar"],
+                'ukt' => (int)$response['data']['ukt']["kelompok_ukt_final"],
             ]
         );
         // return $response["data"]["user"]["jlh_bayar"];
         // return $response;
-        return response()->json(["status" => "Authenticated", "token" => $response["data"]["token"]]);
+        return response()->json(["status" => "Authenticated", "token" => $response["data"]["token"],]);
     }
 
     public function retrieveUserMhs()
