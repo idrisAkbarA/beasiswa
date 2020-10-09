@@ -25,6 +25,14 @@ class PemohonBeasiswaController extends Controller
         return $beasiswa;
         // return $user;
     }
+    public function IsHasBeasiswaAdmin(Request $request)
+    {
+        $user = $request['nim'];
+        $beasiswa = PemohonBeasiswa::where("mhs_id", $user)->with("beasiswa")->first();
+        // $beasiswa = PemohonBeasiswa::where("mhs_id",$user[nim])->get();
+        return $beasiswa;
+        // return $user;
+    }
     public function countBerkas()
     {
         $berkas = $this->cekBerkas();

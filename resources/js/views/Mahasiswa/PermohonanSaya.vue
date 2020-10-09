@@ -57,7 +57,7 @@
               </v-simple-table>
 
             </v-col>
-            <v-col cols="12">
+            <!-- <v-col cols="12">
               <v-timeline
                 dense
                 v-if="isShowTimeline(item)"
@@ -96,7 +96,7 @@
                   </v-timeline-item>
                 </v-slide-x-reverse-transition>
               </v-timeline>
-            </v-col>
+            </v-col> -->
           </v-row>
         </v-card-text>
       </v-card>

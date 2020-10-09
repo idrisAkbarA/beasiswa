@@ -32,7 +32,10 @@
       transition="dialog-bottom-transition"
     >
       <v-card>
-        <v-toolbar dark>
+        <v-toolbar
+          dark
+          color="green"
+        >
           <v-btn
             icon
             dark
@@ -79,6 +82,7 @@
                   :headers="headers.pemohon"
                   :items="selectedBeasiswa[filter]"
                   :items-per-page="10"
+                  @click:row="getUserPermohonan"
                   style="background-color: #2e7d323b"
                   class="elevation-10 mb-10"
                 >
@@ -170,6 +174,68 @@
         </v-card-text>
       </v-card>
     </v-dialog>
+    <v-dialog
+    scrollable
+      width="500"
+      overlay-color="green"
+      v-model="dialogMHS"
+    >
+      <v-card>
+        <v-card-title>
+          Detail Permohonan
+        </v-card-title>
+        <v-card-text>
+          <v-col cols="12" v-if="permohonans">
+            <v-timeline
+              dense
+              v-if="isShowTimeline(permohonans)"
+            >
+              <v-slide-x-reverse-transition
+                group
+                hide-on-leave
+              >
+                <v-timeline-item
+                  v-for="(time,index) in permohonans.timeline"
+                  :key="index"
+                  small
+                  fill-dot
+                  :icon="time.is_done? 'mdi-check' :'mdi-calendar-clock'"
+                  :color="time.is_done? 'green darken-2' :'grey darken-3'"
+                >
+                  <v-row>
+                    <v-col
+                      cols="12"
+                      xl="4"
+                    >{{
+                        time.awal_tgl && time.akhir_tgl?
+                        parseDate(time.awal_tgl)  + " - " + parseDate(time.akhir_tgl) 
+                        : "-"
+                        }}</v-col>
+                    <v-col
+                      cols="12"
+                      xl="8"
+                    >
+                      <v-alert :class="time.is_done? 'green darken-2' :'transparent'">
+                        {{time.msg}}
+                      </v-alert>
+                    </v-col>
+                  </v-row>
+
+                </v-timeline-item>
+              </v-slide-x-reverse-transition>
+            </v-timeline>
+          </v-col>
+          <v-col cols="12" v-if="permohonans">
+            <span>Keterangan</span>
+            <br>
+            <p>
+              {{permohonans.keterangan}}
+            </p>
+          </v-col>
+        </v-card-text>
+      </v-card>
+
+    </v-dialog>
     <!-- Akhir -->
   </v-container>
 </template>
@@ -189,6 +255,7 @@ export default {
     },
     info(item) {
       this.selectedBeasiswa = item;
+      console.log(item)
       this.dialog = true;
       this.lulus = item.lulus;
       this.selectedBeasiswa.tidak_lulus = item.permohonan.filter(x => {
@@ -197,6 +264,161 @@ export default {
     },
     parseDate: function(date) {
       return this.$moment(date, "YYYY-MM-DD").format("Do MMMM YYYY");
+    },
+    isShowTimeline(item) {
+      if (item.is_selection_passed == 0) {
+        return false;
+      }
+      if (item.is_selection_passed == 1) {
+        return true;
+      }
+      if (item.is_berkas_passed == 0) {
+        return false;
+      }
+      if (item.is_interview_passed == 0) {
+        return false;
+      }
+      if (item.is_survey_passed == 0) {
+        return false;
+      }
+      return true;
+    },
+    checkStatus(item) {
+      if (item.is_selection_passed == 0) {
+        return "Maaf permohonan anda didiskualifikasi.";
+      }
+      if (item.is_selection_passed == 1) {
+        return "Selamat permohonan anda lulus.";
+      }
+      if (item.is_berkas_passed == 0) {
+        return "Maaf permohonan anda didiskualifikasi.";
+      }
+      if (item.is_interview_passed == 0) {
+        return "Maaf permohonan anda didiskualifikasi.";
+      }
+      if (item.is_survey_passed == 0) {
+        return "Maaf permohonan anda didiskualifikasi.";
+      }
+      if (item.is_survey_passed == 0) {
+        return "Maaf permohonan anda didiskualifikasi.";
+      }
+
+      if (item.is_survey_passed == 1) {
+        return "Menunggu seleksi pimpinan.";
+      }
+      if (item.is_interview_passed == 1) {
+        return "Team surveyor segera melakukan survey ke lokasi anda, harap menunggu.";
+      }
+      if (item.is_berkas_passed == 1) {
+        return "Segera lakukan wawancara pada tanggal yang ditentukan.";
+      }
+      return "Permohonan anda sedang di proses";
+    },
+    checkColor(item) {
+      if (item.is_berkas_passed == 0) {
+        return "ditolak";
+      }
+      if (item.is_interview_passed == 0) {
+        return "ditolak";
+      }
+      if (item.is_survey_passed == 0) {
+        return "ditolak";
+      }
+      if (item.is_survey_passed == 0) {
+        return "ditolak";
+      }
+      if (item.is_selection_passed == 0) {
+        return "ditolak";
+      }
+      if (item.is_selection_passed == 1) {
+        return "diterima";
+      }
+      return "#2e7d323b";
+    },
+    parseDate(date) {
+      return this.$moment(date, "YYYY-MM-DD").format("Do MMMM YYYY");
+    },
+    getUserPermohonan(item) {
+      console.log(item)
+      this.dialogMHS = true
+      // axios
+      //   .get("/api/pemohon/cek-isHas-admin", {
+      //     params: {
+      //       nim: item.mhs_id
+      //     }
+      //   })
+      //   .then(response => {
+      //     console.log(response.data);
+      //   });
+          this.permohonans = item;
+          this.permohonans['beasiswa']= this.selectedBeasiswa;
+          this.addTimeline();
+
+    },
+    addTimeline() {
+      console.log(this.permohonans)
+      var timeline = [];
+     
+        timeline.push({
+          kegiatan: "Pengisian Berkas",
+          awal_tgl: this.permohonans.beasiswa.awal_berkas,
+          akhir_tgl: this.permohonans.beasiswa.akhir_berkas,
+          msg: "Pengisian berkas",
+          is_done: true
+        });
+        if (this.permohonans.beasiswa.is_interview == 1) {
+          var is_done = false;
+          if (this.permohonans.is_interview_passed == 1) {
+            is_done = true;
+          }
+          timeline.push({
+            kegiatan: "Wawancara",
+            awal_tgl: this.permohonans.beasiswa.awal_interview,
+            akhir_tgl: this.permohonans.beasiswa.akhir_interview,
+            is_done,
+            msg: `Lakukan wawancara pada tanggal 
+            ${
+              this.permohonans.beasiswa.awal_interview
+                ? this.parseDate(this.permohonans.beasiswa.awal_interview) + " sampai "
+                : ""
+            }  ${this.parseDate(this.permohonans.beasiswa.akhir_interview)}`
+          });
+        }
+        if (this.permohonans.beasiswa.is_survey == 1) {
+          var is_done = false;
+          if (this.permohonans.is_survey_passed == 1) {
+            is_done = true;
+          }
+          timeline.push({
+            kegiatan: "Wawancara",
+            awal_tgl: this.permohonans.beasiswa.awal_survey,
+            akhir_tgl: this.permohonans.beasiswa.akhir_survey,
+            is_done,
+            msg: `Team survey akan melakukan survey pada  
+            ${
+              this.permohonans.beasiswa.awal_survey
+                ? this.parseDate(this.permohonans.beasiswa.awal_survey) + " sampai "
+                : ""
+            }  ${this.parseDate(
+              this.permohonans.beasiswa.akhir_survey
+            )}, harap menunggu.`
+          });
+        }
+        var is_done = false;
+        if (this.permohonans.is_selection_passed) {
+          is_done = true;
+        }
+        timeline.push({
+          kegiatan: "Seleksi pimpinan",
+          awal_tgl: null,
+          akhir_tgl: null,
+          is_done,
+          msg: "Harap menunggu hasil seleksi pimpinan."
+        });
+        this.permohonans["timeline"] = timeline;
+        timeline = [];
+
+      console.log(this.permohonans);
     }
   },
   watch: {
@@ -225,6 +447,10 @@ export default {
   },
   data() {
     return {
+      permohonans: null,
+      beasiswa:null,
+      item: null,
+      dialogMHS: false,
       btnLoading: false,
       selectedBeasiswa: "",
       pemohon: [],
