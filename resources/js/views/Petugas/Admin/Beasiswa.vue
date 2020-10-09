@@ -1459,7 +1459,8 @@ export default {
           required: false,
           items: [{ label: "" }]
         },
-        required: true
+        required: true,
+        isLulus: null,
       });
       console.log(this.fieldsEdit);
     },
@@ -1483,7 +1484,8 @@ export default {
           required: false,
           items: [{ label: "" }]
         },
-        required: true
+        required: true,
+        isLulus: null,
       });
       console.log(this.fields);
     },
@@ -1627,7 +1629,8 @@ export default {
             required: true,
             items: [{ label: "" }]
           },
-          required: true
+          required: true,
+          isLulus: null,
         }
       ],
       itemTypes: [

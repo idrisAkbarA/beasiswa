@@ -182,11 +182,9 @@
                           :value="item.label"
                           disabled
                         ></v-checkbox>
-
                       </v-col>
                       <v-col cols="6">
                         <span>{{item.label}}</span>
-
                       </v-col>
                       <v-col cols="5">
                         <v-btn
@@ -195,9 +193,7 @@
                           @click="link(item.file_name)"
                         >lihat file</v-btn>
                       </v-col>
-
                     </v-row>
-
                   </v-container>
               <p v-if="field.type == 'Pilihan'"><span>
                   <v-icon>mdi-text-short</v-icon>{{field.value}}

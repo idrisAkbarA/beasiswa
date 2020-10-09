@@ -114,10 +114,12 @@ class PemohonBeasiswaController extends Controller
     {
         $permohonan = PemohonBeasiswa::find($request['id']);
         $permohonan->is_berkas_passed = $request['bool'];
+        $permohonan->keterangan = $request['keterangan'];
+        $permohonan->form = $request['form'];
         $permohonan->verificator_id = Auth::guard('petugas')->id();
         $permohonan->save();
         return response()->json([
-            'status' => 'Success: berkas set'
+            'status' => 'Success: berkas set',"keterangan"=> $request["keterangan"]
         ]);
     }
     public function setSurvey(Request $request)

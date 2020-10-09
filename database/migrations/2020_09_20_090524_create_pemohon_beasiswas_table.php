@@ -22,6 +22,7 @@ class CreatePemohonBeasiswasTable extends Migration
             $table->integer('surveyor_id')->nullable();
             $table->integer('selector_id')->nullable();
             $table->boolean('is_berkas_passed')->nullable();
+            $table->string('keterangan')->nullable();
             $table->boolean('is_interview_passed')->nullable();
             $table->boolean('is_survey_passed')->nullable();
             $table->boolean('is_selection_passed')->nullable();
