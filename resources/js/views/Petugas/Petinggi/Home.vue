@@ -1,7 +1,7 @@
 <template>
+    <!-- color="transparent" -->
   <v-card
-    color="#E8F5E9"
-    light
+  light
     elevation="20"
     :width="width()"
     class="fill-height mx-auto"
@@ -83,16 +83,21 @@
                   <v-tabs fixed-tabs>
                     <v-tab>permohonan masuk</v-tab>
                     <v-tab>lulus</v-tab>
-                    <v-tab-item>
-                      <v-btn class="text-right">Lulus</v-btn>
+                    <v-tab-item class="mt-2">
                       <v-data-table
                         dense
                         show-select
+                        v-model="selected"
                         :headers="headers"
                         :items="Object.values(item.selection)"
                         @click:row="info"
                       >
-
+                        <template v-slot:top>
+                          <v-btn
+                            class="pa-3"
+                            @click="selectedLulus"
+                          >Lulus</v-btn>
+                        </template>
                       </v-data-table>
                     </v-tab-item>
                     <v-tab-item>
@@ -406,6 +411,13 @@ export default {
       this.selectedMahasiswa = item;
       this.lulus();
     },
+    selectedLulus() {
+      const permohonan = this.selected;
+      permohonan.forEach(item => {
+        this.selectedMahasiswa = item;
+        this.lulus();
+      });
+    },
     lulus() {
       this.btnLoading = true;
       axios
@@ -465,6 +477,7 @@ export default {
   },
   data() {
     return {
+      selected: [],
       selectedBeasiswa: {},
       selectedMahasiswa: {},
       dialogDelete: false,

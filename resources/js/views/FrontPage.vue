@@ -119,7 +119,7 @@
                     <br v-if="item.is_first">
                     <span v-if="item.is_first">Belum pernah mengikuti beasiswa</span>
                     <br v-if="item.ukt">
-                    <span v-if="item.ukt">Dibawah nominal UKT {{item.ukt | currency("Rp.")}}</span>
+                    <span v-if="item.ukt"> Golongan UKT {{item.ukt }} kebawah</span>
                   </p>
                 </v-card>
 
@@ -156,7 +156,7 @@
                     <br v-if="beasiswaSingle.is_first">
                     <span v-if="beasiswaSingle.is_first">Belum pernah mengikuti beasiswa</span>
                     <br v-if="beasiswaSingle.ukt">
-                    <span v-if="beasiswaSingle.ukt">Dibawah nominal UKT {{beasiswaSingle.ukt | ccurrency("Rp.")}}</span>
+                    <span v-if="beasiswaSingle.ukt">Golongan UKT {{beasiswaSingle.ukt }} kebawah</span>
                     <br><br>
                     Batas upload berkas <span v-if="beasiswaSingle.awal_berkas"><strong>{{parseDate(beasiswaSingle.awal_berkas)}}</strong> sampai </span> <strong> {{parseDate(beasiswaSingle.akhir_berkas)}}</strong>
                     <br>
