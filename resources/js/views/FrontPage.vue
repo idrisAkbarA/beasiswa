@@ -72,7 +72,7 @@
               color="transparent"
               class="d-flex align-center align-self-center list-beasiswa "
             >
-
+              <p class="text-center" style="width:40vw" v-if="beasiswa.length<1">Maaf belum ada beasiswa tersedia</p>
               <v-hover
                 v-for="(item,index) in beasiswa"
                 :key="index"

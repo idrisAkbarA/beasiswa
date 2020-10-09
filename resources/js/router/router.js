@@ -1,4 +1,4 @@
-var pack = require("../../../package.json");
+// var pack = require("../../../package.json");
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
