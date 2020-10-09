@@ -86,7 +86,7 @@
                     <template v-for="(permohonan, index) in !searchQuery ? item.berkas : resultQuery">
                       <v-list-item
                         :key="index"
-                        @click="sheetDetail = true, selectedPermohonan = permohonan"
+                        @click="sheetDetail = true, selectedPermohonan = permohonan, parsedForm = JSON.parse(permohonan.form)"
                       >
                         <template>
                           <v-list-item-content>
@@ -146,15 +146,16 @@
               <v-row
                 no-gutters=""
                 class="ma-5"
-                v-for="(field,index) in JSON.parse(selectedPermohonan.form)"
+                v-for="(field,index) in parsedForm"
                 :key="index"
               >
 
                 <v-col style="padding-bottom:0 !important;">
                   <p>{{field.pertanyaan}}</p>
                   <v-container v-if="field.type == 'Checkboxes'">
+                    {{'pep'+field.isLulus}}
                     <v-row>
-
+                      
                       <v-col cols="9">
                         <v-row
                           align="center"
@@ -179,11 +180,11 @@
                         <v-radio-group v-model="field.isLulus">
                           <v-radio
                             label="Lulus"
-                            value="radio-1"
+                            :value="true"
                           ></v-radio>
                           <v-radio
                             label="Tidak Lulus"
-                            value="radio-2"
+                            :value="false"
                           ></v-radio>
                         </v-radio-group>
 
@@ -230,11 +231,11 @@
                         <v-radio-group v-model="field.isLulus">
                           <v-radio
                             label="Lulus"
-                            value="radio-1"
+                            :value="true"
                           ></v-radio>
                           <v-radio
                             label="Tidak Lulus"
-                            value="radio-2"
+                            :value="false"
                           ></v-radio>
                         </v-radio-group>
 
@@ -252,11 +253,11 @@
                       <v-radio-group v-model="field.isLulus">
                         <v-radio
                           label="Lulus"
-                          value="radio-1"
+                          :value="true"
                         ></v-radio>
                         <v-radio
                           label="Tidak Lulus"
-                          value="radio-2"
+                          :value="false"
                         ></v-radio>
                       </v-radio-group>
 
@@ -272,11 +273,11 @@
                       <v-radio-group v-model="field.isLulus">
                         <v-radio
                           label="Lulus"
-                          value="radio-1"
+                          :value="true"
                         ></v-radio>
                         <v-radio
                           label="Tidak Lulus"
-                          value="radio-2"
+                          :value="false"
                         ></v-radio>
                       </v-radio-group>
 
@@ -292,11 +293,11 @@
                       <v-radio-group v-model="field.isLulus">
                         <v-radio
                           label="Lulus"
-                          value="radio-1"
+                          :value="true"
                         ></v-radio>
                         <v-radio
                           label="Tidak Lulus"
-                          value="radio-2"
+                          :value="false"
                         ></v-radio>
                       </v-radio-group>
 
@@ -312,11 +313,11 @@
                       <v-radio-group v-model="field.isLulus">
                         <v-radio
                           label="Lulus"
-                          value="radio-1"
+                          :value="true"
                         ></v-radio>
                         <v-radio
                           label="Tidak Lulus"
-                          value="radio-2"
+                          :value="false"
                         ></v-radio>
                       </v-radio-group>
                     </v-col>
@@ -333,11 +334,11 @@
                       <v-radio-group v-model="field.isLulus">
                         <v-radio
                           label="Lulus"
-                          value="radio-1"
+                          :value="true"
                         ></v-radio>
                         <v-radio
                           label="Tidak Lulus"
-                          value="radio-2"
+                          :value="false"
                         ></v-radio>
                       </v-radio-group>
                     </v-col>
@@ -355,11 +356,11 @@
                       >
                         <v-radio
                           label="Lulus"
-                          value="radio-1"
+                          :value="true"
                         ></v-radio>
                         <v-radio
                           label="Tidak Lulus"
-                          value="radio-2"
+                          :value="false"
                         ></v-radio>
                       </v-radio-group>
 
@@ -406,8 +407,8 @@
 
         <v-card-actions>
           <v-btn
-            light
-            color="#2E7D32"
+            
+            color="red"
             :disabled="btnTidakLulus"
             @click="dialogDelete = { show : true, value : false}"
           >
@@ -442,8 +443,11 @@
           >
             <i class="mdi mdi-checkbox-marked-circle-outline mr-2"></i> Varifikasi Berkas
           </v-card-title>
-          <v-card-text class="white--text text-center mt-2 pb-0">
+          <v-card-text class="white--text mt-2 pb-0">
             <strong class="d-block">{{this.selectedPermohonan.mahasiswa.nama}}</strong> akan dinyatakan <strong>{{dialogDelete.value ? 'Lolos' : 'Tidak Lolos'}}</strong> tahap berkas ?
+          <v-textarea v-model="keterangan" class="mt-2" hint="Wajib diisi" :persistent-hint="true" v-if="!dialogDelete.value" label="Keterangan" rows="1" auto-grow color="white">
+
+          </v-textarea>
           </v-card-text>
 
           <v-divider></v-divider>
@@ -456,7 +460,17 @@
             >Batal</v-btn>
             <v-spacer></v-spacer>
             <v-btn
+            v-if="dialogDelete.value"
               color="#2E7D32"
+              dark
+              @click="setBerkas(dialogDelete.value)"
+            >
+              Ya
+            </v-btn>
+            <v-btn
+            v-if="!dialogDelete.value"
+              color="#2E7D32"
+              :disabled="keterangan? false:true"
               dark
               @click="setBerkas(dialogDelete.value)"
             >
@@ -508,11 +522,18 @@ export default {
       window.open(link, "_blank");
     },
     setBerkas(bool) {
+      
       this.btnLoading = true;
+      if(bool){
+        this.keterangan = null;
+      }
+      console.log(this.keterangan)
       axios
         .put(`${this.url}/api/pemohon/set-berkas`, {
           id: this.selectedPermohonan.id,
-          bool: bool
+          bool: bool,
+          keterangan: this.keterangan,
+          form: this.parsedForm
         })
         .then(response => {
           this.getBeasiswaWithPermohonan();
@@ -528,8 +549,21 @@ export default {
     }
   },
   watch: {
-    beasiswa: function(val){
-      console.log(val)
+    parsedForm: {
+      deep: true,
+      handler(val){
+        console.log(val)
+        for (let i = 0; i < val.length; i++) {
+          const element = val[i];
+           if(!element.isLulus){
+            this.btnLoading = true;
+            this.btnTidakLulus = false;
+            break;
+          }
+            this.btnTidakLulus = true;
+          this.btnLoading = false
+        }
+      }
     }
   },
   computed: {
@@ -555,6 +589,8 @@ export default {
   },
   data() {
     return {
+      keterangan: null,
+      parsedForm:{},
       btnTidakLulus: false,
       // btnTidakLulus: false,
       index: 0,
