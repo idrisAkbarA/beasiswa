@@ -44,25 +44,26 @@ class BeasiswaController extends Controller
     }
     public function store(Beasiswa $Beasiswa, Request $request)
     {
-        $Beasiswa->nama             = $request['data']['nama'];
-        $Beasiswa->deskripsi        = $request['data']['deskripsi'];
-        $Beasiswa->quota            = $request['data']['kuota'];
-        $Beasiswa->instansi_id       = $request['data']['instansi'];
-        $Beasiswa->is_interview    = $request['data']['is_wawancara'];
-        $Beasiswa->is_survey        = $request['data']['is_survey'];
-        $Beasiswa->awal_interview   = $request['data']['awal_wawancara'];
-        $Beasiswa->akhir_interview  = $request['data']['akhir_wawancara'];
-        $Beasiswa->awal_berkas      = $request['data']['awal_berkas'];
-        $Beasiswa->akhir_berkas     = $request['data']['akhir_berkas'];
-        $Beasiswa->awal_survey      = $request['data']['awal_survey'];
-        $Beasiswa->akhir_survey     = $request['data']['akhir_survey'];
-        // $Beasiswa->total_sks        = $request['data']['total_sks'];
-        $Beasiswa->ipk              = $request['data']['ipk'] ?? null;
-        $Beasiswa->ukt              = $request['data']['ukt'] ?? null;
-        $Beasiswa->semester         = $request['data']['semester'] ?? null;
-        $Beasiswa->is_first         = $request['data']['is_first'] ?? 0;
-        $Beasiswa->fields           = json_encode($request['data']['fields']);
-        $Beasiswa->save();
+        // $Beasiswa->nama             = $request['data']['nama'];
+        // $Beasiswa->deskripsi        = $request['data']['deskripsi'];
+        // $Beasiswa->quota            = $request['data']['kuota'];
+        // $Beasiswa->instansi_id       = $request['data']['instansi'];
+        // $Beasiswa->is_interview    = $request['data']['is_wawancara'];
+        // $Beasiswa->is_survey        = $request['data']['is_survey'];
+        // $Beasiswa->awal_interview   = $request['data']['awal_wawancara'];
+        // $Beasiswa->akhir_interview  = $request['data']['akhir_wawancara'];
+        // $Beasiswa->awal_berkas      = $request['data']['awal_berkas'];
+        // $Beasiswa->akhir_berkas     = $request['data']['akhir_berkas'];
+        // $Beasiswa->awal_survey      = $request['data']['awal_survey'];
+        // $Beasiswa->akhir_survey     = $request['data']['akhir_survey'];
+        // // $Beasiswa->total_sks        = $request['data']['total_sks'];
+        // $Beasiswa->ipk              = $request['data']['ipk'] ?? null;
+        // $Beasiswa->ukt              = $request['data']['ukt'] ?? null;
+        // $Beasiswa->semester         = $request['data']['semester'] ?? null;
+        // $Beasiswa->is_first         = $request['data']['is_first'] ?? 0;
+        // $Beasiswa->fields           = json_encode($request['data']['fields']);
+        // $Beasiswa->save();
+        $beasiswa = Beasiswa::create($request['data']);
         return response()->json(['status' => "Success: Beasiswa Added"]);
     }
     public function edit(Request $request, $id)

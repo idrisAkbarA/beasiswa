@@ -671,7 +671,7 @@
               dense
               class="ml-1 mr-1"
             >
-              <v-col cols="8">
+              <v-col cols="4">
                 <v-combobox
                   color="white"
                   label="Instansi"
@@ -694,6 +694,17 @@
                   type="number"
                   v-model="kuota"
                 ></v-text-field>
+              </v-col>
+              <v-col cols="4">
+                <v-select
+                  v-model="jenjang"
+                  :items="[{i:0, v:'D3'}, {i:1, v:'S1'}, {i:2, v:'S2'}]"
+                  item-text="v"
+                  item-value="i"
+                  label="Jenjang"
+                  color="white"
+                >
+                </v-select>
               </v-col>
             </v-row>
             <v-row align="center">
@@ -861,9 +872,9 @@
                         ref="semester"
                         v-model="form.semester"
                         :disabled="!checked.semester"
+                        :hint="`berupa angka dipisah oleh koma, cth: 1,3`"
                       >
                       </v-text-field>
-                      <small>berupa angka dipisah oleh koma, cth: 1,3</small>
                     </v-col>
                     <v-col cols="6">
                       <v-checkbox
@@ -872,14 +883,14 @@
                       ></v-checkbox>
                     </v-col>
                     <v-col cols="6">
-                      <v-text-field
-                        label="Batas UKT"
-                        type="number"
+                      <v-select
+                        label="Batas Gol.UKT"
+                        :items="[1,2,3,4,5,6,7]"
                         ref="ukt"
                         v-model="form.ukt"
                         :disabled="!checked.ukt"
                       >
-                      </v-text-field>
+                      </v-select>
                       <!-- <small>berupa angka dipisah oleh koma, cth: 1,3</small> -->
                     </v-col>
                     <v-col cols="6">
@@ -1410,24 +1421,23 @@ export default {
       var data = {
         nama: this.nama,
         deskripsi: this.deskripsi,
-        kuota: this.kuota,
-        instansi: this.selected_instansi.id,
+        quota: this.kuota,
+        instansi_id: this.selected_instansi.id,
+        jenjang: this.jenjang,
         fields: this.fields,
         is_survey: this.is_survey,
-        is_wawancara: this.is_wawancara,
+        is_interview: this.is_wawancara,
         awal_wawancara,
         akhir_wawancara,
         awal_survey,
         akhir_survey,
         awal_berkas,
         akhir_berkas,
-        // total_sks: this.form.total_sks,
         ipk: this.form.ipk ?? null,
         ukt: this.form.ukt ?? null,
         semester: this.form.semester ?? null,
         is_first: this.form.is_first ?? 0
       };
-      console.log(data);
       this.btnLoading = true;
       this.storeBeasiswa(data)
         .then(response => {
@@ -1510,7 +1520,11 @@ export default {
       this.fields[field_index - 1].pilihan.items.push({ label: "" });
     },
     addMultiUploadItem(field_index) {
-      this.fields[field_index - 1].multiUpload.items.push({ label: "", isSelected: false, value: null });
+      this.fields[field_index - 1].multiUpload.items.push({
+        label: "",
+        isSelected: false,
+        value: null
+      });
     },
     addCheckboxesItem(field_index) {
       this.fields[field_index - 1].checkboxes.items.push({ label: "" });
@@ -1522,7 +1536,11 @@ export default {
       this.fieldsEdit[field_index - 1].pilihan.items.push({ label: "" });
     },
     addMultiUploadItemEdit(field_index) {
-      this.fieldsEdit[field_index - 1].multiUpload.items.push({ label: "", isSelected: false, value: null });
+      this.fieldsEdit[field_index - 1].multiUpload.items.push({
+        label: "",
+        isSelected: false,
+        value: null
+      });
     },
     deletePilihanItemEdit(field, label) {
       var item = this.fieldsEdit[this.fieldsEdit.indexOf(field)].pilihan.items;
@@ -1613,6 +1631,7 @@ export default {
       nama: "",
       deskripsi: "",
       selected_instansi: "",
+      jenjang: "",
       fields: [
         {
           type: "Jawaban Pendek",

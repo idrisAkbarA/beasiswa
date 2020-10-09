@@ -85,37 +85,58 @@
                   <template v-slot:item.verificator="{ item }">
                     <v-chip
                       dark
-                      :color="item.verificator != '-' ? 'green' : 'red'"
+                      v-if="item.is_berkas_passed != null"
+                      :color="item.is_berkas_passed ? 'green' : 'red'"
                     >
-                      <i :class="item.verificator != '-' ? 'mdi mdi-check' : 'mdi mdi-close'"></i>
+                      <i :class="`mdi ${item.is_berkas_passed ? 'mdi-check' : 'mdi-close'} mr-2`"></i>
+                      {{item.verificator}}
                     </v-chip>
+                    <p
+                      v-else
+                      class="text-caption"
+                    >-</p>
                   </template>
-                  <template
-                    v-slot:item.interviewer="{ item }"
-                    v-if="selectedBeasiswa.is_interview"
-                  >
+                  <template v-slot:item.interviewer="{ item }">
                     <v-chip
                       dark
-                      :color="item.interviewer != '-' ? 'green' : 'red'"
+                      v-if="item.is_interview_passed != null"
+                      :color="item.is_interview_passed ? 'green' : 'red'"
                     >
-                      <i :class="item.verificator != '-' ? 'mdi mdi-check' : 'mdi mdi-close'"></i>
+                      <i :class="`mdi ${item.is_interview_passed ? 'mdi-check' : 'mdi-close'} mr-2`"></i>
+                      {{item.interviewer}}
                     </v-chip>
+                    <p
+                      v-else
+                      class="text-caption"
+                    >-</p>
                   </template>
                   <template v-slot:item.surveyor="{ item }">
                     <v-chip
                       dark
-                      :color="item.surveyor != '-' ? 'green' : 'red'"
+                      v-if="item.is_survey_passed != null"
+                      :color="item.is_survey_passed ? 'green' : 'red'"
                     >
-                      <i :class="item.verificator != '-' ? 'mdi mdi-check' : 'mdi mdi-close'"></i>
+                      <i :class="`mdi ${item.is_survey_passed ? 'mdi-check' : 'mdi-close'} mr-2`"></i>
+                      {{item.surveyor}}
                     </v-chip>
+                    <p
+                      v-else
+                      class="text-caption"
+                    >-</p>
                   </template>
                   <template v-slot:item.selector="{ item }">
                     <v-chip
                       dark
-                      :color="item.selector != '-' ? 'green' : 'red'"
+                      v-if="item.is_selection_passed != null"
+                      :color="item.is_selection_passed ? 'green' : 'red'"
                     >
-                      <i :class="item.verificator != '-' ? 'mdi mdi-check' : 'mdi mdi-close'"></i>
+                      <i :class="`mdi ${item.is_selection_passed ? 'mdi-check' : 'mdi-close'} mr-2`"></i>
+                      {{item.selector}}
                     </v-chip>
+                    <p
+                      v-else
+                      class="text-caption"
+                    >-</p>
                   </template>
                   <template v-slot:no-data>
                     no data

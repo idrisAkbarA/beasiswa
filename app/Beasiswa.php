@@ -31,6 +31,10 @@ class Beasiswa extends Model
         'lulus'
     ];
 
+    public function setFieldsAttribute($value)
+    {
+        $this->attributes['fields'] = json_encode($value);
+    }
     public function getBerkasAttribute()
     {
         $petugas = Auth::guard('petugas')->user();
