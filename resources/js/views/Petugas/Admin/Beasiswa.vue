@@ -128,6 +128,7 @@
                   item-value="i"
                   label="Jenjang"
                   color="white"
+                  :disabled="isDisabled(dateBerkasEdit)"
                 >
                 </v-select>
               </v-col>
@@ -255,6 +256,7 @@
                       <v-checkbox
                         label="IPK"
                         v-model="lainnya.ipk"
+                        :disabled="isDisabled(dateBerkasEdit)"
                       ></v-checkbox>
                     </v-col>
                     <v-col cols="6">
@@ -263,7 +265,7 @@
                         type="number"
                         ref="ipk"
                         v-model="lainnya.ipk"
-                        :disabled="!lainnya.ipk"
+                        :disabled="!lainnya.ipk || isDisabled(dateBerkasEdit)"
                       >
                       </v-text-field>
                     </v-col>
@@ -271,6 +273,7 @@
                       <v-checkbox
                         label="Semester"
                         v-model="lainnya.semester"
+                        :disabled="isDisabled(dateBerkasEdit)"
                       ></v-checkbox>
                     </v-col>
                     <v-col cols="6">
@@ -279,15 +282,16 @@
                         type="text"
                         ref="semester"
                         v-model="lainnya.semester"
-                        :disabled="!lainnya.semester"
+                        :disabled="!lainnya.semester || isDisabled(dateBerkasEdit)"
                       >
                       </v-text-field>
-                      <small>berupa angka dipisah oleh koma, cth: 1,3</small>
+                      <small class="text-muted">berupa angka dipisah oleh koma, cth: 1,3</small>
                     </v-col>
                     <v-col cols="6">
                       <v-checkbox
                         label="UKT"
                         v-model="lainnya.ukt"
+                        :disabled="isDisabled(dateBerkasEdit)"
                       ></v-checkbox>
                     </v-col>
                     <v-col cols="6">
@@ -296,7 +300,7 @@
                         type="number"
                         ref="ukt"
                         v-model="lainnya.ukt"
-                        :disabled="!lainnya.ukt"
+                        :disabled="!lainnya.ukt || isDisabled(dateBerkasEdit)"
                       >
                       </v-text-field>
                     </v-col>
@@ -304,6 +308,7 @@
                       <v-checkbox
                         label="Tidak menerima beasiswa lain"
                         v-model="lainnya.is_first"
+                        :disabled="isDisabled(dateBerkasEdit)"
                       ></v-checkbox>
                     </v-col>
                     <v-col cols="6">
