@@ -1,3 +1,4 @@
+var pack = require("../../../package.json");
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
@@ -75,7 +76,7 @@ const routes = [
         async beforeEnter(to, from, next) {
             if (from.name == null) {
                 await axios
-                    .get("http://beasiswa.test/api/user/petugas")
+                    .get("/api/user/petugas")
                     .then(response => {
                         console.log(response.data);
                         next()
@@ -142,7 +143,7 @@ const routes = [
         async beforeEnter(to, from, next) {
             if (from.name == null) {
                 await axios
-                    .get("http://beasiswa.test/api/user/petugas")
+                    .get("/api/user/petugas")
                     .then(response => {
                         console.log(response.data);
                         next()
@@ -211,7 +212,7 @@ const routes = [
         async beforeEnter(to, from, next) {
             if (from.name == null) {
                 await axios
-                    .get("http://beasiswa.test/api/user/petugas")
+                    .get("/api/user/petugas")
                     .then(response => {
                         console.log(response.data);
                         next()
@@ -238,7 +239,7 @@ const routes = [
         async beforeEnter(to, from, next) {
             if (from.name == null) {
                 await axios
-                    .get("http://beasiswa.test/api/user/petugas")
+                    .get("/api/user/petugas")
                     .then(response => {
                         console.log(response.data);
                         next()
@@ -265,7 +266,7 @@ const routes = [
         async beforeEnter(to, from, next) {
             if (from.name == null) {
                 await axios
-                    .get("http://beasiswa.test/api/user/petugas")
+                    .get("/api/user/petugas")
                     .then(response => {
                         console.log(response.data);
                         next()
@@ -292,7 +293,7 @@ const routes = [
         async beforeEnter(to, from, next) {
             if (from.name == null) {
                 await axios
-                    .get("http://beasiswa.test/api/user/petugas")
+                    .get("/api/user/petugas")
                     .then(response => {
                         console.log(response.data);
                         next()
