@@ -10,7 +10,6 @@
       <v-subheader>Permohonan Beasiswa</v-subheader>
       <v-row class="pl-8 pr-8">
         <v-text-field
-        color="green lighten-3"
           prepend-inner-icon="mdi-magnify"
           clearable
           label="Pencarian"
@@ -80,8 +79,40 @@
                   v-if="Object.keys(item.lulus).length == item.quota"
                 ></v-badge>
                 <div class="col-12">
-                  <div class="row">
-                    <v-card
+                  <v-tabs fixed-tabs>
+                    <v-tab>permohonan masuk</v-tab>
+                    <v-tab>lulus</v-tab>
+                    <v-tab-item class="mt-2">
+                      <v-data-table
+                        dense
+                        show-select
+                        v-model="selected"
+                        :headers="headers"
+                        :items="Object.values(item.selection)"
+                        @click:row="info"
+                      >
+                        <template v-slot:top>
+                          <v-btn
+                            class="pa-3"
+                            @click="selectedLulus"
+                          >Lulus</v-btn>
+                        </template>
+                      </v-data-table>
+                    </v-tab-item>
+                    <v-tab-item>
+                      <v-data-table
+                        dense
+                        show-select
+                        :headers="headers"
+                        :items="Object.values(item.lulus)"
+                        @click:row="gaLulus"
+                      >
+
+                      </v-data-table>
+                    </v-tab-item>
+                  </v-tabs>
+                  <!-- <div class="row"> -->
+                  <!-- <v-card
                       class="col-6 bg-dark"
                       elevation="0"
                     >
@@ -122,8 +153,8 @@
                       >
                         <span class="my-2">{{pemohon.mahasiswa.nama}}</span>
                       </v-btn>
-                    </v-card>
-                  </div>
+                    </v-card> -->
+                  <!-- </div> -->
                 </div>
                 <v-row justify="end">
                   <v-btn
@@ -171,59 +202,59 @@
               <v-col style="padding-bottom:0 !important;">
                 <p>{{field.pertanyaan}}</p>
                 <v-container v-if="field.type == 'Checkboxes'">
-                <v-row
-                  align="center"
-                  v-for="(item,index) in field.checkboxes.items"
-                  :key="index"
-                >
-                  <v-checkbox
-                    disabled
-                    v-model="field.value"
-                    :value="item.label"
-                    color="white"
-                    hide-details
-                    class="shrink mr-2 mt-0"
-                  ></v-checkbox>
-                  <span>
-                    {{item.label}}
-                  </span>
-                </v-row>
-
-              </v-container>
-                                <v-container v-if="field.type == 'Multiple Upload'">
-                    <v-row
-                      align="center"
-                      v-for="(item,index) in field.multiUpload.items"
-                      :key="index"
+                  <v-row
+                    align="center"
+                    v-for="(item,index) in field.checkboxes.items"
+                    :key="index"
+                  >
+                    <v-checkbox
+                      disabled
+                      v-model="field.value"
                       :value="item.label"
-                      no-gutters
-                    >
-                      <v-col cols="1">
-                        <v-checkbox
-                          v-model="item.isSelected"
-                          color="white"
-                          hide-details
-                          class="shrink mr-2 mt-0"
-                          :value="item.label"
-                          disabled
-                        ></v-checkbox>
+                      color="white"
+                      hide-details
+                      class="shrink mr-2 mt-0"
+                    ></v-checkbox>
+                    <span>
+                      {{item.label}}
+                    </span>
+                  </v-row>
 
-                      </v-col>
-                      <v-col cols="6">
-                        <span>{{item.label}}</span>
+                </v-container>
+                <v-container v-if="field.type == 'Multiple Upload'">
+                  <v-row
+                    align="center"
+                    v-for="(item,index) in field.multiUpload.items"
+                    :key="index"
+                    :value="item.label"
+                    no-gutters
+                  >
+                    <v-col cols="1">
+                      <v-checkbox
+                        v-model="item.isSelected"
+                        color="white"
+                        hide-details
+                        class="shrink mr-2 mt-0"
+                        :value="item.label"
+                        disabled
+                      ></v-checkbox>
 
-                      </v-col>
-                      <v-col cols="5">
-                        <v-btn
-                          v-if="item.file_name"
-                          small
-                          @click="link(item.file_name)"
-                        >lihat file</v-btn>
-                      </v-col>
+                    </v-col>
+                    <v-col cols="6">
+                      <span>{{item.label}}</span>
 
-                    </v-row>
+                    </v-col>
+                    <v-col cols="5">
+                      <v-btn
+                        v-if="item.file_name"
+                        small
+                        @click="link(item.file_name)"
+                      >lihat file</v-btn>
+                    </v-col>
 
-                  </v-container>
+                  </v-row>
+
+                </v-container>
                 <p v-if="field.type == 'Pilihan'"><span>
                     <v-icon>mdi-text-short</v-icon>{{field.value}}
                   </span></p>
@@ -375,8 +406,18 @@ export default {
       "getBeasiswaWithPermohonan",
       "deleteBeasiswaWithPermohonan"
     ]),
+    gaLulus(item) {
+      this.selectedMahasiswa = item;
+      this.lulus();
+    },
+    selectedLulus() {
+      const permohonan = this.selected;
+      permohonan.forEach(item => {
+        this.selectedMahasiswa = item;
+        this.lulus();
+      });
+    },
     lulus() {
-      console.log(this.selectedMahasiswa);
       this.btnLoading = true;
       axios
         .put(`${this.url}/api/pemohon/set-selection`, {
@@ -397,6 +438,10 @@ export default {
           this.dialogDetail = false;
           this.selectedMahasiswa = {};
         });
+    },
+    info(item) {
+      this.dialogDetail = true;
+      this.selectedMahasiswa = item;
     },
     tutup(item) {
       this.dialogDelete = true;
@@ -421,7 +466,7 @@ export default {
         });
     },
     link(url) {
-      var a =  "/" + url;
+      var a = "/" + url;
       var link = a.replace(" ", "%20");
       window.open(link, "_blank");
     }
@@ -431,6 +476,7 @@ export default {
   },
   data() {
     return {
+      selected: [],
       selectedBeasiswa: {},
       selectedMahasiswa: {},
       dialogDelete: false,
@@ -441,12 +487,11 @@ export default {
       },
       headers: [
         {
-          text: "Nama Instansi",
+          text: "Nama",
           align: "start",
           sortable: false,
-          value: "name"
-        },
-        { text: "Actions", value: "actions", sortable: false }
+          value: "mahasiswa.nama"
+        }
       ]
     };
   }

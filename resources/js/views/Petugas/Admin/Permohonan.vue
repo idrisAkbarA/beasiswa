@@ -62,6 +62,14 @@
                     Semua ({{undefined !== selectedBeasiswa.permohonan ? selectedBeasiswa.permohonan.length : 0}})
                   </v-chip>
                   <v-chip
+                    color="orange"
+                    :outlined="filter != 'on_progress'"
+                    class="mr-2"
+                    @click="filter = 'on_progress'"
+                  >
+                    Proses ({{undefined !== selectedBeasiswa.on_progress ? selectedBeasiswa.on_progress.length : 0}})
+                  </v-chip>
+                  <v-chip
                     color="red"
                     :outlined="filter != 'tidak_lulus'"
                     class="mr-2"
@@ -258,8 +266,19 @@ export default {
       console.log(item)
       this.dialog = true;
       this.lulus = item.lulus;
-      this.selectedBeasiswa.tidak_lulus = item.permohonan.filter(x => {
-        return x.is_selection_passed != 1;
+      this.selectedBeasiswa.tidak_lulus = [];
+      this.selectedBeasiswa.on_progress = [];
+      item.permohonan.forEach(x => {
+        if (
+          x.is_berkas_passed == 0 ||
+          x.is_interview_passed == 0 ||
+          x.is_survey_passed == 0 ||
+          x.is_selection_passed == 0
+        ) {
+          this.selectedBeasiswa.tidak_lulus.push(x);
+        } else {
+          this.selectedBeasiswa.on_progress.push(x);
+        }
       });
     },
     parseDate: function(date) {
