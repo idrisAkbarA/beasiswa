@@ -4,8 +4,9 @@
 
 <script>
 
-import Loading from './Loading'
-import FrontPage from './FrontPage'
+import { mapState} from 'vuex';
+import Loading from './Loading';
+import FrontPage from './FrontPage';
 export default {
   components:{
     Loading,FrontPage
@@ -14,7 +15,7 @@ export default {
     if (!window.localStorage.getItem("user")) {
       this.$router.push("login");
     }
-    var base_url = "http://beasiswa.test/";
+    var base_url = this.url+"/";
     var check_url = "";
     var login_url = "";
     axios.get(base_url + "sanctum/csrf-cookie").then(response => {
@@ -45,6 +46,9 @@ export default {
             });
         });
     });
+  },
+  computed:{
+    ...mapState(['url'])
   },
   data() {
     return {
