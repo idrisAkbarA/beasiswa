@@ -23,6 +23,7 @@ class Beasiswa extends Model
     ];
 
     protected $appends = [
+        'status',
         'berkas',
         'interview',
         'survey',
@@ -30,6 +31,10 @@ class Beasiswa extends Model
         'lulus'
     ];
 
+    public function setFieldsAttribute($value)
+    {
+        $this->attributes['fields'] = json_encode($value);
+    }
     public function getBerkasAttribute()
     {
         $petugas = Auth::guard('petugas')->user();
@@ -87,6 +92,18 @@ class Beasiswa extends Model
             ->where('is_selection_passed', 1);
     }
 
+    public function getStatusAttribute()
+    {
+        $status = 'On Progress';
+        // if ($this->isActive()) {
+        //     $status = 'Aktif';
+        // }
+        if ($this->deleted_at) {
+            $status = 'Selesai';
+        }
+        return $status;
+    }
+
     public static function active()
     {
         $today = Carbon::today();
@@ -97,11 +114,12 @@ class Beasiswa extends Model
         return $beasiswa;
     }
 
-    public function isActive(Beasiswa $beasiswa)
+    public function isActive()
     {
         $today = Carbon::today();
-
-        if ($beasiswa->awal_berkas <= $today && $today <= $beasiswa->akhir_berkas) {
+        $startDate = Carbon::createFromFormat('Y-m-d', $this->berkas_awal);
+        $endDate = Carbon::createFromFormat('Y-m-d', $this->berkas_akhir);
+        if ($today->between($startDate, $endDate)) {
             return true;
         }
         return false;
@@ -136,6 +154,7 @@ class Beasiswa extends Model
         ];
         $this->syarat = $syarat;
         if (in_array(false, $syarat)) {
+            //
         }
     }
 

@@ -16,7 +16,6 @@
       >
         <template v-slot:item.actions="{ item }">
           <v-btn
-            :disabled="isDisabled(item)"
             icon
             x-small=""
             class="mr-2"
@@ -100,7 +99,7 @@
               dense
               class="ml-1 mr-1"
             >
-              <v-col cols="8">
+              <v-col cols="4">
                 <v-combobox
                   color="white"
                   label="Instansi"
@@ -111,9 +110,6 @@
                   <template v-slot:item="{ index, item }">
                     {{item.name}}
                   </template>
-                  <!-- <template v-slot:selection="{ item,selected }">
-                  {{item.name}}
-                </template> -->
                 </v-combobox>
 
               </v-col>
@@ -123,6 +119,18 @@
                   type="number"
                   v-model="kuotaEdit"
                 ></v-text-field>
+              </v-col>
+              <v-col cols="4">
+                <v-select
+                  v-model="jenjangEdit"
+                  :items="[{i:0, v:'D3'}, {i:1, v:'S1'}, {i:2, v:'S2'}]"
+                  item-text="v"
+                  item-value="i"
+                  label="Jenjang"
+                  color="white"
+                  :disabled="isDisabled(dateBerkasEdit)"
+                >
+                </v-select>
               </v-col>
             </v-row>
             <v-row align="center">
@@ -248,6 +256,7 @@
                       <v-checkbox
                         label="IPK"
                         v-model="lainnya.ipk"
+                        :disabled="isDisabled(dateBerkasEdit)"
                       ></v-checkbox>
                     </v-col>
                     <v-col cols="6">
@@ -256,30 +265,15 @@
                         type="number"
                         ref="ipk"
                         v-model="lainnya.ipk"
-                        :disabled="!lainnya.ipk"
+                        :disabled="!lainnya.ipk || isDisabled(dateBerkasEdit)"
                       >
                       </v-text-field>
                     </v-col>
-                    <!-- <v-col cols="6">
-                      <v-checkbox
-                        label="SKS"
-                        v-model="checked.sks"
-                      ></v-checkbox>
-                    </v-col>
-                    <v-col cols="6">
-                      <v-text-field
-                        label="Jumlah SKS minimal"
-                        type="number"
-                        ref="sks"
-                        v-model="form.total_sks"
-                        :disabled="!checked.sks"
-                      >
-                      </v-text-field>
-                    </v-col> -->
                     <v-col cols="6">
                       <v-checkbox
                         label="Semester"
                         v-model="lainnya.semester"
+                        :disabled="isDisabled(dateBerkasEdit)"
                       ></v-checkbox>
                     </v-col>
                     <v-col cols="6">
@@ -288,42 +282,36 @@
                         type="text"
                         ref="semester"
                         v-model="lainnya.semester"
-                        :disabled="!lainnya.semester"
+                        :disabled="!lainnya.semester || isDisabled(dateBerkasEdit)"
                       >
                       </v-text-field>
-                      <small>berupa angka dipisah oleh koma, cth: 1,3</small>
+                      <small class="text-muted">berupa angka dipisah oleh koma, cth: 1,3</small>
                     </v-col>
                     <v-col cols="6">
                       <v-checkbox
                         label="UKT"
                         v-model="lainnya.ukt"
+                        :disabled="isDisabled(dateBerkasEdit)"
                       ></v-checkbox>
                     </v-col>
                     <v-col cols="6">
                       <v-text-field
-                        label="Batas UKT"
+                        label="Batas Gol. UKT"
                         type="number"
                         ref="ukt"
                         v-model="lainnya.ukt"
-                        :disabled="!lainnya.ukt"
+                        :disabled="!lainnya.ukt || isDisabled(dateBerkasEdit)"
                       >
                       </v-text-field>
-                      <small>berupa angka dipisah oleh koma, cth: 1,3</small>
                     </v-col>
                     <v-col cols="6">
                       <v-checkbox
                         label="Tidak menerima beasiswa lain"
                         v-model="lainnya.is_first"
+                        :disabled="isDisabled(dateBerkasEdit)"
                       ></v-checkbox>
                     </v-col>
                     <v-col cols="6">
-                      <!-- <v-text-field
-                        label="Jumlah SKS minimal"
-                        type="number"
-                        ref="sks"
-                        :disabled="!checked.sks"
-                      >
-                      </v-text-field> -->
                     </v-col>
                   </v-row>
                 </v-expansion-panel-content>
@@ -357,6 +345,7 @@
                       <v-text-field
                         color="white"
                         dense
+                        :disabled="isDisabled(dateBerkasEdit)"
                         label="Pertanyaan"
                         v-model="field.pertanyaan"
                       ></v-text-field>
@@ -368,6 +357,7 @@
                       <v-select
                         v-model="field.type"
                         dense
+                        :disabled="isDisabled(dateBerkasEdit)"
                         :items="itemTypes"
                         label="Tipe isian"
                         color="white"
@@ -380,6 +370,7 @@
                       <v-radio-group
                         v-if="field.type == 'Pilihan'"
                         column
+                        :disabled="isDisabled(dateBerkasEdit)"
                         :mandatory="field.pilihan.required"
                       >
 
@@ -388,6 +379,7 @@
                           <v-switch
                             v-model="field.pilihan.required"
                             color="white"
+                            :disabled="isDisabled(dateBerkasEdit)"
                           ></v-switch>
 
                         </v-row>
@@ -406,12 +398,14 @@
                                 dense
                                 filled
                                 label="Label"
+                                :disabled="isDisabled(dateBerkasEdit)"
                                 v-model="item.label"
                               ></v-text-field>
                               <v-btn
                                 class="ma-2"
                                 icon
                                 color="white"
+                                :disabled="isDisabled(dateBerkasEdit)"
                                 @click="deletePilihanItem(field,item.label)"
                               >
                                 <v-icon>mdi-close</v-icon>
@@ -424,6 +418,7 @@
                           fab
                           dark
                           small
+                          :disabled="isDisabled(dateBerkasEdit)"
                           @click="addPilihanItemEdit(field.index)"
                         >
                           <v-icon dark>
@@ -444,6 +439,7 @@
                             color="white"
                             hide-details
                             class="shrink mr-2 mt-0"
+                            :disabled="isDisabled(dateBerkasEdit)"
                             :value="item.label"
                           ></v-checkbox>
                           <v-text-field
@@ -451,6 +447,7 @@
                             dense
                             color="white"
                             filled
+                            :disabled="isDisabled(dateBerkasEdit)"
                             label="Nama File"
                           ></v-text-field>
                           <v-file-input
@@ -462,6 +459,7 @@
                             class="ma-2"
                             icon
                             color="white"
+                            :disabled="isDisabled(dateBerkasEdit)"
                             @click="deleteMultiUploadItemEdit(field,item.label)"
                           >
                             <v-icon>mdi-close</v-icon>
@@ -473,6 +471,7 @@
                             fab
                             dark
                             small
+                            :disabled="isDisabled(dateBerkasEdit)"
                             @click="addMultiUploadItemEdit(field.index)"
                           >
                             <v-icon dark>
@@ -491,6 +490,7 @@
                           <v-checkbox
                             color="white"
                             hide-details
+                            :disabled="isDisabled(dateBerkasEdit)"
                             class="shrink mr-2 mt-0"
                           ></v-checkbox>
                           <v-text-field
@@ -498,12 +498,14 @@
                             dense
                             color="white"
                             filled
+                            :disabled="isDisabled(dateBerkasEdit)"
                             label="Label"
                           ></v-text-field>
                           <v-btn
                             class="ma-2"
                             icon
                             color="white"
+                            :disabled="isDisabled(dateBerkasEdit)"
                             @click="deleteCheckboxesItemEdit(field,item.label)"
                           >
                             <v-icon>mdi-close</v-icon>
@@ -515,6 +517,7 @@
                             fab
                             dark
                             small
+                            :disabled="isDisabled(dateBerkasEdit)"
                             @click="addCheckboxesItemEdit(field.index)"
                           >
                             <v-icon dark>
@@ -578,6 +581,7 @@
                     <v-btn
                       icon
                       color="white"
+                      :disabled="isDisabled(dateBerkasEdit)"
                       @click="deleteFieldEdit(field)"
                     >
                       <v-icon>mdi-trash-can</v-icon>
@@ -585,6 +589,7 @@
                     <span class="ml-2 mr-1">Wajib diisi</span>
                     <v-switch
                       v-model="field.required"
+                      :disabled="isDisabled(dateBerkasEdit)"
                       color="white"
                     ></v-switch>
 
@@ -600,6 +605,7 @@
                 dark
                 small
                 color="green"
+                :disabled="isDisabled(dateBerkasEdit)"
                 @click="addFieldsEdit()"
               >
                 <v-icon dark>
@@ -671,7 +677,7 @@
               dense
               class="ml-1 mr-1"
             >
-              <v-col cols="8">
+              <v-col cols="4">
                 <v-combobox
                   color="white"
                   label="Instansi"
@@ -694,6 +700,17 @@
                   type="number"
                   v-model="kuota"
                 ></v-text-field>
+              </v-col>
+              <v-col cols="4">
+                <v-select
+                  v-model="jenjang"
+                  :items="[{i:0, v:'D3'}, {i:1, v:'S1'}, {i:2, v:'S2'}]"
+                  item-text="v"
+                  item-value="i"
+                  label="Jenjang"
+                  color="white"
+                >
+                </v-select>
               </v-col>
             </v-row>
             <v-row align="center">
@@ -832,22 +849,6 @@
                       >
                       </v-text-field>
                     </v-col>
-                    <!-- <v-col cols="6">
-                      <v-checkbox
-                        label="SKS"
-                        v-model="checked.sks"
-                      ></v-checkbox>
-                    </v-col>
-                    <v-col cols="6">
-                      <v-text-field
-                        label="Jumlah SKS minimal"
-                        type="number"
-                        ref="sks"
-                        v-model="form.total_sks"
-                        :disabled="!checked.sks"
-                      >
-                      </v-text-field>
-                    </v-col> -->
                     <v-col cols="6">
                       <v-checkbox
                         label="Semester"
@@ -872,15 +873,14 @@
                       ></v-checkbox>
                     </v-col>
                     <v-col cols="6">
-                      <v-text-field
-                        label="Batas UKT"
-                        type="number"
+                      <v-select
+                        label="Batas Gol.UKT"
+                        :items="[1,2,3,4,5,6,7]"
                         ref="ukt"
                         v-model="form.ukt"
                         :disabled="!checked.ukt"
                       >
-                      </v-text-field>
-                      <!-- <small>berupa angka dipisah oleh koma, cth: 1,3</small> -->
+                      </v-select>
                     </v-col>
                     <v-col cols="6">
                       <v-checkbox
@@ -889,13 +889,6 @@
                       ></v-checkbox>
                     </v-col>
                     <v-col cols="6">
-                      <!-- <v-text-field
-                        label="Jumlah SKS minimal"
-                        type="number"
-                        ref="sks"
-                        :disabled="!checked.sks"
-                      >
-                      </v-text-field> -->
                     </v-col>
                   </v-row>
                 </v-expansion-panel-content>
@@ -1249,6 +1242,7 @@ export default {
     edit(item) {
       this.idEdit = item.id;
       this.kuotaEdit = item.quota;
+      this.jenjangEdit = item.jenjang;
       this.namaEdit = item.nama;
       this.fieldsEdit = JSON.parse(item.fields);
       this.deskripsiEdit = item.deskripsi;
@@ -1259,7 +1253,6 @@ export default {
         ukt: item.ukt,
         is_first: item.is_first
       };
-      console.log("asdd" + this.valueEdit);
 
       this.instansi.forEach(element => {
         if (element.id == item.instansi_id) {
@@ -1327,11 +1320,12 @@ export default {
         id: this.idEdit,
         nama: this.namaEdit,
         deskripsi: this.deskripsiEdit,
-        kuota: this.kuotaEdit,
-        instansi: this.selected_instansiEdit.id,
+        quota: this.kuotaEdit,
+        instansi_id: this.selected_instansiEdit.id,
+        jenjang: this.jenjangEdit,
         fields: this.fieldsEdit,
         is_survey: this.is_surveyEdit,
-        is_wawancara: this.is_wawancaraEdit,
+        is_interview: this.is_wawancaraEdit,
         awal_wawancara,
         akhir_wawancara,
         awal_survey,
@@ -1358,11 +1352,11 @@ export default {
     compareType(a, b) {
       a == b ? true : false;
     },
-    isDisabled(item) {
-      var date = Date.parse(item.awal_berkas);
+    isDisabled(date) {
+      console.log(date);
+      var date = Date.parse(date[0]);
       var now = Date.now();
       var value = date >= now ? false : true;
-      console.log(value);
       return value;
     },
     save() {
@@ -1372,17 +1366,11 @@ export default {
       var akhir_survey = "";
       var awal_berkas = "";
       var akhir_berkas = "";
-      // if (typeof this.dateBerkas == "object") {
-      //   console.log("sama");
-      // }
       this.fields.forEach(element => {
         if (element.type == "Checkboxes") {
-          console.log("change me");
           element.value = [];
-          console.log(element.value);
         }
       });
-      // console.log(typeof this.dateBerkas);
       var today = new Date();
       var formatedToday =
         today.getFullYear() +
@@ -1410,24 +1398,23 @@ export default {
       var data = {
         nama: this.nama,
         deskripsi: this.deskripsi,
-        kuota: this.kuota,
-        instansi: this.selected_instansi.id,
+        quota: this.kuota,
+        instansi_id: this.selected_instansi.id,
+        jenjang: this.jenjang,
         fields: this.fields,
         is_survey: this.is_survey,
-        is_wawancara: this.is_wawancara,
+        is_interview: this.is_wawancara,
         awal_wawancara,
         akhir_wawancara,
         awal_survey,
         akhir_survey,
         awal_berkas,
         akhir_berkas,
-        // total_sks: this.form.total_sks,
         ipk: this.form.ipk ?? null,
         ukt: this.form.ukt ?? null,
         semester: this.form.semester ?? null,
         is_first: this.form.is_first ?? 0
       };
-      console.log(data);
       this.btnLoading = true;
       this.storeBeasiswa(data)
         .then(response => {
@@ -1512,7 +1499,11 @@ export default {
       this.fields[field_index - 1].pilihan.items.push({ label: "" });
     },
     addMultiUploadItem(field_index) {
-      this.fields[field_index - 1].multiUpload.items.push({ label: "", isSelected: false, value: null });
+      this.fields[field_index - 1].multiUpload.items.push({
+        label: "",
+        isSelected: false,
+        value: null
+      });
     },
     addCheckboxesItem(field_index) {
       this.fields[field_index - 1].checkboxes.items.push({ label: "" });
@@ -1524,7 +1515,11 @@ export default {
       this.fieldsEdit[field_index - 1].pilihan.items.push({ label: "" });
     },
     addMultiUploadItemEdit(field_index) {
-      this.fieldsEdit[field_index - 1].multiUpload.items.push({ label: "", isSelected: false, value: null });
+      this.fieldsEdit[field_index - 1].multiUpload.items.push({
+        label: "",
+        isSelected: false,
+        value: null
+      });
     },
     deletePilihanItemEdit(field, label) {
       var item = this.fieldsEdit[this.fieldsEdit.indexOf(field)].pilihan.items;
@@ -1601,6 +1596,7 @@ export default {
       namaEdit: "",
       deskripsiEdit: "",
       selected_instansiEdit: "",
+      jenjangEdit: "",
       fieldsEdit: {},
       isBerkasEdit: false,
       is_wawancaraEdit: false,
@@ -1615,6 +1611,7 @@ export default {
       nama: "",
       deskripsi: "",
       selected_instansi: "",
+      jenjang: "",
       fields: [
         {
           type: "Jawaban Pendek",
