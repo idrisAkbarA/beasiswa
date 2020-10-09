@@ -153,79 +153,218 @@
                 <v-col style="padding-bottom:0 !important;">
                   <p>{{field.pertanyaan}}</p>
                   <v-container v-if="field.type == 'Checkboxes'">
-                    <v-row
-                      align="center"
-                      v-for="(item,index) in field.checkboxes.items"
-                      :key="index"
-                    >
-                      <v-checkbox
-                        disabled
-                        v-model="field.value"
-                        :value="item.label"
-                        color="white"
-                        hide-details
-                        class="shrink mr-2 mt-0"
-                      ></v-checkbox>
-                      <span>
-                        {{item.label}}
-                      </span>
-                    </v-row>
+                    <v-row>
 
+                      <v-col cols="9">
+                        <v-row
+                          align="center"
+                          v-for="(item,index) in field.checkboxes.items"
+                          :key="index"
+                        >
+                          <v-checkbox
+                            disabled
+                            v-model="field.value"
+                            :value="item.label"
+                            color="white"
+                            hide-details
+                            class="shrink mr-2 mt-0"
+                          ></v-checkbox>
+                          <span>
+                            {{item.label}}
+                          </span>
+
+                        </v-row>
+                      </v-col>
+                      <v-col cols="3">
+                        <v-radio-group v-model="field.isLulus">
+                          <v-radio
+                            label="Lulus"
+                            value="radio-1"
+                          ></v-radio>
+                          <v-radio
+                            label="Tidak Lulus"
+                            value="radio-2"
+                          ></v-radio>
+                        </v-radio-group>
+
+                      </v-col>
+                    </v-row>
                   </v-container>
                   <v-container v-if="field.type == 'Multiple Upload'">
-                    <v-row
-                      align="center"
-                      v-for="(item,index) in field.multiUpload.items"
-                      :key="index"
-                      :value="item.label"
-                      no-gutters
-                    >
-                      <v-col cols="1">
-                        <v-checkbox
-                          v-model="item.isSelected"
-                          color="white"
-                          hide-details
-                          class="shrink mr-2 mt-0"
+                    <v-row>
+                      <v-col cols="9">
+                        <v-row
+                          align="center"
+                          v-for="(item,index) in field.multiUpload.items"
+                          :key="index"
                           :value="item.label"
-                          disabled
-                        ></v-checkbox>
+                          no-gutters
+                        >
+                          <v-col cols="1">
+                            <v-checkbox
+                              v-model="item.isSelected"
+                              color="white"
+                              hide-details
+                              class="shrink mr-2 mt-0"
+                              :value="item.label"
+                              disabled
+                            ></v-checkbox>
+
+                          </v-col>
+                          <v-col cols="6">
+                            <span>{{item.label}}</span>
+
+                          </v-col>
+                          <v-col cols="5">
+                            <v-btn
+                              v-if="item.file_name"
+                              small
+                              @click="link(item.file_name)"
+                            >lihat file</v-btn>
+                          </v-col>
+
+                        </v-row>
 
                       </v-col>
-                      <v-col cols="6">
-                        <span>{{item.label}}</span>
+                      <v-col cols="3">
+                        <v-radio-group v-model="field.isLulus">
+                          <v-radio
+                            label="Lulus"
+                            value="radio-1"
+                          ></v-radio>
+                          <v-radio
+                            label="Tidak Lulus"
+                            value="radio-2"
+                          ></v-radio>
+                        </v-radio-group>
 
                       </v-col>
-                      <v-col cols="5">
-                        <v-btn
-                          v-if="item.file_name"
-                          small
-                          @click="link(item.file_name)"
-                        >lihat file</v-btn>
-                      </v-col>
-
                     </v-row>
 
                   </v-container>
-                  <p v-if="field.type == 'Pilihan'"><span>
+                  <v-row v-if="field.type == 'Pilihan'">
+                    <v-col cols="9">
+                      <span>
+                        <v-icon>mdi-text-short</v-icon>{{field.value}}
+                      </span>
+                    </v-col>
+                    <v-col cols="3">
+                      <v-radio-group v-model="field.isLulus">
+                        <v-radio
+                          label="Lulus"
+                          value="radio-1"
+                        ></v-radio>
+                        <v-radio
+                          label="Tidak Lulus"
+                          value="radio-2"
+                        ></v-radio>
+                      </v-radio-group>
+
+                    </v-col>
+                  </v-row>
+                  <v-row v-if="field.type == 'Jawaban Pendek'">
+                    <v-col cols="9">
+                      <span>
+                        <v-icon>mdi-text-short</v-icon>{{field.value}}
+                      </span>
+                    </v-col>
+                    <v-col cols="3">
+                      <v-radio-group v-model="field.isLulus">
+                        <v-radio
+                          label="Lulus"
+                          value="radio-1"
+                        ></v-radio>
+                        <v-radio
+                          label="Tidak Lulus"
+                          value="radio-2"
+                        ></v-radio>
+                      </v-radio-group>
+
+                    </v-col>
+                  </v-row>
+                  <v-row v-if="field.type == 'Jawaban Angka'">
+                    <v-col cols="9">
+                      <span>
+                        <v-icon>mdi-text-short</v-icon>{{field.value}}
+                      </span>
+                    </v-col>
+                    <v-col cols="3">
+                      <v-radio-group v-model="field.isLulus">
+                        <v-radio
+                          label="Lulus"
+                          value="radio-1"
+                        ></v-radio>
+                        <v-radio
+                          label="Tidak Lulus"
+                          value="radio-2"
+                        ></v-radio>
+                      </v-radio-group>
+
+                    </v-col>
+                  </v-row>
+                  <v-row v-if="field.type == 'Tanggal'">
+                    <v-col>
+                      <span>
+                        <v-icon>mdi-text-short</v-icon>{{field.value}}
+                      </span>
+                    </v-col>
+                    <v-col cols="3">
+                      <v-radio-group v-model="field.isLulus">
+                        <v-radio
+                          label="Lulus"
+                          value="radio-1"
+                        ></v-radio>
+                        <v-radio
+                          label="Tidak Lulus"
+                          value="radio-2"
+                        ></v-radio>
+                      </v-radio-group>
+                    </v-col>
+                  </v-row>
+                  <v-row v-if="field.type == 'Upload File'">
+                    <v-col cols="9">
+                      <v-btn
+                        small
+                        @click="link(field.value)"
+                      >lihat file</v-btn>
+
+                    </v-col>
+                    <v-col cols="3">
+                      <v-radio-group v-model="field.isLulus">
+                        <v-radio
+                          label="Lulus"
+                          value="radio-1"
+                        ></v-radio>
+                        <v-radio
+                          label="Tidak Lulus"
+                          value="radio-2"
+                        ></v-radio>
+                      </v-radio-group>
+                    </v-col>
+                  </v-row>
+                  <v-row v-if="field.type == 'Paragraf'">
+                    <v-col cols="9">
+                    <span>
                       <v-icon>mdi-text-short</v-icon>{{field.value}}
-                    </span></p>
-                  <p v-if="field.type == 'Jawaban Pendek'"><span>
-                      <v-icon>mdi-text-short</v-icon>{{field.value}}
-                    </span></p>
-                  <p v-if="field.type == 'Jawaban Angka'"><span>
-                      <v-icon>mdi-text-short</v-icon>{{field.value}}
-                    </span></p>
-                  <p v-if="field.type == 'Tanggal'"><span>
-                      <v-icon>mdi-text-short</v-icon>{{field.value}}
-                    </span></p>
-                  <v-btn
-                    v-if="field.type == 'Upload File'"
-                    small
-                    @click="link(field.value)"
-                  >lihat file</v-btn>
-                  <p v-if="field.type == 'Paragraf'"><span>
-                      <v-icon>mdi-text-short</v-icon>{{field.value}}
-                    </span></p>
+                    </span>
+
+                    </v-col>
+                    <v-col cols="3">
+                       <v-radio-group
+                      v-model="field.isLulus"
+                      >
+                        <v-radio
+                          label="Lulus"
+                          value="radio-1"
+                        ></v-radio>
+                        <v-radio
+                          label="Tidak Lulus"
+                          value="radio-2"
+                        ></v-radio>
+                      </v-radio-group>
+
+                    </v-col>
+                  </v-row>
                 </v-col>
                 <v-col cols="12">
                   <v-divider></v-divider>
@@ -268,7 +407,8 @@
         <v-card-actions>
           <v-btn
             light
-            color="grey"
+            color="#2E7D32"
+            :disabled="btnTidakLulus"
             @click="dialogDelete = { show : true, value : false}"
           >
             <v-icon>close</v-icon> Tidak Lulus
@@ -388,7 +528,9 @@ export default {
     }
   },
   watch: {
-    //
+    beasiswa: function(val){
+      console.log(val)
+    }
   },
   computed: {
     ...mapState(["beasiswa", "url"]),
@@ -413,6 +555,8 @@ export default {
   },
   data() {
     return {
+      btnTidakLulus: false,
+      // btnTidakLulus: false,
       index: 0,
       searchQuery: "",
       btnLoading: false,
