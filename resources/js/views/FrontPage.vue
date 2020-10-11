@@ -160,9 +160,9 @@
                     <br><br>
                     Batas upload berkas <span v-if="beasiswaSingle.awal_berkas"><strong>{{parseDate(beasiswaSingle.awal_berkas)}}</strong> sampai </span> <strong> {{parseDate(beasiswaSingle.akhir_berkas)}}</strong>
                     <br>
-                    <span v-if="beasiswaSingle.is_interview">Waktu wawancara <span v-if="beasiswaSingle.awal_interview"><strong>{{parseDate(beasiswaSingle.awal_interview)}} </strong>sampai </span> <strong>{{parseDate(beasiswaSingle.akhir_interview)}}</strong> </span>
+                    <span v-if="beasiswaSingle.is_interview">Waktu wawancara <span v-if="beasiswaSingle.awal_interview"><strong>{{parseDate(beasiswaSingle.awal_interview)}} </strong></span> <span v-if="beasiswaSingle.akhir_interview"> sampai <strong>{{parseDate(beasiswaSingle.akhir_interview)}}</strong></span>  </span>
                     <br>
-                    <span v-if="beasiswaSingle.is_survey">Waktu survey <span v-if="beasiswaSingle.awal_survey"><strong>{{parseDate(beasiswaSingle.awal_interview)}}</strong> sampai </span> <strong>{{parseDate(beasiswaSingle.akhir_interview)}} </strong> </span>
+                    <span v-if="beasiswaSingle.is_survey">Waktu survey <span v-if="beasiswaSingle.awal_survey"><strong>{{parseDate(beasiswaSingle.awal_survey)}}</strong> </span> <span v-if="beasiswaSingle.akhir_survey">sampai <strong>{{parseDate(beasiswaSingle.akhir_survey)}} </strong>  </span> </span>
                   </v-container>
 
                   <v-divider></v-divider>

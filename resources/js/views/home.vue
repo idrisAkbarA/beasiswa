@@ -12,9 +12,9 @@ export default {
     Loading,FrontPage
   },
   created() {
-    if (!window.localStorage.getItem("user")) {
-      this.$router.push("login");
-    }
+    // if (!window.localStorage.getItem("user")) {
+    //   this.$router.push("login");
+    // }
     var base_url = this.url+"/";
     var check_url = "";
     var login_url = "";

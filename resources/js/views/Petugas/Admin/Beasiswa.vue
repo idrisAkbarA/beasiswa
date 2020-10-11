@@ -52,7 +52,7 @@
         <v-card-title> <span>Edit Beasiswa</span>
           <v-spacer></v-spacer>
           <v-btn
-            @click="batal()"
+            @click="batalEdit()"
             text
           >batal</v-btn>
           <v-btn
@@ -1218,7 +1218,7 @@ export default {
   created() {
     this.getBeasiswa();
     this.getInstansi();
-    console.log(this.hariIni());
+    // console.log(this.hariIni());
   },
   methods: {
     ...mapMutations(["toggleOpenBeasiswa"]),
@@ -1326,8 +1326,8 @@ export default {
         fields: this.fieldsEdit,
         is_survey: this.is_surveyEdit,
         is_interview: this.is_wawancaraEdit,
-        awal_wawancara,
-        akhir_wawancara,
+        awal_interview: awal_wawancara,
+        akhir_interview: akhir_wawancara,
         awal_survey,
         akhir_survey,
         awal_berkas,
@@ -1353,7 +1353,7 @@ export default {
       a == b ? true : false;
     },
     isDisabled(date) {
-      console.log(date);
+      // console.log(date);
       var date = Date.parse(date[0]);
       var now = Date.now();
       var value = date >= now ? false : true;
@@ -1405,7 +1405,7 @@ export default {
         is_survey: this.is_survey,
         is_interview: this.is_wawancara,
         awal_wawancara,
-        akhir_wawancara,
+        akhir_interview: akhir_wawancara,
         awal_survey,
         akhir_survey,
         awal_berkas,
@@ -1416,6 +1416,7 @@ export default {
         is_first: this.form.is_first ?? 0
       };
       this.btnLoading = true;
+      console.log(data)
       this.storeBeasiswa(data)
         .then(response => {
           this.btnLoading = false;
@@ -1439,6 +1440,9 @@ export default {
     },
     batal() {
       this.toggleBeasiswa = false;
+    },
+    batalEdit() {
+      this.toggleEdit = false;
     },
     addFieldsEdit() {
       this.fieldsEdit.push({
