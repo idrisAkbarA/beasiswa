@@ -20,7 +20,10 @@ class authAPIController extends Controller
             'password' =>  $request["password"],
         ]);
         // from here we are going to store new data or update db
-
+        // return $response;
+        if($response['success'] == false) { 
+            return response()->json(["status" => "Not Authenticated"]);
+        }
         // update fakultas
         $value = $response["data"]["user"]["fakultas"];
         $fakultas = null;

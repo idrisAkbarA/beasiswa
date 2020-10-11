@@ -102,6 +102,7 @@ export default {
               });
           })
           .catch(error => {
+            this.error = "Terjadi kesalahan, cobalah dalam beberapa saat lagi.";
             this.loading = false;
             console.log(error);
           });
