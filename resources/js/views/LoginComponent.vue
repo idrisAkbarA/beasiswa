@@ -16,7 +16,7 @@
         color="white"
         v-model="pass"
         :type="show1 ? 'text' : 'password'"
-        @keyup.enter="login"
+        @keyup.enter="loginServer()"
         label="Password"
         @click:append="show1 = !show1"
         :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
