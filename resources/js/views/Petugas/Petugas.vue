@@ -128,9 +128,14 @@ export default {
           }
         })
         .then(response => {
+          this.$store.state.auth.isAuth = false;
+          console.log(this.$store.state.auth.isAuth);
+
           this.$router.push({ name: "Login Petugas" });
         })
         .catch(() => {
+          console.log(this.$store.state.auth.isAuth+" dar catch");
+          this.$store.state.auth.isAuth = false;
           this.$router.push({ path: "/login" });
         });
     }
@@ -177,42 +182,42 @@ export default {
         {
           icon: "mdi-view-dashboard",
           title: "Dashboard",
-          to: `/${petugas}/dashboard`
+          to: `/admin/${petugas}/dashboard`
         },
         {
           icon: "mdi-school",
           title: "Beasiswa",
-          to: `/${petugas}/beasiswa`
+          to: `/admin/${petugas}/beasiswa`
         },
         {
           icon: "mdi-clipboard-check-multiple",
           title: "Kelulusan",
-          to: `/${petugas}/kelulusan`
+          to: `/admin/${petugas}/kelulusan`
         },
         // {
         //   icon: "mdi-clipboard-check-multiple",
         //   title: "Cek Berkas Permohonan",
-        //   to: `/${petugas}/cek-berkas-permohonan`
+        //   to: `/admin/${petugas}/cek-berkas-permohonan`
         // },
         {
           icon: "mdi-account-details",
           title: "List Permohonan",
-          to: `/${petugas}/permohonan`
+          to: `/admin/${petugas}/permohonan`
         },
         {
           icon: "mdi-account-group",
           title: "Petugas",
-          to: `/${petugas}/petugas`
+          to: `/admin/${petugas}/petugas`
         },
         {
           icon: "mdi-office-building",
           title: "Instansi",
-          to: `/${petugas}/instansi`
+          to: `/admin/${petugas}/instansi`
         },
         {
           icon: "mdi-account-supervisor-circle",
           title: "Mahasiswa",
-          to: `/${petugas}/mahasiswa`
+          to: `/admin/${petugas}/mahasiswa`
         }
       ];
     }

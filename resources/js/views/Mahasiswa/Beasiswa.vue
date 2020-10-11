@@ -79,7 +79,7 @@
             </tr>
             <tr v-if="beasiswaSingle.ukt">
               <td>
-                <span v-if="beasiswaSingle.ukt">Maksimal UKT Gol.{{beasiswaSingle.ukt}}</span>
+                <span v-if="beasiswaSingle.ukt">Golongan UKT {{beasiswaSingle.ukt}} kebawah</span>
               </td>
             </tr>
           </table>

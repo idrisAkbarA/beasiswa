@@ -60,6 +60,9 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 export default {
+  computed:{
+    ...mapState(['auth','url'])
+  },
   data() {
     return {
       show1: false,
@@ -84,9 +87,11 @@ export default {
             window.localStorage.setItem("user", response.data.role);
             console.log(response.data);
             if (response.data.status == "Authenticated") {
+            this.$store.state.auth.role = response.data.user.role;
+            this.$store.state.auth.isAuth = true;
               if (response.data.user.role == 1) {
                 this.$router.push({
-                  path: `/${response.data.user.name}/dashboard`
+                  path: `admin/${response.data.user.name}/dashboard`
                 });
               } else if (response.data.user.role == 2) {
                 console.log("interviewer");
@@ -123,6 +128,7 @@ export default {
   },
   created() {
     console.log(this.url)
+    console.log(this.$store.state.auth.isAuth);
     axios.get("/sanctum/csrf-cookie").then(response => {
       // console.log(response)
 
