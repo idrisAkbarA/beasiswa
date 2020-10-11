@@ -116,153 +116,172 @@
         class="pa-5 "
       >
         <h3>Form Pendaftaran</h3>
-        <v-row
-          class="ma-5"
-          v-for="(field,index) in fields"
-          :key="index"
+        <v-form
+          v-model="validation"
+          lazy-validation
         >
 
-          <v-col style="padding-bottom:0 !important;">
-            <p>{{field.pertanyaan}}</p>
-            <v-container v-if="field.type == 'Checkboxes'">
-              <v-row
-                align="center"
-                v-for="(item,index) in field.checkboxes.items"
-                :key="index"
-              >
-                <v-checkbox
-                  v-model="field.value"
-                  :value="item.label"
-                  color="white"
-                  hide-details
-                  class="shrink mr-2 mt-0"
-                ></v-checkbox>
+          <v-row
+            class="ma-5"
+            v-for="(field,index) in fields"
+            :key="index"
+          >
 
-                <span>{{item.label}}</span>
-              </v-row>
-
-            </v-container>
-            <v-radio-group
-              v-if="field.type == 'Pilihan'"
-              column
-              :mandatory="field.pilihan.required"
-              v-model="field.value"
-            >
-              <v-radio
-                v-for="(item,index) in field.pilihan.items"
-                :key="index"
-                :value="item.label"
-                color="white"
-                :label="item.label"
-              >
-              </v-radio>
-            </v-radio-group>
-            <v-container v-if="field.type == 'Multiple Upload'">
-              <v-row
-                align="center"
-                v-for="(item,index) in field.multiUpload.items"
-                :key="index"
-                :value="item.label"
-                no-gutters
-              >
-                <v-col cols="1">
+            <v-col style="padding-bottom:0 !important;">
+              <p><span v-if="field.required">*</span>{{field.pertanyaan}}</p>
+              <v-container v-if="field.type == 'Checkboxes'">
+                <v-row
+                  align="center"
+                  v-for="(item,index) in field.checkboxes.items"
+                  :key="index"
+                >
                   <v-checkbox
-                    v-model="item.isSelected"
+                    v-model="field.value"
+                    :value="item.label"
                     color="white"
                     hide-details
                     class="shrink mr-2 mt-0"
-                    :value="item.label"
                   ></v-checkbox>
 
-                </v-col>
-                <v-col cols="6">
                   <span>{{item.label}}</span>
+                </v-row>
 
-                </v-col>
-                <v-col cols="5">
-
-                  <v-file-input
-                    v-model="item.value"
-                    :disabled="!item.isSelected"
-                    filled
-                    :label="'Upload '+item.label"
-                  ></v-file-input>
-                </v-col>
-
-              </v-row>
-
-            </v-container>
-            <v-text-field
-              prepend-icon="mdi-text-short"
-              v-if="field.type == 'Jawaban Pendek'"
-              dense
-              color="white"
-              v-model="field.value"
-              placeholder="Jawaban Anda"
-            ></v-text-field>
-            <v-text-field
-              prepend-icon="mdi-numeric"
-              v-if="field.type == 'Jawaban Angka'"
-              dense
-              v-model="field.value"
-              color="white"
-              type="number"
-              placeholder="Jawaban Anda"
-            ></v-text-field>
-            <v-menu
-              v-if="field.type == 'Tanggal'"
-              v-model="field.date"
-              :close-on-content-click="false"
-              :nudge-right="40"
-              transition="scale-transition"
-              offset-y
-              min-width="290px"
-            >
-              <template v-slot:activator="{ on, attrs }">
-                <v-text-field
-                  v-model="field.value"
-                  label="Tanggal"
-                  prepend-icon="mdi-calendar"
-                  readonly
-                  v-bind="attrs"
-                  color="white"
-                  v-on="on"
-                ></v-text-field>
-              </template>
-              <v-date-picker
+              </v-container>
+              <v-radio-group
+                v-if="field.type == 'Pilihan'"
+                column
+                :mandatory="field.pilihan.required"
                 v-model="field.value"
-                @input="menu2 = false"
-              ></v-date-picker>
-            </v-menu>
-            <v-file-input
-              v-if="field.type == 'Upload File'"
-              dense
-              v-model="field.value"
-              color="white"
-              placeholder="Upload File"
-            ></v-file-input>
-            <v-textarea
-              v-model="field.value"
-              prepend-icon="mdi-view-headline"
-              v-if="field.type == 'Paragraf'"
-              color="white"
-              rows="1"
-              dense
-              label="Paragraf"
-            ></v-textarea>
-          </v-col>
-          <v-col cols="12">
-            <v-divider></v-divider>
-          </v-col>
-        </v-row>
+                :rules="isRequired(field.required)"
+              >
+                <v-radio
+                  v-for="(item,index) in field.pilihan.items"
+                  :key="index"
+                  :value="item.label"
+                  color="white"
+                  :label="item.label"
+                >
+                </v-radio>
+              </v-radio-group>
+              <v-container v-if="field.type == 'Multiple Upload'">
+                <v-row
+                  align="center"
+                  v-for="(item,index) in field.multiUpload.items"
+                  :key="index"
+                  :value="item.label"
+                  no-gutters
+                >
+                  <v-col cols="1">
+                    <v-checkbox
+                      v-model="item.isSelected"
+                      color="white"
+                      hide-details
+                      class="shrink mr-2 mt-0"
+                      :value="item.label"
+                    ></v-checkbox>
+
+                  </v-col>
+                  <v-col cols="6">
+                    <span>{{item.label}}</span>
+
+                  </v-col>
+                  <v-col cols="5">
+
+                    <v-file-input
+                      v-model="item.value"
+                      :disabled="!item.isSelected"
+                      filled
+                      :label="'Upload '+item.label"
+                    ></v-file-input>
+                  </v-col>
+
+                </v-row>
+
+              </v-container>
+              <v-text-field
+                prepend-icon="mdi-text-short"
+                v-if="field.type == 'Jawaban Pendek'"
+                dense
+                color="white"
+                v-model="field.value"
+                placeholder="Jawaban Anda"
+                :rules="isRequired(field.required)"
+                :required="field.required"
+              ></v-text-field>
+              <v-text-field
+                :rules="isRequired(field.required)"
+                prepend-icon="mdi-numeric"
+                v-if="field.type == 'Jawaban Angka'"
+                dense
+                v-model="field.value"
+                color="white"
+                type="number"
+                placeholder="Jawaban Anda"
+              ></v-text-field>
+              <v-menu
+                v-if="field.type == 'Tanggal'"
+                v-model="field.date"
+                :close-on-content-click="false"
+                :nudge-right="40"
+                transition="scale-transition"
+                offset-y
+                min-width="290px"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    v-model="field.value"
+                    label="Tanggal"
+                    prepend-icon="mdi-calendar"
+                    readonly
+                    v-bind="attrs"
+                    color="white"
+                    v-on="on"
+                    :rules="isRequired(field.required)"
+                    :clearable="!field.required"
+                  ></v-text-field>
+                </template>
+                <v-date-picker
+                  v-model="field.value"
+                  @input="menu2 = false"
+                ></v-date-picker>
+              </v-menu>
+              <v-file-input
+                v-if="field.type == 'Upload File'"
+                dense
+                v-model="field.value"
+                :rules="isRequired(field.required)"
+                color="white"
+                placeholder="Upload File"
+              ></v-file-input>
+              <v-textarea
+                :rules="isRequired(field.required)"
+                v-model="field.value"
+                prepend-icon="mdi-view-headline"
+                v-if="field.type == 'Paragraf'"
+                color="white"
+                rows="1"
+                dense
+                label="Paragraf"
+              ></v-textarea>
+            </v-col>
+            <v-col cols="12">
+              <v-divider></v-divider>
+            </v-col>
+          </v-row>
+        </v-form>
         <v-row>
           <v-col>
             <v-btn
-              :disabled="overlay.show"
+              :disabled="isDisabled"
               :loading="loadingBtn"
               @click="save()"
               color="#2E7D32"
             >Daftar</v-btn>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <span class="caption">Field dengan tanda * wajib diisi</span>
           </v-col>
         </v-row>
       </v-sheet>
@@ -300,6 +319,7 @@ export default {
             this.overlay.message =
               "Anda telah mendaftar pada beasiswa ini sebelumnya, lihat status permohonan";
             this.overlay.show = true;
+            this.isDisabled = true;
           }
         });
       });
@@ -332,6 +352,13 @@ export default {
         onUploadProgress: function(progressEvent) {},
         data
       });
+    },
+    isRequired(bool) {
+      if (bool) {
+        return this.rule;
+      } else {
+        return [];
+      }
     },
     async save() {
       this.loadingBtn = true;
@@ -389,10 +416,11 @@ export default {
             data.append("file", tempMulti.value);
             data.append("id", 0);
             await this.upload(data, this.url).then(response => {
-              tempMulti['file_name'] =response.data.file_name;
+              tempMulti["file_name"] = response.data.file_name;
               // console.log(tempMulti)
               // console.log(finalForm[tempMulti.index])
-              finalForm[element.index].multiUpload.items[j]['file_name'] =  response.data.file_name
+              finalForm[element.index].multiUpload.items[j]["file_name"] =
+                response.data.file_name;
             });
           }
         }
@@ -409,6 +437,7 @@ export default {
             "Permohonan beasiswa berhasil dikirim, lihat status permohonan beasiswa";
           this.overlay.show = true;
           this.loadingBtn = false;
+          this.isDisabled = true;
         })
         .catch(error => {
           console.log(error);
@@ -418,8 +447,17 @@ export default {
   computed: {
     ...mapState(["beasiswaSingle", "nim", "url"])
   },
+  watch: {
+    validation(v) {
+      console.log(v);
+      v ? (this.isDisabled = false) : (this.isDisabled = true);
+    }
+  },
   data() {
     return {
+      rule: [v => !!v || "Field ini wajib diisi"],
+      validation: true,
+      isDisabled: false,
       loadingBtn: false,
       //   msg: "",
       //   isAlreadyHas: false,

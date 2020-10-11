@@ -1583,7 +1583,8 @@ export default {
       ops: {
         scrollPanel: {
           easing: "easeInQuad",
-          speed: 800
+          speed: 800,
+          scrollingX: false
         },
         vuescroll: {
           wheelScrollDuration: 0,
