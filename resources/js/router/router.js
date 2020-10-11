@@ -215,6 +215,25 @@ const routes = [
     {
         path: "/mahasiswa/",
         component: Mahasiswa,
+        async beforeEnter(to, from, next) {
+            if (from.name == null) {
+                await axios
+                    .get("/api/user/mahasiswa")
+                    .then(response => {
+                        console.log(response.data);
+                        next();
+                    })
+                    .catch(error => {
+                        console.log("---------")
+                        console.log(error);
+                        console.log("---------")
+                        next({ name: "Landing Page" });
+                    });
+            } else{
+                next();
+            }
+
+        },
         children: [
             {
                 name: "List Beasiswa",

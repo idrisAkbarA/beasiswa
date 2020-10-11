@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::middleware('auth:petugas')->get('/user/petugas', 'AuthAPIController@retrieveUserPetugas');
-Route::middleware('auth:mahasiswa')->get('/user', 'AuthAPIController@retrieveUserMhs');
+Route::middleware('auth:mahasiswa')->get('/user/mahasiswa', 'AuthAPIController@retrieveUserMhs');
 
 Route::get('/check', 'AuthAPIController@check');
 

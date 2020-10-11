@@ -89,7 +89,7 @@ class authAPIController extends Controller
 
     public function retrieveUserMhs()
     {
-        return 'asd';
+        // return 'asd';
         return response()->json(Auth::guard("mahasiswa")->user());
     }
     public function retrieveUserPetugas()

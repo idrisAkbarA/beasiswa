@@ -84,6 +84,7 @@ export default {
   mounted() {},
   created() {
     this.getBeasiswaActive();
+
   },
   computed: {
     ...mapState(["beasiswa", "url"])
