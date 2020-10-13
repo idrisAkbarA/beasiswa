@@ -96,12 +96,20 @@ class Beasiswa extends Model
 
     public function getStatusAttribute()
     {
-        $status = 'On Progress';
-        // if ($this->isActive()) {
-        //     $status = 'Aktif';
-        // }
+        $today = Carbon::today()->format('Y-m-d');
+        $status = 'Tahap Akhir';
         if ($this->deleted_at) {
             $status = 'Selesai';
+        } else {
+            if ($this->is_survey && ($today <= $this->akhir_survey)) {
+                $status = 'Tahap Survey';
+            }
+            if ($this->is_interview && ($today <= $this->akhir_interview)) {
+                $status = 'Tahap Interview';
+            }
+            if ($today <= $this->akhir_berkas) {
+                $status = 'Tahap Berkas';
+            }
         }
         return $status;
     }
