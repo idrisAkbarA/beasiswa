@@ -275,6 +275,7 @@ export default {
       this.selectedBeasiswa.on_progress = [];
       item.permohonan.forEach(x => {
         if (
+          (x.is_selection_passed == null && item.deleted_at != null) ||
           x.is_berkas_passed == 0 ||
           x.is_interview_passed == 0 ||
           x.is_survey_passed == 0 ||
@@ -365,15 +366,6 @@ export default {
     getUserPermohonan(item) {
       console.log(item);
       this.dialogMHS = true;
-      // axios
-      //   .get("/api/pemohon/cek-isHas-admin", {
-      //     params: {
-      //       nim: item.mhs_id
-      //     }
-      //   })
-      //   .then(response => {
-      //     console.log(response.data);
-      //   });
       this.permohonans = item;
       this.permohonans["beasiswa"] = this.selectedBeasiswa;
       this.addTimeline();

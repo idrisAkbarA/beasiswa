@@ -55,20 +55,14 @@ class BeasiswaController extends Controller
     }
     public function delete(Request $request, $id)
     {
-        $Beasiswa = Beasiswa::find($id);
-        $Beasiswa->delete();
+        $beasiswa = Beasiswa::find($id);
+        $beasiswa->delete();
         return response()->json(['status' => "Success: Beasiswa Deleted"]);
     }
     public function selesai()
     {
-        // $beasiswaSelesai = Beasiswa::with('instansi')->onlyTrashed()->get();
-        // $beasiswaSelesai->makeVisible(['berkas', 'interview', 'survey', 'selection', 'lulus', 'permohonan']);
         $beasiswaOnProgress = Beasiswa::onProgress();
         $beasiswaOnProgress->makeVisible(['berkas', 'interview', 'survey', 'selection', 'lulus', 'permohonan']);
-        // $temp = [];
-        // foreach ($beasiswaOnProgress as $row) {
-        //     array_push($temp, $row);
-        // }
         $data = [
             'selesai' => $beasiswaOnProgress,
         ];

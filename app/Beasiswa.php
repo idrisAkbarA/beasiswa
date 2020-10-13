@@ -117,7 +117,8 @@ class Beasiswa extends Model
     public static function onProgress()
     {
         $today = Carbon::today();
-        $beasiswa =  self::whereDate('awal_berkas', '<=', $today)
+        $beasiswa =  self::withTrashed()
+            ->whereDate('awal_berkas', '<=', $today)
             ->with('instansi')
             ->get();
         return $beasiswa;
