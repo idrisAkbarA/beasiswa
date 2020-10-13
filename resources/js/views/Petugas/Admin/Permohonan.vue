@@ -183,7 +183,7 @@
       </v-card>
     </v-dialog>
     <v-dialog
-    scrollable
+      scrollable
       width="500"
       overlay-color="green"
       v-model="dialogMHS"
@@ -193,7 +193,10 @@
           Detail Permohonan
         </v-card-title>
         <v-card-text>
-          <v-col cols="12" v-if="permohonans">
+          <v-col
+            cols="12"
+            v-if="permohonans"
+          >
             <v-timeline
               dense
               v-if="isShowTimeline(permohonans)"
@@ -216,7 +219,7 @@
                       xl="4"
                     >{{
                         time.awal_tgl && time.akhir_tgl?
-                        parseDate(time.awal_tgl)  + " - " + parseDate(time.akhir_tgl) 
+                        parseDate(time.awal_tgl)  + " - " + parseDate(time.akhir_tgl)
                         : "-"
                         }}</v-col>
                     <v-col
@@ -233,7 +236,10 @@
               </v-slide-x-reverse-transition>
             </v-timeline>
           </v-col>
-          <v-col cols="12" v-if="permohonans">
+          <v-col
+            cols="12"
+            v-if="permohonans"
+          >
             <span>Keterangan</span>
             <br>
             <p>
@@ -263,7 +269,6 @@ export default {
     },
     info(item) {
       this.selectedBeasiswa = item;
-      console.log(item)
       this.dialog = true;
       this.lulus = item.lulus;
       this.selectedBeasiswa.tidak_lulus = [];
@@ -276,7 +281,7 @@ export default {
           x.is_selection_passed == 0
         ) {
           this.selectedBeasiswa.tidak_lulus.push(x);
-        } else {
+        } else if (x.is_selection_passed == null) {
           this.selectedBeasiswa.on_progress.push(x);
         }
       });
@@ -358,8 +363,8 @@ export default {
       return this.$moment(date, "YYYY-MM-DD").format("Do MMMM YYYY");
     },
     getUserPermohonan(item) {
-      console.log(item)
-      this.dialogMHS = true
+      console.log(item);
+      this.dialogMHS = true;
       // axios
       //   .get("/api/pemohon/cek-isHas-admin", {
       //     params: {
@@ -369,73 +374,74 @@ export default {
       //   .then(response => {
       //     console.log(response.data);
       //   });
-          this.permohonans = item;
-          this.permohonans['beasiswa']= this.selectedBeasiswa;
-          this.addTimeline();
-
+      this.permohonans = item;
+      this.permohonans["beasiswa"] = this.selectedBeasiswa;
+      this.addTimeline();
     },
     addTimeline() {
-      console.log(this.permohonans)
+      console.log(this.permohonans);
       var timeline = [];
-     
-        timeline.push({
-          kegiatan: "Pengisian Berkas",
-          awal_tgl: this.permohonans.beasiswa.awal_berkas,
-          akhir_tgl: this.permohonans.beasiswa.akhir_berkas,
-          msg: "Pengisian berkas",
-          is_done: true
-        });
-        if (this.permohonans.beasiswa.is_interview == 1) {
-          var is_done = false;
-          if (this.permohonans.is_interview_passed == 1) {
-            is_done = true;
-          }
-          timeline.push({
-            kegiatan: "Wawancara",
-            awal_tgl: this.permohonans.beasiswa.awal_interview,
-            akhir_tgl: this.permohonans.beasiswa.akhir_interview,
-            is_done,
-            msg: `Lakukan wawancara pada tanggal 
-            ${
-              this.permohonans.beasiswa.awal_interview
-                ? this.parseDate(this.permohonans.beasiswa.awal_interview) + " sampai "
-                : ""
-            }  ${this.parseDate(this.permohonans.beasiswa.akhir_interview)}`
-          });
-        }
-        if (this.permohonans.beasiswa.is_survey == 1) {
-          var is_done = false;
-          if (this.permohonans.is_survey_passed == 1) {
-            is_done = true;
-          }
-          timeline.push({
-            kegiatan: "Wawancara",
-            awal_tgl: this.permohonans.beasiswa.awal_survey,
-            akhir_tgl: this.permohonans.beasiswa.akhir_survey,
-            is_done,
-            msg: `Team survey akan melakukan survey pada  
-            ${
-              this.permohonans.beasiswa.awal_survey
-                ? this.parseDate(this.permohonans.beasiswa.awal_survey) + " sampai "
-                : ""
-            }  ${this.parseDate(
-              this.permohonans.beasiswa.akhir_survey
-            )}, harap menunggu.`
-          });
-        }
+
+      timeline.push({
+        kegiatan: "Pengisian Berkas",
+        awal_tgl: this.permohonans.beasiswa.awal_berkas,
+        akhir_tgl: this.permohonans.beasiswa.akhir_berkas,
+        msg: "Pengisian berkas",
+        is_done: true
+      });
+      if (this.permohonans.beasiswa.is_interview == 1) {
         var is_done = false;
-        if (this.permohonans.is_selection_passed) {
+        if (this.permohonans.is_interview_passed == 1) {
           is_done = true;
         }
         timeline.push({
-          kegiatan: "Seleksi pimpinan",
-          awal_tgl: null,
-          akhir_tgl: null,
+          kegiatan: "Wawancara",
+          awal_tgl: this.permohonans.beasiswa.awal_interview,
+          akhir_tgl: this.permohonans.beasiswa.akhir_interview,
           is_done,
-          msg: "Harap menunggu hasil seleksi pimpinan."
+          msg: `Lakukan wawancara pada tanggal
+            ${
+              this.permohonans.beasiswa.awal_interview
+                ? this.parseDate(this.permohonans.beasiswa.awal_interview) +
+                  " sampai "
+                : ""
+            }  ${this.parseDate(this.permohonans.beasiswa.akhir_interview)}`
         });
-        this.permohonans["timeline"] = timeline;
-        timeline = [];
+      }
+      if (this.permohonans.beasiswa.is_survey == 1) {
+        var is_done = false;
+        if (this.permohonans.is_survey_passed == 1) {
+          is_done = true;
+        }
+        timeline.push({
+          kegiatan: "Wawancara",
+          awal_tgl: this.permohonans.beasiswa.awal_survey,
+          akhir_tgl: this.permohonans.beasiswa.akhir_survey,
+          is_done,
+          msg: `Team survey akan melakukan survey pada
+            ${
+              this.permohonans.beasiswa.awal_survey
+                ? this.parseDate(this.permohonans.beasiswa.awal_survey) +
+                  " sampai "
+                : ""
+            }  ${this.parseDate(
+            this.permohonans.beasiswa.akhir_survey
+          )}, harap menunggu.`
+        });
+      }
+      var is_done = false;
+      if (this.permohonans.is_selection_passed) {
+        is_done = true;
+      }
+      timeline.push({
+        kegiatan: "Seleksi pimpinan",
+        awal_tgl: null,
+        akhir_tgl: null,
+        is_done,
+        msg: "Harap menunggu hasil seleksi pimpinan."
+      });
+      this.permohonans["timeline"] = timeline;
+      timeline = [];
 
       console.log(this.permohonans);
     }
@@ -467,7 +473,7 @@ export default {
   data() {
     return {
       permohonans: null,
-      beasiswa:null,
+      beasiswa: null,
       item: null,
       dialogMHS: false,
       btnLoading: false,

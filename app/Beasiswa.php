@@ -76,7 +76,8 @@ class Beasiswa extends Model
             ->when($this->is_survey == 1, function ($q) {
                 return $q->where('is_survey_passed', 1);
             })
-            ->where('is_selection_passed', '!=', 1);
+            ->where('is_selection_passed', '!=', 1)
+            ->values();
     }
 
     public function getLulusAttribute()
@@ -89,7 +90,8 @@ class Beasiswa extends Model
             ->when($this->is_survey == 1, function ($q) {
                 return $q->where('is_survey_passed', 1);
             })
-            ->where('is_selection_passed', 1);
+            ->where('is_selection_passed', 1)
+            ->values();
     }
 
     public function getStatusAttribute()
@@ -102,6 +104,15 @@ class Beasiswa extends Model
             $status = 'Selesai';
         }
         return $status;
+    }
+
+    public static function onProgress()
+    {
+        $today = Carbon::today();
+        $beasiswa =  self::whereDate('awal_berkas', '<=', $today)
+            ->with('instansi')
+            ->get();
+        return $beasiswa;
     }
 
     public static function active()
