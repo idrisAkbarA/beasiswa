@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Beasiswa;
+use App\Instansi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -42,13 +43,39 @@ class BeasiswaController extends Controller
         $beasiswa->makeHidden(['berkas', 'interview', 'survey', 'selection', 'lulus']);
         return response()->json($beasiswa);
     }
+
+    public function responseProdi($input){
+        return 
+        [
+            'Kamu lalai sih',
+            'solusinya gada solusi'
+        ]
+        [random_int(0,1)];
+    }
+
     public function store(Request $request)
     {
+        // return $request;
+        $instansi = new Instansi;
+        if(!isset($request['data']['instansi_id'])){
+            $instansi->name = $request['data']['instansi'];
+            $instansi->save();
+            $request['data'] = array_merge($request['data'],['instansi_id' => $instansi->id]);
+            // return $request['data']['instansi_id'];
+        }
+        // return $request;
         $beasiswa = Beasiswa::create($request['data']);
         return response()->json(['status' => "Success: Beasiswa Added"]);
     }
     public function edit(Request $request, $id)
     {
+        $instansi = new Instansi;
+        if(!$request['instansi_id']){
+            $instansi->name = $request['instansi'];
+            $instansi->save();
+            $request['instansi_id'] = $instansi->id;
+            // return $request['data']['instansi_id'];
+        }
         $beasiswa = Beasiswa::find($id);
         // $Beasiswa->nama             = $request['nama'];
         // $Beasiswa->deskripsi        = $request['deskripsi'];

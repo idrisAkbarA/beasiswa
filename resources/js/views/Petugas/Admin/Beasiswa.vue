@@ -69,7 +69,6 @@
               v-model="validationEdit"
               lazy-validation
             >
-
               <v-row
                 dense
                 class="ml-1 mr-1"
@@ -115,6 +114,7 @@
                     :items="instansi"
                     :rules="rule"
                     item-text="name"
+                    @change="testSelectedInstansi()"
                     v-model="selected_instansiEdit"
                   >
                     <template v-slot:item="{ index, item }">
@@ -705,7 +705,10 @@
                     :rules="rule"
                     item-text="name"
                     v-model="selected_instansi"
+                    @change="testSelectedInstansiBuat()"
                   >
+                    <!-- @change="testSelectedInstansi(v)" -->
+                    <!-- @keyup="testSelectedInstansi()" -->
                     <template v-slot:item="{ index, item }">
                       {{item.name}}
                     </template>
@@ -1247,11 +1250,11 @@ export default {
   },
   watch: {
     validation(v) {
-      console.log(v);
+      // console.log(v);
       v ? (this.isSaveDisabled = false) : (this.isSaveDisabled = true);
     },
     validationEdit(v) {
-      console.log(v);
+      // console.log(v);
       v ? (this.isEditDisabled = false) : (this.isEditDisabled = true);
     }
   },
@@ -1325,6 +1328,14 @@ export default {
       this.is_surveyEdit = item.is_survey ? true : false;
       this.toggleEdit = true;
     },
+    testSelectedInstansiBuat(){
+      console.log(this.selected_instansiEdit)
+      // console.log(v)
+    },
+    testSelectedInstansi(){
+      console.log(this.selected_instansiEdit)
+      // console.log(v)
+    },
     async sendEdit() {
       await this.$refs.editForm.validate();
 
@@ -1360,6 +1371,7 @@ export default {
           deskripsi: this.deskripsiEdit,
           quota: this.kuotaEdit,
           instansi_id: this.selected_instansiEdit.id,
+          instansi: this.selected_instansiEdit,
           jenjang: this.jenjangEdit,
           fields: this.fieldsEdit,
           is_survey: this.is_surveyEdit,
@@ -1441,6 +1453,7 @@ export default {
           deskripsi: this.deskripsi,
           quota: this.kuota,
           instansi_id: this.selected_instansi.id,
+          instansi: this.selected_instansi,
           jenjang: this.jenjang,
           fields: this.fields,
           is_survey: this.is_survey,
@@ -1663,7 +1676,7 @@ export default {
       nama: "",
       deskripsi: "",
       selected_instansi: "",
-      jenjang: { i: 1, v: "S1" },
+      jenjang: 1,
       fields: [
         {
           type: "Jawaban Pendek",

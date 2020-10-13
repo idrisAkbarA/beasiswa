@@ -199,12 +199,12 @@ export default new Vuex.Store({
         },
         editBeasiswa({ commit, dispatch, state }, data) {
             return new Promise((resolve, reject) => {
-                console.log(data + "pante");
                 Axios.put(state.url + "/api/beasiswa/" + data.id, {
                     id: data.id,
                     nama: data.nama,
                     deskripsi: data.deskripsi,
                     kuota: data.kuota,
+                    instansi_id: data.instansi_id,
                     instansi: data.instansi,
                     fields: data.fields,
                     is_survey: data.is_survey,
@@ -222,6 +222,7 @@ export default new Vuex.Store({
                 })
                     .then(response => {
                         dispatch("getBeasiswa");
+                        dispatch("getInstansi");
                         resolve(response);
                     })
                     .catch(error => {
@@ -234,6 +235,7 @@ export default new Vuex.Store({
                 Axios.post(state.url + "/api/beasiswa", { data })
                     .then(response => {
                         dispatch("getBeasiswa");
+                        dispatch("getInstansi");
                         resolve(response);
                     })
                     .catch(error => {
