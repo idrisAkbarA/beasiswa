@@ -86,10 +86,20 @@
                     Lulus ({{undefined !== selectedBeasiswa.lulus ? selectedBeasiswa.lulus.length : 0}})
                   </v-chip>
                 </div>
+                <v-card-title>
+                  <v-text-field
+                    v-model="search.permohonan"
+                    append-icon="mdi-magnify"
+                    label="Search"
+                    single-line
+                    hide-details
+                  ></v-text-field>
+                </v-card-title>
                 <v-data-table
                   :headers="headers.pemohon"
                   :items="selectedBeasiswa[filter]"
                   :items-per-page="10"
+                  :search="search.permohonan"
                   @click:row="getUserPermohonan"
                   style="background-color: #2e7d323b"
                   class="elevation-10 mb-10"
@@ -158,24 +168,15 @@
             </v-tab-item>
             <v-tab-item>
               <v-col cols="12">
-                <!-- <p>Instansi : {{selectedBeasiswa.instansi}}</p> -->
-                <p>Batas pengumpulan berkas : {{parseDate(selectedBeasiswa.awal_berkas)}} - {{parseDate(selectedBeasiswa.akhir_berkas)}}</p>
-                <p v-if="selectedBeasiswa.is_interview">Waktu wawancara : {{parseDate(selectedBeasiswa.awal_interview)}} - {{parseDate(selectedBeasiswa.akhir_interview)}}</p>
-                <p v-if="selectedBeasiswa.is_survey">Waktu survey : {{parseDate(selectedBeasiswa.awal_survey)}} - {{parseDate(selectedBeasiswa.akhir_survey)}}</p>
-                <p>Kuota ({{Object.keys(lulus).length}}/{{selectedBeasiswa.quota}})
-                  <v-badge
-                    inline
-                    content=" Terpenuhi"
-                    v-if="Object.keys(lulus).length == selectedBeasiswa.quota"
-                  ></v-badge>
-                  <v-badge
-                    inline
-                    color="red"
-                    content=" Tdk Terpenuhi"
-                    v-if="Object.keys(lulus).length < this.selectedBeasiswa.quota"
-                  ></v-badge>
-                </p>
-                <p class="">{{selectedBeasiswa.deskripsi}}</p>
+                <v-data-table
+                  :headers="headers.detailBeasiswa"
+                  :items="detailBeasiswa"
+                  hide-default-header
+                  hide-default-footer
+                  class="elevation-1"
+                >
+                </v-data-table>
+                <p class="mt-3">{{selectedBeasiswa.deskripsi}}</p>
               </v-col>
             </v-tab-item>
           </v-tabs>
@@ -434,14 +435,38 @@ export default {
       });
       this.permohonans["timeline"] = timeline;
       timeline = [];
-
-      console.log(this.permohonans);
+    },
+    cekTahap(beasiswa, tahap) {
+      if (tahap == "berkas") {
+        return `${this.parseDate(beasiswa.awal_berkas)} - ${this.parseDate(
+          beasiswa.akhir_berkas
+        )}`;
+      } else if (beasiswa[`is_${tahap}`]) {
+        return `${this.parseDate(beasiswa[`awal_${tahap}`])} - ${this.parseDate(
+          beasiswa[`akhir_${tahap}`]
+        )}`;
+      } else {
+        return "-";
+      }
     }
   },
   watch: {
     filter: function(val) {
       if (val) {
         this.selectedBeasiswa;
+      }
+    },
+    selectedBeasiswa: function(val) {
+      if (val) {
+        this.detailBeasiswa = [
+          { judul: "Nama", isi: val.nama },
+          { judul: "Instansi", isi: val.instansi.name },
+          { judul: "Tahap Berkas", isi: this.cekTahap(val, "berkas") },
+          { judul: "Tahap Interview", isi: this.cekTahap(val, "interview") },
+          { judul: "Tahap Survey", isi: this.cekTahap(val, "survey") },
+          { judul: "Kuota", isi: `${val.lulus.length}/${val.quota}` },
+          { judul: "Status", isi: val.status }
+        ];
       }
     }
   },
@@ -476,7 +501,16 @@ export default {
       filter: "permohonan",
       tab: null,
       tabs: ["permohonan", "lulus"],
+      detailBeasiswa: {},
+      search: {
+        beasiswa: "",
+        permohonan: ""
+      },
       headers: {
+        detailBeasiswa: [
+          { text: "Judul", value: "judul" },
+          { text: "Isi", value: "isi" }
+        ],
         beasiswa: [
           {
             text: "Beasiswa",
