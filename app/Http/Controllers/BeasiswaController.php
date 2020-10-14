@@ -15,7 +15,7 @@ class BeasiswaController extends Controller
 {
     public function downloadReport(Request $request)
     {
-        $beasiswaCol;
+        $beasiswaCol = [];
         $whereFakultas = [];
         $whereTahap = [];
 
