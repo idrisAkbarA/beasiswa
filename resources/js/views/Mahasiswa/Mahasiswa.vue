@@ -13,7 +13,7 @@
       >
         <v-img
           max-width="70"
-          :src="'/images/logoUIN.png'"
+          :src="'/images/LogoUIN.png'"
         >
         </v-img>
         <v-card-text> Aplikasi Beasiswa UIN Suska Riau</v-card-text>
@@ -129,6 +129,7 @@ export default {
       this.$router.push({ name: "Permohonan Saya" });
     },
     logout() {
+      this.$store.state.auth.isAuth = false;
       axios
         .get("/api/logout", {
           params: {

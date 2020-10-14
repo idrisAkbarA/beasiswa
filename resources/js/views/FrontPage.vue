@@ -10,7 +10,7 @@
             size="100"
           >
             <img
-              :src="'/images/logoUIN.png'"
+              :src="'/images/LogoUIN.png'"
               alt="logo"
             >
           </v-avatar>
@@ -38,7 +38,7 @@
           >
             <v-avatar :tile="true">
               <img
-                :src="'/images/logoUIN.png'"
+                :src="'/images/LogoUIN.png'"
                 alt="logo"
               >
             </v-avatar>

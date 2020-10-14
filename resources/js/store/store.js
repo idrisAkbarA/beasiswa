@@ -1,9 +1,12 @@
 import Vue from "vue";
 import Vuex from "vuex";
+
 import Axios from "axios";
 import mhsModule from "./modules/mhsModule";
 var pack = require("../../../package.json");
 Vue.use(Vuex);
+Axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+Axios.defaults.withCredentials = true;
 
 export default new Vuex.Store({
     state: {
@@ -199,12 +202,12 @@ export default new Vuex.Store({
         },
         editBeasiswa({ commit, dispatch, state }, data) {
             return new Promise((resolve, reject) => {
-                console.log(data + "pante");
                 Axios.put(state.url + "/api/beasiswa/" + data.id, {
                     id: data.id,
                     nama: data.nama,
                     deskripsi: data.deskripsi,
                     kuota: data.kuota,
+                    instansi_id: data.instansi_id,
                     instansi: data.instansi,
                     fields: data.fields,
                     is_survey: data.is_survey,
@@ -222,6 +225,7 @@ export default new Vuex.Store({
                 })
                     .then(response => {
                         dispatch("getBeasiswa");
+                        dispatch("getInstansi");
                         resolve(response);
                     })
                     .catch(error => {
@@ -234,6 +238,7 @@ export default new Vuex.Store({
                 Axios.post(state.url + "/api/beasiswa", { data })
                     .then(response => {
                         dispatch("getBeasiswa");
+                        dispatch("getInstansi");
                         resolve(response);
                     })
                     .catch(error => {

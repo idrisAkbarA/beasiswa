@@ -223,7 +223,16 @@ const routes = [
                         console.log("---------")
                         next({ name: "Landing Page" });
                     });
-            } else {
+            } else if (
+                from.name == "Landing Page" &&
+                store.state.auth.isAuth != true
+            ) {
+                console.log("Op tidak bisa")
+                next(false);
+            } else if (
+                from.name == "Landing Page" &&
+                store.state.auth.isAuth == true
+            ) {
                 next();
             }
 

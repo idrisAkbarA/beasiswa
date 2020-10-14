@@ -40,11 +40,14 @@ class initInstansi extends Command
     public function handle()
     {
         $faker = Faker::create("id_ID");
-        for ($i=0; $i < 10 ; $i++) { 
-            $instansi = new Instansi;
-            $instansi->name = $faker->text($maxNbChars = 20);
-            $instansi->save();
-        }
+        // for ($i=0; $i < 10 ; $i++) { 
+        //     $instansi = new Instansi;
+        //     $instansi->name = $faker->text($maxNbChars = 20);
+        //     $instansi->save();
+        // }
+        $instansi = new Instansi;
+        $instansi->name ="UIN SUSKA RIAU";
+        $instansi->save();
 
         echo "\nInstansi Created\n";
     }
