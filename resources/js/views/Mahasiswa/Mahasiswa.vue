@@ -13,7 +13,7 @@
       >
         <v-img
           max-width="70"
-          :src="'/images/logoUIN.png'"
+          :src="'/images/LogoUIN.png'"
         >
         </v-img>
         <v-card-text> Aplikasi Beasiswa UIN Suska Riau</v-card-text>

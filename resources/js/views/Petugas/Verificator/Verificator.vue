@@ -12,7 +12,7 @@
       >
         <v-avatar :tile="true">
           <img
-            :src="'/images/logoUIN.png'"
+            :src="'/images/LogoUIN.png'"
             alt="logo"
           >
         </v-avatar>
