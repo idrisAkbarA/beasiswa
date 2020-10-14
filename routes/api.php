@@ -38,8 +38,8 @@ Route::middleware('auth:petugas')->put('/petugas/{id}', 'PetugasController@edit'
 Route::middleware('auth:petugas')->get('/petugas', 'PetugasController@getAll');
 Route::middleware('auth:petugas')->get('/petugas/{id}', 'PetugasController@get');
 Route::middleware('auth:petugas')->delete('/petugas/{id}', 'PetugasController@delete');
-Route::get('/beasiswa/no-auth', 'BeasiswaController@getAll');
 
+Route::get('/beasiswa/no-auth', 'BeasiswaController@getAll');
 Route::middleware('auth:petugas')->post('/beasiswa', 'BeasiswaController@store');
 Route::middleware('auth:petugas')->put('/beasiswa/{id}', 'BeasiswaController@edit');
 Route::get('/beasiswa/selection', 'BeasiswaController@selection');
@@ -63,6 +63,8 @@ Route::get('/fakultas', 'FakultasController@getAll');
 
 Route::get('/jurusan', 'JurusanController@getAll');
 
+Route::middleware('auth:petugas')->get('/permohonan/my-history', 'PemohonBeasiswaController@myHistory');
+Route::middleware('auth:petugas')->get('/permohonan/{petugas}/history', 'PemohonBeasiswaController@history');
 Route::get('/pemohon/count-beasiswa', 'BeasiswaController@countBeasiswa');
 Route::get('/pemohon/search', 'PemohonBeasiswaController@search');
 Route::get('/pemohon', 'PemohonBeasiswaController@getAll');

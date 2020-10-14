@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Beasiswa;
+use App\UserPetugas;
 use App\PemohonBeasiswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -127,7 +129,7 @@ class PemohonBeasiswaController extends Controller
         $permohonan->verificator_id = Auth::guard('petugas')->id();
         $permohonan->save();
         return response()->json([
-            'status' => 'Success: berkas set',"keterangan"=> $request["keterangan"]
+            'status' => 'Success: berkas set', "keterangan" => $request["keterangan"]
         ]);
     }
     public function setSurvey(Request $request)
@@ -189,5 +191,44 @@ class PemohonBeasiswaController extends Controller
                 ->orWhere('nim',  $query);
         }])->get();
         return response()->json($permohonan);
+    }
+
+    public function myHistory(Request $request)
+    {
+        $petugas = Auth::guard('petugas')->user();
+        return $this->history($request, $petugas);
+    }
+
+    public function history(Request $request, UserPetugas $petugas)
+    {
+        $key = $request->key;
+        $verifiedBy = $this->__verifiedBy($key);
+        $petugasId = $petugas->id;
+        $beasiswa = Beasiswa::withTrashed()
+            ->with(['permohonan' => function ($q) use ($verifiedBy, $petugasId) {
+                return $q->where('pemohon_beasiswas.' . $verifiedBy, $petugasId);
+            }])
+            ->whereHas('permohonan', function ($q) use ($verifiedBy, $petugasId) {
+                return $q->where($verifiedBy, $petugasId);
+            })
+            ->get();
+        $beasiswa->makeVisible(['permohonan']);
+        return response()->json($beasiswa);
+    }
+
+    public function __verifiedBy($key)
+    {
+        switch ($key) {
+            case 'berkas':
+                $value = 'verificator_id';
+                break;
+            case 'interview':
+                $value = 'interviewer_id';
+                break;
+            case 'survey':
+                $value = 'surveyor_id';
+                break;
+        }
+        return $value;
     }
 }

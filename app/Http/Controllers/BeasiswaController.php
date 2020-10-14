@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Beasiswa;
+use App\UserPetugas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
