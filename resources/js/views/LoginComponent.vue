@@ -64,6 +64,7 @@ export default {
             console.log(result);
             this.mutateNim(this.nim);
             if (result.data.status == "Authenticated") {
+              this.$store.state.auth.isAuth = true;
               this.$router.push({ path: `/mahasiswa/home` });
             } else {
               this.error = "Invalid username/password";
@@ -92,6 +93,7 @@ export default {
                 // console.log(result);
                 this.mutateNim(this.nim);
                 if (result.data.status == "Authenticated") {
+                  this.$store.state.auth.isAuth = true;
                 window.localStorage.setItem("userDetail", JSON.stringify(result.data.user));
                   // this.mutateUser(result.data.user);
                   this.$router.push({ path: `/mahasiswa/home` });
