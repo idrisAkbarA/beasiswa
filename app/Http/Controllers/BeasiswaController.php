@@ -178,46 +178,21 @@ class BeasiswaController extends Controller
             // return $request['data']['instansi_id'];
         }
         $beasiswa = Beasiswa::find($id);
-        // $Beasiswa->nama             = $request['nama'];
-        // $Beasiswa->deskripsi        = $request['deskripsi'];
-        // $Beasiswa->quota            = $request['kuota'];
-        // $Beasiswa->instansi_id      = $request['instansi'];
-        // $Beasiswa->is_interview     = $request['is_wawancara'];
-        // $Beasiswa->is_survey        = $request['is_survey'];
-        // $Beasiswa->awal_interview   = $request['awal_wawancara'];
-        // $Beasiswa->akhir_interview  = $request['akhir_wawancara'];
-        // $Beasiswa->awal_berkas      = $request['awal_berkas'];
-        // $Beasiswa->akhir_berkas     = $request['akhir_berkas'];
-        // $Beasiswa->awal_survey      = $request['awal_survey'];
-        // $Beasiswa->akhir_survey     = $request['akhir_survey'];
-        // $Beasiswa->ipk              = $request['ipk'];
-        // // $Beasiswa->total_sks        = $request['total_sks'];
-        // $Beasiswa->ukt              = $request['ukt'];
-        // $Beasiswa->semester         = $request['semester'];
-        // $Beasiswa->is_first         = $request['is_first'];
-        // $Beasiswa->fields           = json_encode($request['fields']);
-        // $Beasiswa->save();
         $beasiswa->update($request->all());
         return response()->json(['status' => "Success: Beasiswa Updated"]);
     }
     public function delete(Request $request, $id)
     {
-        $Beasiswa = Beasiswa::find($id);
-        $Beasiswa->delete();
+        $beasiswa = Beasiswa::find($id);
+        $beasiswa->delete();
         return response()->json(['status' => "Success: Beasiswa Deleted"]);
     }
     public function selesai()
     {
-        $beasiswaSelesai = Beasiswa::with('instansi')->onlyTrashed()->get();
-        $beasiswaSelesai->makeVisible(['berkas', 'interview', 'survey', 'selection', 'lulus', 'permohonan']);
-        $beasiswaOnProgress = Beasiswa::active();
+        $beasiswaOnProgress = Beasiswa::onProgress();
         $beasiswaOnProgress->makeVisible(['berkas', 'interview', 'survey', 'selection', 'lulus', 'permohonan']);
-        $temp = [];
-        foreach ($beasiswaOnProgress as $row) {
-            array_push($temp, $row);
-        }
         $data = [
-            'selesai' => $beasiswaSelesai->merge($beasiswaOnProgress),
+            'selesai' => $beasiswaOnProgress,
         ];
         return response()->json($data);
     }
