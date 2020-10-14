@@ -6,6 +6,8 @@ use Carbon\Carbon;
 use App\PemohonBeasiswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Exports\PemohonExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PemohonBeasiswaController extends Controller
 {
@@ -17,6 +19,10 @@ class PemohonBeasiswaController extends Controller
     public function getAll(Request $request)
     {
     }
+    // public function downloadReport(Request $request){
+    //     // return PemohonBeasiswa::with("beasiswa")->get();
+    //     return Excel::download(new PemohonExport, 'pemohon.xlsx');
+    // }
     public function IsHasBeasiswa()
     {
         $user = Auth::guard('mahasiswa')->user();
