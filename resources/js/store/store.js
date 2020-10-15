@@ -5,12 +5,13 @@ import Axios from "axios";
 import mhsModule from "./modules/mhsModule";
 var pack = require("../../../package.json");
 Vue.use(Vuex);
-Axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+Axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 Axios.defaults.withCredentials = true;
 
 export default new Vuex.Store({
     state: {
         auth: { role: null, isAuth: false },
+        report: [],
         url: pack.baseUrl,
         name: "idris",
         akunPetugas: [],
@@ -30,6 +31,9 @@ export default new Vuex.Store({
         isOpenBeasiswa: false
     },
     mutations: {
+        mutateReport(state, data) {
+            state.report = data;
+        },
         mutateAuth(state, data) {
             state.Auth = data;
         },
@@ -80,6 +84,16 @@ export default new Vuex.Store({
         }
     },
     actions: {
+        getReport({ commit, dispatch, state }, data) {
+            commit("mutateTableLoading", true);
+            Axios.get(state.url + "/api/beasiswa/report", {
+                // params: { data }
+                params: data
+            }).then(response => {
+                commit("mutateReport", response.data);
+                commit("mutateTableLoading", false);
+            });
+        },
         getAkunPetugas({ commit, dispatch, state }) {
             commit("mutateTableLoading", true);
             Axios.get(state.url + "/api/petugas").then(response => {

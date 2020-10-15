@@ -218,6 +218,11 @@ export default {
           icon: "mdi-account-supervisor-circle",
           title: "Mahasiswa",
           to: `/admin/${petugas}/mahasiswa`
+        },
+        {
+          icon: "mdi-file-document",
+          title: "Laporan",
+          to: `/admin/${petugas}/Laporan`
         }
       ];
     }
