@@ -1,7 +1,7 @@
 <template>
   <v-card
     color="transparent"
-    tile
+    elevation="20"
     :width="width()"
     class="fill-height mx-auto"
     style="overflow-y: auto"
@@ -377,10 +377,7 @@ export default {
         return "70%";
       }
     },
-    ...mapActions([
-      "getBeasiswaWithPermohonan",
-      "deleteBeasiswaWithPermohonan"
-    ]),
+    ...mapActions(["getBeasiswaWithPermohonan", "selesaiBeasiswa"]),
     gaLulus(item) {
       this.selectedPermohonan = item;
       this.lulus();
@@ -449,7 +446,7 @@ export default {
     },
     deleteSelectedBeasiswa() {
       this.btnLoading = true;
-      this.deleteBeasiswaWithPermohonan(this.selectedBeasiswa.id)
+      this.selesaiBeasiswa(this.selectedBeasiswa.id)
         .then(response => {
           this.btnLoading = false;
           this.dialogDelete = false;

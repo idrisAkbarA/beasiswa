@@ -1,5 +1,5 @@
 {
-    "baseUrl": "https://beasiswa.test",
+    "baseUrl": "http://beasiswa.test",
     "private": true,
     "scripts": {
         "dev": "npm run development",
