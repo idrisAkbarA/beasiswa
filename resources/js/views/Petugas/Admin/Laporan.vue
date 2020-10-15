@@ -116,7 +116,7 @@
 </template>
 
 <script>
-const FileDownload = require("js-file-download");
+// const FileDownload = require("js-file-download");
 import { mapActions, mapState } from "vuex";
 import Axios from "axios";
 export default {
