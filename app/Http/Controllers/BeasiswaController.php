@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Beasiswa;
+use App\UserPetugas;
 use App\Instansi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Exports\BeasiswaExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Schema;
+
 class BeasiswaController extends Controller
 {
     public function downloadReport(Request $request){
@@ -31,58 +33,58 @@ class BeasiswaController extends Controller
         $fakultas = $request['fakultas'];
         $statusSemua = '';
 
-        if($fakultas != 'all') $whereFakultas['fakultas_id'] = $fakultas; 
-        if($tahap != 'all'){
-            if($tahap == "berkas"){
-                if($status == "lulus"){
+        if ($fakultas != 'all') $whereFakultas['fakultas_id'] = $fakultas;
+        if ($tahap != 'all') {
+            if ($tahap == "berkas") {
+                if ($status == "lulus") {
                     $whereTahap['is_berkas_passed'] = 1;
                 }
-                if($status == "gagal"){
+                if ($status == "gagal") {
                     $whereTahap['is_berkas_passed'] = 0;
                 }
-                if($status == "seleksi"){
+                if ($status == "seleksi") {
                     $whereTahap['is_berkas_passed'] = null;
                 }
                 if($status == "all"){
                    $statusSemua = "is_berkas_passed";
                 }
             }
-            if($tahap == "wawancara"){
-                if($status == "lulus"){
+            if ($tahap == "wawancara") {
+                if ($status == "lulus") {
                     $whereTahap['is_interview_passed'] = 1;
                 }
-                if($status == "gagal"){
+                if ($status == "gagal") {
                     $whereTahap['is_interview_passed'] = 0;
                 }
-                if($status == "seleksi"){
+                if ($status == "seleksi") {
                     $whereTahap['is_interview_passed'] = null;
                 }
                 if($status == "all"){
                     $statusSemua = "is_interview_passed";
                  }
             }
-            if($tahap == "survey"){
-                if($status == "lulus"){
+            if ($tahap == "survey") {
+                if ($status == "lulus") {
                     $whereTahap['is_survey_passed'] = 1;
                 }
-                if($status == "gagal"){
+                if ($status == "gagal") {
                     $whereTahap['is_survey_passed'] = 0;
                 }
-                if($status == "seleksi"){
+                if ($status == "seleksi") {
                     $whereTahap['is_survey_passed'] = null;
                 }
                 if($status == "all"){
                     $statusSemua = "is_survey_passed";
                  }
             }
-            if($tahap == "seleksi"){
-                if($status == "lulus"){
+            if ($tahap == "seleksi") {
+                if ($status == "lulus") {
                     $whereTahap['is_selection_passed'] = 1;
                 }
-                if($status == "gagal"){
+                if ($status == "gagal") {
                     $whereTahap['is_selection_passed'] = 0;
                 }
-                if($status == "seleksi"){
+                if ($status == "seleksi") {
                     $whereTahap['is_selection_passed'] = null;
                 }
                 if($status == "all"){
@@ -90,15 +92,15 @@ class BeasiswaController extends Controller
                  }
             }
         }
-        if($beasiswa != 'all'){
+        if ($beasiswa != 'all') {
             // return 'oi';
-            $beasiswaCol = Beasiswa::where("id",$beasiswa)
-            ->get()
-            ->makeVisible(["lulus","permohonan"]);
-        }else{
-            $beasiswaCol = Beasiswa::all()->makeVisible(["lulus","permohonan"]);
+            $beasiswaCol = Beasiswa::where("id", $beasiswa)
+                ->get()
+                ->makeVisible(["lulus", "permohonan"]);
+        } else {
+            $beasiswaCol = Beasiswa::all()->makeVisible(["lulus", "permohonan"]);
         }
-        $beasiswaCol->map(function ($item, $key) use($whereFakultas,$whereTahap){
+        $beasiswaCol->map(function ($item, $key) use ($whereFakultas, $whereTahap) {
             unset($item['instansi_id']);
             unset($item['fields']);
             unset($item['created_at']);
@@ -207,34 +209,34 @@ class BeasiswaController extends Controller
         return response()->json($beasiswa);
     }
 
-    public function responseProdi($input){
-        return 
-        [
-            'Kamu lalai sih',
-            'solusinya gada solusi'
-        ]
-        [random_int(0,1)];
+    public function responseProdi($input)
+    {
+        return
+            [
+                'Kamu lalai sih',
+                'solusinya gada solusi'
+            ][random_int(0, 1)];
     }
 
     public function store(Request $request)
     {
         // return $request;
         $instansi = new Instansi;
-        if(!isset($request['data']['instansi_id'])){
+        if (!isset($request['data']['instansi_id'])) {
             $instansi->name = $request['data']['instansi'];
             $instansi->save();
-            $request['data'] = array_merge($request['data'],['instansi_id' => $instansi->id]);
+            $request['data'] = array_merge($request['data'], ['instansi_id' => $instansi->id]);
             // return $request['data']['instansi_id'];
         }
         // return $request;
         $beasiswa = Beasiswa::create($request['data']);
         return response()->json(['status' => "Success: Beasiswa Added"]);
     }
-    
+
     public function edit(Request $request, $id)
     {
         $instansi = new Instansi;
-        if(!$request['instansi_id']){
+        if (!$request['instansi_id']) {
             $instansi->name = $request['instansi'];
             $instansi->save();
             $request['instansi_id'] = $instansi->id;

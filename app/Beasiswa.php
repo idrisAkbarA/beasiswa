@@ -48,7 +48,8 @@ class Beasiswa extends Model
         if ($this->is_interview) {
             return $this->permohonan
                 ->where('is_berkas_passed', 1)
-                ->whereNull('is_interview_passed');
+                ->whereNull('is_interview_passed')
+                ->values();
         }
         return [];
     }

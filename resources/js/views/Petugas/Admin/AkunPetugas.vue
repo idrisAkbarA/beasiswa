@@ -7,13 +7,20 @@
     >
 
       <v-data-table
-        :headers="headers"
+        :headers="headers.petugas"
         :items="akunPetugas"
         :items-per-page="10"
         style="background-color: #2e7d323b"
         class="elevation-10 mb-10"
       >
         <template v-slot:item.actions="{ item }">
+          <v-icon
+            small
+            class="mr-2"
+            @click="info(item)"
+            title="Info"
+          >mdi-information-outline
+          </v-icon>
           <v-icon
             small
             class="mr-2"
@@ -207,6 +214,36 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog
+      v-model="dialogInfo"
+      width="500"
+    >
+
+      <v-card>
+        <v-card-title>
+          Info Petugas
+          <v-spacer></v-spacer>
+          <v-btn
+            icon
+            dark
+            @click="dialogInfo = false"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+
+        <v-card-text>
+          <v-data-table
+            :headers="headers.detailPetugas"
+            :items="detailPetugas"
+            hide-default-header
+            hide-default-footer
+          >
+          </v-data-table>
+        </v-card-text>
+
+      </v-card>
+    </v-dialog>
     <!-- Snackbar -->
     <v-snackbar
       v-model="snackbar.show"
@@ -270,6 +307,11 @@ export default {
         this.btnLoading = false;
       });
     },
+    info(item) {
+      //   console.log(item);
+      this.dialogInfo = true;
+      this.detailPetugas = item;
+    },
     showChangePass(item) {
       this.toggleChangePass = true;
       this.form = item;
@@ -277,7 +319,7 @@ export default {
     },
     changePass() {
       var data = this.form;
-      if (data.password == data.password2) {
+      if (data.password && data.password == data.password2) {
         this.btnLoading = true;
         this.editAkunPetugas(data)
           .then(response => {
@@ -342,14 +384,33 @@ export default {
       });
     }
   },
+  watch: {
+    dialogInfo: function(val) {
+      if (val) {
+        const petugas = this.detailPetugas;
+        this.detailPetugas = [
+          { judul: "Nama", isi: petugas.nama_lengkap },
+          { judul: "Username", isi: petugas.name },
+          { judul: "Role", isi: petugas.role },
+          {
+            judul: "Fakultas",
+            isi: !!petugas.fakultas ? petugas.fakultas.nama : "-"
+          }
+        ];
+      } else {
+        this.detailPetugas = [];
+      }
+    }
+  },
   data() {
     return {
       form: {},
       petugas: {},
-      rincian: {},
+      detailPetugas: [],
       msg: "",
       toggleChangePass: false,
       dialogDelete: false,
+      dialogInfo: false,
       btnLoading: false,
       snackbar: {
         show: false
@@ -373,17 +434,23 @@ export default {
         { id: 4, role: "Petinggi", color: "orange" },
         { id: 5, role: "Verificator", color: "cyan darken-4" }
       ],
-      headers: [
-        {
-          text: "Username",
-          align: "start",
-          sortable: false,
-          value: "name"
-        },
-        { text: "Role", value: "role" },
-        { text: "Fakultas", value: "fakultas.nama" },
-        { text: "Actions", value: "actions", sortable: false }
-      ]
+      headers: {
+        petugas: [
+          {
+            text: "Username",
+            align: "start",
+            sortable: false,
+            value: "name"
+          },
+          { text: "Role", value: "role" },
+          { text: "Fakultas", value: "fakultas.nama" },
+          { text: "Actions", value: "actions", sortable: false }
+        ],
+        detailPetugas: [
+          { text: "Judul", value: "judul" },
+          { text: "Isi", value: "isi" }
+        ]
+      }
     };
   }
 };

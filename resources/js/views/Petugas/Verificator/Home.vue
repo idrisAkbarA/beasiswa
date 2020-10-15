@@ -155,7 +155,7 @@
                   <v-container v-if="field.type == 'Checkboxes'">
                     {{'pep'+field.isLulus}}
                     <v-row>
-                      
+
                       <v-col cols="9">
                         <v-row
                           align="center"
@@ -345,15 +345,13 @@
                   </v-row>
                   <v-row v-if="field.type == 'Paragraf'">
                     <v-col cols="9">
-                    <span>
-                      <v-icon>mdi-text-short</v-icon>{{field.value}}
-                    </span>
+                      <span>
+                        <v-icon>mdi-text-short</v-icon>{{field.value}}
+                      </span>
 
                     </v-col>
                     <v-col cols="3">
-                       <v-radio-group
-                      v-model="field.isLulus"
-                      >
+                      <v-radio-group v-model="field.isLulus">
                         <v-radio
                           label="Lulus"
                           :value="true"
@@ -376,29 +374,13 @@
               </v-row>
             </v-tab-item>
             <v-tab-item>
-              <v-row>
-                <v-col cols="12">
-                  Nama : {{selectedPermohonan.mahasiswa.nama}}
-                </v-col>
-                <v-col cols="12">
-                  NIM : {{selectedPermohonan.mahasiswa.nim}}
-                </v-col>
-                <v-col cols="12">
-                  Semester : {{selectedPermohonan.mahasiswa.semester}}
-                </v-col>
-                <v-col cols="12">
-                  Jurusan : {{selectedPermohonan.mahasiswa.jurusan.nama}}
-                </v-col>
-                <v-col cols="12">
-                  Fakultas : {{selectedPermohonan.mahasiswa.fakultas.nama}}
-                </v-col>
-                <v-col cols="12">
-                  IPS : {{selectedPermohonan.mahasiswa.ips}}
-                </v-col>
-                <v-col cols="12">
-                  IPK : {{selectedPermohonan.mahasiswa.ipk}}
-                </v-col>
-              </v-row>
+              <v-data-table
+                :headers="headers"
+                :items="selectedMahasiswa"
+                hide-default-header
+                hide-default-footer
+              >
+              </v-data-table>
             </v-tab-item>
           </v-tabs>
         </v-card-text>
@@ -407,7 +389,6 @@
 
         <v-card-actions>
           <v-btn
-            
             color="red"
             :disabled="btnTidakLulus"
             @click="dialogDelete = { show : true, value : false}"
@@ -445,9 +426,19 @@
           </v-card-title>
           <v-card-text class="white--text mt-2 pb-0">
             <strong class="d-block">{{this.selectedPermohonan.mahasiswa.nama}}</strong> akan dinyatakan <strong>{{dialogDelete.value ? 'Lolos' : 'Tidak Lolos'}}</strong> tahap berkas ?
-          <v-textarea v-model="keterangan" class="mt-2" hint="Wajib diisi" :persistent-hint="true" v-if="!dialogDelete.value" label="Keterangan" rows="1" auto-grow color="white">
+            <v-textarea
+              v-model="keterangan"
+              class="mt-2"
+              hint="Wajib diisi"
+              :persistent-hint="true"
+              v-if="!dialogDelete.value"
+              label="Keterangan"
+              rows="1"
+              auto-grow
+              color="white"
+            >
 
-          </v-textarea>
+            </v-textarea>
           </v-card-text>
 
           <v-divider></v-divider>
@@ -460,7 +451,7 @@
             >Batal</v-btn>
             <v-spacer></v-spacer>
             <v-btn
-            v-if="dialogDelete.value"
+              v-if="dialogDelete.value"
               color="#2E7D32"
               dark
               @click="setBerkas(dialogDelete.value)"
@@ -468,7 +459,7 @@
               Ya
             </v-btn>
             <v-btn
-            v-if="!dialogDelete.value"
+              v-if="!dialogDelete.value"
               color="#2E7D32"
               :disabled="keterangan? false:true"
               dark
@@ -522,12 +513,10 @@ export default {
       window.open(link, "_blank");
     },
     setBerkas(bool) {
-      
       this.btnLoading = true;
-      if(bool){
+      if (bool) {
         this.keterangan = null;
       }
-      console.log(this.keterangan)
       axios
         .put(`${this.url}/api/pemohon/set-berkas`, {
           id: this.selectedPermohonan.id,
@@ -549,19 +538,31 @@ export default {
     }
   },
   watch: {
+    selectedPermohonan: function(val) {
+      if (val) {
+        this.selectedMahasiswa = [
+          { judul: "Nama", isi: val.mahasiswa.nama },
+          { judul: "NIM", isi: val.mahasiswa.nim },
+          { judul: "Semester", isi: val.mahasiswa.semester },
+          { judul: "Jurusan", isi: val.mahasiswa.jurusan.nama },
+          { judul: "Fakultas", isi: val.mahasiswa.fakultas.nama },
+          { judul: "IPS", isi: val.mahasiswa.ips },
+          { judul: "IPK", isi: val.mahasiswa.ipk }
+        ];
+      }
+    },
     parsedForm: {
       deep: true,
-      handler(val){
-        console.log(val)
+      handler(val) {
         for (let i = 0; i < val.length; i++) {
           const element = val[i];
-           if(!element.isLulus){
+          if (!element.isLulus) {
             this.btnLoading = true;
             this.btnTidakLulus = false;
             break;
           }
-            this.btnTidakLulus = true;
-          this.btnLoading = false
+          this.btnTidakLulus = true;
+          this.btnLoading = false;
         }
       }
     }
@@ -571,7 +572,6 @@ export default {
     resultQuery() {
       if (this.searchQuery) {
         if (typeof this.beasiswa[this.index].berkas == "object") {
-          console.log("object");
           this.beasiswa[this.index].berkas = Object.values(
             this.beasiswa[this.index].berkas
           );
@@ -590,25 +590,23 @@ export default {
   data() {
     return {
       keterangan: null,
-      parsedForm:{},
+      parsedForm: {},
       btnTidakLulus: false,
-      // btnTidakLulus: false,
       index: 0,
       searchQuery: "",
       btnLoading: false,
       sheetDetail: false,
       selectedPermohonan: {},
+      selectedMahasiswa: {},
       snackbar: { show: false },
       petugas: { fakultas: { nama: "" } },
       dialogDelete: { show: false },
       headers: [
         {
-          text: "Nama Instansi",
-          align: "start",
-          sortable: false,
-          value: "name"
+          text: "Judul",
+          value: "judul"
         },
-        { text: "Actions", value: "actions", sortable: false }
+        { text: "Isi", value: "isi" }
       ]
     };
   }

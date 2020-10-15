@@ -31,6 +31,7 @@ import MHSBeasiswa from "../views/Mahasiswa/Beasiswa.vue";
 
 import Interviewer from "../views/Petugas/Interviewer/Interviewer.vue";
 import InterviewerHome from "../views/Petugas/Interviewer/Home.vue";
+import InterviewerHistory from "../views/Petugas/Interviewer/History.vue";
 
 import Surveyor from "../views/Petugas/Surveyor/Surveyor.vue";
 import SurveyorHome from "../views/Petugas/Surveyor/Home.vue";
@@ -40,6 +41,7 @@ import PetinggiHome from "../views/Petugas/Petinggi/Home.vue";
 
 import Verificator from "../views/Petugas/Verificator/Verificator.vue";
 import VerificatorHome from "../views/Petugas/Verificator/Home.vue";
+import VerificatorHistory from "../views/Petugas/Verificator/History.vue";
 
 import store from '../store/store'
 
@@ -66,14 +68,6 @@ const routes = [
         name: "Login Petugas",
         component: LoginPetugas
     },
-    //   {
-    //     path: '/about',
-    //     name: 'About',
-    //     // route level code-splitting
-    //     // this generates a separate chunk (about.[hash].js) for this route
-    //     // which is lazy-loaded when the route is visited.
-    //     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-    //   },
     {
         path: "/admin/:petugas",
         component: Petugas,
@@ -83,7 +77,7 @@ const routes = [
                     .get("/api/user/petugas")
                     .then(response => {
                         console.log(response.data);
-                        response.data.role == 1 ? next () : next({name: 'Unauthorized'});
+                        response.data.role == 1 ? next() : next({ name: 'Unauthorized' });
                     })
                     .catch(error => {
                         console.log("---------")
@@ -97,10 +91,10 @@ const routes = [
             ) {
                 console.log("Op tidak bisa")
                 next(false);
-            } else if(
+            } else if (
                 from.name == "Login Petugas" &&
                 store.state.auth.isAuth == true
-            ){
+            ) {
                 next();
             }
 
@@ -167,7 +161,7 @@ const routes = [
                     .get("/api/user/petugas")
                     .then(response => {
                         console.log(response.data);
-                        response.data.role == 0 ? next () : next({name: 'Unauthorized'});
+                        response.data.role == 0 ? next() : next({ name: 'Unauthorized' });
                     })
                     .catch(error => {
                         console.log("---------")
@@ -181,10 +175,10 @@ const routes = [
             ) {
                 console.log("Op tidak bisa")
                 next(false);
-            } else if(
+            } else if (
                 from.name == "Login Petugas" &&
                 store.state.auth.isAuth == true
-            ){
+            ) {
                 next();
             }
 
@@ -241,10 +235,10 @@ const routes = [
             ) {
                 console.log("Op tidak bisa")
                 next(false);
-            } else if(
+            } else if (
                 from.name == "Landing Page" &&
                 store.state.auth.isAuth == true
-            ){
+            ) {
                 next();
             }
 
@@ -276,7 +270,7 @@ const routes = [
                     .get("/api/user/petugas")
                     .then(response => {
                         console.log(response.data);
-                        response.data.role == 2 ? next () : next({name: 'Unauthorized'});
+                        response.data.role == 2 ? next() : next({ name: 'Unauthorized' });
                     })
                     .catch(error => {
                         console.log("---------")
@@ -290,10 +284,10 @@ const routes = [
             ) {
                 console.log("Op tidak bisa")
                 next(false);
-            } else if(
+            } else if (
                 from.name == "Login Petugas" &&
                 store.state.auth.isAuth == true
-            ){
+            ) {
                 next();
             }
 
@@ -303,7 +297,12 @@ const routes = [
                 name: "Home",
                 path: "home",
                 component: InterviewerHome
-            }
+            },
+            {
+                name: "Interviewer History",
+                path: "history",
+                component: InterviewerHistory
+            },
         ]
     },
     {
@@ -315,7 +314,7 @@ const routes = [
                     .get("/api/user/petugas")
                     .then(response => {
                         console.log(response.data);
-                        response.data.role == 3 ? next () : next({name: 'Unauthorized'});
+                        response.data.role == 3 ? next() : next({ name: 'Unauthorized' });
                     })
                     .catch(error => {
                         console.log("---------")
@@ -329,10 +328,10 @@ const routes = [
             ) {
                 console.log("Op tidak bisa")
                 next(false);
-            } else if(
+            } else if (
                 from.name == "Login Petugas" &&
                 store.state.auth.isAuth == true
-            ){
+            ) {
                 next();
             }
 
@@ -354,7 +353,7 @@ const routes = [
                     .get("/api/user/petugas")
                     .then(response => {
                         console.log(response.data);
-                        response.data.role == 4 ? next () : next({name: 'Unauthorized'});
+                        response.data.role == 4 ? next() : next({ name: 'Unauthorized' });
                     })
                     .catch(error => {
                         console.log("---------")
@@ -368,10 +367,10 @@ const routes = [
             ) {
                 console.log("Op tidak bisa")
                 next(false);
-            } else if(
+            } else if (
                 from.name == "Login Petugas" &&
                 store.state.auth.isAuth == true
-            ){
+            ) {
                 next();
             }
 
@@ -393,7 +392,7 @@ const routes = [
                     .get("/api/user/petugas")
                     .then(response => {
                         console.log(response.data);
-                        response.data.role == 5 ? next () : next({name: 'Unauthorized'});
+                        response.data.role == 5 ? next() : next({ name: 'Unauthorized' });
                     })
                     .catch(error => {
                         console.log("---------")
@@ -407,10 +406,10 @@ const routes = [
             ) {
                 console.log("Op tidak bisa")
                 next(false);
-            } else if(
+            } else if (
                 from.name == "Login Petugas" &&
                 store.state.auth.isAuth == true
-            ){
+            ) {
                 next();
             }
 
@@ -420,7 +419,12 @@ const routes = [
                 name: "Home",
                 path: "home",
                 component: VerificatorHome
-            }
+            },
+            {
+                name: "Verificator History",
+                path: "history",
+                component: VerificatorHistory
+            },
         ]
     }
 ];
