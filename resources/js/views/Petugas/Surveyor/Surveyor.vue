@@ -19,12 +19,24 @@
         <div style="width:100%; -webkit-app-region: drag;">
           <v-toolbar-title>
             <span class="font-weight-bold ml-4">
-              App Beasiswa
+              <router-link
+                :to="'Home'"
+                class="text-white"
+              >
+                App Beasiswa
+              </router-link>
             </span>
             <!-- Change this automaticly later usig VUEX -->
             <span> | Survey</span>
           </v-toolbar-title>
         </div>
+        <v-btn
+          small
+          text
+          @click="history"
+        >
+          <v-icon>mdi-history</v-icon>History
+        </v-btn>
         <v-btn
           small
           text
@@ -35,7 +47,10 @@
         <!-- -->
       </v-app-bar>
       <!-- Provides the application the proper gutter -->
-      <v-container fluid fill-height>
+      <v-container
+        fluid
+        fill-height
+      >
 
         <!-- If using vue-router -->
         <router-view></router-view>
@@ -51,7 +66,10 @@ export default {
     ...mapState(["url"])
   },
   methods: {
-        logout() {
+    history() {
+      this.$router.push({ name: "Surveyor History" });
+    },
+    logout() {
       axios
         .get("/api/logout-petugas", {
           params: {

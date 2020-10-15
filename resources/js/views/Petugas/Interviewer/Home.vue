@@ -354,12 +354,22 @@ export default {
           this.getBeasiswaWithPermohonan();
           this.sheetDetail = false;
           this.dialogDelete = false;
-          this.btnLoading = false;
           this.snackbar = {
             show: true,
             color: "blue",
             message: "Berhasil!"
           };
+        })
+        .catch(error => {
+          console.error(error);
+          this.snackbar = {
+            show: true,
+            color: "red",
+            message: error
+          };
+        })
+        .then(() => {
+          this.btnLoading = false;
         });
     }
   },
@@ -383,7 +393,6 @@ export default {
     resultQuery() {
       if (this.searchQuery) {
         if (typeof this.beasiswa[this.index].interview == "object") {
-          console.log("object");
           this.beasiswa[this.index].interview = Object.values(
             this.beasiswa[this.index].interview
           );

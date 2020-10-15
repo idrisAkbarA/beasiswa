@@ -502,10 +502,19 @@ export default {
   methods: {
     ...mapActions(["getBeasiswaWithPermohonan"]),
     getPetugas() {
-      axios.get(`${this.url}/api/user/petugas`).then(response => {
-        this.petugas = response.data;
-        this.btnLoading = false;
-      });
+      axios
+        .get(`${this.url}/api/user/petugas`)
+        .then(response => {
+          this.petugas = response.data;
+        })
+        .catch(error => {
+          console.error(error);
+          this.snackbar = {
+            show: true,
+            color: "red",
+            message: error
+          };
+        });
     },
     link(url) {
       var a = "/" + url;
@@ -528,12 +537,22 @@ export default {
           this.getBeasiswaWithPermohonan();
           this.sheetDetail = false;
           this.dialogDelete = false;
-          this.btnLoading = false;
           this.snackbar = {
             show: true,
             color: "blue",
             message: "Berhasil!"
           };
+        })
+        .catch(error => {
+          console.error(error);
+          this.snackbar = {
+            show: true,
+            color: "red",
+            message: error
+          };
+        })
+        .then(() => {
+          this.btnLoading = false;
         });
     }
   },

@@ -135,37 +135,44 @@
         </v-card-title>
 
         <v-card-text class="mt-2 white--text">
-          Persyaratan Permohonan Beasiswa
-          <v-row
-            no-gutters=""
-            class="ma-5"
-            v-for="(field,index) in JSON.parse(selectedPermohonan.form)"
-            :key="index"
-          >
+          <v-tabs fixed-tabs>
+            <v-tab>
+              Permohonan Beasiswa
+            </v-tab>
+            <v-tab>
+              Biodata Mahasiswa
+            </v-tab>
+            <v-tab-item>
+              <v-row
+                no-gutters=""
+                class="ma-5"
+                v-for="(field,index) in JSON.parse(selectedPermohonan.form)"
+                :key="index"
+              >
 
-            <v-col style="padding-bottom:0 !important;">
-              <p>{{field.pertanyaan}}</p>
-              <v-container v-if="field.type == 'Checkboxes'">
-                <v-row
-                  align="center"
-                  v-for="(item,index) in field.checkboxes.items"
-                  :key="index"
-                >
-                  <v-checkbox
-                    disabled
-                    v-model="field.value"
-                    :value="item.label"
-                    color="white"
-                    hide-details
-                    class="shrink mr-2 mt-0"
-                  ></v-checkbox>
-                  <span>
-                    {{item.label}}
-                  </span>
-                </v-row>
+                <v-col style="padding-bottom:0 !important;">
+                  <p>{{field.pertanyaan}}</p>
+                  <v-container v-if="field.type == 'Checkboxes'">
+                    <v-row
+                      align="center"
+                      v-for="(item,index) in field.checkboxes.items"
+                      :key="index"
+                    >
+                      <v-checkbox
+                        disabled
+                        v-model="field.value"
+                        :value="item.label"
+                        color="white"
+                        hide-details
+                        class="shrink mr-2 mt-0"
+                      ></v-checkbox>
+                      <span>
+                        {{item.label}}
+                      </span>
+                    </v-row>
 
-              </v-container>
-                                <v-container v-if="field.type == 'Multiple Upload'">
+                  </v-container>
+                  <v-container v-if="field.type == 'Multiple Upload'">
                     <v-row
                       align="center"
                       v-for="(item,index) in field.multiUpload.items"
@@ -195,34 +202,45 @@
                       </v-col>
                     </v-row>
                   </v-container>
-              <p v-if="field.type == 'Pilihan'"><span>
-                  <v-icon>mdi-text-short</v-icon>{{field.value}}
-                </span></p>
-              <p v-if="field.type == 'Jawaban Pendek'"><span>
-                  <v-icon>mdi-text-short</v-icon>{{field.value}}
-                </span></p>
-              <p v-if="field.type == 'Jawaban Angka'"><span>
-                  <v-icon>mdi-text-short</v-icon>{{field.value}}
-                </span></p>
-              <p v-if="field.type == 'Tanggal'"><span>
-                  <v-icon>mdi-text-short</v-icon>{{field.value}}
-                </span></p>
-              <v-btn
-                v-if="field.type == 'Upload File'"
-                small
-                @click="link(field.value)"
-              >lihat file</v-btn>
-              <p v-if="field.type == 'Paragraf'"><span>
-                  <v-icon>mdi-text-short</v-icon>{{field.value}}
-                </span></p>
-            </v-col>
-            <v-col cols="12">
-              <v-divider></v-divider>
-            </v-col>
-            <v-col cols="12">
+                  <p v-if="field.type == 'Pilihan'"><span>
+                      <v-icon>mdi-text-short</v-icon>{{field.value}}
+                    </span></p>
+                  <p v-if="field.type == 'Jawaban Pendek'"><span>
+                      <v-icon>mdi-text-short</v-icon>{{field.value}}
+                    </span></p>
+                  <p v-if="field.type == 'Jawaban Angka'"><span>
+                      <v-icon>mdi-text-short</v-icon>{{field.value}}
+                    </span></p>
+                  <p v-if="field.type == 'Tanggal'"><span>
+                      <v-icon>mdi-text-short</v-icon>{{field.value}}
+                    </span></p>
+                  <v-btn
+                    v-if="field.type == 'Upload File'"
+                    small
+                    @click="link(field.value)"
+                  >lihat file</v-btn>
+                  <p v-if="field.type == 'Paragraf'"><span>
+                      <v-icon>mdi-text-short</v-icon>{{field.value}}
+                    </span></p>
+                </v-col>
+                <v-col cols="12">
+                  <v-divider></v-divider>
+                </v-col>
+                <v-col cols="12">
 
-            </v-col>
-          </v-row>
+                </v-col>
+              </v-row>
+            </v-tab-item>
+            <v-tab-item>
+              <v-data-table
+                :headers="headers"
+                :items="selectedMahasiswa"
+                hide-default-header
+                hide-default-footer
+              >
+              </v-data-table>
+            </v-tab-item>
+          </v-tabs>
         </v-card-text>
 
         <v-divider></v-divider>
@@ -318,7 +336,7 @@ export default {
   methods: {
     ...mapActions(["getBeasiswaWithPermohonan"]),
     link(url) {
-      var a =  "/" + url;
+      var a = "/" + url;
       var link = a.replace(" ", "%20");
       window.open(link, "_blank");
     },
@@ -333,14 +351,38 @@ export default {
           this.getBeasiswaWithPermohonan();
           this.sheetDetail = false;
           this.dialogDelete = false;
-          this.btnLoading = false;
           this.snackbar = {
             show: true,
             color: "blue",
             message: "Berhasil!"
           };
-          console.log(this.snackbar.show);
+        })
+        .catch(error => {
+          console.error(error);
+          this.snackbar = {
+            show: true,
+            color: "red",
+            message: error
+          };
+        })
+        .then(() => {
+          this.btnLoading = false;
         });
+    }
+  },
+  watch: {
+    selectedPermohonan: function(val) {
+      if (val) {
+        this.selectedMahasiswa = [
+          { judul: "Nama", isi: val.mahasiswa.nama },
+          { judul: "NIM", isi: val.mahasiswa.nim },
+          { judul: "Semester", isi: val.mahasiswa.semester },
+          { judul: "Jurusan", isi: val.mahasiswa.jurusan.nama },
+          { judul: "Fakultas", isi: val.mahasiswa.fakultas.nama },
+          { judul: "IPS", isi: val.mahasiswa.ips },
+          { judul: "IPK", isi: val.mahasiswa.ipk }
+        ];
+      }
     }
   },
   computed: {
@@ -348,7 +390,6 @@ export default {
     resultQuery() {
       if (this.searchQuery) {
         if (typeof this.beasiswa[this.index].survey == "object") {
-          console.log("object");
           this.beasiswa[this.index].survey = Object.values(
             this.beasiswa[this.index].survey
           );
@@ -369,18 +410,17 @@ export default {
       index: 0,
       searchQuery: "",
       selectedPermohonan: {},
+      selectedMahasiswa: {},
       snackbar: { show: false },
       dialogDelete: { show: false },
       btnLoading: false,
       sheetDetail: false,
       headers: [
         {
-          text: "Nama Instansi",
-          align: "start",
-          sortable: false,
-          value: "name"
+          text: "Judul",
+          value: "judul"
         },
-        { text: "Actions", value: "actions", sortable: false }
+        { text: "Isi", value: "isi" }
       ]
     };
   }

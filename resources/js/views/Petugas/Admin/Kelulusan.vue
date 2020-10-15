@@ -87,13 +87,15 @@
                         dense
                         show-select
                         v-model="selected"
-                        :headers="headers"
+                        :headers="headers.permohonan"
                         :items="Object.values(item.selection)"
                         @click:row="info"
                       >
                         <template v-slot:top>
                           <v-btn
-                            class="pa-3"
+                            :disabled="!selected.length > 0 || item.lulus.length >= item.quota"
+                            class="pa-3 my-3 ml-3"
+                            color="green"
                             @click="selectedLulus"
                           >Lulus</v-btn>
                         </template>
@@ -103,7 +105,7 @@
                       <v-data-table
                         dense
                         show-select
-                        :headers="headers"
+                        :headers="headers.permohonan"
                         :items="Object.values(item.lulus)"
                         @click:row="gaLulus"
                       >
@@ -111,50 +113,6 @@
                       </v-data-table>
                     </v-tab-item>
                   </v-tabs>
-                  <!-- <div class="row"> -->
-                  <!-- <v-card
-                      class="col-6 bg-dark"
-                      elevation="0"
-                    >
-                      <div class="overline mb-4 text-white text-center">
-                        Permohonan Masuk
-                      </div>
-                      <p
-                        v-if="item.selection.length < 1"
-                        class="text-white text-center"
-                      >Tidak ada data</p>
-                      <v-btn
-                        v-for="(pemohon, i) in item.selection"
-                        :key="i"
-                        class="btn btn-light mb-1"
-                        block
-                        @click="dialogDetail = true, selectedMahasiswa = pemohon"
-                      >
-                        <span class="my-2">{{pemohon.mahasiswa.nama}}</span>
-                      </v-btn>
-                    </v-card>
-                    <v-card
-                      class="col-6 bg-dark"
-                      elevation="0"
-                    >
-                      <div class="overline mb-4 text-white text-center">
-                        Lulus
-                      </div>
-                      <p
-                        v-if="item.lulus.length < 1"
-                        class="text-white text-center"
-                      >Tidak ada data</p>
-                      <v-btn
-                        v-for="(pemohon, i) in item.lulus"
-                        :key="i"
-                        class="btn btn-light mb-1"
-                        block
-                        @click="selectedMahasiswa = pemohon, lulus()"
-                      >
-                        <span class="my-2">{{pemohon.mahasiswa.nama}}</span>
-                      </v-btn>
-                    </v-card> -->
-                  <!-- </div> -->
                 </div>
                 <v-row justify="end">
                   <v-btn
@@ -187,109 +145,127 @@
             class="headline white--text"
             primary-title
           >
-            <i class="mdi mdi-account mr-2"></i> {{selectedMahasiswa.mahasiswa.nama}}
+            <i class="mdi mdi-account mr-2"></i> {{selectedPermohonan.mahasiswa.nama}}
           </v-card-title>
 
           <v-card-text class="mt-2 white--text">
-            detail
-            <v-row
-              no-gutters=""
-              class="ma-5"
-              v-for="(field,index) in JSON.parse(selectedMahasiswa.form)"
-              :key="index"
-            >
+            <v-tabs fixed-tabs>
+              <v-tab>
+                Permohonan Beasiswa
+              </v-tab>
+              <v-tab>
+                Biodata Mahasiswa
+              </v-tab>
+              <v-tab-item>
+                <v-row
+                  no-gutters=""
+                  class="ma-5"
+                  v-for="(field,index) in JSON.parse(selectedPermohonan.form)"
+                  :key="index"
+                >
 
-              <v-col style="padding-bottom:0 !important;">
-                <p>{{field.pertanyaan}}</p>
-                <v-container v-if="field.type == 'Checkboxes'">
-                  <v-row
-                    align="center"
-                    v-for="(item,index) in field.checkboxes.items"
-                    :key="index"
-                  >
-                    <v-checkbox
-                      disabled
-                      v-model="field.value"
-                      :value="item.label"
-                      color="white"
-                      hide-details
-                      class="shrink mr-2 mt-0"
-                    ></v-checkbox>
-                    <span>
-                      {{item.label}}
-                    </span>
-                  </v-row>
+                  <v-col style="padding-bottom:0 !important;">
+                    <p>{{field.pertanyaan}}</p>
+                    <v-container v-if="field.type == 'Checkboxes'">
+                      <v-row
+                        align="center"
+                        v-for="(item,index) in field.checkboxes.items"
+                        :key="index"
+                      >
+                        <v-checkbox
+                          disabled
+                          v-model="field.value"
+                          :value="item.label"
+                          color="white"
+                          hide-details
+                          class="shrink mr-2 mt-0"
+                        ></v-checkbox>
+                        <span>
+                          {{item.label}}
+                        </span>
+                      </v-row>
 
-                </v-container>
-                <v-container v-if="field.type == 'Multiple Upload'">
-                  <v-row
-                    align="center"
-                    v-for="(item,index) in field.multiUpload.items"
-                    :key="index"
-                    :value="item.label"
-                    no-gutters
-                  >
-                    <v-col cols="1">
-                      <v-checkbox
-                        v-model="item.isSelected"
-                        color="white"
-                        hide-details
-                        class="shrink mr-2 mt-0"
+                    </v-container>
+                    <v-container v-if="field.type == 'Multiple Upload'">
+                      <v-row
+                        align="center"
+                        v-for="(item,index) in field.multiUpload.items"
+                        :key="index"
                         :value="item.label"
-                        disabled
-                      ></v-checkbox>
+                        no-gutters
+                      >
+                        <v-col cols="1">
+                          <v-checkbox
+                            v-model="item.isSelected"
+                            color="white"
+                            hide-details
+                            class="shrink mr-2 mt-0"
+                            :value="item.label"
+                            disabled
+                          ></v-checkbox>
 
-                    </v-col>
-                    <v-col cols="6">
-                      <span>{{item.label}}</span>
+                        </v-col>
+                        <v-col cols="6">
+                          <span>{{item.label}}</span>
 
-                    </v-col>
-                    <v-col cols="5">
-                      <v-btn
-                        v-if="item.file_name"
-                        small
-                        @click="link(item.file_name)"
-                      >lihat file</v-btn>
-                    </v-col>
+                        </v-col>
+                        <v-col cols="5">
+                          <v-btn
+                            v-if="item.file_name"
+                            small
+                            @click="link(item.file_name)"
+                          >lihat file</v-btn>
+                        </v-col>
 
-                  </v-row>
+                      </v-row>
 
-                </v-container>
-                <p v-if="field.type == 'Pilihan'"><span>
-                    <v-icon>mdi-text-short</v-icon>{{field.value}}
-                  </span></p>
-                <p v-if="field.type == 'Jawaban Pendek'"><span>
-                    <v-icon>mdi-text-short</v-icon>{{field.value}}
-                  </span></p>
-                <p v-if="field.type == 'Jawaban Angka'"><span>
-                    <v-icon>mdi-text-short</v-icon>{{field.value}}
-                  </span></p>
-                <p v-if="field.type == 'Tanggal'"><span>
-                    <v-icon>mdi-text-short</v-icon>{{field.value}}
-                  </span></p>
-                <v-btn
-                  v-if="field.type == 'Upload File'"
-                  small
-                  @click="link(field.value)"
-                >lihat file</v-btn>
-                <p v-if="field.type == 'Paragraf'"><span>
-                    <v-icon>mdi-text-short</v-icon>{{field.value}}
-                  </span></p>
-              </v-col>
-              <v-col cols="12">
-                <v-divider></v-divider>
-              </v-col>
-              <v-col cols="12">
+                    </v-container>
+                    <p v-if="field.type == 'Pilihan'"><span>
+                        <v-icon>mdi-text-short</v-icon>{{field.value}}
+                      </span></p>
+                    <p v-if="field.type == 'Jawaban Pendek'"><span>
+                        <v-icon>mdi-text-short</v-icon>{{field.value}}
+                      </span></p>
+                    <p v-if="field.type == 'Jawaban Angka'"><span>
+                        <v-icon>mdi-text-short</v-icon>{{field.value}}
+                      </span></p>
+                    <p v-if="field.type == 'Tanggal'"><span>
+                        <v-icon>mdi-text-short</v-icon>{{field.value}}
+                      </span></p>
+                    <v-btn
+                      v-if="field.type == 'Upload File'"
+                      small
+                      @click="link(field.value)"
+                    >lihat file</v-btn>
+                    <p v-if="field.type == 'Paragraf'"><span>
+                        <v-icon>mdi-text-short</v-icon>{{field.value}}
+                      </span></p>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-divider></v-divider>
+                  </v-col>
+                  <v-col cols="12">
 
-              </v-col>
-            </v-row>
+                  </v-col>
+                </v-row>
+              </v-tab-item>
+              <v-tab-item>
+                <v-data-table
+                  :headers="headers.mahasiswa"
+                  :items="selectedMahasiswa"
+                  hide-default-header
+                  hide-default-footer
+                >
+                </v-data-table>
+              </v-tab-item>
+            </v-tabs>
           </v-card-text>
 
           <v-divider></v-divider>
 
           <v-card-actions>
             <v-btn
-              @click="dialogDetail = false, selectedMahasiswa = {}"
+              @click="dialogDetail = false, selectedPermohonan = {}"
               color="white"
               text
             >batal</v-btn>
@@ -393,7 +369,6 @@ export default {
   },
   methods: {
     width() {
-      // console.log(this.windowWidth)
       if (this.windowWidth <= 600) {
         return "100%";
       } else if (this.windowWidth <= 960) {
@@ -407,22 +382,37 @@ export default {
       "deleteBeasiswaWithPermohonan"
     ]),
     gaLulus(item) {
-      this.selectedMahasiswa = item;
+      this.selectedPermohonan = item;
       this.lulus();
     },
     selectedLulus() {
       const permohonan = this.selected;
-      permohonan.forEach(item => {
-        this.selectedMahasiswa = item;
-        this.lulus();
-      });
+      let beasiswa = permohonan[0].beasiswa_id;
+      beasiswa = this.beasiswa.find(x => x.id == beasiswa);
+      if (beasiswa.lulus.length < beasiswa.quota) {
+        permohonan.forEach(item => {
+          if (beasiswa.lulus.length < beasiswa.quota) {
+            this.selectedPermohonan = item;
+            this.lulus();
+          } else {
+            return;
+          }
+        });
+      } else {
+        this.snackbar = {
+          show: true,
+          color: "red",
+          message: "Kuota beasiswa sudah penuh!"
+        };
+      }
+      this.selected = {};
     },
     lulus() {
       this.btnLoading = true;
       axios
         .put(`${this.url}/api/pemohon/set-selection`, {
-          bool: this.selectedMahasiswa.is_selection_passed == 1 ? 0 : 1,
-          id: this.selectedMahasiswa.id
+          bool: this.selectedPermohonan.is_selection_passed == 1 ? 0 : 1,
+          id: this.selectedPermohonan.id
         })
         .then(response => {
           if (!response.data.status) {
@@ -434,14 +424,24 @@ export default {
           } else {
             this.getBeasiswaWithPermohonan();
           }
-          this.btnLoading = false;
           this.dialogDetail = false;
-          this.selectedMahasiswa = {};
+          this.selectedPermohonan = {};
+        })
+        .catch(error => {
+          console.error(error);
+          this.snackbar = {
+            show: true,
+            color: "red",
+            message: error
+          };
+        })
+        .then(() => {
+          this.btnLoading = false;
         });
     },
     info(item) {
       this.dialogDetail = true;
-      this.selectedMahasiswa = item;
+      this.selectedPermohonan = item;
     },
     tutup(item) {
       this.dialogDelete = true;
@@ -461,14 +461,34 @@ export default {
           };
         })
         .catch(error => {
+          console.error(error);
           this.btnLoading = false;
-          this.dialogDelete = false;
+          this.snackbar = {
+            show: true,
+            color: "red",
+            message: error
+          };
         });
     },
     link(url) {
       var a = "/" + url;
       var link = a.replace(" ", "%20");
       window.open(link, "_blank");
+    }
+  },
+  watch: {
+    selectedPermohonan: function(val) {
+      if (val) {
+        this.selectedMahasiswa = [
+          { judul: "Nama", isi: val.mahasiswa.nama },
+          { judul: "NIM", isi: val.mahasiswa.nim },
+          { judul: "Semester", isi: val.mahasiswa.semester },
+          { judul: "Jurusan", isi: val.mahasiswa.jurusan.nama },
+          { judul: "Fakultas", isi: val.mahasiswa.fakultas.nama },
+          { judul: "IPS", isi: val.mahasiswa.ips },
+          { judul: "IPK", isi: val.mahasiswa.ipk }
+        ];
+      }
     }
   },
   computed: {
@@ -478,6 +498,7 @@ export default {
     return {
       selected: [],
       selectedBeasiswa: {},
+      selectedPermohonan: {},
       selectedMahasiswa: {},
       dialogDelete: false,
       dialogDetail: false,
@@ -485,14 +506,23 @@ export default {
       snackbar: {
         show: false
       },
-      headers: [
-        {
-          text: "Nama",
-          align: "start",
-          sortable: false,
-          value: "mahasiswa.nama"
-        }
-      ]
+      headers: {
+        permohonan: [
+          {
+            text: "Nama",
+            align: "start",
+            sortable: false,
+            value: "mahasiswa.nama"
+          }
+        ],
+        mahasiswa: [
+          {
+            text: "Judul",
+            value: "judul"
+          },
+          { text: "Isi", value: "isi" }
+        ]
+      }
     };
   }
 };
