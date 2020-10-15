@@ -8,7 +8,7 @@
     style="overflow-y: auto"
   >
     <v-card-text>
-      <v-subheader><strong class="text-dark">History permohonan</strong></v-subheader>
+      <v-subheader><strong class="text-dark">History survey</strong></v-subheader>
       <v-row class="pl-8 pr-8">
         <v-text-field
           prepend-inner-icon="mdi-magnify"
@@ -59,7 +59,7 @@
                       dark
                       color="green"
                     >
-                      {{Object.keys(item.permohonan).length}} Permohonan diverifikasi
+                      {{Object.keys(item.permohonan).length}} Permohonan disurvey
 
                     </v-chip>
                   </v-col>
@@ -96,7 +96,7 @@
                           <v-list-item-action>
                             <v-icon
                               color="blue"
-                              v-if="permohonan.is_berkas_passed"
+                              v-if="permohonan.is_survey_passed"
                             >mdi-check</v-icon>
                             <v-icon
                               color="red"
@@ -153,7 +153,7 @@ export default {
       axios
         .get(`${this.url}/api/permohonan/my-history`, {
           params: {
-            key: "berkas"
+            key: "survey"
           }
         })
         .then(response => {

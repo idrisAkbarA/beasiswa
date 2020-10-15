@@ -161,6 +161,11 @@ export default {
         })
         .catch(error => {
           console.error(error);
+          this.snackbar = {
+            show: true,
+            color: "red",
+            message: error
+          };
         });
     }
   },

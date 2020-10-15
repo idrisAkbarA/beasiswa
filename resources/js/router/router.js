@@ -35,6 +35,7 @@ import InterviewerHistory from "../views/Petugas/Interviewer/History.vue";
 
 import Surveyor from "../views/Petugas/Surveyor/Surveyor.vue";
 import SurveyorHome from "../views/Petugas/Surveyor/Home.vue";
+import SurveyorHistory from "../views/Petugas/Surveyor/History.vue";
 
 import Petinggi from "../views/Petugas/Petinggi/Petinggi.vue";
 import PetinggiHome from "../views/Petugas/Petinggi/Home.vue";
@@ -341,7 +342,12 @@ const routes = [
                 name: "Home",
                 path: "home",
                 component: SurveyorHome
-            }
+            },
+            {
+                name: "Surveyor History",
+                path: "history",
+                component: SurveyorHistory
+            },
         ]
     },
     {
