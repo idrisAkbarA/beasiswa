@@ -7,12 +7,13 @@
     >
 
       <v-data-table
+        
         :headers="headers.beasiswa"
         :items="beasiswaProgress.selesai"
         :items-per-page="10"
         @click:row="info"
-        style="background-color: #2e7d323b"
-        class="elevation-10 mb-10"
+        style="background-color: #2e7d323b; cursor: hand;"
+        class="elevation-10 mb-10 row-pointer"
       >
         <template v-slot:item.status="{ item }">
           <v-chip :color="item.status == 'Selesai' ? 'green' : 'orange'">
@@ -102,7 +103,7 @@
                   :search="search.permohonan"
                   @click:row="getUserPermohonan"
                   style="background-color: #2e7d323b"
-                  class="elevation-10 mb-10"
+                  class="elevation-10 mb-10 row-pointer"
                 >
                   <template v-slot:item.verificator="{ item }">
                     <v-chip
@@ -541,6 +542,9 @@ export default {
 </script>
 
 <style scoped>
+.row-pointer >>> tbody tr :hover {
+  cursor: pointer;
+}
 .fab {
   color: #2e7d323b;
   position: fixed;
