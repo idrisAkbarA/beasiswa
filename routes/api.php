@@ -50,7 +50,8 @@ Route::get('/beasiswa/get-active', 'BeasiswaController@getActive');
 Route::middleware('auth:petugas,mahasiswa')->get('/beasiswa/with-permohonan', 'BeasiswaController@getAllWithPermohonan');
 Route::get('/beasiswa/selesai', 'BeasiswaController@selesai');
 Route::middleware('auth:petugas,mahasiswa')->get('/beasiswa/{id}', 'BeasiswaController@get');
-Route::middleware('auth:petugas')->delete('/beasiswa/{id}', 'BeasiswaController@delete');
+Route::middleware('auth:petugas')->delete('/beasiswa/selesai/{id}', 'BeasiswaController@delete');
+Route::middleware('auth:petugas')->delete('/beasiswa/{id}', 'BeasiswaController@destroy');
 
 
 Route::middleware('auth:petugas')->post('/user', 'UserController@store');

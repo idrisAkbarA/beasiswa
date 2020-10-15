@@ -1236,7 +1236,25 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <!-- Snackbar -->
+    <v-snackbar
+      v-model="snackbar.show"
+      :timeout="2000"
+    >
+      {{ snackbar.message }}
 
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          :color="snackbar.color"
+          text
+          v-bind="attrs"
+          @click="snackbar.show = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
+    <!-- Akhir -->
   </v-container>
 </template>
 
@@ -1246,15 +1264,12 @@ export default {
   created() {
     this.getBeasiswa();
     this.getInstansi();
-    // console.log(this.hariIni());
   },
   watch: {
     validation(v) {
-      // console.log(v);
       v ? (this.isSaveDisabled = false) : (this.isSaveDisabled = true);
     },
     validationEdit(v) {
-      // console.log(v);
       v ? (this.isEditDisabled = false) : (this.isEditDisabled = true);
     }
   },
@@ -1268,12 +1283,10 @@ export default {
       "deleteBeasiswa"
     ]),
     deleteBea(item) {
-      console.log(item.id);
       this.deleteId = item.id;
       this.deleteDialog = true;
     },
     finallyDelete() {
-      console.log(this.deleteId);
       this.deleteBeasiswa(this.deleteId);
       this.deleteDialog = false;
     },
@@ -1328,12 +1341,12 @@ export default {
       this.is_surveyEdit = item.is_survey ? true : false;
       this.toggleEdit = true;
     },
-    testSelectedInstansiBuat(){
-      console.log(this.selected_instansiEdit)
+    testSelectedInstansiBuat() {
+      console.log(this.selected_instansiEdit);
       // console.log(v)
     },
-    testSelectedInstansi(){
-      console.log(this.selected_instansiEdit)
+    testSelectedInstansi() {
+      console.log(this.selected_instansiEdit);
       // console.log(v)
     },
     async sendEdit() {
@@ -1387,16 +1400,19 @@ export default {
           ukt: this.lainnya.ukt ?? null,
           is_first: this.lainnya.is_first ?? 0
         };
-        console.log(data);
         this.btnLoading = true;
         this.editBeasiswa(data)
           .then(response => {
             this.btnLoading = false;
             this.toggleEdit = false;
-            console.log("what");
           })
           .catch(error => {
             this.btnLoading = false;
+            this.snackbar = {
+              show: true,
+              color: "red",
+              message: error
+            };
           });
       }
     },
@@ -1404,7 +1420,6 @@ export default {
       a == b ? true : false;
     },
     isDisabled(date) {
-      // console.log(date);
       var date = Date.parse(date[0]);
       var now = Date.now();
       var value = date >= now ? false : true;
@@ -1470,7 +1485,6 @@ export default {
           is_first: this.form.is_first ?? 0
         };
         this.btnLoading = true;
-        console.log(data);
         this.storeBeasiswa(data)
           .then(response => {
             this.btnLoading = false;
@@ -1480,11 +1494,15 @@ export default {
           })
           .catch(error => {
             this.btnLoading = false;
+            this.snackbar = {
+              show: true,
+              color: "red",
+              message: error
+            };
           });
       }
     },
     width() {
-      // console.log(this.windowWidth)
       if (this.windowWidth <= 600) {
         return "100%";
       } else if (this.windowWidth <= 960) {
@@ -1521,7 +1539,6 @@ export default {
         required: true,
         isLulus: null
       });
-      console.log(this.fieldsEdit);
     },
     addField() {
       // get the last array then add the order value
@@ -1546,7 +1563,6 @@ export default {
         required: true,
         isLulus: null
       });
-      console.log(this.fields);
     },
     deleteField(field) {
       this.fields.splice(this.fields.indexOf(field), 1);
@@ -1654,6 +1670,7 @@ export default {
       checked: {},
       form: {},
       lainnya: {},
+      snackbar: { show: false },
       idEdit: null,
       deleteDialog: false,
       deleteId: null,
@@ -1671,7 +1688,6 @@ export default {
       dateSurveyEdit: [this.hariIni()],
       kuotaEdit: 1,
       toggleEdit: false,
-
       btnLoading: false,
       nama: "",
       deskripsi: "",

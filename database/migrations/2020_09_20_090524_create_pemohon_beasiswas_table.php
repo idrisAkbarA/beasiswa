@@ -18,11 +18,15 @@ class CreatePemohonBeasiswasTable extends Migration
             $table->string('mhs_id');
             $table->integer('beasiswa_id');
             $table->integer('verificator_id')->nullable();
+            $table->date('verified_at')->nullable();
             $table->integer('interviewer_id')->nullable();
+            $table->date('interviewed_at')->nullable();
             $table->integer('surveyor_id')->nullable();
+            $table->date('surveyed_at')->nullable();
             $table->integer('selector_id')->nullable();
+            $table->date('selected_at')->nullable();
             $table->boolean('is_berkas_passed')->nullable();
-            $table->string('keterangan')->nullable();
+            $table->text('keterangan')->nullable();
             $table->boolean('is_interview_passed')->nullable();
             $table->boolean('is_survey_passed')->nullable();
             $table->boolean('is_selection_passed')->nullable();

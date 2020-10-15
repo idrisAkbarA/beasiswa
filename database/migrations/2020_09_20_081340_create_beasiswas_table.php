@@ -28,7 +28,7 @@ class CreateBeasiswasTable extends Migration
             $table->date('awal_survey')->nullable();
             $table->date('akhir_survey')->nullable();
             $table->float('ipk')->nullable();
-            $table->integer('jenjang')->nullable();
+            $table->json('jenjang')->nullable();
             $table->string('semester')->nullable();
             $table->integer('ukt')->nullable();
             $table->boolean('is_first')->default(false);

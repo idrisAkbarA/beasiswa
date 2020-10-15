@@ -35,6 +35,17 @@ class Beasiswa extends Model
     {
         $this->attributes['fields'] = json_encode($value);
     }
+
+    public function setJenjangAttribute($value)
+    {
+        $this->attributes['jenjang'] = json_encode($value);
+    }
+
+    public function getJenjangAttribute($value)
+    {
+        return json_decode($value);
+    }
+
     public function getBerkasAttribute()
     {
         $petugas = Auth::guard('petugas')->user();
@@ -164,19 +175,19 @@ class Beasiswa extends Model
 
     public function cekPersyaratan(User $user)
     {
-        $jenjang = $this->jenjang == substr($user->nim, 0, 1);
+        $jenjang = in_array(substr($user->nim, 0, 1), $this->jenjang);
         $ukt = $this->ukt && $user->ukt > $this->ukt;
-        $first = $this->is_first && $user->permohonan->count() > 0;
+        $first = $this->is_first && $user->permohonan->where('is_selection_passed', 1)->count() > 0;
         $syarat = [
-            'jenjang' => $jenjang,
-            'ukt' => !$ukt,
-            'first' => !$first,
-            'semester' => self::cekSemester($this, $user)
+            'Jenjang' => $jenjang,
+            'UKT' => !$ukt,
+            'Tidak mengikuti beasiswa lain' => !$first,
+            'Semester' => self::cekSemester($this, $user)
         ];
         $this->syarat = $syarat;
-        if (in_array(false, $syarat)) {
-            //
-        }
+        // if (in_array(false, $syarat)) {
+        //     //
+        // }
     }
 
     public function instansi()

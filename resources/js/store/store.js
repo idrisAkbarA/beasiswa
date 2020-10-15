@@ -284,16 +284,19 @@ export default new Vuex.Store({
                 dispatch("getInstansi");
             });
         },
+        selesaiBeasiswa({ commit, dispatch, state }, id) {
+            Axios.delete(state.url + "/api/beasiswa/selesai/" + id).then(response => {
+                dispatch("getBeasiswaWithPermohonan");
+            });
+        },
         deleteBeasiswa({ commit, dispatch, state }, id) {
             Axios.delete(state.url + "/api/beasiswa/" + id).then(response => {
                 dispatch("getBeasiswa");
-                console.log(response);
             });
         },
         deleteBeasiswaWithPermohonan({ commit, dispatch, state }, id) {
             Axios.delete(state.url + "/api/beasiswa/" + id).then(response => {
                 dispatch("getBeasiswaWithPermohonan");
-                console.log(response);
             });
         },
         editInstansi({ commit, dispatch, state }, data) {
