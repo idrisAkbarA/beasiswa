@@ -15,6 +15,7 @@ import AkunPetugas from "../views/Petugas/Admin/AkunPetugas.vue";
 import Kelulusan from "../views/Petugas/Admin/Kelulusan.vue";
 import KelolaMhs from "../views/Petugas/Admin/Mahasiswa.vue";
 import CekPermohonan from "../views/Petugas/Admin/CekPermohonan.vue";
+import Laporan from "../views/Petugas/Admin/Laporan.vue";
 
 import SuperAdmin from "../views/Petugas/SuperAdmin/SuperAdmin.vue";
 import SAKelolaMhs from "../views/Petugas/SuperAdmin/Mahasiswa.vue";
@@ -114,6 +115,11 @@ const routes = [
                 name: "Kelulusan",
                 path: "kelulusan",
                 component: Kelulusan
+            },
+            {
+                name: "Laporan",
+                path: "laporan",
+                component: Laporan
             },
             {
                 name: "Beasiswa",

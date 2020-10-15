@@ -12,14 +12,24 @@ use Illuminate\Support\Facades\Schema;
 class BeasiswaController extends Controller
 {
     public function downloadReport(Request $request){
+        // return Excel::download(new BeasiswaExport, 'Beasiswa.xlsx');
+        $finalData = $this->report($request);
+        return Excel::download(new BeasiswaExport($finalData), 'Beasiswa.xlsx');
+        // return array_keys( $finalData[0]);
+        return $finalData;
+        // return $beasiswaCol;
+        return [$whereFakultas,$whereTahap];
+    }
+    public function report(Request $request){
         $beasiswaCol;
         $whereFakultas = [];
         $whereTahap = [];
-
+        $finalData = [];
         $tahap = $request['tahap'];
         $status = $request['status'];
         $beasiswa = $request['beasiswa'];
         $fakultas = $request['fakultas'];
+        $statusSemua = '';
 
         if($fakultas != 'all') $whereFakultas['fakultas_id'] = $fakultas; 
         if($tahap != 'all'){
@@ -33,6 +43,9 @@ class BeasiswaController extends Controller
                 if($status == "seleksi"){
                     $whereTahap['is_berkas_passed'] = null;
                 }
+                if($status == "all"){
+                   $statusSemua = "is_berkas_passed";
+                }
             }
             if($tahap == "wawancara"){
                 if($status == "lulus"){
@@ -44,6 +57,9 @@ class BeasiswaController extends Controller
                 if($status == "seleksi"){
                     $whereTahap['is_interview_passed'] = null;
                 }
+                if($status == "all"){
+                    $statusSemua = "is_interview_passed";
+                 }
             }
             if($tahap == "survey"){
                 if($status == "lulus"){
@@ -55,6 +71,9 @@ class BeasiswaController extends Controller
                 if($status == "seleksi"){
                     $whereTahap['is_survey_passed'] = null;
                 }
+                if($status == "all"){
+                    $statusSemua = "is_survey_passed";
+                 }
             }
             if($tahap == "seleksi"){
                 if($status == "lulus"){
@@ -66,6 +85,9 @@ class BeasiswaController extends Controller
                 if($status == "seleksi"){
                     $whereTahap['is_selection_passed'] = null;
                 }
+                if($status == "all"){
+                    $statusSemua = "is_selection_passed";
+                 }
             }
         }
         if($beasiswa != 'all'){
@@ -82,7 +104,7 @@ class BeasiswaController extends Controller
             unset($item['created_at']);
             unset($item['update_at']);
             // return "oi";
-            if($whereFakultas['fakultas_id']){
+            if(isset($whereFakultas['fakultas_id'])){
                 
                 if(count($whereTahap)>0){
                     $tahapKey = array_key_first($whereTahap);
@@ -90,25 +112,66 @@ class BeasiswaController extends Controller
 
                     // filter fakultas
                     foreach ($item['permohonan'] as $key => $value) {
-                        if($value['mahasiswa']['jurusan']['fakultas']['id'] != $whereFakultas['fakultas_id']){
+                        if($value['mahasiswa']['jurusan']['fakultas']['id'] !== $whereFakultas['fakultas_id']){
                             unset($item['permohonan'][$key]);
                         }
                     }
                     // filter tahap
                     foreach ($item['permohonan'] as $key => $value) {
-                        if($value[$tahapKey] != $tahapValue){
+                        if($value[$tahapKey] !== $tahapValue){
+                            unset($item['permohonan'][$key]);
+                        };
+                    }
+                }
+            }else{
+                if(count($whereTahap)>0){
+                    $tahapKey = array_key_first($whereTahap);
+                    $tahapValue = $whereTahap[$tahapKey];
+                    // filter tahap
+                    foreach ($item['permohonan'] as $key => $value) {
+                        if($value[$tahapKey] !==$tahapValue){
                             unset($item['permohonan'][$key]);
                         };
                     }
                 }
             }
         });
-        // return Beasiswa::with("beasiswa")->get();
-        // $columns = Schema::getColumnListing('beasiswas');
-        // return $columns;
-        return $beasiswaCol;
-        return [$whereFakultas,$whereTahap];
-        // return Excel::download(new BeasiswaExport, 'Beasiswa.xlsx');
+
+        if(count($whereTahap)<1){
+            $tahapKey = $statusSemua;
+            $namedTahapKey = "Tahap ".explode("_",$tahapKey)[1];
+        }else{
+            $tahapKey = array_key_first($whereTahap);
+            $namedTahapKey = "Tahap ".explode("_",$tahapKey)[1];
+        }
+        
+
+        foreach ($beasiswaCol as $keyB => $valueB) {
+            foreach ($valueB['permohonan'] as $keyP => $valueP) {
+                $temp = [];
+                $status = '';
+                $temp['Beasiswa'] = $valueB['nama'];
+                $temp['Nama'] = $valueP['mahasiswa']['nama'];
+                $temp['NIM'] = $valueP['mahasiswa']['nim'];
+                $temp['Jurusan'] = $valueP['mahasiswa']['jurusan']['nama'];
+                $temp['Fakultas'] = $valueP['mahasiswa']['fakultas']['nama'];
+                $temp['IPS'] = $valueP['mahasiswa']['ips'];
+                $temp['IPK'] = $valueP['mahasiswa']['ipk'];
+                if($valueP[$tahapKey]===1){
+                    $status = "Lulus";
+                }else if($valueP[$tahapKey]===0){
+                    $status = "Gagal";
+                }else if($valueP[$tahapKey]===null){
+                    $status = "Dalam Tahap Seleksi";
+                }
+                $temp[$namedTahapKey] = $status;
+                # code...
+                array_push($finalData, $temp); 
+            }
+        }
+        // return [$whereFakultas,$whereTahap];
+        // return $beasiswaCol;
+        return $finalData;
     }
     public function getAll()
     {

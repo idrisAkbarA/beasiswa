@@ -4,45 +4,47 @@ namespace App\Exports;
 
 use App\Beasiswa;
 use App\Instansi;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Illuminate\Support\Facades\Schema;
-class BeasiswaExport implements FromCollection
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithStyles;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+class BeasiswaExport implements FromCollection, WithHeadings, ShouldAutoSize, WithStyles
 {
     /**
     * @return \Illuminate\Support\Collection
     */
-    private array $keys;
-    public function __construct(
-            $beasiswa = "all", // all, 0, 1, 2 ...
-            $fakultas = "all", // all, 0, 1, 2 ...
-            $status = "all", // gagal, lulus
-            $tahap = "all" // berkas, wawancara, survey, seleksi
-        )
+    public function __construct($data)
     {
-        $this->beasiswa = $beasiswa;
-        $this->fakultas = $fakultas;
-        $this->status = $status;
-        $this->tahap = $tahap;
-        $this->keys = [];
+        $this->data = $data;
     }
     public function collection()
     {
-        //beasiswa.test/api/beasiswa/download-report
-        $instansi = Instansi::all();
-        $beasiswa = Beasiswa::all();
-        // $this->keys = Schema::getColumnListing('beasiswas');
-        // $this->keys = array_keys((array)$beasiswa[0]);
-        $beasiswa->map(function ($item, $key) {
-            $instansi = Instansi::find($item['instansi_id']);
-            $item['instansi_id'] = $instansi['name'];
-        });
-        // return $this->keys;
+        $beasiswa = collect($this->data);
         return $beasiswa;
         
     }
     public function headings(): array
     {
-        $key = $this->keys;
-        return $key;
+        $keys = array_keys($this->data[0]);
+        return $keys;
+    }
+    public function styles(Worksheet $sheet)
+    {
+        return [
+            // Style the first row as bold text.
+            1    => [
+                'font' => ['bold' => true],
+                'borders' => [
+                    'bottom' => [
+                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    ],
+                ],
+            ],
+        ];
     }
 }
