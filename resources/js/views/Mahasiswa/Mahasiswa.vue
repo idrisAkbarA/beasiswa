@@ -78,7 +78,7 @@
             </span>
           </router-link>
           <!-- Change this automaticly later usig VUEX -->
-          <span> | {{$route.name}}</span>
+          <!-- <span> | {{$route.name}}</span> -->
         </v-toolbar-title>
       </div>
       <v-btn

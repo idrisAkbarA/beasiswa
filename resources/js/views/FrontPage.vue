@@ -44,10 +44,14 @@
             </v-avatar>
             <div style="width:100%; -webkit-app-region: drag;">
               <v-toolbar-title>
-                <span class="font-weight-bold ml-4">
+                <span v-if="windowWidth >= 600" class="font-weight-bold ml-4">
                   App
                   Pendaftaran Beasiswa
-                  Uin Suska Riau
+                  UIN Suska Riau
+                </span>
+                <span v-if="windowWidth <= 600" class="font-weight-bold ml-4">
+                  App
+                  Pendaftaran Beasiswa
                 </span>
 
               </v-toolbar-title>
