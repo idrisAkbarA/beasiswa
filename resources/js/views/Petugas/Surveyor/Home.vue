@@ -353,8 +353,10 @@ export default {
           this.dialogDelete = false;
           this.snackbar = {
             show: true,
-            color: "blue",
-            message: "Berhasil!"
+            color: response.data.status ? "blue" : "red",
+            message: response.data.status
+              ? "Berhasil!"
+              : "Opps! terjadi kesalahan"
           };
         })
         .catch(error => {

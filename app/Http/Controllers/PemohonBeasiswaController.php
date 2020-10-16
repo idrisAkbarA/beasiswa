@@ -132,37 +132,33 @@ class PemohonBeasiswaController extends Controller
         $permohonan->is_berkas_passed = $request['bool'];
         $permohonan->keterangan = $request['keterangan'];
         $permohonan->form = $request['form'];
-        $permohonan->verificator_id = Auth::guard('petugas')->id();
         $permohonan->save();
         return response()->json([
-            'status' => 'Success: berkas set', "keterangan" => $request["keterangan"]
+            'status' => $permohonan->wasChanged('is_berkas_passed')
         ]);
     }
     public function setSurvey(Request $request)
     {
         $permohonan = PemohonBeasiswa::find($request['id']);
         $permohonan->is_Survey_passed = $request['bool'];
-        $permohonan->surveyor_id = Auth::guard('petugas')->id();
         $permohonan->save();
         return response()->json([
-            'status' => 'Success: Survey set'
+            'status' => $permohonan->wasChanged('is_survey_passed')
         ]);
     }
     public function setInterview(Request $request)
     {
         $permohonan = PemohonBeasiswa::find($request['id']);
         $permohonan->is_interview_passed = $request['bool'];
-        $permohonan->interviewer_id = Auth::guard('petugas')->id();
         $permohonan->save();
         return response()->json([
-            'status' => 'Success: interview set'
+            'status' => $permohonan->wasChanged('is_interview_passed')
         ]);
     }
     public function setSelection(Request $request)
     {
         $permohonan = PemohonBeasiswa::find($request['id']);
         $permohonan->is_selection_passed = $request['bool'];
-        $permohonan->selector_id = Auth::guard('petugas')->id();
         $permohonan->save();
         return response()->json([
             'status' => $permohonan->wasChanged('is_selection_passed')
