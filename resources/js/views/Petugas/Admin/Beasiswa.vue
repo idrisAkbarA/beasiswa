@@ -729,6 +729,7 @@
                 </v-col>
                 <v-col cols="4">
                   <v-select
+                    multiple
                     v-model="jenjang"
                     :items="[{i:0, v:'D3'}, {i:1, v:'S1'}, {i:2, v:'S2'} , {i:3, v:'S3'}]"
                     item-text="v"
@@ -1692,7 +1693,7 @@ export default {
       nama: "",
       deskripsi: "",
       selected_instansi: "",
-      jenjang: 1,
+      jenjang: [1],
       fields: [
         {
           type: "Jawaban Pendek",
