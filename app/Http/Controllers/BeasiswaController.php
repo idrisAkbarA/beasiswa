@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Beasiswa;
 use App\UserPetugas;
 use App\Instansi;
+use App\Settings\Settings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Exports\BeasiswaExport;
@@ -13,6 +14,21 @@ use Illuminate\Support\Facades\Schema;
 
 class BeasiswaController extends Controller
 {
+    public function setAppSettings(Request $request){
+        try {
+            $file = Settings::set();
+            return $file;
+            
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+    public function getAppSettings(){
+        $file = Settings::get();
+
+        return $file;
+        return Settings::get();
+    }
     public function downloadReport(Request $request)
     {
         // return Excel::download(new BeasiswaExport, 'Beasiswa.xlsx');

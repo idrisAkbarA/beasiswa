@@ -48,9 +48,6 @@
         </v-img>
       </v-col>
       <v-col
-        cols="12"
-        lg="6"
-        md="6"
         :class="windowWidth <= 600 ?' ma-5 pa-5':''"
       >
         <v-row>
@@ -117,7 +114,7 @@
       >
         <h3>Form Pendaftaran</h3>
         <v-form
-        ref="form"
+          ref="form"
           v-model="validation"
           lazy-validation
         >
@@ -275,7 +272,7 @@
             <v-btn
               :disabled="isDisabled"
               :loading="loadingBtn"
-              @click="save()"
+              @click="checkIsReady()"
               color="#2E7D32"
             >Daftar</v-btn>
           </v-col>
@@ -287,6 +284,15 @@
         </v-row>
       </v-sheet>
     </v-row>
+    <v-dialog v-model="isSure" :width="width()">
+      <v-card>
+        <v-card-title>Peringatan</v-card-title>
+        <v-card-text>Seluruh berkas yang dikirim tidak dapat diedit/diperbarui/dihapus kembal, mohon periksa kelengkapan berkas anda.<br><br>Apakah anda yakin untuk mendaftar?</v-card-text>
+        <v-card-actions>
+          <v-btn @click="save()" color="green darken-2" :disabled="loadingBtn">Upload Berkas</v-btn><v-btn @click="isSure=false" text>batal</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
   </v-sheet>
 </template>
@@ -312,6 +318,17 @@ export default {
     parseDate(date) {
       return this.$moment(date, "YYYY-MM-DD").format("Do MMMM YYYY");
     },
+        width() {
+      // console.log(this.windowWidth)
+      if (this.windowWidth <= 600) {
+        return "70%";
+      } else if (this.windowWidth <= 960) {
+        return "30%";
+      } else {
+        return "20%";
+      }
+    },
+
     getUserPermohonan() {
       axios.get("/api/pemohon/cek-isHas").then(response => {
         console.log(response.data);
@@ -346,6 +363,7 @@ export default {
     //       };
     //     });
     // },
+
     upload: async (data, url) => {
       return axios({
         method: "post",
@@ -361,9 +379,13 @@ export default {
         return [];
       }
     },
+    async checkIsReady(){
+       await this.$refs.form.validate();
+        if (this.validation) {
+          this.isSure = true
+        }
+    },
     async save() {
-      await this.$refs.form.validate()
-      if(this.validation){
         this.loadingBtn = true;
         var finalForm = [];
         this.fields.forEach(element => {
@@ -375,7 +397,7 @@ export default {
         var fileNames = [];
         var reqs = [];
         var multiFiles = [];
-  
+
         // store all file to new array (files)
         this.fields.forEach((element, index) => {
           if (element.type == "Upload File") {
@@ -406,7 +428,7 @@ export default {
           // console.log(finalForm);
         }
         //multiple upload goes here
-  
+
         for (let i = 0; i < multiFiles.length; i++) {
           const element = multiFiles[i];
           // console.log(element)
@@ -441,12 +463,12 @@ export default {
             this.overlay.show = true;
             this.loadingBtn = false;
             this.isDisabled = true;
+            this.isSure=false;
           })
           .catch(error => {
             console.log(error);
           });
-
-      }
+      
     }
   },
   computed: {
@@ -460,6 +482,7 @@ export default {
   },
   data() {
     return {
+      isSure: false,
       rule: [v => !!v || "Field ini wajib diisi"],
       validation: true,
       isDisabled: false,

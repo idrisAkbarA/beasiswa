@@ -42,22 +42,41 @@
                 alt="logo"
               >
             </v-avatar>
-            <div style="width:100%; -webkit-app-region: drag;">
-              <v-toolbar-title>
-                <span class="font-weight-bold ml-4">
-                  App
-                  Pendaftaran Beasiswa
-                  Uin Suska Riau
-                </span>
 
-              </v-toolbar-title>
-            </div>
+            <v-toolbar-title>
+              <span
+                v-if="windowWidth >= 600"
+                class="font-weight-bold ml-4"
+              >
+                App
+                Pendaftaran Beasiswa
+                UIN Suska Riau
+              </span>
+              <span
+                v-if="windowWidth <= 600"
+                class="font-weight-light ml-4"
+              >
+                App
+                Beasiswa
+              </span>
+            </v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-btn
+              v-if="windowWidth <= 600"
+              @click="dialog=true"
+              text
+              color="green"
+            >
+              <v-icon>mdi-login-variant</v-icon> Login
+            </v-btn>
           </v-app-bar>
           <h4
             style="z-index:3; position:fixed;"
             class="font-weight-light ma-7"
           >Beasiswa Tersedia</h4>
+          <v-spacer></v-spacer>
           <v-btn
+            v-if="windowWidth >= 600"
             @click="dialog=true"
             text
             color="green"
@@ -72,7 +91,11 @@
               color="transparent"
               class="d-flex align-center align-self-center list-beasiswa "
             >
-              <p class="text-center" style="width:40vw" v-if="beasiswa.length<1">Maaf belum ada beasiswa tersedia</p>
+              <p
+                class="text-center"
+                style="width:40vw"
+                v-if="beasiswa.length<1"
+              >Maaf belum ada beasiswa tersedia</p>
               <v-hover
                 v-for="(item,index) in beasiswa"
                 :key="index"
@@ -160,9 +183,9 @@
                     <br><br>
                     Batas upload berkas <span v-if="beasiswaSingle.awal_berkas"><strong>{{parseDate(beasiswaSingle.awal_berkas)}}</strong> sampai </span> <strong> {{parseDate(beasiswaSingle.akhir_berkas)}}</strong>
                     <br>
-                    <span v-if="beasiswaSingle.is_interview">Waktu wawancara <span v-if="beasiswaSingle.awal_interview"><strong>{{parseDate(beasiswaSingle.awal_interview)}} </strong></span> <span v-if="beasiswaSingle.akhir_interview"> sampai <strong>{{parseDate(beasiswaSingle.akhir_interview)}}</strong></span>  </span>
+                    <span v-if="beasiswaSingle.is_interview">Waktu wawancara <span v-if="beasiswaSingle.awal_interview"><strong>{{parseDate(beasiswaSingle.awal_interview)}} </strong></span> <span v-if="beasiswaSingle.akhir_interview"> sampai <strong>{{parseDate(beasiswaSingle.akhir_interview)}}</strong></span> </span>
                     <br>
-                    <span v-if="beasiswaSingle.is_survey">Waktu survey <span v-if="beasiswaSingle.awal_survey"><strong>{{parseDate(beasiswaSingle.awal_survey)}}</strong> </span> <span v-if="beasiswaSingle.akhir_survey">sampai <strong>{{parseDate(beasiswaSingle.akhir_survey)}} </strong>  </span> </span>
+                    <span v-if="beasiswaSingle.is_survey">Waktu survey <span v-if="beasiswaSingle.awal_survey"><strong>{{parseDate(beasiswaSingle.awal_survey)}}</strong> </span> <span v-if="beasiswaSingle.akhir_survey">sampai <strong>{{parseDate(beasiswaSingle.akhir_survey)}} </strong> </span> </span>
                   </v-container>
 
                   <v-divider></v-divider>
