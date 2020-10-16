@@ -44,13 +44,13 @@
                       <td>Pengisian Berkas</td>
                       <td><span v-if="item.beasiswa.awal_berkas"><strong>{{parseDate(item.beasiswa.awal_berkas)}}</strong> sampai </span> <strong> {{parseDate(item.beasiswa.akhir_berkas)}}</strong></td>
                     </tr>
-                    <tr>
+                    <tr v-if="item.beasiswa.is_interview">
                       <td>Wawancara</td>
-                      <td><span v-if="item.beasiswa.is_interview"><span v-if="item.beasiswa.awal_interview"><strong>{{parseDate(item.beasiswa.awal_interview)}} </strong>sampai </span> <strong>{{parseDate(item.beasiswa.akhir_interview)}}</strong> </span></td>
+                      <td><span ><span v-if="item.beasiswa.awal_interview"><strong>{{parseDate(item.beasiswa.awal_interview)}} </strong>sampai </span> <strong>{{parseDate(item.beasiswa.akhir_interview)}}</strong> </span></td>
                     </tr>
-                    <tr>
+                    <tr v-if="item.beasiswa.is_survey">
                       <td>Survey</td>
-                      <td><span v-if="item.beasiswa.is_survey"><strong>{{parseDate(item.beasiswa.awal_survey)}}</strong> sampai </span> <strong>{{parseDate(item.beasiswa.akhir_survey)}} </strong> </td>
+                      <td><span ><strong>{{parseDate(item.beasiswa.awal_survey)}}</strong> sampai </span> <strong>{{parseDate(item.beasiswa.akhir_survey)}} </strong> </td>
                     </tr>
                   </tbody>
                 </template>

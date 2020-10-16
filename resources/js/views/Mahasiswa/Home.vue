@@ -5,12 +5,9 @@
     class="main pa-0 ma-0"
   >
     <!-- <v-card @click="goto">pepek</v-card> -->
-    <v-row
-      justify="center"
-      v-if="beasiswa.length<1"
-    >
-      <h2>Tidak ada beasiswa yang tersedia</h2>
-    </v-row>
+
+      <h2 v-if="beasiswa.length<1" class="text-center" style="width:100vw">Tidak ada beasiswa yang tersedia</h2>
+   
     <v-row justify="center">
 
       <v-card
