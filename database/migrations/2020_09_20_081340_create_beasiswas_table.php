@@ -33,6 +33,8 @@ class CreateBeasiswasTable extends Migration
             $table->integer('ukt')->nullable();
             $table->boolean('is_first')->default(false);
             $table->json('fields');
+            $table->json('fields_interview')->nullable();
+            $table->json('fields_survey')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

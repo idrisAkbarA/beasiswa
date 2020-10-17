@@ -49,6 +49,16 @@
       </div>
       <v-slide-y-transition>
         <v-btn
+          v-if="this.$route.name == 'List Permohonan'"
+          small
+          class="green darken-3"
+          @click="toggleBeasiswa()"
+        >
+          <v-icon>mdi-plus</v-icon>tambah beasiswa selesai
+        </v-btn>
+      </v-slide-y-transition>
+      <v-slide-y-transition>
+        <v-btn
           v-if="isBeasiswa"
           small
           class="green darken-3"
@@ -117,12 +127,11 @@ export default {
   methods: {
     ...mapMutations(["toggleOpenBeasiswa"]),
     toggleBeasiswa() {
-      console.log(this.isOpenBeasiswa);
       this.toggleOpenBeasiswa(true);
     },
     logout() {
       axios
-        .get(this.url +"/api/logout-petugas", {
+        .get(this.url + "/api/logout-petugas", {
           params: {
             user: window.localStorage.getItem("user")
           }
@@ -134,7 +143,7 @@ export default {
           this.$router.push({ name: "Login Petugas" });
         })
         .catch(() => {
-          console.log(this.$store.state.auth.isAuth+" dar catch");
+          console.log(this.$store.state.auth.isAuth + " dar catch");
           this.$store.state.auth.isAuth = false;
           this.$router.push({ path: "/login" });
         });
@@ -144,7 +153,7 @@ export default {
     source: String
   },
   computed: {
-    ...mapState(["isOpenBeasiswa","url"]),
+    ...mapState(["isOpenBeasiswa", "url"]),
     nama() {
       return this.$store.state.name;
     },
@@ -228,7 +237,7 @@ export default {
           icon: "mdi-hammer-wrench",
           title: "Pengaturan",
           to: `/admin/${petugas}/pengaturan`
-        },
+        }
       ];
     }
   },

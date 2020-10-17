@@ -31,6 +31,9 @@ class CreatePemohonBeasiswasTable extends Migration
             $table->boolean('is_survey_passed')->nullable();
             $table->boolean('is_selection_passed')->nullable();
             $table->json('form');
+            $table->json('form_interview')->nullable();
+            $table->json('form_survey')->nullable();
+            $table->boolean('is_submitted')->default(false);
             $table->timestamps();
         });
     }

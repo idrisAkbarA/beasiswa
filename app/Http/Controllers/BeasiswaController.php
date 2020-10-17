@@ -14,17 +14,18 @@ use Illuminate\Support\Facades\Schema;
 
 class BeasiswaController extends Controller
 {
-    public function setAppSettings(Request $request){
+    public function setAppSettings(Request $request)
+    {
         // return $request['settings'];
         try {
             $file = Settings::set($request['settings']);
             return $file;
-            
         } catch (\Throwable $th) {
             //throw $th;
         }
     }
-    public function getAppSettings(){
+    public function getAppSettings()
+    {
         $file = Settings::get();
 
         return $file;
@@ -239,15 +240,12 @@ class BeasiswaController extends Controller
 
     public function store(Request $request)
     {
-        // return $request;
         $instansi = new Instansi;
         if (!isset($request['data']['instansi_id'])) {
             $instansi->name = $request['data']['instansi'];
             $instansi->save();
             $request['data'] = array_merge($request['data'], ['instansi_id' => $instansi->id]);
-            // return $request['data']['instansi_id'];
         }
-        // return $request;
         $beasiswa = Beasiswa::create($request['data']);
         return response()->json(['status' => "Success: Beasiswa Added"]);
     }
