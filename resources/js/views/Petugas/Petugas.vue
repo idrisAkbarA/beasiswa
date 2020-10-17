@@ -223,7 +223,12 @@ export default {
           icon: "mdi-file-document",
           title: "Laporan",
           to: `/admin/${petugas}/Laporan`
-        }
+        },
+        {
+          icon: "mdi-hammer-wrench",
+          title: "Pengaturan",
+          to: `/admin/${petugas}/pengaturan`
+        },
       ];
     }
   },

@@ -15,8 +15,9 @@ use Illuminate\Support\Facades\Schema;
 class BeasiswaController extends Controller
 {
     public function setAppSettings(Request $request){
+        // return $request['settings'];
         try {
-            $file = Settings::set();
+            $file = Settings::set($request['settings']);
             return $file;
             
         } catch (\Throwable $th) {

@@ -10,6 +10,7 @@ Axios.defaults.withCredentials = true;
 
 export default new Vuex.Store({
     state: {
+        appSettings:[],
         auth: { role: null, isAuth: false },
         report: [],
         url: pack.baseUrl,
@@ -31,6 +32,9 @@ export default new Vuex.Store({
         isOpenBeasiswa: false
     },
     mutations: {
+        mutateAppSettings(state, data) {
+            state.appSettings = data;
+        },
         mutateReport(state, data) {
             state.report = data;
         },
@@ -84,6 +88,13 @@ export default new Vuex.Store({
         }
     },
     actions: {
+        getAppSettings({ commit, dispatch, state }) {
+            commit("mutateTableLoading", true);
+            Axios.get(state.url + "/api/beasiswa/settings").then(response => {
+                commit("mutateAppSettings", response.data);
+                commit("mutateTableLoading", false);
+            });
+        },
         getReport({ commit, dispatch, state }, data) {
             commit("mutateTableLoading", true);
             Axios.get(state.url + "/api/beasiswa/report", {
@@ -195,6 +206,21 @@ export default new Vuex.Store({
                 })
                     .then(response => {
                         dispatch("getAkunPetugas");
+                        resolve(response);
+                    })
+                    .catch(error => {
+                        reject(error);
+                    });
+            });
+        },
+        editAppSettings({ commit, dispatch, state }, data) {
+            return new Promise((resolve, reject) => {
+                console.log(data,"woi");
+                Axios.put(state.url + "/api/beasiswa/settings", {
+                    settings: data
+                })
+                    .then(response => {
+                        dispatch("getAppSettings");
                         resolve(response);
                     })
                     .catch(error => {
