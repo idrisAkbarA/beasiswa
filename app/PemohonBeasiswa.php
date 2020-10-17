@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 
 class PemohonBeasiswa extends Model
@@ -24,7 +25,7 @@ class PemohonBeasiswa extends Model
     public function getVerificatorAttribute()
     {
         $petugas = UserPetugas::find($this->verificator_id);
-        if (!$petugas){
+        if (!$petugas) {
             return '-';
         }
         return $petugas->nama_lengkap;
@@ -33,7 +34,7 @@ class PemohonBeasiswa extends Model
     public function getInterviewerAttribute()
     {
         $petugas = UserPetugas::find($this->interviewer_id);
-        if (!$petugas){
+        if (!$petugas) {
             return '-';
         }
         return $petugas->nama_lengkap;
@@ -42,7 +43,7 @@ class PemohonBeasiswa extends Model
     public function getSurveyorAttribute()
     {
         $petugas = UserPetugas::find($this->surveyor_id);
-        if (!$petugas){
+        if (!$petugas) {
             return '-';
         }
         return $petugas->nama_lengkap;
@@ -51,22 +52,52 @@ class PemohonBeasiswa extends Model
     public function getSelectorAttribute()
     {
         $petugas = UserPetugas::find($this->selector_id);
-        if (!$petugas){
+        if (!$petugas) {
             return '-';
         }
         return $petugas->nama_lengkap;
     }
 
+    public function setIsBerkasPassedAttribute($value)
+    {
+        $petugas = Auth::guard('petugas')->user();
+        if ($this->attributes['is_berkas_passed'] === null || $petugas->role == 0) {
+            $this->attributes['is_berkas_passed'] = $value;
+            $this->attributes['verificator_id'] = Auth::guard('petugas')->id();
+            $this->attributes['verified_at'] = now();
+        }
+    }
+
+    public function setIsInterviewPassedAttribute($value)
+    {
+        $petugas = Auth::guard('petugas')->user();
+        if ($this->attributes['is_interview_passed'] === null || $petugas->role == 0) {
+            $this->attributes['is_interview_passed'] = $value;
+            $this->attributes['interviewer_id'] = Auth::guard('petugas')->id();
+            $this->attributes['interviewed_at'] = now();
+        }
+    }
+
+    public function setIsSurveyPassedAttribute($value)
+    {
+        $petugas = Auth::guard('petugas')->user();
+        if ($this->attributes['is_interview_passed'] === null || $petugas->role == 0) {
+            $this->attributes['is_interview_passed'] = $value;
+            $this->attributes['interviewer_id'] = Auth::guard('petugas')->id();
+            $this->attributes['interviewed_at'] = now();
+        }
+    }
+
     public function setIsSelectionPassedAttribute($value)
     {
-        if ($value){
-            if ($this->beasiswa->quota > count($this->beasiswa->lulus)){
-                $this->attributes['is_selection_passed'] = $value;
-            }else {
-                return;
-            }
+        $petugas = Auth::guard('petugas')->user();
+        if ($value && $this->beasiswa->quota <= count($this->beasiswa->lulus) && $petugas->role) {
+            return;
+        } else {
+            $this->attributes['is_selection_passed'] = $value;
+            $this->attributes['selector_id'] = Auth::guard('petugas')->id();
+            $this->attributes['selected_at'] = now();
         }
-        $this->attributes['is_selection_passed'] = $value;
     }
 
     public function beasiswa()
