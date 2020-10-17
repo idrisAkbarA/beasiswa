@@ -16,6 +16,7 @@ import Kelulusan from "../views/Petugas/Admin/Kelulusan.vue";
 import KelolaMhs from "../views/Petugas/Admin/Mahasiswa.vue";
 import CekPermohonan from "../views/Petugas/Admin/CekPermohonan.vue";
 import Laporan from "../views/Petugas/Admin/Laporan.vue";
+import Pengaturan from "../views/Petugas/Admin/Pengaturan.vue";
 
 import SuperAdmin from "../views/Petugas/SuperAdmin/SuperAdmin.vue";
 import SAKelolaMhs from "../views/Petugas/SuperAdmin/Mahasiswa.vue";
@@ -60,8 +61,8 @@ const routes = [
         component: Unauthorized
     },
     {
-        path: "/login",
-        name: "Login",
+        path: "/login-mhs",
+        name: "Login Mahasiswa",
         component: Login
     },
     {
@@ -110,6 +111,11 @@ const routes = [
                 name: "Kelulusan",
                 path: "kelulusan",
                 component: Kelulusan
+            },
+            {
+                name: "Pengaturan",
+                path: "pengaturan",
+                component: Pengaturan
             },
             {
                 name: "Laporan",
@@ -233,13 +239,23 @@ const routes = [
             } else if (
                 from.name == "Landing Page" &&
                 store.state.auth.isAuth != true
-            ) {
+            ) 
+            {
                 console.log("Op tidak bisa")
                 next(false);
-            } else if (
+            }
+             else if (
                 from.name == "Landing Page" &&
                 store.state.auth.isAuth == true
-            ) {
+            ) 
+            {
+                next();
+            }
+             else if (
+                from.name == "Login Mahasiswa" &&
+                store.state.auth.isAuth == true
+            ) 
+            {
                 next();
             }
 
