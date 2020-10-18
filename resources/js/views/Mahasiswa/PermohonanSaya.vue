@@ -11,7 +11,6 @@
       v-for="(item,index) in permohonans"
       :key="index"
     >
-      <!-- :color="checkColor(item)" -->
       <v-card :class="checkColor(item)">
         <v-card-title>
           {{item.beasiswa.nama}}
@@ -46,57 +45,17 @@
                     </tr>
                     <tr v-if="item.beasiswa.is_interview">
                       <td>Wawancara</td>
-                      <td><span ><span v-if="item.beasiswa.awal_interview"><strong>{{parseDate(item.beasiswa.awal_interview)}} </strong>sampai </span> <strong>{{parseDate(item.beasiswa.akhir_interview)}}</strong> </span></td>
+                      <td><span><span v-if="item.beasiswa.awal_interview"><strong>{{parseDate(item.beasiswa.awal_interview)}} </strong>sampai </span> <strong>{{parseDate(item.beasiswa.akhir_interview)}}</strong> </span></td>
                     </tr>
                     <tr v-if="item.beasiswa.is_survey">
                       <td>Survey</td>
-                      <td><span ><strong>{{parseDate(item.beasiswa.awal_survey)}}</strong> sampai </span> <strong>{{parseDate(item.beasiswa.akhir_survey)}} </strong> </td>
+                      <td><span><strong>{{parseDate(item.beasiswa.awal_survey)}}</strong> sampai </span> <strong>{{parseDate(item.beasiswa.akhir_survey)}} </strong> </td>
                     </tr>
                   </tbody>
                 </template>
               </v-simple-table>
 
             </v-col>
-            <!-- <v-col cols="12">
-              <v-timeline
-                dense
-                v-if="isShowTimeline(item)"
-              >
-                <v-slide-x-reverse-transition
-                  group
-                  hide-on-leave
-                >
-                  <v-timeline-item
-                    v-for="(time,index) in item.timeline"
-                    :key="index"
-                    small
-                    fill-dot
-                    :icon="time.is_done? 'mdi-check' :'mdi-calendar-clock'"
-                    :color="time.is_done? 'green darken-2' :'grey darken-3'"
-                  >
-                    <v-row>
-                      <v-col
-                        cols="12"
-                        xl="4"
-                      >{{
-                        time.awal_tgl && time.akhir_tgl?
-                        parseDate(time.awal_tgl)  + " - " + parseDate(time.akhir_tgl) 
-                        : "-"
-                        }}</v-col>
-                      <v-col
-                        cols="12"
-                        xl="8"
-                      >
-                        <v-alert :class="time.is_done? 'green darken-2' :'transparent'">
-                          {{time.msg}}
-                        </v-alert>
-                      </v-col>
-                    </v-row>
-
-                  </v-timeline-item>
-                </v-slide-x-reverse-transition>
-              </v-timeline>
-            </v-col> -->
           </v-row>
         </v-card-text>
       </v-card>
@@ -130,62 +89,68 @@ export default {
       return true;
     },
     checkStatus(item) {
-      if (item.is_selection_passed == 0) {
-        return "Maaf permohonan anda didiskualifikasi.";
-      }
-      if (item.is_selection_passed == 1) {
-        return "Selamat permohonan anda lulus.";
-      }
-      if (item.is_berkas_passed == 0) {
-        return "Maaf permohonan anda didiskualifikasi.";
-      }
-      if (item.is_interview_passed == 0) {
-        return "Maaf permohonan anda didiskualifikasi.";
-      }
-      if (item.is_survey_passed == 0) {
-        return "Maaf permohonan anda didiskualifikasi.";
-      }
-      if (item.is_survey_passed == 0) {
-        return "Maaf permohonan anda didiskualifikasi.";
-      }
+      if (item.beasiswa.deleted_at) {
+        if (item.is_selection_passed == 0) {
+          return "Maaf permohonan anda didiskualifikasi.";
+        }
+        if (item.is_selection_passed == 1) {
+          return "Selamat permohonan anda lulus.";
+        }
+        if (item.is_berkas_passed == 0) {
+          return "Maaf permohonan anda didiskualifikasi.";
+        }
+        if (item.is_interview_passed == 0) {
+          return "Maaf permohonan anda didiskualifikasi.";
+        }
+        if (item.is_survey_passed == 0) {
+          return "Maaf permohonan anda didiskualifikasi.";
+        }
+        if (item.is_survey_passed == 0) {
+          return "Maaf permohonan anda didiskualifikasi.";
+        }
 
-      if (item.is_survey_passed == 1) {
-        return "Menunggu seleksi pimpinan.";
+        if (item.is_survey_passed == 1) {
+          return "Menunggu seleksi pimpinan.";
+        }
+        if (item.is_interview_passed == 1) {
+          return "Team surveyor segera melakukan survey ke lokasi anda, harap menunggu.";
+        }
+        if (item.is_berkas_passed == 1) {
+          return "Segera lakukan wawancara pada tanggal yang ditentukan.";
+        }
+      } else {
+        return "Permohonan anda sedang di proses";
       }
-      if (item.is_interview_passed == 1) {
-        return "Team surveyor segera melakukan survey ke lokasi anda, harap menunggu.";
-      }
-      if (item.is_berkas_passed == 1) {
-        return "Segera lakukan wawancara pada tanggal yang ditentukan.";
-      }
-      return "Permohonan anda sedang di proses";
     },
     checkColor(item) {
-      if (item.is_berkas_passed == 0) {
-        return "ditolak";
+      if (item.beasiswa.deleted_at) {
+        if (item.is_berkas_passed == 0) {
+          return "ditolak";
+        }
+        if (item.is_interview_passed == 0) {
+          return "ditolak";
+        }
+        if (item.is_survey_passed == 0) {
+          return "ditolak";
+        }
+        if (item.is_survey_passed == 0) {
+          return "ditolak";
+        }
+        if (item.is_selection_passed == 0) {
+          return "ditolak";
+        }
+        if (item.is_selection_passed == 1) {
+          return "diterima";
+        }
+      } else {
+        return "#2e7d323b";
       }
-      if (item.is_interview_passed == 0) {
-        return "ditolak";
-      }
-      if (item.is_survey_passed == 0) {
-        return "ditolak";
-      }
-      if (item.is_survey_passed == 0) {
-        return "ditolak";
-      }
-      if (item.is_selection_passed == 0) {
-        return "ditolak";
-      }
-      if (item.is_selection_passed == 1) {
-        return "diterima";
-      }
-      return "#2e7d323b";
     },
     parseDate(date) {
       return this.$moment(date, "YYYY-MM-DD").format("Do MMMM YYYY");
     },
     getUserPermohonan() {
-      axios.get( "/api/pemohon/cek-isHas").then(response => {
+      axios.get("/api/pemohon/cek-isHas").then(response => {
         console.log(response.data);
         this.permohonans = response.data;
         this.addTimeline(response.data);
