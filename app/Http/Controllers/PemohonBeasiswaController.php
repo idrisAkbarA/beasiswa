@@ -25,7 +25,11 @@ class PemohonBeasiswaController extends Controller
 
     public function get(Request $request, $id)
     {
-        $permohonan = PemohonBeasiswa::findOrFail($id);
+        $beasiswa = Beasiswa::findOrFail($id);
+        $mahasiswa = Auth::guard('mahasiswa')->user();
+        $permohonan = PemohonBeasiswa::where('beasiswa_id', $beasiswa->id)
+                        ->where('mhs_id', $mahasiswa->nim)
+                        ->get();
         return response()->json($permohonan);
     }
     // public function downloadReport(Request $request){
