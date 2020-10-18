@@ -70,6 +70,7 @@
         class="hidden-lg-and-up"
         @click.stop="drawer = !drawer"
       ></v-app-bar-nav-icon>
+      
       <div style="width:100%; -webkit-app-region: drag;">
         <v-toolbar-title>
           <router-link to="/mahasiswa/home">

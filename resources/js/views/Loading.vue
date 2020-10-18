@@ -11,11 +11,8 @@
         >
           <v-col
             cols="12"
-            sm="1"
-            md="1"
           >
             <v-progress-circular
-              style="margin:auto"
               :size="50"
               color="amber"
               indeterminate

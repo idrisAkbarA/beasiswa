@@ -40,11 +40,11 @@
       <v-app-bar-nav-icon @click.stop="miniVariant= !miniVariant; expandOnHover= !expandOnHover"></v-app-bar-nav-icon>
       <div style="width:100%; -webkit-app-region: drag;">
         <v-toolbar-title>
-          <span class="font-weight-bold ml-4">
+          <span v-if="!$vuetify.breakpoint.mobile" class="font-weight-bold ml-4">
             App Beasiswa
           </span>
           <!-- Change this automaticly later usig VUEX -->
-          <span> | {{$route.name}}</span>
+          <span>{{$route.name}}</span>
         </v-toolbar-title>
       </div>
       <v-slide-y-transition>
