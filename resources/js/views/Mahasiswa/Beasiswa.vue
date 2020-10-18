@@ -415,6 +415,9 @@
 import { mapActions, mapState } from "vuex";
 export default {
   created() {
+    axios.get("/api/permohonan/"+this.$route.params.id).then(response => {
+      console.log("test",response.data)
+    })
     this.getBeasiswaSingle(this.$route.params.id);
     this.getUserPermohonan();
   },
@@ -435,10 +438,15 @@ export default {
         console.log("huy non upload");
         if(this.isSubmitted){
           if(item.value == null || item.value.length < 1 || item.value == ""){
+            console.log("aku ada isi?", item.value)
               item.value = this.refference[item.index-1].value
           }else{
+            console.log("real call non file")
             this.updateNonFile();
           }
+        }else{
+           console.log("real call non file")
+            this.updateNonFile();
         }
       } else {
         console.log("im an upload");
@@ -447,6 +455,10 @@ export default {
     },
     updateNonFile() {
       console.log(this.fields, "woi");
+      // var form={
+      //   beasiswa_id = this.$route.params.id,
+      //   form: this.fields
+      // }
       axios
         .post(`${this.url}/api/pemohon`, {
           beasiswa_id: this.$route.params.id,
@@ -599,13 +611,13 @@ export default {
     },
 
     getUserPermohonan() {
-      axios.get("/api/pemohon/cek-isHas").then(response => {
+      axios.get("/api/permohonan/"+this.$route.params.id).then(response => {
         console.log(response.data);
         if (response.data.length > 0) {
           console.log("aku tidak kosong");
 
           this.fields = JSON.parse(response.data[0].form);
-          this.refference = JSON.parse(JSON.stringify(this.fields))
+          this.refference = JSON.parse(JSON.stringify(this.fields)) 
         } else {
           console.log("aku kosong");
           this.getBeasiswaSingle(this.$route.params.id).then(response => {
@@ -614,8 +626,8 @@ export default {
             this.refference = JSON.parse(JSON.stringify(this.fields))
           });
         }
-        this.isSubmitted  =   response.data[0].is_submitted == 1? true: false;
-        this.editOverlay  =   response.data[0].is_submitted == 1? true: false;
+        // this.isSubmitted  =   response.data[0].is_submitted == 1? true: false;
+        // this.editOverlay  =   response.data[0].is_submitted == 1? true: false;
         console.log(this.fields, "fields");
       });
     },

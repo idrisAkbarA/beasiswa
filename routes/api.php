@@ -70,7 +70,7 @@ Route::get('/jurusan', 'JurusanController@getAll');
 
 Route::middleware('auth:petugas')->get('/permohonan/my-history', 'PemohonBeasiswaController@myHistory');
 Route::middleware('auth:petugas')->post('/permohonan/import/{id}', 'PemohonBeasiswaController@import');
-Route::middleware('auth:petugas, mahasiswa')->get('/permohonan/{id}', 'PemohonBeasiswaController@get');
+Route::get('/permohonan/{id}', 'PemohonBeasiswaController@get');
 Route::middleware('auth:petugas')->get('/permohonan/{petugas}/history', 'PemohonBeasiswaController@history');
 Route::get('/pemohon/count-beasiswa', 'BeasiswaController@countBeasiswa');
 Route::get('/pemohon/search', 'PemohonBeasiswaController@search');
