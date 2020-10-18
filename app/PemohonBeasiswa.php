@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class PemohonBeasiswa extends Model
 {
-    protected $fillable = ['keterangan'];
+    protected $guarded = ['id'];
+
     protected $hidden = [
         'verificator_id',
         'interviewer_id',
@@ -61,7 +62,7 @@ class PemohonBeasiswa extends Model
     public function setIsBerkasPassedAttribute($value)
     {
         $petugas = Auth::guard('petugas')->user();
-        if ($this->attributes['is_berkas_passed'] === null || $petugas->role == 0) {
+        if ($this->is_berkas_passed === null || $petugas->role == 0) {
             $this->attributes['is_berkas_passed'] = $value;
             $this->attributes['verificator_id'] = Auth::guard('petugas')->id();
             $this->attributes['verified_at'] = now();
@@ -71,7 +72,7 @@ class PemohonBeasiswa extends Model
     public function setIsInterviewPassedAttribute($value)
     {
         $petugas = Auth::guard('petugas')->user();
-        if ($this->attributes['is_interview_passed'] === null || $petugas->role == 0) {
+        if ($this->is_interview_passed === null || $petugas->role == 0) {
             $this->attributes['is_interview_passed'] = $value;
             $this->attributes['interviewer_id'] = Auth::guard('petugas')->id();
             $this->attributes['interviewed_at'] = now();
@@ -81,7 +82,7 @@ class PemohonBeasiswa extends Model
     public function setIsSurveyPassedAttribute($value)
     {
         $petugas = Auth::guard('petugas')->user();
-        if ($this->attributes['is_interview_passed'] === null || $petugas->role == 0) {
+        if ($this->is_interview_passed === null || $petugas->role == 0) {
             $this->attributes['is_interview_passed'] = $value;
             $this->attributes['interviewer_id'] = Auth::guard('petugas')->id();
             $this->attributes['interviewed_at'] = now();

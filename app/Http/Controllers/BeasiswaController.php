@@ -247,6 +247,9 @@ class BeasiswaController extends Controller
             $request['data'] = array_merge($request['data'], ['instansi_id' => $instansi->id]);
         }
         $beasiswa = Beasiswa::create($request['data']);
+        if (optional($request->data)['selesai']) {
+            $beasiswa->delete();
+        }
         return response()->json(['status' => "Success: Beasiswa Added"]);
     }
 

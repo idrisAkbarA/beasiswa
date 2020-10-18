@@ -41,6 +41,17 @@ class Beasiswa extends Model
         $this->attributes['jenjang'] = json_encode($value);
     }
 
+    public function setInstansiIdAttribute($value)
+    {
+        if (is_int($value)) {
+            $instansi_id = $value;
+        } else {
+            $instansi = Instansi::create(['name' => $value]);
+            $instansi_id = $instansi->id;
+        }
+        $this->attributes['instansi_id'] = $instansi_id;
+    }
+
     public function getJenjangAttribute($value)
     {
         return json_decode($value);
@@ -50,6 +61,7 @@ class Beasiswa extends Model
     {
         $petugas = Auth::guard('petugas')->user();
         return $this->permohonan
+            ->where('is_submitted', 1)
             ->whereNull('is_berkas_passed')
             ->where('mahasiswa.fakultas.id', $petugas->fakultas_id);
     }
@@ -131,7 +143,9 @@ class Beasiswa extends Model
         $today = Carbon::today();
         $beasiswa =  self::withTrashed()
             ->whereDate('awal_berkas', '<=', $today)
+            ->OrWhereNotNull('deleted_at')
             ->with('instansi')
+            ->orderByDesc('id')
             ->get();
         return $beasiswa;
     }

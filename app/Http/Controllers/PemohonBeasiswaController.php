@@ -9,6 +9,7 @@ use App\PemohonBeasiswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Exports\PemohonExport;
+use App\Imports\KelulusanImport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class PemohonBeasiswaController extends Controller
@@ -216,6 +217,21 @@ class PemohonBeasiswaController extends Controller
             ->get();
         $beasiswa->makeVisible(['permohonan']);
         return response()->json($beasiswa);
+    }
+
+    public function import(Request $request, $id)
+    {
+        $beasiswa = Beasiswa::withTrashed()->findOrFail($id);
+        try {
+            Excel::import(new KelulusanImport($beasiswa), $request->file('file'));
+            $reply['status'] = true;
+            $reply['message'] = 'Success: Mahasiswa Added';
+            $reply['data'] = $beasiswa->makeVisible(['berkas', 'interview', 'survey', 'selection', 'lulus', 'permohonan']);
+        } catch (\Throwable $th) {
+            $reply['status'] = false;
+            $reply['message'] = $th;
+        }
+        return response()->json($reply);
     }
 
     public function __verifiedBy($key)
