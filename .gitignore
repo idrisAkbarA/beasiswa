@@ -3,6 +3,7 @@
 /public/storage
 /public/files
 /storage/*.key
+/storage/framework/laravel-excel
 /vendor
 .env
 .env.backup
