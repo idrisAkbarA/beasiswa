@@ -192,7 +192,7 @@
                   </v-col>
                 </v-row>
                 <v-row>
-                  <v-alert type="error" v-if="field.error">
+                  <v-alert outlined width="100%" type="error" v-if="field.error">
                     Field ini wajib diisi minimal 1
                   </v-alert>
                 </v-row>
@@ -269,7 +269,7 @@
             </v-col>
           </v-row>
         </v-form>
-        <v-row>
+        <v-row align="center" justify="start">
           <v-col>
             <v-btn
               :disabled="isDisabled"
@@ -279,14 +279,16 @@
             >Daftar</v-btn>
           </v-col>
         </v-row>
+        <v-row v-if="!validation">
+          <v-col >
+            <span>Masih ada field yang belum diisi</span>  
+          </v-col>
+        </v-row>
         <v-row>
-          <v-col>
+          <v-col cols="12">
             <span class="caption">Field dengan tanda * wajib diisi</span>
           </v-col>
         </v-row>
-        <!-- <v-row>
-          <v-btn @click="checkMultipleUpload()">test</v-btn>
-        </v-row> -->
       </v-sheet>
     </v-row>
     <v-dialog
