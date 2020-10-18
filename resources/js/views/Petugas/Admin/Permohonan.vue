@@ -7,7 +7,6 @@
     >
 
       <v-data-table
-        
         :headers="headers.beasiswa"
         :items="beasiswaProgress.selesai"
         :items-per-page="10"
@@ -253,6 +252,52 @@
 
     </v-dialog>
     <!-- Akhir -->
+    <!-- bottom sheet create -->
+    <v-bottom-sheet
+      scrollable
+      width="60%"
+      inset
+      overlay-color="#69F0AE"
+      v-model="toggleBeasiswa"
+    >
+      <v-card>
+        <v-card-title>
+          <span>Tambah Beasiswa Selesai</span>
+          <v-spacer></v-spacer>
+          <v-btn
+            text
+            class="mr-2"
+            @click="toggleBeasiswa = false"
+          >batal</v-btn>
+          <v-btn
+            color="#2E7D32"
+            :loading="btnLoading"
+            @click="save()"
+          >Simpan</v-btn>
+        </v-card-title>
+        <v-card-text style="height: 600px;">
+          <v-row
+            dense
+            class="ml-1 mr-1"
+          >
+            <v-col cols="12">
+              <v-text-field
+                color="#C8E6C9"
+                label="Nama Beasiswa"
+                v-model="form.nama"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12">
+              <v-text-field
+                color="#C8E6C9"
+                label="Deskripsi Beasiswa"
+                v-model="form.deskripsi"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+        </v-card-text>
+      </v-card>
+    </v-bottom-sheet>
   </v-container>
 </template>
 
@@ -498,6 +543,7 @@ export default {
       selectedBeasiswa: "",
       pemohon: [],
       lulus: [],
+      form: {},
       dialog: false,
       filter: "permohonan",
       tab: null,
