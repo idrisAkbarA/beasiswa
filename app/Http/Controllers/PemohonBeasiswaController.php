@@ -168,13 +168,10 @@ class PemohonBeasiswaController extends Controller
     {
         $user = Auth::guard("mahasiswa")->user();
         // return $user->nim;
+        $request['nim'] = $user->nim;
         $permohonan = PemohonBeasiswa::updateOrCreate(
             ['mhs_id' => $user->nim, 'beasiswa_id' => $request['beasiswa_id']],
-            [
-                'mhs_id' => $user->nim,
-                'beasiswa_id' => $request['beasiswa_id'],
-                'form' => json_encode($request['form'])
-            ]
+            $request->all()
         );
         // $permohonan = new PemohonBeasiswa;
         // $permohonan->mhs_id         = $user->nim;

@@ -111,6 +111,9 @@
         class="pa-5 "
       >
         <h3>Form Pendaftaran</h3>
+        <p>Mohon isi setiap isian dengan teliti. Setiap perubahan akan langsung disimpan oleh aplikasi. <br>
+        Klik tombol <strong>DAFTAR</strong> untuk mendaftar pada beasiswa ini. Berkas masih bisa diedit setelah mendaftar sebelum waktu pendaftaran usai.<br>
+        Berkas yang tidak lengkap / tidak klik tombol daftar dianggap tidak mendaftar</p> 
         <v-form
           ref="form"
           v-model="validation"
@@ -604,92 +607,122 @@ export default {
       await this.checkMultipleUpload();
       if (this.validation) {
         this.isSure = true;
+        this.loadingBtn = true;
+         axios
+            .post(`${this.url}/api/pemohon`, {
+              beasiswa_id: this.$route.params.id,
+              is_submitted: true
+            })
+            .then(response => {
+              console.log(response.data);
+              this.getUserPermohonan();
+              this.overlay.message =
+                "Permohonan beasiswa berhasil dikirim, lihat status permohonan beasiswa";
+              this.loadingBtn = false;
+              // this.isDisabled = true;
+              this.snackbar = true;
+              this.isSure = false;
+            })
+            .catch(error => {
+              this.msg.color = "red";
+              this.msg.text =
+                "Maaf ada kendala ketika ingin menyimpan, coba lagi nanti..";
+              this.snackbar = true;
+              console.log(error);
+            });
       }
     },
-    async save() {
-      this.loadingBtn = true;
-      var finalForm = [];
-      this.fields.forEach(element => {
-        finalForm.push(element);
-      });
-      var beasiswa_id = this.$route.params.id;
-      var form = [];
-      var files = [];
-      var fileNames = [];
-      var reqs = [];
-      var multiFiles = [];
-
-      // store all file to new array (files)
-      this.fields.forEach((element, index) => {
-        if (element.type == "Upload File") {
-          files.push({ file: element.value, index });
-        }
-        if (element.type == "Multiple Upload") {
-          multiFiles.push({ item: element.multiUpload.items, index });
-        }
-      });
-      for (let i = 0; i < files.length; i++) {
-        const element = files[i];
-        var data = new FormData();
-        data.append("file", element.file);
-        data.append("id", beasiswa_id);
-        await this.upload(data, this.url).then(response => {
-          fileNames.push({
-            index: element.index,
-            newName: response.data.file_name
-          });
-        });
-      }
-      var ini = this;
-      finalForm = JSON.parse(JSON.stringify(ini.fields));
-      for (let i = 0; i < fileNames.length; i++) {
-        const element = fileNames[i];
-        // console.log(element.index);
-        finalForm[element.index].value = element.newName;
-        // console.log(finalForm);
-      }
-      //multiple upload goes here
-
-      for (let i = 0; i < multiFiles.length; i++) {
-        const element = multiFiles[i];
-        // console.log(element)
-        for (let j = 0; j < element.item.length; j++) {
-          const tempMulti = element.item[j];
-          // console.log(tempMulti);
-          console.log(tempMulti.value);
-          if (tempMulti.value) {
-            var data = new FormData();
-            data.append("file", tempMulti.value);
-            data.append("id", 0);
-            await this.upload(data, this.url).then(response => {
-              tempMulti["file_name"] = response.data.file_name;
-              // console.log(tempMulti)
-              // console.log(finalForm[tempMulti.index])
-              finalForm[element.index].multiUpload.items[j]["file_name"] =
-                response.data.file_name;
-            });
-          }
-        }
-      }
-      console.log(finalForm);
-      axios
-        .post(`${this.url}/api/pemohon`, {
-          beasiswa_id,
-          form: finalForm
-        })
-        .then(response => {
-          console.log(response.data);
-          this.overlay.message =
-            "Permohonan beasiswa berhasil dikirim, lihat status permohonan beasiswa";
-          this.overlay.show = true;
-          this.loadingBtn = false;
-          this.isDisabled = true;
-          this.isSure = false;
-        })
-        .catch(error => {
-          console.log(error);
-        });
+    save(){
+            // this.loadingBtn = true;
+      // var finalForm = [];
+      // this.fields.forEach(element => {
+      //   finalForm.push(element);
+      // });
     }
+    // async save() {
+      // this.loadingBtn = true;
+      // var finalForm = [];
+      // this.fields.forEach(element => {
+      //   finalForm.push(element);
+      // });
+    //   var beasiswa_id = this.$route.params.id;
+    //   var form = [];
+    //   var files = [];
+    //   var fileNames = [];
+    //   var reqs = [];
+    //   var multiFiles = [];
+
+    //   // store all file to new array (files)
+    //   this.fields.forEach((element, index) => {
+    //     if (element.type == "Upload File") {
+    //       files.push({ file: element.value, index });
+    //     }
+    //     if (element.type == "Multiple Upload") {
+    //       multiFiles.push({ item: element.multiUpload.items, index });
+    //     }
+    //   });
+    //   for (let i = 0; i < files.length; i++) {
+    //     const element = files[i];
+    //     var data = new FormData();
+    //     data.append("file", element.file);
+    //     data.append("id", beasiswa_id);
+    //     await this.upload(data, this.url).then(response => {
+    //       fileNames.push({
+    //         index: element.index,
+    //         newName: response.data.file_name
+    //       });
+    //     });
+    //   }
+    //   var ini = this;
+    //   finalForm = JSON.parse(JSON.stringify(ini.fields));
+    //   for (let i = 0; i < fileNames.length; i++) {
+    //     const element = fileNames[i];
+    //     // console.log(element.index);
+    //     finalForm[element.index].value = element.newName;
+    //     // console.log(finalForm);
+    //   }
+    //   //multiple upload goes here
+
+    //   for (let i = 0; i < multiFiles.length; i++) {
+    //     const element = multiFiles[i];
+    //     // console.log(element)
+    //     for (let j = 0; j < element.item.length; j++) {
+    //       const tempMulti = element.item[j];
+    //       // console.log(tempMulti);
+    //       console.log(tempMulti.value);
+    //       if (tempMulti.value) {
+    //         var data = new FormData();
+    //         data.append("file", tempMulti.value);
+    //         data.append("id", 0);
+    //         await this.upload(data, this.url).then(response => {
+    //           tempMulti["file_name"] = response.data.file_name;
+    //           // console.log(tempMulti)
+    //           // console.log(finalForm[tempMulti.index])
+    //           finalForm[element.index].multiUpload.items[j]["file_name"] =
+    //             response.data.file_name;
+    //         });
+    //       }
+    //     }
+    //   }
+    //   console.log(finalForm);
+    //   axios
+    //     .post(`${this.url}/api/pemohon`, {
+    //       beasiswa_id,
+    //       form: finalForm
+    //     })
+    //     .then(response => {
+    //       console.log(response.data);
+    //       this.overlay.message =
+    //         "Permohonan beasiswa berhasil dikirim, lihat status permohonan beasiswa";
+    //       this.overlay.show = true;
+    //       this.loadingBtn = false;
+    //       this.isDisabled = true;
+    //       this.isSure = false;
+    //     })
+    //     .catch(error => {
+    //       console.log(error);
+    //     });
+    // }
   },
   computed: {
     ...mapState(["beasiswaSingle", "nim", "url"])
