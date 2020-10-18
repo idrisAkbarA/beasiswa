@@ -22,6 +22,12 @@ class PemohonBeasiswaController extends Controller
     public function getAll(Request $request)
     {
     }
+
+    public function get(Request $request, $id)
+    {
+        $permohonan = PemohonBeasiswa::findOrFail($id);
+        return response()->json($permohonan);
+    }
     // public function downloadReport(Request $request){
     //     // return PemohonBeasiswa::with("beasiswa")->get();
     //     return Excel::download(new PemohonExport, 'pemohon.xlsx');
