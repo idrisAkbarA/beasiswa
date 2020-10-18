@@ -228,8 +228,8 @@ class PemohonBeasiswaController extends Controller
     public function import(Request $request, $id)
     {
         $beasiswa = Beasiswa::withTrashed()->findOrFail($id);
+        Excel::import(new KelulusanImport($beasiswa), $request->file('file'));
         try {
-            Excel::import(new KelulusanImport($beasiswa), $request->file('file'));
             $reply['status'] = true;
             $reply['message'] = 'Success: Mahasiswa Added';
             $reply['data'] = $beasiswa->makeVisible(['berkas', 'interview', 'survey', 'selection', 'lulus', 'permohonan']);

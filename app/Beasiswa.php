@@ -61,9 +61,10 @@ class Beasiswa extends Model
     {
         $petugas = Auth::guard('petugas')->user();
         return $this->permohonan
-            ->where('is_submitted', 1)
             ->whereNull('is_berkas_passed')
-            ->where('mahasiswa.fakultas.id', $petugas->fakultas_id);
+            ->when($petugas->fakultas_id, function($q) use ($petugas){
+                 return $q->where('mahasiswa.fakultas.id', $petugas->fakultas_id);
+            });
     }
 
     public function getInterviewAttribute()
@@ -213,6 +214,8 @@ class Beasiswa extends Model
 
     public function permohonan()
     {
-        return $this->hasMany('App\PemohonBeasiswa', 'beasiswa_id')->with('mahasiswa');
+        return $this->hasMany('App\PemohonBeasiswa', 'beasiswa_id')
+            ->with('mahasiswa')
+            ->where('is_submitted', 1);
     }
 }

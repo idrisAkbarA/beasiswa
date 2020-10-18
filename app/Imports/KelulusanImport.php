@@ -34,6 +34,9 @@ class KelulusanImport implements ToCollection, WithHeadingRow
         foreach ($rows as $row) {
             $nim = $row['nim'];
 
+            if(!$nim)
+            return;
+
             $permohonan = PemohonBeasiswa::create(
                 [
                     'mhs_id'  => $nim,

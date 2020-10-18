@@ -18,8 +18,8 @@ class CreateBeasiswasTable extends Migration
             $table->string('nama');
             $table->text('deskripsi');
             $table->integer('instansi_id');
-            $table->boolean('is_interview')->default(false);
-            $table->boolean('is_survey')->default(false);
+            $table->boolean('is_interview')->default(0);
+            $table->boolean('is_survey')->default(0);
             $table->integer('quota')->nullable();
             $table->date('awal_berkas')->nullable();
             $table->date('akhir_berkas')->nullable();
@@ -31,7 +31,7 @@ class CreateBeasiswasTable extends Migration
             $table->json('jenjang')->nullable();
             $table->string('semester')->nullable();
             $table->integer('ukt')->nullable();
-            $table->boolean('is_first')->default(false);
+            $table->boolean('is_first')->default(0);
             $table->json('fields')->nullable();
             $table->json('fields_interview')->nullable();
             $table->json('fields_survey')->nullable();
