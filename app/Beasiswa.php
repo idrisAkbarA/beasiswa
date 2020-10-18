@@ -175,19 +175,21 @@ class Beasiswa extends Model
 
     public function cekPersyaratan(User $user)
     {
+        $syarat = [];
+        // Jenjang
         $jenjang = in_array(substr($user->nim, 0, 1), $this->jenjang);
+        if ($this->jenjang) $syarat['Jenjang'] = $jenjang;
+        // UKT
         $ukt = $this->ukt && $user->ukt > $this->ukt;
+        if ($this->ukt) $syarat['Batas Gol.UKT ' . $this->ukt] = !$ukt;
+        // First
         $first = $this->is_first && $user->permohonan->where('is_selection_passed', 1)->count() > 0;
-        $syarat = [
-            'Jenjang' => $jenjang,
-            'UKT' => !$ukt,
-            'Tidak mengikuti beasiswa lain' => !$first,
-            'Semester' => self::cekSemester($this, $user)
-        ];
+        if ($this->is_first) $syarat['Tidak mengikuti beasiswa lain'] = !$first;
+        // Semester
+        $semester = self::cekSemester($this, $user);
+        if ($this->semester) $syarat['Semester ' . $this->semester] = $semester;
+
         $this->syarat = $syarat;
-        // if (in_array(false, $syarat)) {
-        //     //
-        // }
     }
 
     public function instansi()
