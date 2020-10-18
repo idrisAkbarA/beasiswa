@@ -59,6 +59,11 @@ class PemohonBeasiswa extends Model
         return $petugas->nama_lengkap;
     }
 
+    public function setFormAttribute($value)
+    {
+        $this->attributes['form'] = json_encode($value);
+    }
+
     public function setIsBerkasPassedAttribute($value)
     {
         $petugas = Auth::guard('petugas')->user();
