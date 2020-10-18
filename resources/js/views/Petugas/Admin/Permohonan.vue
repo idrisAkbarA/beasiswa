@@ -499,10 +499,19 @@ export default {
       if (form.instansi_id && typeof form.instansi_id == "object") {
         form.instansi_id = form.instansi_id.id;
       }
-      this.storeBeasiswa(form).then(() => {
-        this.toggleBeasiswa = false;
-        this.getBeasiswaSelesai();
-      });
+      this.storeBeasiswa(form)
+        .then(() => {
+          this.toggleBeasiswa = false;
+          this.getBeasiswaSelesai();
+        })
+        .catch(error => {
+          console.error(error);
+          this.snackbar = {
+            show: true,
+            color: "red",
+            message: error
+          };
+        });
     },
     importPermohonan() {
       var formData = new FormData();

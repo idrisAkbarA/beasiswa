@@ -29,10 +29,11 @@ class PemohonBeasiswaController extends Controller
     public function IsHasBeasiswa()
     {
         $user = Auth::guard('mahasiswa')->user();
-        $beasiswa = PemohonBeasiswa::where("mhs_id", $user["nim"])->with("beasiswa")->get();
-        // $beasiswa = PemohonBeasiswa::where("mhs_id",$user[nim])->get();
-        return $beasiswa;
-        // return $user;
+        $beasiswa = PemohonBeasiswa::where('mhs_id', $user['nim'])
+                    ->where('is_submitted', 1)
+                    ->with('beasiswa')
+                    ->get();
+        return response()->json($beasiswa);
     }
     public function IsHasBeasiswaAdmin(Request $request)
     {
@@ -228,8 +229,8 @@ class PemohonBeasiswaController extends Controller
     public function import(Request $request, $id)
     {
         $beasiswa = Beasiswa::withTrashed()->findOrFail($id);
+        Excel::import(new KelulusanImport($beasiswa), $request->file('file'));
         try {
-            Excel::import(new KelulusanImport($beasiswa), $request->file('file'));
             $reply['status'] = true;
             $reply['message'] = 'Success: Mahasiswa Added';
             $reply['data'] = $beasiswa->makeVisible(['berkas', 'interview', 'survey', 'selection', 'lulus', 'permohonan']);
