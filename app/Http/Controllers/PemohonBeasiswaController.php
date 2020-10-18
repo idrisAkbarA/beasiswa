@@ -167,11 +167,20 @@ class PemohonBeasiswaController extends Controller
     public function store(Request $request)
     {
         $user = Auth::guard("mahasiswa")->user();
-        $permohonan = new PemohonBeasiswa;
-        $permohonan->mhs_id         = $user->nim;
-        $permohonan->beasiswa_id    = $request['beasiswa_id'];
-        $permohonan->form           = json_encode($request['form']);
-        $permohonan->save();
+        // return $user->nim;
+        $permohonan = PemohonBeasiswa::updateOrCreate(
+            ['mhs_id' => $user->nim, 'beasiswa_id' => $request['beasiswa_id']],
+            [
+                'mhs_id' => $user->nim,
+                'beasiswa_id' => $request['beasiswa_id'],
+                'form' => json_encode($request['form'])
+            ]
+        );
+        // $permohonan = new PemohonBeasiswa;
+        // $permohonan->mhs_id         = $user->nim;
+        // $permohonan->beasiswa_id    = $request['beasiswa_id'];
+        // $permohonan->form           = json_encode($request['form']);
+        // $permohonan->save();
 
         return response()->json([
             'status' => 'Success: Permohonan added'

@@ -132,6 +132,7 @@
                   :key="index"
                 >
                   <v-checkbox
+                    @change="updateField(field)"
                     v-model="field.value"
                     :value="item.label"
                     color="white"
@@ -145,6 +146,7 @@
               </v-container>
               <v-radio-group
                 v-if="field.type == 'Pilihan'"
+                @change="updateField(field)"
                 column
                 :mandatory="field.pilihan.required"
                 v-model="field.value"
@@ -161,6 +163,7 @@
               </v-radio-group>
               <v-container v-if="field.type == 'Multiple Upload'">
                 <v-row
+                  align-self="center"
                   align="center"
                   v-for="(item,index) in field.multiUpload.items"
                   :key="index"
@@ -174,25 +177,43 @@
                       hide-details
                       class="shrink mr-2 mt-0"
                       :value="item.label"
+                      @change="checkMultipleUpload()"
                     ></v-checkbox>
 
                   </v-col>
-                  <v-col cols="6">
+                  <v-col cols="4">
                     <span>{{item.label}}</span>
 
                   </v-col>
-                  <v-col cols="5">
-
+                  <v-col cols="7" v-if="!item.file_name">
                     <v-file-input
+                      @change="updateField(field)"
                       v-model="item.value"
                       :disabled="!item.isSelected"
                       filled
                       :label="'Upload '+item.label"
                     ></v-file-input>
                   </v-col>
+                  <v-col cols="4" v-if="item.file_name">
+                    <v-file-input
+                      @change="updateField(field)"
+                      v-model="item.value"
+                      :disabled="!item.isSelected"
+                     
+                      :label="'Ganti File '+item.label"
+                    ></v-file-input>
+                  </v-col>
+                  <v-col cols="3" v-if="item.file_name" class="pl-2">
+                    <v-btn block class="mx-auto" @click="link(item.file_name)" color="grey darken-3">Lihat File</v-btn>
+                  </v-col>
                 </v-row>
                 <v-row>
-                  <v-alert outlined width="100%" type="error" v-if="field.error">
+                  <v-alert
+                    outlined
+                    width="100%"
+                    type="error"
+                    v-if="field.error"
+                  >
                     Field ini wajib diisi minimal 1
                   </v-alert>
                 </v-row>
@@ -201,6 +222,7 @@
               <v-text-field
                 prepend-icon="mdi-text-short"
                 v-if="field.type == 'Jawaban Pendek'"
+                @change="updateField(field)"
                 dense
                 color="white"
                 v-model="field.value"
@@ -212,6 +234,7 @@
                 :rules="isRequired(field.required)"
                 prepend-icon="mdi-numeric"
                 v-if="field.type == 'Jawaban Angka'"
+                @change="updateField(field)"
                 dense
                 v-model="field.value"
                 color="white"
@@ -220,6 +243,7 @@
               ></v-text-field>
               <v-menu
                 v-if="field.type == 'Tanggal'"
+                @change="updateField(field)"
                 v-model="field.date"
                 :close-on-content-click="false"
                 :nudge-right="40"
@@ -245,19 +269,42 @@
                   @input="menu2 = false"
                 ></v-date-picker>
               </v-menu>
-              <v-file-input
-                v-if="field.type == 'Upload File'"
-                dense
-                v-model="field.value"
-                :rules="isRequired(field.required)"
-                color="white"
-                placeholder="Upload File"
-              ></v-file-input>
+              <template v-if="field.type == 'Upload File'">
+                <v-row align="center" v-if="field.value" >
+                  <v-col>
+                      <!-- :rules="isRequired(field.required)" -->
+                    <v-file-input
+                      
+                      label="Ganti File"
+                      color="white"
+                      @change="fileChange($event,index)"
+                      :clearable="false"
+                    ></v-file-input>
+                  </v-col>
+                  <v-col>
+                    <v-btn
+                   block
+                      color="grey darken-3"
+                      @click="link(field.value)"
+                    >lihat file anda</v-btn>
+                  </v-col>
+                </v-row>
+                <v-file-input
+                  v-if="!field.value"
+                  @change="updateField(field)"
+                  dense
+                  v-model="field.value"
+                  :rules="isRequired(field.required)"
+                  color="white"
+                  placeholder="Upload File"
+                ></v-file-input>
+              </template>
               <v-textarea
                 :rules="isRequired(field.required)"
                 v-model="field.value"
                 prepend-icon="mdi-view-headline"
                 v-if="field.type == 'Paragraf'"
+                @change="updateField(field)"
                 color="white"
                 rows="1"
                 dense
@@ -269,7 +316,10 @@
             </v-col>
           </v-row>
         </v-form>
-        <v-row align="center" justify="start">
+        <v-row
+          align="center"
+          justify="start"
+        >
           <v-col>
             <v-btn
               :disabled="isDisabled"
@@ -280,8 +330,8 @@
           </v-col>
         </v-row>
         <v-row v-if="!validation">
-          <v-col >
-            <span>Masih ada field yang belum diisi</span>  
+          <v-col>
+            <span>Masih ada field yang belum diisi</span>
           </v-col>
         </v-row>
         <v-row>
@@ -312,6 +362,25 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-snackbar
+      v-model="snackbar"
+      :color="msg.color"
+    >
+      <v-icon>{{msg.icon}}</v-icon>
+      {{ msg.text }}
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          color="white"
+          text
+          v-bind="attrs"
+          @click="snackbar = false"
+          small
+        >
+          tutup
+        </v-btn>
+
+      </template>
+    </v-snackbar>
 
   </v-sheet>
 </template>
@@ -320,20 +389,133 @@
 import { mapActions, mapState } from "vuex";
 export default {
   created() {
-    this.getBeasiswaSingle(this.$route.params.id).then(response => {
-      this.fields = JSON.parse(response.fields);
-      if (Object.values(response.syarat).includes(false)) {
-        console.log("overlay");
-        this.overlay = {
-          show: true,
-          message: response.syarat
-        };
-      }
-    });
+    this.getBeasiswaSingle(this.$route.params.id);
     this.getUserPermohonan();
   },
   methods: {
     ...mapActions(["getBeasiswaSingle"]),
+    link(url) {
+      var a = "/" + url;
+      var link = a.replace(" ", "%20");
+      window.open(link, "_blank");
+    },
+    fileChange(file, index) {
+      this.fields[index].value = file;
+      this.updateFile(this.fields[index]);
+      this.getUserPermohonan();
+    },
+    updateField(item) {
+      if (item.type != "Multiple Upload" && item.type != "Upload File") {
+        console.log("huy non upload");
+        this.updateNonFile();
+      } else {
+        console.log("im an upload");
+        this.updateFile(item);
+      }
+    },
+    updateNonFile() {
+      console.log(this.fields, "woi");
+      axios
+        .post(`${this.url}/api/pemohon`, {
+          beasiswa_id: this.$route.params.id,
+          form: this.fields
+        })
+        .then(response => {
+          console.log(response.data);
+          this.overlay.message =
+            "Permohonan beasiswa berhasil dikirim, lihat status permohonan beasiswa";
+          this.loadingBtn = false;
+          // this.isDisabled = true;
+          this.snackbar = true;
+          this.isSure = false;
+        })
+        .catch(error => {
+          this.msg.color = "red";
+          this.msg.text =
+            "Maaf ada kendala ketika ingin menyimpan, coba lagi nanti..";
+          this.snackbar = true;
+          console.log(error);
+        });
+    },
+    async updateFile(item) {
+      console.log(item);
+      if (item.type == "Multiple Upload") {
+        console.log("multi upload yg diupload itu lo");
+        for (let j = 0; j < item.multiUpload.items.length; j++) {
+          const tempMulti = item.multiUpload.items[j];
+          // console.log(tempMulti);
+          // console.log(tempMulti.value);
+          if (tempMulti.value) {
+            var data = new FormData();
+            data.append("file", tempMulti.value);
+            data.append("id", 0);
+            await this.upload(data, this.url).then(response => {
+              var formTemp = JSON.parse(JSON.stringify(this.fields));
+              var index = this.fields.indexOf(item);
+              formTemp[index].multiUpload.items[j]["file_name"] =
+                response.data.file_name;
+              axios
+                .post(`${this.url}/api/pemohon`, {
+                  beasiswa_id: this.$route.params.id,
+                  form: formTemp
+                })
+                .then(response => {
+                  console.log(response.data);
+                  this.getUserPermohonan();
+                  this.overlay.message =
+                    "Permohonan beasiswa berhasil dikirim, lihat status permohonan beasiswa";
+                  this.loadingBtn = false;
+                  // this.isDisabled = true;
+                  this.snackbar = true;
+                  this.isSure = false;
+                })
+                .catch(error => {
+                  this.msg.color = "red";
+                  this.msg.text =
+                    "Maaf ada kendala ketika ingin menyimpan, coba lagi nanti..";
+                  this.snackbar = true;
+                  console.log(error);
+                });
+            });
+          }
+        }
+      } else {
+        console.log("upload yg diupload");
+
+        var data = new FormData();
+        data.append("file", item.value);
+        data.append("id", this.$route.params.id);
+        await this.upload(data, this.url).then(response => {
+          console.log(response.data);
+          var formTemp = JSON.parse(JSON.stringify(this.fields));
+          var index = this.fields.indexOf(item);
+          console.log(index);
+          formTemp[item.index-1].value = response.data.file_name;
+          axios
+            .post(`${this.url}/api/pemohon`, {
+              beasiswa_id: this.$route.params.id,
+              form: formTemp
+            })
+            .then(response => {
+              console.log(response.data);
+              this.getUserPermohonan();
+              this.overlay.message =
+                "Permohonan beasiswa berhasil dikirim, lihat status permohonan beasiswa";
+              this.loadingBtn = false;
+              // this.isDisabled = true;
+              this.snackbar = true;
+              this.isSure = false;
+            })
+            .catch(error => {
+              this.msg.color = "red";
+              this.msg.text =
+                "Maaf ada kendala ketika ingin menyimpan, coba lagi nanti..";
+              this.snackbar = true;
+              console.log(error);
+            });
+        });
+      }
+    },
     checkMultipleUpload() {
       this.fields.forEach(element => {
         if (element.required == false) {
@@ -349,7 +531,7 @@ export default {
                 isFilled = false;
                 console.log("op yg di ceklis ga berisi");
                 this.validation = false;
-              }else{
+              } else {
                 console.log("yg di ceklis berisi");
                 isFilled = true;
                 this.validation = true;
@@ -360,11 +542,11 @@ export default {
           });
           console.log(isFilled);
           if (!isFilled) {
-            element['error'] = true;
-            console.log(element)
+            element["error"] = true;
+            console.log(element);
             this.validation = false;
-          }else{
-            element['error'] = false;
+          } else {
+            element["error"] = false;
             console.log(element);
           }
         }
@@ -387,17 +569,20 @@ export default {
     getUserPermohonan() {
       axios.get("/api/pemohon/cek-isHas").then(response => {
         console.log(response.data);
-        response.data.forEach(element => {
-          if (element.beasiswa_id == this.$route.params.id) {
-            this.overlay.message =
-              "Anda telah mendaftar pada beasiswa ini sebelumnya, lihat status permohonan";
-            this.overlay.show = true;
-            this.isDisabled = true;
-          }
-        });
+        if (response.data.length > 0) {
+          console.log("aku tidak kosong");
+
+          this.fields = JSON.parse(response.data[0].form);
+        } else {
+          console.log("aku kosong");
+          this.getBeasiswaSingle(this.$route.params.id).then(response => {
+            this.defaultFields = JSON.parse(response.fields);
+            this.fields = this.defaultFields;
+          });
+        }
+        console.log(this.fields, "fields");
       });
     },
-
 
     upload: async (data, url) => {
       return axios({
@@ -517,6 +702,12 @@ export default {
   },
   data() {
     return {
+      snackbar: false,
+      msg: {
+        color: "green darken-4",
+        text: "Perubahan berhasil disimpan!",
+        icon: "mdi-content-save"
+      },
       isSure: false,
       rule: [v => !!v || "Field ini wajib diisi"],
       validation: true,
@@ -526,6 +717,7 @@ export default {
       //   isAlreadyHas: false,
       overlay: { show: false },
       fields: {},
+      defaultFields: {},
       loading: 0,
       loadText: ""
     };

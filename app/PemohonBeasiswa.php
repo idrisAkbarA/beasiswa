@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PemohonBeasiswa extends Model
 {
-    protected $fillable = ['keterangan'];
+    protected $guarded = ['id'];
     protected $hidden = [
         'verificator_id',
         'interviewer_id',
