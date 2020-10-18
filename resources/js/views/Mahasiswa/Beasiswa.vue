@@ -27,6 +27,19 @@
         </v-card-text>
       </v-card>
     </v-overlay>
+    <v-overlay
+      :absolute="false"
+      :value="editOverlay"
+      color="green"
+    >
+      <v-card>
+        <v-card-title>Permohonan anda telah terdaftar!</v-card-title>
+        <v-card-subtitle>
+            Permohonan anda telah terdaftar, mohon tunggu tahap selanjutnya
+        </v-card-subtitle>
+        <v-card-text><v-btn color="green darken-2" @click="editOverlay = false" block>edit berkas</v-btn></v-card-text>
+      </v-card>
+    </v-overlay>
     <v-row
       align="center"
       justify="start"
@@ -112,7 +125,7 @@
       >
         <h3>Form Pendaftaran</h3>
         <p>Mohon isi setiap isian dengan teliti. Setiap perubahan akan langsung disimpan oleh aplikasi. <br>
-        Klik tombol <strong>DAFTAR</strong> untuk mendaftar pada beasiswa ini. Berkas masih bisa diedit setelah mendaftar sebelum waktu pendaftaran usai.<br>
+        Klik tombol <strong>DAFTAR</strong> untuk mendaftar pada beasiswa ini. Berkas masih bisa diedit setelah mendaftar, sampai waktu pendaftaran usai.<br>
         Berkas yang tidak lengkap / tidak klik tombol daftar dianggap tidak mendaftar</p> 
         <v-form
           ref="form"
@@ -323,13 +336,23 @@
           align="center"
           justify="start"
         >
-          <v-col>
+          <v-col  v-if="!isSubmitted">
             <v-btn
+           
               :disabled="isDisabled"
               :loading="loadingBtn"
               @click="checkIsReady()"
               color="#2E7D32"
             >Daftar</v-btn>
+          </v-col>
+          <v-col v-if="isSubmitted">
+             <v-btn
+            
+              :disabled="isDisabled"
+              :loading="loadingBtn"
+              @click="editOverlay = true"
+              color="#2E7D32"
+            >Selesai edit</v-btn>
           </v-col>
         </v-row>
         <v-row v-if="!validation">
@@ -410,7 +433,13 @@ export default {
     updateField(item) {
       if (item.type != "Multiple Upload" && item.type != "Upload File") {
         console.log("huy non upload");
-        this.updateNonFile();
+        if(this.isSubmitted){
+          if(item.value == null || item.value.length < 1 || item.value == ""){
+              item.value = this.refference[item.index-1].value
+          }else{
+            this.updateNonFile();
+          }
+        }
       } else {
         console.log("im an upload");
         this.updateFile(item);
@@ -576,13 +605,17 @@ export default {
           console.log("aku tidak kosong");
 
           this.fields = JSON.parse(response.data[0].form);
+          this.refference = JSON.parse(JSON.stringify(this.fields))
         } else {
           console.log("aku kosong");
           this.getBeasiswaSingle(this.$route.params.id).then(response => {
             this.defaultFields = JSON.parse(response.fields);
             this.fields = this.defaultFields;
+            this.refference = JSON.parse(JSON.stringify(this.fields))
           });
         }
+        this.isSubmitted  =   response.data[0].is_submitted == 1? true: false;
+        this.editOverlay  =   response.data[0].is_submitted == 1? true: false;
         console.log(this.fields, "fields");
       });
     },
@@ -631,6 +664,14 @@ export default {
               console.log(error);
             });
       }
+    },
+    textChanged(v){
+      if(isSubmitted){
+        if(!v){
+
+        }
+      }
+
     },
     save(){
             // this.loadingBtn = true;
@@ -735,6 +776,8 @@ export default {
   },
   data() {
     return {
+      editOverlay: false,
+      isSubmitted: false,
       snackbar: false,
       msg: {
         color: "green darken-4",
@@ -749,6 +792,7 @@ export default {
       //   msg: "",
       //   isAlreadyHas: false,
       overlay: { show: false },
+      refference:{},
       fields: {},
       defaultFields: {},
       loading: 0,
