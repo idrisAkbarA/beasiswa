@@ -284,9 +284,9 @@
             <span class="caption">Field dengan tanda * wajib diisi</span>
           </v-col>
         </v-row>
-        <v-row>
+        <!-- <v-row>
           <v-btn @click="checkMultipleUpload()">test</v-btn>
-        </v-row>
+        </v-row> -->
       </v-sheet>
     </v-row>
     <v-dialog
@@ -414,6 +414,7 @@ export default {
     },
     async checkIsReady() {
       await this.$refs.form.validate();
+      await this.checkMultipleUpload();
       if (this.validation) {
         this.isSure = true;
       }
