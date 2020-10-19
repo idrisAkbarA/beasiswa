@@ -35,9 +35,15 @@
       <v-card>
         <v-card-title>Permohonan anda telah terdaftar!</v-card-title>
         <v-card-subtitle>
-            Permohonan anda telah terdaftar, mohon tunggu tahap selanjutnya
+          Permohonan anda telah terdaftar, mohon tunggu tahap selanjutnya
         </v-card-subtitle>
-        <v-card-text><v-btn color="green darken-2" @click="editOverlay = false" block>edit berkas</v-btn></v-card-text>
+        <v-card-text>
+          <v-btn
+            color="green darken-2"
+            @click="editOverlay = false"
+            block
+          >edit berkas</v-btn>
+        </v-card-text>
       </v-card>
     </v-overlay>
     <v-row
@@ -125,8 +131,8 @@
       >
         <h3>Form Pendaftaran</h3>
         <p>Mohon isi setiap isian dengan teliti. Setiap perubahan akan langsung disimpan oleh aplikasi. <br>
-        Klik tombol <strong>DAFTAR</strong> untuk mendaftar pada beasiswa ini. Berkas masih bisa diedit setelah mendaftar, sampai waktu pendaftaran usai.<br>
-        Berkas yang tidak lengkap / tidak klik tombol daftar dianggap tidak mendaftar</p> 
+          Klik tombol <strong>DAFTAR</strong> untuk mendaftar pada beasiswa ini. Berkas masih bisa diedit setelah mendaftar, sampai waktu pendaftaran usai.<br>
+          Berkas yang tidak lengkap / tidak klik tombol daftar dianggap tidak mendaftar</p>
         <v-form
           ref="form"
           v-model="validation"
@@ -169,6 +175,7 @@
                 :rules="isRequired(field.required)"
               >
                 <v-radio
+                 @change="updateField(field)"
                   v-for="(item,index) in field.pilihan.items"
                   :key="index"
                   :value="item.label"
@@ -178,51 +185,132 @@
                 </v-radio>
               </v-radio-group>
               <v-container v-if="field.type == 'Multiple Upload'">
-                <v-row
-                  align-self="center"
-                  align="center"
-                  v-for="(item,index) in field.multiUpload.items"
-                  :key="index"
-                  :value="item.label"
-                  no-gutters
-                >
-                  <v-col cols="1">
-                    <v-checkbox
-                      v-model="item.isSelected"
-                      color="white"
-                      hide-details
-                      class="shrink mr-2 mt-0"
-                      :value="item.label"
-                      @change="checkMultipleUpload()"
-                    ></v-checkbox>
+                <template v-if="!$vuetify.breakpoint.mobile">
 
-                  </v-col>
-                  <v-col cols="4">
-                    <span>{{item.label}}</span>
+                  <v-row
+                    align-self="center"
+                    align="center"
+                    v-for="(item,index) in field.multiUpload.items"
+                    :key="index"
+                    :value="item.label"
+                    no-gutters
+                  >
+                    <v-col cols="1">
+                      <v-checkbox
+                        v-model="item.isSelected"
+                        color="white"
+                        hide-details
+                        class="shrink mr-2 mt-0"
+                        :value="item.label"
+                        @change="checkMultipleUpload()"
+                      ></v-checkbox>
 
-                  </v-col>
-                  <v-col cols="7" v-if="!item.file_name">
-                    <v-file-input
-                      @change="updateField(field)"
-                      v-model="item.value"
-                      :disabled="!item.isSelected"
-                      filled
-                      :label="'Upload '+item.label"
-                    ></v-file-input>
-                  </v-col>
-                  <v-col cols="4" v-if="item.file_name">
-                    <v-file-input
-                      @change="updateField(field)"
-                      v-model="item.value"
-                      :disabled="!item.isSelected"
-                     
-                      :label="'Ganti File '+item.label"
-                    ></v-file-input>
-                  </v-col>
-                  <v-col cols="3" v-if="item.file_name" class="pl-2">
-                    <v-btn block class="mx-auto" @click="link(item.file_name)" color="grey darken-3">Lihat File</v-btn>
-                  </v-col>
-                </v-row>
+                    </v-col>
+                    <v-col cols="4">
+                      <span>{{item.label}}</span>
+
+                    </v-col>
+                    <v-col
+                      cols="7"
+                      v-if="!item.file_name"
+                    >
+                      <v-file-input
+                        @change="updateField(field)"
+                        v-model="item.value"
+                        :disabled="!item.isSelected"
+                        filled
+                        :label="'Upload '+item.label"
+                      ></v-file-input>
+                    </v-col>
+                    <v-col
+                      cols="4"
+                      v-if="item.file_name"
+                    >
+                      <v-file-input
+                        @change="updateField(field)"
+                        v-model="item.value"
+                        :disabled="!item.isSelected"
+                        :label="'Ganti File '+item.label"
+                      ></v-file-input>
+                    </v-col>
+                    <v-col
+                      cols="3"
+                      v-if="item.file_name"
+                      class="pl-2"
+                    >
+                      <v-btn
+                        block
+                        class="mx-auto"
+                        @click="link(item.file_name)"
+                        color="grey darken-3"
+                      >Lihat File</v-btn>
+                    </v-col>
+                  </v-row>
+                </template>
+
+                <template v-if="$vuetify.breakpoint.mobile">
+
+                  <v-row
+                    class="mt-6"
+                    align-self="center"
+                    align="center"
+                    v-for="(item,index) in field.multiUpload.items"
+                    :key="index"
+                    :value="item.label"
+                    no-gutters
+                  >
+                    <v-col cols="2">
+                      <v-checkbox
+                        v-model="item.isSelected"
+                        color="white"
+                        hide-details
+                        class="shrink mr-2 mt-0"
+                        :value="item.label"
+                        @change="checkMultipleUpload()"
+                      ></v-checkbox>
+
+                    </v-col>
+                    <v-col cols="10">
+                      <span>{{item.label}}</span>
+
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      v-if="!item.file_name"
+                    >
+                      <v-file-input
+                        @change="updateField(field)"
+                        v-model="item.value"
+                        :disabled="!item.isSelected"
+                        filled
+                        :label="'Upload '+item.label"
+                      ></v-file-input>
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      v-if="item.file_name"
+                    >
+                      <v-file-input
+                        @change="updateField(field)"
+                        v-model="item.value"
+                        :disabled="!item.isSelected"
+                        :label="'Ganti File '+item.label"
+                      ></v-file-input>
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      v-if="item.file_name"
+                      class="pl-2"
+                    >
+                      <v-btn
+                        block
+                        class="mx-auto"
+                        @click="link(item.file_name)"
+                        color="grey darken-3"
+                      >Lihat File</v-btn>
+                    </v-col>
+                  </v-row>
+                </template>
                 <v-row>
                   <v-alert
                     outlined
@@ -269,6 +357,7 @@
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
+                    @change="updateField(field)"
                     v-model="field.value"
                     label="Tanggal"
                     prepend-icon="mdi-calendar"
@@ -286,11 +375,13 @@
                 ></v-date-picker>
               </v-menu>
               <template v-if="field.type == 'Upload File'">
-                <v-row align="center" v-if="field.value" >
+                <v-row
+                  align="center"
+                  v-if="field.value"
+                >
                   <v-col>
-                      <!-- :rules="isRequired(field.required)" -->
+                    <!-- :rules="isRequired(field.required)" -->
                     <v-file-input
-                      
                       label="Ganti File"
                       color="white"
                       @change="fileChange($event,index)"
@@ -299,7 +390,7 @@
                   </v-col>
                   <v-col>
                     <v-btn
-                   block
+                      block
                       color="grey darken-3"
                       @click="link(field.value)"
                     >lihat file anda</v-btn>
@@ -336,9 +427,8 @@
           align="center"
           justify="start"
         >
-          <v-col  v-if="!isSubmitted">
+          <v-col v-if="!isSubmitted">
             <v-btn
-           
               :disabled="isDisabled"
               :loading="loadingBtn"
               @click="checkIsReady()"
@@ -346,8 +436,7 @@
             >Daftar</v-btn>
           </v-col>
           <v-col v-if="isSubmitted">
-             <v-btn
-            
+            <v-btn
               :disabled="isDisabled"
               :loading="loadingBtn"
               @click="editOverlay = true"
@@ -415,9 +504,9 @@
 import { mapActions, mapState } from "vuex";
 export default {
   created() {
-    axios.get("/api/permohonan/"+this.$route.params.id).then(response => {
-      console.log("test",response.data)
-    })
+    axios.get("/api/permohonan/" + this.$route.params.id).then(response => {
+      console.log("test", response.data);
+    });
     this.getBeasiswaSingle(this.$route.params.id);
     this.getUserPermohonan();
   },
@@ -436,17 +525,17 @@ export default {
     updateField(item) {
       if (item.type != "Multiple Upload" && item.type != "Upload File") {
         console.log("huy non upload");
-        if(this.isSubmitted){
-          if(item.value == null || item.value.length < 1 || item.value == ""){
-            console.log("aku ada isi?", item.value)
-              item.value = this.refference[item.index-1].value
-          }else{
-            console.log("real call non file")
+        if (this.isSubmitted) {
+          if (item.value == null || item.value.length < 1 || item.value == "") {
+            console.log("aku ada isi?", item.value);
+            item.value = this.refference[item.index - 1].value;
+          } else {
+            console.log("real call non file");
             this.updateNonFile();
           }
-        }else{
-           console.log("real call non file")
-            this.updateNonFile();
+        } else {
+          console.log("real call non file");
+          this.updateNonFile();
         }
       } else {
         console.log("im an upload");
@@ -534,7 +623,7 @@ export default {
           var formTemp = JSON.parse(JSON.stringify(this.fields));
           var index = this.fields.indexOf(item);
           console.log(index);
-          formTemp[item.index-1].value = response.data.file_name;
+          formTemp[item.index - 1].value = response.data.file_name;
           axios
             .post(`${this.url}/api/pemohon`, {
               beasiswa_id: this.$route.params.id,
@@ -569,6 +658,7 @@ export default {
           var isFilled = false;
           element.multiUpload.items.every(v => {
             if (v.isSelected) {
+              this.updateNonFile();
               console.log("ada yg di ceklis ni");
               console.log(v.value);
               if (!v.value) {
@@ -581,6 +671,8 @@ export default {
                 this.validation = true;
               }
               return false;
+            } else {
+              this.updateNonFile();
             }
             return true;
           });
@@ -611,23 +703,27 @@ export default {
     },
 
     getUserPermohonan() {
-      axios.get("/api/permohonan/"+this.$route.params.id).then(response => {
+      axios.get("/api/permohonan/" + this.$route.params.id).then(response => {
         console.log(response.data);
         if (response.data.length > 0) {
           console.log("aku tidak kosong");
 
           this.fields = JSON.parse(response.data[0].form);
-          this.refference = JSON.parse(JSON.stringify(this.fields)) 
+          this.refference = JSON.parse(JSON.stringify(this.fields));
         } else {
           console.log("aku kosong");
           this.getBeasiswaSingle(this.$route.params.id).then(response => {
             this.defaultFields = JSON.parse(response.fields);
             this.fields = this.defaultFields;
-            this.refference = JSON.parse(JSON.stringify(this.fields))
+            this.refference = JSON.parse(JSON.stringify(this.fields));
           });
         }
-        // this.isSubmitted  =   response.data[0].is_submitted == 1? true: false;
-        // this.editOverlay  =   response.data[0].is_submitted == 1? true: false;
+        try {
+          this.isSubmitted = response.data[0].is_submitted == 1 ? true : false;
+          this.editOverlay = response.data[0].is_submitted == 1 ? true : false;
+        } catch (error) {
+          this.isSubmitted = false;
+        }
         console.log(this.fields, "fields");
       });
     },
@@ -651,53 +747,51 @@ export default {
       await this.$refs.form.validate();
       await this.checkMultipleUpload();
       if (this.validation) {
-        this.isSure = true;
+        // this.isSure = true;
         this.loadingBtn = true;
-         axios
-            .post(`${this.url}/api/pemohon`, {
-              beasiswa_id: this.$route.params.id,
-              is_submitted: true
-            })
-            .then(response => {
-              console.log(response.data);
-              this.getUserPermohonan();
-              this.overlay.message =
-                "Permohonan beasiswa berhasil dikirim, lihat status permohonan beasiswa";
-              this.loadingBtn = false;
-              // this.isDisabled = true;
-              this.snackbar = true;
-              this.isSure = false;
-            })
-            .catch(error => {
-              this.msg.color = "red";
-              this.msg.text =
-                "Maaf ada kendala ketika ingin menyimpan, coba lagi nanti..";
-              this.snackbar = true;
-              console.log(error);
-            });
+        axios
+          .post(`${this.url}/api/pemohon`, {
+            beasiswa_id: this.$route.params.id,
+            is_submitted: true
+          })
+          .then(response => {
+            console.log(response.data);
+            this.getUserPermohonan();
+            this.overlay.message =
+              "Permohonan beasiswa berhasil dikirim, lihat status permohonan beasiswa";
+            this.loadingBtn = false;
+            // this.isDisabled = true;
+            this.snackbar = true;
+            this.isSure = false;
+          })
+          .catch(error => {
+            this.msg.color = "red";
+            this.msg.text =
+              "Maaf ada kendala ketika ingin menyimpan, coba lagi nanti..";
+            this.snackbar = true;
+            console.log(error);
+          });
       }
     },
-    textChanged(v){
-      if(isSubmitted){
-        if(!v){
-
+    textChanged(v) {
+      if (isSubmitted) {
+        if (!v) {
         }
       }
-
     },
-    save(){
-            // this.loadingBtn = true;
+    save() {
+      // this.loadingBtn = true;
       // var finalForm = [];
       // this.fields.forEach(element => {
       //   finalForm.push(element);
       // });
     }
     // async save() {
-      // this.loadingBtn = true;
-      // var finalForm = [];
-      // this.fields.forEach(element => {
-      //   finalForm.push(element);
-      // });
+    // this.loadingBtn = true;
+    // var finalForm = [];
+    // this.fields.forEach(element => {
+    //   finalForm.push(element);
+    // });
     //   var beasiswa_id = this.$route.params.id;
     //   var form = [];
     //   var files = [];
@@ -804,7 +898,7 @@ export default {
       //   msg: "",
       //   isAlreadyHas: false,
       overlay: { show: false },
-      refference:{},
+      refference: {},
       fields: {},
       defaultFields: {},
       loading: 0,
