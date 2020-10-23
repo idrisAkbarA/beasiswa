@@ -28,9 +28,24 @@ class PemohonBeasiswaController extends Controller
         $beasiswa = Beasiswa::findOrFail($id);
         $mahasiswa = Auth::guard('mahasiswa')->user();
         $permohonan = PemohonBeasiswa::where('beasiswa_id', $beasiswa->id)
-                        ->where('mhs_id', $mahasiswa->nim)
-                        ->get();
+            ->where('mhs_id', $mahasiswa->nim)
+            ->get();
         return response()->json($permohonan);
+    }
+
+    public function getByBeasiswa(Request $request, $id)
+    {
+        $beasiswa = Beasiswa::withTrashed()->findOrFail($id);
+        $tahap = $request->tahap ?? [
+            'status',
+            'berkas',
+            'interview',
+            'survey',
+            'selection',
+            'lulus'
+        ];
+        $beasiswa->makeVisible($tahap);
+        return response()->json($beasiswa);
     }
     // public function downloadReport(Request $request){
     //     // return PemohonBeasiswa::with("beasiswa")->get();
@@ -40,9 +55,9 @@ class PemohonBeasiswaController extends Controller
     {
         $user = Auth::guard('mahasiswa')->user();
         $beasiswa = PemohonBeasiswa::where('mhs_id', $user['nim'])
-                    ->where('is_submitted', 1)
-                    ->with('beasiswa')
-                    ->get();
+            ->where('is_submitted', 1)
+            ->with('beasiswa')
+            ->get();
         return response()->json($beasiswa);
     }
     public function IsHasBeasiswaAdmin(Request $request)

@@ -175,7 +175,7 @@
                 :rules="isRequired(field.required)"
               >
                 <v-radio
-                 @change="updateField(field)"
+                  @change="updateField(field)"
                   v-for="(item,index) in field.pilihan.items"
                   :key="index"
                   :value="item.label"
@@ -507,7 +507,14 @@ export default {
     axios.get("/api/permohonan/" + this.$route.params.id).then(response => {
       console.log("test", response.data);
     });
-    this.getBeasiswaSingle(this.$route.params.id);
+    this.getBeasiswaSingle(this.$route.params.id).then(response => {
+      if (Object.values(response.syarat).includes(false)) {
+        this.overlay = {
+          show: true,
+          message: response.syarat
+        };
+      }
+    });
     this.getUserPermohonan();
   },
   methods: {

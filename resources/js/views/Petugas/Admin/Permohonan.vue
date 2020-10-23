@@ -57,7 +57,7 @@
                     <v-chip
                       color="blue"
                       :outlined="filter != 'permohonan'"
-                      class="mr-2"
+                      class="mr-2 mb-2"
                       @click="filter = 'permohonan'"
                     >
                       Semua ({{undefined !== selectedBeasiswa.permohonan ? selectedBeasiswa.permohonan.length : 0}})
@@ -65,7 +65,7 @@
                     <v-chip
                       color="orange"
                       :outlined="filter != 'on_progress'"
-                      class="mr-2"
+                      class="mr-2 mb-2"
                       @click="filter = 'on_progress'"
                     >
                       Proses ({{undefined !== selectedBeasiswa.on_progress ? selectedBeasiswa.on_progress.length : 0}})
@@ -73,7 +73,7 @@
                     <v-chip
                       color="red"
                       :outlined="filter != 'tidak_lulus'"
-                      class="mr-2"
+                      class="mr-2 mb-2"
                       @click="filter = 'tidak_lulus'"
                     >
                       Tidak Lulus ({{undefined !== selectedBeasiswa.tidak_lulus ? selectedBeasiswa.tidak_lulus.length : 0}})
@@ -81,7 +81,7 @@
                     <v-chip
                       color="green"
                       :outlined="filter != 'lulus'"
-                      class="mr-2"
+                      class="mr-2 mb-2"
                       @click="filter = 'lulus'"
                     >
                       Lulus ({{undefined !== selectedBeasiswa.lulus ? selectedBeasiswa.lulus.length : 0}})
@@ -493,6 +493,20 @@ export default {
     compareType(a, b) {
       a == b ? true : false;
     },
+    getPermohonan(id) {
+      axios
+        .get(`/api/permohonan/${id}/beasiswa`, {
+          params: {
+            tahap: "lulus"
+          }
+        })
+        .then(response => {
+          console.log(response);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    },
     store() {
       let form = _.clone(this.form);
       form.selesai = true;
@@ -749,6 +763,8 @@ export default {
     },
     selectedBeasiswa: function(val) {
       if (val) {
+        console.log("asds");
+        this.getPermohonan(val.id);
         this.detailBeasiswa = [
           { judul: "Nama", isi: val.nama },
           { judul: "Instansi", isi: val.instansi.name ?? "-" },

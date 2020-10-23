@@ -220,6 +220,7 @@ class BeasiswaController extends Controller
     {
         return count(Beasiswa::all());
     }
+
     public function get($id)
     {
         $user = Auth::guard('mahasiswa')->user();
