@@ -24,6 +24,18 @@
               </v-switch>
             </v-col>
           </v-row>
+          <v-row
+            no-gutters
+            align="center"
+          >
+            <v-col cols="6">
+              Mode maintenance untuk halaman verifikator
+            </v-col>
+            <v-col cols="6">
+              <v-switch color="green" v-model="isVerificatorMaintenanceMode">
+              </v-switch>
+            </v-col>
+          </v-row>
         </v-card-text>
       </v-card>
     </v-row>
@@ -51,6 +63,23 @@ export default {
                 this.appSettings['isMaintenanceMode'] = 1;
             }else{
                 this.appSettings['isMaintenanceMode'] = 0;
+            }
+            console.log( this.appSettings)
+            this.editAppSettings(this.appSettings).then(response=>{
+                console.log(response.data)
+            });
+        },
+        get:function(){
+            return this.appSettings['isMaintenanceMode']==1?true:false;
+        }
+    },
+    isVerificatorMaintenanceMode:{
+        set:function(v){
+            console.log(v)
+            if(v==true){
+                this.appSettings['isVerificatorMaintenanceMode'] = 1;
+            }else{
+                this.appSettings['isVerificatorMaintenanceMode'] = 0;
             }
             console.log( this.appSettings)
             this.editAppSettings(this.appSettings).then(response=>{

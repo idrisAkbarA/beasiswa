@@ -7,9 +7,9 @@
       <v-app-bar
         app
         flat
-        color="transparent"
-        hide-on-scroll
+        style="background:rgba(56, 203, 157, 1) 100%"
       >
+        <!-- color="rgba(56, 203, 157, 1) 100%" -->
         <v-avatar :tile="true">
           <img
             :src="'/images/LogoUIN.png'"
@@ -62,24 +62,45 @@
 <script>
 import { mapState } from "vuex";
 export default {
+  created(){
+    // this.checkMaintenance()
+  },
   computed: {
     ...mapState(["url"])
   },
   methods: {
+    checkMaintenance(){
+       axios.get("/api/beasiswa/settings").then(response => {
+         console.log(response.data['isVerificatorMaintenanceMode'])
+              if(response.data['isVerificatorMaintenanceMode'] == 1){
+                console.log("maintenance")
+                
+              }else{
+                console.log("not maintenance")
+              }
+            }).catch(err=>{
+              this.checkMaintenance()
+            });
+    },
     history() {
       this.$router.push({ name: "Verificator History" });
     },
     logout() {
-      axios
-        .get("/api/logout-petugas", {
+       axios
+        .get(this.url + "/api/logout-petugas", {
           params: {
             user: window.localStorage.getItem("user")
           }
         })
         .then(response => {
+          this.$store.state.auth.isAuth = false;
+          console.log(this.$store.state.auth.isAuth);
+
           this.$router.push({ name: "Login Petugas" });
         })
         .catch(() => {
+          console.log(this.$store.state.auth.isAuth + " dar catch");
+          this.$store.state.auth.isAuth = false;
           this.$router.push({ path: "/login" });
         });
     }
