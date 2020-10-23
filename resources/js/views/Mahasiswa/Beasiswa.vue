@@ -715,6 +715,7 @@ export default {
         if (response.data.length > 0) {
           console.log("aku tidak kosong");
 
+          console.log("cek tanggal",response.data);
           this.fields = JSON.parse(response.data[0].form);
           this.refference = JSON.parse(JSON.stringify(this.fields));
         } else {
@@ -723,6 +724,8 @@ export default {
             this.defaultFields = JSON.parse(response.fields);
             this.fields = this.defaultFields;
             this.refference = JSON.parse(JSON.stringify(this.fields));
+          }).then(response=>{
+            console.log("response single ", response.data)
           });
         }
         try {
@@ -882,6 +885,11 @@ export default {
     ...mapState(["beasiswaSingle", "nim", "url"])
   },
   watch: {
+    beasiswaSingle(val){
+      console.log("beasiswa single",val)
+      var now = Date.now();
+      // var akhir_berkas = val.
+    },
     validation(v) {
       console.log(v);
       v ? (this.isDisabled = false) : (this.isDisabled = true);

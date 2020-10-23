@@ -1,5 +1,42 @@
 <template>
+
+<v-container>
+  <v-card class="mx-auto" v-if="appSettings.isVerificatorMaintenanceMode==1">
+    <v-container>
+      <v-row
+        justify="center"
+        align="center"
+        align-content="center"
+        no-gutters
+      >
+        <v-col cols="12">
+          <v-img
+          v-if="!$vuetify.breakpoint.mobile"
+            max-width="25vw"
+            :src="'/images/maintenance.png'"
+            class="mx-auto "
+          ></v-img>
+          <v-img
+          v-if="$vuetify.breakpoint.mobile"
+            max-width="70vw"
+            :src="'/images/maintenance.png'"
+            class="mx-auto"
+          ></v-img>
+
+        </v-col>
+        <v-col cols="12">
+          <h3 class=" mx-auto text-center center-text font-weight-light">Maaf halaman ini sedang dalam tahap maintenance, kembali dalam beberapa waktu lagi</h3>
+        </v-col>
+      </v-row>
+      <v-row
+        justify="center"
+        no-gutters
+      >
+      </v-row>
+    </v-container>
+  </v-card>
   <v-card
+    v-if="appSettings.isVerificatorMaintenanceMode==0"
     color="#E8F5E9"
     light
     elevation="20"
@@ -490,17 +527,32 @@
       </template>
     </v-snackbar>
   </v-card>
+  </v-container>
 </template>
 
 <script>
 import { mapActions, mapMutations, mapState } from "vuex";
 export default {
   created() {
+    this.getAppSettings();
     this.getBeasiswaWithPermohonan();
     this.getPetugas();
   },
   methods: {
-    ...mapActions(["getBeasiswaWithPermohonan"]),
+    ...mapActions(["getBeasiswaWithPermohonan","getAppSettings"]),
+    checkMaintenance(){
+       axios.get("/api/beasiswa/settings").then(response => {
+         console.log(response.data['isVerificatorMaintenanceMode'])
+              if(response.data['isVerificatorMaintenanceMode'] == 1){
+                console.log("maintenance")
+                
+              }else{
+                console.log("not maintenance")
+              }
+            }).catch(err=>{
+              this.checkMaintenance()
+            });
+    },
     getPetugas() {
       axios
         .get(`${this.url}/api/user/petugas`)
@@ -575,21 +627,22 @@ export default {
     parsedForm: {
       deep: true,
       handler(val) {
+        console.log(val)
         for (let i = 0; i < val.length; i++) {
           const element = val[i];
-          if (!element.isLulus) {
+          if (element.isLulus == null) {
             this.btnLoading = true;
-            this.btnTidakLulus = false;
+            this.btnTidakLulus = true;
             break;
           }
-          this.btnTidakLulus = true;
+          this.btnTidakLulus = false;
           this.btnLoading = false;
         }
       }
     }
   },
   computed: {
-    ...mapState(["beasiswa", "url"]),
+    ...mapState(["beasiswa", "url","appSettings"]),
     resultQuery() {
       if (this.searchQuery) {
         if (typeof this.beasiswa[this.index].berkas == "object") {

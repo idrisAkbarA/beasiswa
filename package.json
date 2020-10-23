@@ -26,7 +26,7 @@
     },
     "dependencies": {
         "moment": "^2.29.0",
-        "vue-router": "^3.4.3",
+        "vue-router": "^3.4.7",
         "vue-window-size": "^0.6.2",
         "vue2-filters": "^0.11.0",
         "vuescroll": "^4.16.1",
