@@ -249,7 +249,6 @@
                 </template>
 
                 <template v-if="$vuetify.breakpoint.mobile">
-
                   <v-row
                     class="mt-6"
                     align-self="center"
@@ -259,7 +258,7 @@
                     :value="item.label"
                     no-gutters
                   >
-                    <v-col cols="2">
+                    <v-col cols="1">
                       <v-checkbox
                         v-model="item.isSelected"
                         color="white"
@@ -270,15 +269,15 @@
                       ></v-checkbox>
 
                     </v-col>
-                    <v-col cols="10">
+                    <!-- <v-col cols="6">
                       <span>{{item.label}}</span>
-
-                    </v-col>
+                    </v-col> -->
                     <v-col
-                      cols="12"
+                      cols="11"
                       v-if="!item.file_name"
                     >
                       <v-file-input
+                        hide-details="auto"
                         @change="updateField(field)"
                         v-model="item.value"
                         :disabled="!item.isSelected"
@@ -287,10 +286,11 @@
                       ></v-file-input>
                     </v-col>
                     <v-col
-                      cols="12"
+                      cols="6"
                       v-if="item.file_name"
                     >
                       <v-file-input
+                        hide-details="auto"
                         @change="updateField(field)"
                         v-model="item.value"
                         :disabled="!item.isSelected"
@@ -298,7 +298,7 @@
                       ></v-file-input>
                     </v-col>
                     <v-col
-                      cols="12"
+                      cols="5"
                       v-if="item.file_name"
                       class="pl-2"
                     >
