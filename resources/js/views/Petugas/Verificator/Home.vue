@@ -66,13 +66,12 @@
               <v-row v-if="loading" justify="center" align-content="center" class="text-center">
                 <v-col cols="12">
                   <v-progress-circular  class="mx-auto" color="green" indeterminate></v-progress-circular>
-
                 </v-col>
                 <v-col cols="12">
                   Memuat data
                 </v-col>
               </v-row>
-              <p
+              <p  
                 v-if="!beasiswa[0] && loading == false"
                 class="text-center"
               >Tidak ada berkas</p>
@@ -529,17 +528,18 @@
         <v-snackbar
           v-model="snackbar.show"
           :timeout="2000"
+          :color="snackbar.color"
         >
           {{ snackbar.message }}
 
           <template v-slot:action="{ attrs }">
             <v-btn
-              :color="snackbar.color"
+              small
               text
               v-bind="attrs"
               @click="snackbar.show = false"
             >
-              Close
+              tutup
             </v-btn>
           </template>
         </v-snackbar>
@@ -601,9 +601,16 @@ export default {
         });
     },
     link(url) {
-      var a = "/" + url;
-      var link = a.replace(" ", "%20");
-      window.open(link, "_blank");
+      console.log(url)
+      if(url.length>1){
+        var a = "/" + url;
+        var link = a.replace(" ", "%20");
+        window.open(link, "_blank");
+      }else{
+        this.snackbar.message = "Maaf, file yang anda buka corrupt";
+        this.snackbar.color = "red";
+        this.snackbar.show = true;
+      }
     },
     setBerkas(bool) {
       this.btnLoading = true;
@@ -705,7 +712,7 @@ export default {
       sheetDetail: false,
       selectedPermohonan: {},
       selectedMahasiswa: {},
-      snackbar: { show: false },
+      snackbar: { show: false, color: "" },
       petugas: { fakultas: { nama: "" } },
       dialogDelete: { show: false },
       headers: [
