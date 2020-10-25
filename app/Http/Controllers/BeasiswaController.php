@@ -177,8 +177,8 @@ class BeasiswaController extends Controller
                 $temp['NIM'] = $valueP['mahasiswa']['nim'];
                 $temp['Jurusan'] = $valueP['mahasiswa']['jurusan']['nama'];
                 $temp['Fakultas'] = $valueP['mahasiswa']['fakultas']['nama'];
-                $temp['IPS'] = $valueP['mahasiswa']['ips'];
-                $temp['IPK'] = $valueP['mahasiswa']['ipk'];
+                $temp['IPS'] = round($valueP['mahasiswa']['ips'],2);
+                $temp['IPK'] = round($valueP['mahasiswa']['ipk'],2);
                 if ($valueP[$tahapKey] === 1) {
                     $status = "Lulus";
                 } else if ($valueP[$tahapKey] === 0) {

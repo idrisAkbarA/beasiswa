@@ -1,5 +1,4 @@
 <template>
-
   <v-container>
     <v-card
       class="mx-auto"
@@ -38,11 +37,6 @@
         </v-row>
       </v-container>
     </v-card>
-      <!-- :loading="isTableLoading" -->
-      <!-- :loading="beasiswa.length< 1 ? true : false" -->
- 
-
-
       <v-card
         v-if="appSettings.isVerificatorMaintenanceMode==0"
         color="#E8F5E9"
