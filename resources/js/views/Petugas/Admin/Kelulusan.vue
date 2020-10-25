@@ -1,7 +1,7 @@
 <template>
   <v-card
+    flat
     color="transparent"
-    elevation="20"
     :width="width()"
     class="fill-height mx-auto"
     style="overflow-y: auto"

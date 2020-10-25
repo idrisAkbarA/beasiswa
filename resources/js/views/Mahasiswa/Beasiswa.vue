@@ -588,7 +588,7 @@ export default {
           if (tempMulti.value) {
             var data = new FormData();
             data.append("file", tempMulti.value);
-            data.append("id", 0);
+            data.append("id", this.$route.params.id);
             await this.upload(data, this.url).then(response => {
               var formTemp = JSON.parse(JSON.stringify(this.fields));
               var index = this.fields.indexOf(item);
