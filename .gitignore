@@ -5,6 +5,7 @@
 /storage/*.key
 /storage/framework/laravel-excel
 /vendor
+/ignored
 .env
 .env.backup
 .phpunit.result.cache
