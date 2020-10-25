@@ -177,12 +177,15 @@ export default new Vuex.Store({
         },
         getBeasiswaWithPermohonan({ commit, dispatch, state }) {
             commit("mutateTableLoading", true);
-            Axios.get(state.url + "/api/beasiswa/with-permohonan").then(
-                response => {
-                    commit("mutateBeasiswa", response.data);
-                    commit("mutateTableLoading", false);
-                }
-            );
+            return new Promise((resolve, reject) => {
+                Axios.get(state.url + "/api/beasiswa/with-permohonan").then(
+                    response => {
+                        commit("mutateBeasiswa", response.data);
+                        commit("mutateTableLoading", false);
+                        resolve(response);
+                    }
+                );
+            })
         },
         storeAkunPetugas({ commit, dispatch, state }, data) {
             return new Promise((resolve, reject) => {

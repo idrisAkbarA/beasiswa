@@ -1,15 +1,12 @@
 <template>
   <v-app>
-
-    <!-- Sizes your content based upon application components -->
-
     <v-main class="bg">
       <v-app-bar
         app
         flat
+        elevate-on-scroll
         style="background:rgba(56, 203, 157, 1) 100%"
       >
-        <!-- color="rgba(56, 203, 157, 1) 100%" -->
         <v-avatar :tile="true">
           <img
             :src="'/images/LogoUIN.png'"
@@ -18,16 +15,22 @@
         </v-avatar>
         <div style="width:100%; -webkit-app-region: drag;">
           <v-toolbar-title>
-            <span class="font-weight-bold ml-4">
-              <router-link
-                :to="'Home'"
-                class="text-white"
-              >
-                App Beasiswa
-              </router-link>
-            </span>
+            <v-container>
+              <v-row no-gutters>
+                <v-col cols="12">
+                  <span v-if="windowWidth >= 600" class="font-weight-bold ml-4">
+                    <router-link
+                      :to="'Home'"
+                      class="text-white"
+                    >
+                      Beasiswa
+                    </router-link>
+                  </span>
+                  <span v-if="windowWidth >= 600"> | Verifikator</span>
+                </v-col>
+              </v-row>
+            </v-container>
             <!-- Change this automaticly later usig VUEX -->
-            <span> | Verifikator</span>
           </v-toolbar-title>
         </div>
         <v-btn
@@ -44,15 +47,11 @@
         >
           <v-icon>mdi-logout-variant</v-icon>keluar
         </v-btn>
-        <!-- -->
       </v-app-bar>
-      <!-- Provides the application the proper gutter -->
       <v-container
         fluid
         fill-height
       >
-
-        <!-- If using vue-router -->
         <router-view></router-view>
       </v-container>
     </v-main>
@@ -62,31 +61,33 @@
 <script>
 import { mapState } from "vuex";
 export default {
-  created(){
+  created() {
     // this.checkMaintenance()
   },
   computed: {
     ...mapState(["url"])
   },
   methods: {
-    checkMaintenance(){
-       axios.get("/api/beasiswa/settings").then(response => {
-         console.log(response.data['isVerificatorMaintenanceMode'])
-              if(response.data['isVerificatorMaintenanceMode'] == 1){
-                console.log("maintenance")
-                
-              }else{
-                console.log("not maintenance")
-              }
-            }).catch(err=>{
-              this.checkMaintenance()
-            });
+    checkMaintenance() {
+      axios
+        .get("/api/beasiswa/settings")
+        .then(response => {
+          console.log(response.data["isVerificatorMaintenanceMode"]);
+          if (response.data["isVerificatorMaintenanceMode"] == 1) {
+            console.log("maintenance");
+          } else {
+            console.log("not maintenance");
+          }
+        })
+        .catch(err => {
+          this.checkMaintenance();
+        });
     },
     history() {
       this.$router.push({ name: "Verificator History" });
     },
     logout() {
-       axios
+      axios
         .get(this.url + "/api/logout-petugas", {
           params: {
             user: window.localStorage.getItem("user")
