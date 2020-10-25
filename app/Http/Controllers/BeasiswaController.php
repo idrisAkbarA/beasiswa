@@ -127,14 +127,12 @@ class BeasiswaController extends Controller
             unset($item['update_at']);
             // return "oi";
             if (isset($whereFakultas['fakultas_id'])) {
-
                 if (count($whereTahap) > 0) {
                     $tahapKey = array_key_first($whereTahap);
                     $tahapValue = $whereTahap[$tahapKey];
-
                     // filter fakultas
                     foreach ($item['permohonan'] as $key => $value) {
-                        if ($value['mahasiswa']['jurusan']['fakultas']['id'] !== $whereFakultas['fakultas_id']) {
+                        if ($value['mahasiswa']['jurusan']['fakultas']['id'] != $whereFakultas['fakultas_id']) {
                             unset($item['permohonan'][$key]);
                         }
                     }
@@ -143,6 +141,12 @@ class BeasiswaController extends Controller
                         if ($value[$tahapKey] !== $tahapValue) {
                             unset($item['permohonan'][$key]);
                         };
+                    }
+                } else {
+                    foreach ($item['permohonan'] as $key => $value) {
+                        if ($value['mahasiswa']['jurusan']['fakultas']['id'] != $whereFakultas['fakultas_id']) {
+                            unset($item['permohonan'][$key]);
+                        }
                     }
                 }
             } else {
@@ -177,8 +181,8 @@ class BeasiswaController extends Controller
                 $temp['NIM'] = $valueP['mahasiswa']['nim'];
                 $temp['Jurusan'] = $valueP['mahasiswa']['jurusan']['nama'];
                 $temp['Fakultas'] = $valueP['mahasiswa']['fakultas']['nama'];
-                $temp['IPS'] = round($valueP['mahasiswa']['ips'],2);
-                $temp['IPK'] = round($valueP['mahasiswa']['ipk'],2);
+                $temp['IPS'] = round($valueP['mahasiswa']['ips'], 2);
+                $temp['IPK'] = round($valueP['mahasiswa']['ipk'], 2);
                 if ($valueP[$tahapKey] === 1) {
                     $status = "Lulus";
                 } else if ($valueP[$tahapKey] === 0) {
