@@ -107,6 +107,7 @@
       <v-data-table
         :headers="headers"
         :items="report"
+        :items-per-page="-1"
         hide-default-footer
         :loading="isTableLoading"
         loading-text="Memuat... Mohon tunggu"
