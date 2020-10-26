@@ -118,8 +118,10 @@ export default {
         if (item.is_berkas_passed == 1) {
           return "Segera lakukan wawancara pada tanggal yang ditentukan.";
         }
-      } else {
+      } else if (item.is_submitted) {
         return "Permohonan anda sedang di proses";
+      } else {
+        return "Permohonan belum di proses, mohon lengkapi persyaratan";
       }
     },
     checkColor(item) {
@@ -176,7 +178,7 @@ export default {
             awal_tgl: element.beasiswa.awal_interview,
             akhir_tgl: element.beasiswa.akhir_interview,
             is_done,
-            msg: `Lakukan wawancara pada tanggal 
+            msg: `Lakukan wawancara pada tanggal
             ${
               element.beasiswa.awal_interview
                 ? this.parseDate(element.beasiswa.awal_interview) + " sampai "
@@ -194,7 +196,7 @@ export default {
             awal_tgl: element.beasiswa.awal_survey,
             akhir_tgl: element.beasiswa.akhir_survey,
             is_done,
-            msg: `Team survey akan melakukan survey pada  
+            msg: `Team survey akan melakukan survey pada
             ${
               element.beasiswa.awal_survey
                 ? this.parseDate(element.beasiswa.awal_survey) + " sampai "
@@ -218,7 +220,6 @@ export default {
         permohonans[index]["timeline"] = timeline;
         timeline = [];
       });
-      console.log(permohonans);
     }
   },
   computed: {

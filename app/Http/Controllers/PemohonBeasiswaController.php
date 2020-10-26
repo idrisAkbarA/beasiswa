@@ -33,20 +33,6 @@ class PemohonBeasiswaController extends Controller
         return response()->json($permohonan);
     }
 
-    public function getByBeasiswa(Request $request, $id)
-    {
-        $beasiswa = Beasiswa::withTrashed()->findOrFail($id);
-        $tahap = $request->tahap ?? [
-            'status',
-            'berkas',
-            'interview',
-            'survey',
-            'selection',
-            'lulus'
-        ];
-        $beasiswa->makeVisible($tahap);
-        return response()->json($beasiswa);
-    }
     // public function downloadReport(Request $request){
     //     // return PemohonBeasiswa::with("beasiswa")->get();
     //     return Excel::download(new PemohonExport, 'pemohon.xlsx');
@@ -55,7 +41,7 @@ class PemohonBeasiswaController extends Controller
     {
         $user = Auth::guard('mahasiswa')->user();
         $beasiswa = PemohonBeasiswa::where('mhs_id', $user['nim'])
-            ->where('is_submitted', 1)
+            // ->where('is_submitted', 1)
             ->with('beasiswa')
             ->get();
         return response()->json($beasiswa);
