@@ -216,6 +216,25 @@ class BeasiswaController extends Controller
             ->sortByDesc('id');
         return response()->json($beasiswa);
     }
+
+    public function getPermohonan(Request $request, $id)
+    {
+        $beasiswa = Beasiswa::withTrashed()
+            ->with(['instansi'])
+            ->findOrFail($id);
+        $tahap = $request->tahap ?? [
+            'status',
+            'permohonan',
+            'berkas',
+            'interview',
+            'survey',
+            'selection',
+            'lulus'
+        ];
+        $beasiswa->makeVisible($tahap);
+        return response()->json($beasiswa);
+    }
+
     public function countBeasiswa()
     {
         return count(Beasiswa::all());
@@ -282,7 +301,7 @@ class BeasiswaController extends Controller
     public function selesai()
     {
         $beasiswaOnProgress = Beasiswa::onProgress();
-        $beasiswaOnProgress->makeVisible(['berkas', 'interview', 'survey', 'selection', 'lulus', 'permohonan']);
+        // $beasiswaOnProgress->makeVisible(['berkas', 'interview', 'survey', 'selection', 'lulus', 'permohonan']);
         $data = [
             'selesai' => $beasiswaOnProgress,
         ];

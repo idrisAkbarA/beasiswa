@@ -116,6 +116,7 @@
                   :items="selectedBeasiswa[filter]"
                   :items-per-page="10"
                   :search="search.permohonan"
+                  :loading="isLoading"
                   @click:row="getUserPermohonan"
                   style="background-color: #2e7d323b"
                   class="elevation-10 mb-10 row-pointer"
@@ -488,23 +489,49 @@ export default {
     this.getInstansi();
   },
   methods: {
-    ...mapMutations(["toggleOpenBeasiswa"]),
+    ...mapMutations(["toggleOpenBeasiswa", "mutateLoading"]),
     ...mapActions(["getBeasiswaSelesai", "getInstansi", "storeBeasiswa"]),
     compareType(a, b) {
       a == b ? true : false;
     },
     getPermohonan(id) {
+      this.mutateLoading(true);
       axios
-        .get(`/api/permohonan/${id}/beasiswa`, {
+        .get(`/api/beasiswa/${id}/permohonan`, {
           params: {
-            tahap: "lulus"
+            // tahap: "lulus"
           }
         })
         .then(response => {
-          console.log(response);
+          const item = response.data;
+          this.selectedBeasiswa = item;
+          this.lulus = item.lulus;
+          this.selectedBeasiswa.tidak_lulus = [];
+          this.selectedBeasiswa.on_progress = [];
+          item.permohonan.forEach(x => {
+            if (
+              (x.is_selection_passed == null && item.deleted_at != null) ||
+              x.is_berkas_passed == 0 ||
+              x.is_interview_passed == 0 ||
+              x.is_survey_passed == 0 ||
+              x.is_selection_passed == 0
+            ) {
+              this.selectedBeasiswa.tidak_lulus.push(x);
+            } else if (x.is_selection_passed == null) {
+              this.selectedBeasiswa.on_progress.push(x);
+            }
+          });
         })
         .catch(error => {
           console.error(error);
+          this.snackbar = {
+            show: true,
+            color: "red",
+            message: error
+          };
+        })
+        .then(() => {
+          this.mutateLoading(false);
         });
     },
     store() {
@@ -570,24 +597,9 @@ export default {
         });
     },
     info(item) {
-      this.selectedBeasiswa = item;
+      this.selectedBeasiswa = {};
       this.dialog = true;
-      this.lulus = item.lulus;
-      this.selectedBeasiswa.tidak_lulus = [];
-      this.selectedBeasiswa.on_progress = [];
-      item.permohonan.forEach(x => {
-        if (
-          (x.is_selection_passed == null && item.deleted_at != null) ||
-          x.is_berkas_passed == 0 ||
-          x.is_interview_passed == 0 ||
-          x.is_survey_passed == 0 ||
-          x.is_selection_passed == 0
-        ) {
-          this.selectedBeasiswa.tidak_lulus.push(x);
-        } else if (x.is_selection_passed == null) {
-          this.selectedBeasiswa.on_progress.push(x);
-        }
-      });
+      this.getPermohonan(item.id);
     },
     parseDate: function(date) {
       return this.$moment(date, "YYYY-MM-DD").format("Do MMMM YYYY");
@@ -666,14 +678,12 @@ export default {
       return this.$moment(date, "YYYY-MM-DD").format("Do MMMM YYYY");
     },
     getUserPermohonan(item) {
-      console.log(item);
       this.dialogMHS = true;
       this.permohonans = item;
       this.permohonans["beasiswa"] = this.selectedBeasiswa;
       this.addTimeline();
     },
     addTimeline() {
-      console.log(this.permohonans);
       var timeline = [];
 
       timeline.push({
@@ -756,15 +766,8 @@ export default {
     }
   },
   watch: {
-    filter: function(val) {
-      if (val) {
-        this.selectedBeasiswa;
-      }
-    },
     selectedBeasiswa: function(val) {
       if (val) {
-        console.log("asds");
-        this.getPermohonan(val.id);
         this.detailBeasiswa = [
           { judul: "Nama", isi: val.nama },
           { judul: "Instansi", isi: val.instansi.name ?? "-" },
