@@ -5,22 +5,21 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Beasiswa;
 use App\PemohonBeasiswa;
-
-class movePermohonan extends Command
+class movePermohonanBySemester extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'movePermohonan { angkatan : Angkatan mahasiswa yang akan dipindahkan } { from_id : Asal beasiswa } { to_id : Target beasiswa}';
+    protected $signature = 'movePermohonanBySemester { semester : Semester mahasiswa yang akan dipindahkan } { from_id : Asal beasiswa } { to_id : Target beasiswa}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Pindahkan mahasiswa angkatan x dari beasiswa_id awal ke beasiswa_id target';
+    protected $description = 'Pindahkan mahasiswa semester x dari beasiswa_id awal ke beasiswa_id target';
 
     /**
      * Create a new command instance.
@@ -41,7 +40,7 @@ class movePermohonan extends Command
     {
         $from_id = $this->argument('from_id');
         $to_id = $this->argument('to_id');
-        $angkatan = $this->argument('angkatan');
+        $semester = $this->argument('semester');
 
         // get all permohonan by beasiswa id
         $beasiswa_to = Beasiswa::find($to_id);
@@ -55,14 +54,15 @@ class movePermohonan extends Command
 
         echo "getting all records..\n\n";
         // process moving records
-        $beasiswa_from->map(function ($item, $key) use ($from_id, $to_id, $angkatan) {
+        $beasiswa_from->map(function ($item, $key) use ($from_id, $to_id, $semester) {
             $total_occurence = 0;
             // loop all permohonan inside beasiswa
             foreach ($item['permohonan'] as $key => $value) {
                 $nim_in_loop = $value['mahasiswa']['nim'];
-                $is_same_as_target_angkatan = substr_compare($nim_in_loop, $angkatan, 1, 2);
+                $current_iteration_semester = $value['mahasiswa']['semester'];
+                $is_same_as_target_semester = $semester == $current_iteration_semester ? 0:1;
 
-                if ($is_same_as_target_angkatan == 0) { // if matched 
+                if ($is_same_as_target_semester == 0) { // if matched 
                     $total_occurence += 1;
                     echo "\n Moving " . $value['mahasiswa']['nim'];
                     $matched_pemohon = PemohonBeasiswa::where(["beasiswa_id" => $from_id, "mhs_id" => $value['mahasiswa']['nim']])
