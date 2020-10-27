@@ -30,6 +30,7 @@
                   v-model="beasiswaSelected"
                   :rules="rule"
                   auto-select-first
+                  @change="getFieldList"
                   filled
                   color="white"
                   label="Beasiswa"
@@ -84,6 +85,53 @@
             </v-row>
           </v-form>
           <v-row no-gutters>
+            <v-expansion-panels
+              class="mb-7"
+              :disabled="isSpesificBeasiswaSelected"
+            >
+              <v-expansion-panel>
+                <!-- <v-progress-linear
+                  color="green"
+                  indeterminate
+                ></v-progress-linear> -->
+                <v-expansion-panel-header>
+                  Set kolom pertanyaan
+                </v-expansion-panel-header>
+                <v-expansion-panel-content>
+                  <v-container
+                    class="px-0"
+                    fluid
+                  >
+                    <v-checkbox
+                      hide-details
+                      color="green"
+                      v-model="selectUnSelectAllField"
+                    >
+                      <template v-slot:label>
+                        <div class="mt-3">
+                          Pilih Semua
+                        </div>
+                      </template>
+                    </v-checkbox>
+                    <v-checkbox
+                      v-model="item.value"
+                      hide-details
+                      color="green"
+                      v-for="(item,index) in fieldList"
+                      :key="index"
+                    >
+                      <template v-slot:label>
+                        <div class="mt-3">
+                          {{item.pertanyaan}}
+                        </div>
+                      </template>
+                    </v-checkbox>
+                  </v-container>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-expansion-panels>
+          </v-row>
+          <v-row no-gutters>
             <v-btn
               :disabled="isDownloadDisabled"
               color="green darken-2"
@@ -122,12 +170,49 @@ import { mapActions, mapState } from "vuex";
 import Axios from "axios";
 export default {
   watch: {
+    fieldList: {
+      deep: true,
+      handler: function(v) {
+        v.forEach(element => {
+          if (!element.value) {
+            this.selectAll.value = false;
+          }
+        });
+      }
+    },
     validation(v) {
       v ? (this.isDownloadDisabled = false) : (this.isDownloadDisabled = true);
     }
   },
   computed: {
     ...mapState(["report", "url", "fakultas", "isTableLoading", "beasiswa"]),
+    selectUnSelectAllField: {
+      // Property description:
+      // set value of it's own v-model and select/unselect all corresponding fields
+      set: function(v) {
+        this.selectAll.value = v;
+        // v ? this.selectAll.label = "Uncheck semua pilihan" : this.selectAll.label = "Pilih semua" ;
+        this.fieldList.forEach(element => {
+          v ? (element.value = true) : (element.value = false);
+        });
+      },
+      get: function() {
+        return this.selectAll.value;
+      }
+    },
+    isSpesificBeasiswaSelected: {
+      // Property description:
+      // set expansion panel of pertanyaan list to disable according to beasiswa is selected or not
+      get: function() {
+        if (this.beasiswaSelected == "all") {
+          return true;
+        }
+        if (this.beasiswaSelected == null) {
+          return true;
+        }
+        return false;
+      }
+    },
     headers: {
       get: function() {
         if (this.report.length > 0) {
@@ -152,12 +237,12 @@ export default {
         if (this.fakultas.length > 0) {
           this.fakLoading = false;
           var final = [];
-          console.log(this.fakultas);
+          // console.log(this.fakultas);
           final.push({ id: "all", nama: "Semua" });
           this.fakultas.forEach(element => {
             final.push({ id: element.id, nama: element.nama });
           });
-          console.log(final);
+          // console.log(final);
           return final;
         } else {
           console.log("hey");
@@ -173,15 +258,15 @@ export default {
         if (this.beasiswa.length > 0) {
           this.beaLoading = false;
           var final = [];
-          console.log(this.beasiswa);
+          // console.log(this.beasiswa);
           final.push({ id: "all", nama: "Semua" });
           this.beasiswa.forEach(element => {
             final.push({ id: element.id, nama: element.nama });
           });
-          console.log(final);
+          // console.log(final);
           return final;
         } else {
-          console.log("hey");
+          // console.log("hey");
           this.getBeasiswa();
           this.beaLoading = true;
           return [{ id: "", nama: "" }];
@@ -191,40 +276,63 @@ export default {
   },
   methods: {
     ...mapActions(["getReport", "getFakultas", "getBeasiswa"]),
+    getFieldList(item) {
+      // Method Descriptiption:
+      // list all pertanyaan of the selected beasiswa
+
+      if (item != "all") {
+        // check if id beasiswa selected
+        var beasiswaDetail = {};
+        this.beasiswa.forEach(element => {
+          // loop beasiswa to get the desired beasiswa
+          if (element.id == item) beasiswaDetail = element;
+        });
+
+        this.fieldList = JSON.parse(beasiswaDetail.fields); // set the list
+        console.log(this.fieldList);
+      }
+    },
     async getLaporan(isDownload) {
       await this.$refs.form.validate();
       if (this.validation) {
+        var fieldList = [];
+        this.fieldList.forEach(element => {
+          if (element.value) {
+            fieldList.push(element.pertanyaan);
+          }
+        });
         this.params = {
           beasiswa: this.beasiswaSelected,
           fakultas: this.fakultasSelected,
           tahap: this.tahapSelected,
-          status: this.statusSelected
+          status: this.statusSelected,
+          field_list: fieldList
         };
         console.log(this.params);
         !isDownload
           ? this.getReport(this.params)
-          : this.link(`/api/beasiswa/download-report?beasiswa=${this.beasiswaSelected}
+          : this
+              .link(`/api/beasiswa/download-report?beasiswa=${this.beasiswaSelected}
                                                     &fakultas=${this.fakultasSelected}
                                                     &tahap=${this.tahapSelected}
                                                     &status=${this.statusSelected}
+                                                    $field_list=${fieldList}
           `);
-        // !isDownload
-        //   ? this.getReport(this.params)
-        //   : axios
-        //       .get("/api/beasiswa/download-report", { params: this.params })
-        //       .then(response => {
-        //         FileDownload(response.data, "report.xlsx");
-        //       });
       }
     },
     link(url) {
-      var a =  url;
+      var a = url;
       var link = a.replace(" ", "%20");
       window.open(link, "_blank");
     }
   },
   data() {
     return {
+      selectAll: {
+        label: "Pilih semua",
+        value: false
+      },
+      fieldList: [],
       rule: [v => !!v || "Field ini wajib diisi"],
       isDownloadDisabled: false,
       validation: false,

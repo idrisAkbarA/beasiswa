@@ -51,6 +51,7 @@ class BeasiswaController extends Controller
         $status = $request['status'];
         $beasiswa = $request['beasiswa'];
         $fakultas = $request['fakultas'];
+        $fieldList = $request['field_list'];
         $statusSemua = '';
 
         if ($fakultas != 'all') $whereFakultas['fakultas_id'] = $fakultas;
@@ -122,7 +123,7 @@ class BeasiswaController extends Controller
         }
         $beasiswaCol->map(function ($item, $key) use ($whereFakultas, $whereTahap) {
             unset($item['instansi_id']);
-            unset($item['fields']);
+            // unset($item['fields']);
             unset($item['created_at']);
             unset($item['update_at']);
             // return "oi";
@@ -163,6 +164,7 @@ class BeasiswaController extends Controller
             }
         });
 
+        // get tahap key
         if (count($whereTahap) < 1) {
             $tahapKey = $statusSemua;
             $namedTahapKey = "Tahap " . explode("_", $tahapKey)[1];
@@ -171,9 +173,10 @@ class BeasiswaController extends Controller
             $namedTahapKey = "Tahap " . explode("_", $tahapKey)[1];
         }
 
-
+        // set final data
         foreach ($beasiswaCol as $keyB => $valueB) {
             foreach ($valueB['permohonan'] as $keyP => $valueP) {
+                $form = json_decode($valueP['form'],true);
                 $temp = [];
                 $status = '';
                 $temp['Beasiswa'] = $valueB['nama'];
@@ -191,7 +194,19 @@ class BeasiswaController extends Controller
                     $status = "Dalam Tahap Seleksi";
                 }
                 $temp[$namedTahapKey] = $status;
-                # code...
+
+                // set field list
+                foreach ($fieldList as $fieldKey => $fieldValue) {
+                    foreach ($form as $formKey => $formValue) {
+                      if($formValue['pertanyaan'] == $fieldValue){
+                          if($formValue['type']=='Upload File'){
+
+                          }
+                          $temp[$fieldValue] = $formValue["value"];
+                      }
+                    }
+                }
+              
                 array_push($finalData, $temp);
             }
         }
