@@ -289,10 +289,11 @@ class BeasiswaController extends Controller
         $beasiswa->update($request->all());
         return response()->json(['status' => "Success: Beasiswa Updated"]);
     }
+
     public function delete(Request $request, $id)
     {
-        $beasiswa = Beasiswa::find($id);
-        $beasiswa->delete();
+        $beasiswa = Beasiswa::with('permohonan')->find($id);
+        $beasiswa->close();
         return response()->json(['status' => "Success: Beasiswa Selesai"]);
     }
 

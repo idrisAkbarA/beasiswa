@@ -1,11 +1,6 @@
 <template>
   <v-container>
-    <v-skeleton-loader
-      type="table"
-      :loading="isTableLoading"
-      transition="fade-transition"
-    >
-
+    <v-skeleton-loader type="table" :loading="isTableLoading" transition="fade-transition">
       <v-data-table
         :headers="headers.beasiswa"
         :items="beasiswaProgress.selesai"
@@ -15,32 +10,16 @@
         class="elevation-10 mb-10 row-pointer"
       >
         <template v-slot:item.status="{ item }">
-          <v-chip :color="item.status == 'Selesai' ? 'green' : 'orange'">
-            {{item.status}}
-          </v-chip>
+          <v-chip :color="item.status == 'Selesai' ? 'green' : 'orange'">{{item.status}}</v-chip>
         </template>
-        <template v-slot:no-data>
-          no data
-        </template>
+        <template v-slot:no-data>no data</template>
       </v-data-table>
     </v-skeleton-loader>
 
-    <v-dialog
-      v-model="dialog"
-      fullscreen
-      hide-overlay
-      transition="dialog-bottom-transition"
-    >
+    <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
       <v-card>
-        <v-toolbar
-          dark
-          color="green"
-        >
-          <v-btn
-            icon
-            dark
-            @click="dialog = false"
-          >
+        <v-toolbar dark color="green">
+          <v-btn icon dark @click="dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
           <v-toolbar-title>{{selectedBeasiswa.nama}}</v-toolbar-title>
@@ -59,33 +38,25 @@
                       :outlined="filter != 'permohonan'"
                       class="mr-2 mb-2"
                       @click="filter = 'permohonan'"
-                    >
-                      Semua ({{undefined !== selectedBeasiswa.permohonan ? selectedBeasiswa.permohonan.length : 0}})
-                    </v-chip>
+                    >Semua ({{undefined !== selectedBeasiswa.permohonan ? selectedBeasiswa.permohonan.length : 0}})</v-chip>
                     <v-chip
                       color="orange"
                       :outlined="filter != 'on_progress'"
                       class="mr-2 mb-2"
                       @click="filter = 'on_progress'"
-                    >
-                      Proses ({{undefined !== selectedBeasiswa.on_progress ? selectedBeasiswa.on_progress.length : 0}})
-                    </v-chip>
+                    >Proses ({{undefined !== selectedBeasiswa.on_progress ? selectedBeasiswa.on_progress.length : 0}})</v-chip>
                     <v-chip
                       color="red"
                       :outlined="filter != 'tidak_lulus'"
                       class="mr-2 mb-2"
                       @click="filter = 'tidak_lulus'"
-                    >
-                      Tidak Lulus ({{undefined !== selectedBeasiswa.tidak_lulus ? selectedBeasiswa.tidak_lulus.length : 0}})
-                    </v-chip>
+                    >Tidak Lulus ({{undefined !== selectedBeasiswa.tidak_lulus ? selectedBeasiswa.tidak_lulus.length : 0}})</v-chip>
                     <v-chip
                       color="green"
                       :outlined="filter != 'lulus'"
                       class="mr-2 mb-2"
                       @click="filter = 'lulus'"
-                    >
-                      Lulus ({{undefined !== selectedBeasiswa.lulus ? selectedBeasiswa.lulus.length : 0}})
-                    </v-chip>
+                    >Lulus ({{undefined !== selectedBeasiswa.lulus ? selectedBeasiswa.lulus.length : 0}})</v-chip>
                   </div>
                   <div class="col-lg-6 col-md-12 mb-5">
                     <v-spacer></v-spacer>
@@ -95,10 +66,7 @@
                       v-if="selectedBeasiswa.deleted_at && selectedBeasiswa.lulus.length < selectedBeasiswa.quota"
                       @click.stop="drawer = !drawer"
                     >
-                      <v-icon class="mr-2">
-                        mdi-checkbox-marked-circle-outline
-                      </v-icon>
-                      Kelulusan
+                      <v-icon class="mr-2">mdi-checkbox-marked-circle-outline</v-icon>Kelulusan
                     </v-chip>
                   </div>
                 </v-row>
@@ -124,16 +92,13 @@
                   <template v-slot:item.verificator="{ item }">
                     <v-chip
                       dark
-                      v-if="item.is_berkas_passed != null"
+                      v-if="item.is_berkas_passed != null || item.is_submitted == 0"
                       :color="item.is_berkas_passed ? 'green' : 'red'"
                     >
                       <i :class="`mdi ${item.is_berkas_passed ? 'mdi-check' : 'mdi-close'} mr-2`"></i>
                       {{item.verificator}}
                     </v-chip>
-                    <p
-                      v-else
-                      class="text-caption"
-                    >-</p>
+                    <p v-else class="text-caption">-</p>
                   </template>
                   <template v-slot:item.interviewer="{ item }">
                     <v-chip
@@ -141,13 +106,12 @@
                       v-if="item.is_interview_passed != null"
                       :color="item.is_interview_passed ? 'green' : 'red'"
                     >
-                      <i :class="`mdi ${item.is_interview_passed ? 'mdi-check' : 'mdi-close'} mr-2`"></i>
+                      <i
+                        :class="`mdi ${item.is_interview_passed ? 'mdi-check' : 'mdi-close'} mr-2`"
+                      ></i>
                       {{item.interviewer}}
                     </v-chip>
-                    <p
-                      v-else
-                      class="text-caption"
-                    >-</p>
+                    <p v-else class="text-caption">-</p>
                   </template>
                   <template v-slot:item.surveyor="{ item }">
                     <v-chip
@@ -158,10 +122,7 @@
                       <i :class="`mdi ${item.is_survey_passed ? 'mdi-check' : 'mdi-close'} mr-2`"></i>
                       {{item.surveyor}}
                     </v-chip>
-                    <p
-                      v-else
-                      class="text-caption"
-                    >-</p>
+                    <p v-else class="text-caption">-</p>
                   </template>
                   <template v-slot:item.selector="{ item }">
                     <v-chip
@@ -169,17 +130,14 @@
                       v-if="item.is_selection_passed != null"
                       :color="item.is_selection_passed ? 'green' : 'red'"
                     >
-                      <i :class="`mdi ${item.is_selection_passed ? 'mdi-check' : 'mdi-close'} mr-2`"></i>
+                      <i
+                        :class="`mdi ${item.is_selection_passed ? 'mdi-check' : 'mdi-close'} mr-2`"
+                      ></i>
                       {{item.selector}}
                     </v-chip>
-                    <p
-                      v-else
-                      class="text-caption"
-                    >-</p>
+                    <p v-else class="text-caption">-</p>
                   </template>
-                  <template v-slot:no-data>
-                    no data
-                  </template>
+                  <template v-slot:no-data>no data</template>
                 </v-data-table>
               </v-col>
             </v-tab-item>
@@ -191,8 +149,7 @@
                   hide-default-header
                   hide-default-footer
                   class="elevation-1"
-                >
-                </v-data-table>
+                ></v-data-table>
                 <p class="mt-3">{{selectedBeasiswa.deskripsi}}</p>
               </v-col>
             </v-tab-item>
@@ -212,53 +169,37 @@
       >
         <v-list-item>
           <v-list-item-content>
-            <v-list-item-title><strong>{{selectedBeasiswa.nama}}</strong></v-list-item-title>
+            <v-list-item-title>
+              <strong>{{selectedBeasiswa.nama}}</strong>
+            </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
         <v-divider></v-divider>
         <div class="col-12">
           <v-row>
-            <v-timeline
-              align-top
-              dense
-            >
-              <v-timeline-item
-                color="blue"
-                small
-              >
+            <v-timeline align-top dense>
+              <v-timeline-item color="blue" small>
                 <div>
                   <div class="font-weight-normal">
                     <strong>Download file .xlx</strong>
                   </div>
                   <div>
-                    <p>
-                      Download file template excel
-                    </p>
-                    <v-btn
-                      color="#2E7D32"
-                      :disabled="btnLoading"
-                      @click="downloadTemplate"
-                    ><i class="mdi mdi-download mr-2"></i> Download template excel kosong</v-btn>
+                    <p>Download file template excel</p>
+                    <v-btn color="#2E7D32" :disabled="btnLoading" @click="downloadTemplate">
+                      <i class="mdi mdi-download mr-2"></i> Download template excel kosong
+                    </v-btn>
                   </div>
                 </div>
               </v-timeline-item>
-              <v-timeline-item
-                color="blue"
-                small
-              >
+              <v-timeline-item color="blue" small>
                 <div>
                   <div class="font-weight-normal">
                     <strong>Tambahkan info mahasiswa dalam template excel.</strong>
                   </div>
                   <div class="pr-5">
-                    <p>
-                      Kolom yang wajib diisi adalah nim
-                    </p>
-                    <v-simple-table
-                      light
-                      dense
-                    >
+                    <p>Kolom yang wajib diisi adalah nim</p>
+                    <v-simple-table light dense>
                       <thead>
                         <tr>
                           <th>A</th>
@@ -266,7 +207,9 @@
                       </thead>
                       <tbody>
                         <tr>
-                          <td><strong>NIM</strong></td>
+                          <td>
+                            <strong>NIM</strong>
+                          </td>
                         </tr>
                         <tr>
                           <td>11750115076</td>
@@ -276,36 +219,23 @@
                   </div>
                 </div>
               </v-timeline-item>
-              <v-timeline-item
-                color="blue"
-                small
-              >
+              <v-timeline-item color="blue" small>
                 <div>
                   <div class="font-weight-normal mb-3">
                     <strong>Upload file .xlx</strong>
                   </div>
                   <div>
                     <div v-if="file">
-                      <v-chip
-                        close
-                        small
-                        @click:close="file = ''"
-                        class="my-2"
-                      >
-                        {{file.name}}
-                      </v-chip>
+                      <v-chip close small @click:close="file = ''" class="my-2">{{file.name}}</v-chip>
                     </div>
                     <v-btn
                       color="#2E7D32"
                       :disabled="btnLoading"
                       @click="$refs.fileInput.$refs.input.click()"
-                    ><i class="mdi mdi-attachment mr-2"></i> Lampirkan file excel</v-btn>
-                    <v-file-input
-                      hide-input
-                      ref="fileInput"
-                      v-model="file"
-                      class="d-none"
-                    ></v-file-input>
+                    >
+                      <i class="mdi mdi-attachment mr-2"></i> Lampirkan file excel
+                    </v-btn>
+                    <v-file-input hide-input ref="fileInput" v-model="file" class="d-none"></v-file-input>
                   </div>
                 </div>
               </v-timeline-item>
@@ -319,122 +249,63 @@
               class="float-right"
               :loading="btnLoading"
               @click="importPermohonan"
-            >
-              Save
-            </v-btn>
+            >Save</v-btn>
           </div>
         </template>
       </v-navigation-drawer>
     </v-dialog>
-    <v-dialog
-      scrollable
-      width="500"
-      overlay-color="green"
-      v-model="dialogMHS"
-    >
-      <v-card>
-        <v-card-title>
-          Detail Permohonan
-        </v-card-title>
+    <v-dialog scrollable width="500" overlay-color="green" v-model="dialogMHS">
+      <v-card v-if="permohonans">
+        <v-card-title>Detail Permohonan</v-card-title>
         <v-card-text>
-          <v-col
-            cols="12"
-            v-if="permohonans"
-          >
-            <v-timeline
-              dense
-              v-if="isShowTimeline(permohonans)"
-            >
-              <v-slide-x-reverse-transition
-                group
-                hide-on-leave
-              >
+          <v-col cols="12" v-if="permohonans">
+            <v-timeline dense v-if="isShowTimeline(permohonans)">
+              <v-slide-x-reverse-transition group hide-on-leave>
                 <v-timeline-item
                   v-for="(time,index) in permohonans.timeline"
                   :key="index"
                   small
                   fill-dot
-                  :icon="time.is_done? 'mdi-check' :'mdi-calendar-clock'"
-                  :color="time.is_done? 'green darken-2' :'grey darken-3'"
+                  :icon="time.icon.icon"
+                  :color="time.icon.color"
                 >
                   <v-row>
-                    <v-col
-                      cols="12"
-                      xl="4"
-                    >{{
-                        time.awal_tgl && time.akhir_tgl?
-                        parseDate(time.awal_tgl)  + " - " + parseDate(time.akhir_tgl)
-                        : "-"
-                        }}</v-col>
-                    <v-col
-                      cols="12"
-                      xl="8"
-                    >
-                      <v-alert :class="time.is_done? 'green darken-2' :'transparent'">
+                    <v-col cols="12" xl="8">
+                      <v-alert :class="`${time.color} mb-0 pb-0`">
                         {{time.msg}}
+                        <p class="caption">{{time.time ? parseDate(time.time) : ''}}</p>
                       </v-alert>
                     </v-col>
                   </v-row>
-
                 </v-timeline-item>
               </v-slide-x-reverse-transition>
             </v-timeline>
           </v-col>
-          <v-col
-            cols="12"
-            v-if="permohonans"
-          >
-            <span>Keterangan</span>
-            <br>
-            <p>
-              {{permohonans.keterangan}}
-            </p>
+          <v-col cols="12" v-if="permohonans.keterangan">
+            <span>Keterangan :</span>
+            <br />
+            <p>{{permohonans.keterangan}}</p>
           </v-col>
         </v-card-text>
       </v-card>
     </v-dialog>
     <!-- Akhir -->
     <!-- bottom sheet create -->
-    <v-bottom-sheet
-      scrollable
-      width="60%"
-      inset
-      overlay-color="#69F0AE"
-      v-model="toggleBeasiswa"
-    >
+    <v-bottom-sheet scrollable width="60%" inset overlay-color="#69F0AE" v-model="toggleBeasiswa">
       <v-card>
         <v-card-title>
           <span>Tambah Beasiswa Selesai</span>
           <v-spacer></v-spacer>
-          <v-btn
-            text
-            class="mr-2"
-            @click="toggleBeasiswa = false"
-          >batal</v-btn>
-          <v-btn
-            color="#2E7D32"
-            :loading="btnLoading"
-            @click="store"
-          >Simpan</v-btn>
+          <v-btn text class="mr-2" @click="toggleBeasiswa = false">batal</v-btn>
+          <v-btn color="#2E7D32" :loading="btnLoading" @click="store">Simpan</v-btn>
         </v-card-title>
         <v-card-text style="height: 600px;">
-          <v-row
-            dense
-            class="ml-1 mr-1"
-          >
+          <v-row dense class="ml-1 mr-1">
             <v-col cols="12">
-              <v-text-field
-                color="#C8E6C9"
-                label="Nama Beasiswa"
-                v-model="form.nama"
-              ></v-text-field>
+              <v-text-field color="#C8E6C9" label="Nama Beasiswa" v-model="form.nama"></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-text-field
-                color="#C8E6C9"
-                label="Deskripsi Beasiswa"
-                v-model="form.deskripsi"
-              ></v-text-field>
+              <v-text-field color="#C8E6C9" label="Deskripsi Beasiswa" v-model="form.deskripsi"></v-text-field>
             </v-col>
             <v-col cols="10">
               <v-combobox
@@ -444,38 +315,20 @@
                 item-text="name"
                 item-value="id"
                 v-model="form.instansi_id"
-              >
-
-              </v-combobox>
+              ></v-combobox>
             </v-col>
             <v-col cols="2">
-              <v-text-field
-                type="number"
-                label="Kuota"
-                min="0"
-                v-model="form.quota"
-              ></v-text-field>
+              <v-text-field type="number" label="Kuota" min="0" v-model="form.quota"></v-text-field>
             </v-col>
           </v-row>
         </v-card-text>
       </v-card>
     </v-bottom-sheet>
     <!-- Snackbar -->
-    <v-snackbar
-      v-model="snackbar.show"
-      :timeout="2000"
-    >
+    <v-snackbar v-model="snackbar.show" :timeout="2000">
       {{ snackbar.message }}
-
       <template v-slot:action="{ attrs }">
-        <v-btn
-          :color="snackbar.color"
-          text
-          v-bind="attrs"
-          @click="snackbar.show = false"
-        >
-          Close
-        </v-btn>
+        <v-btn :color="snackbar.color" text v-bind="attrs" @click="snackbar.show = false">Close</v-btn>
       </template>
     </v-snackbar>
   </v-container>
@@ -514,7 +367,8 @@ export default {
               x.is_berkas_passed == 0 ||
               x.is_interview_passed == 0 ||
               x.is_survey_passed == 0 ||
-              x.is_selection_passed == 0
+              x.is_selection_passed == 0 ||
+              (x.is_submitted == 0 && item.status != "Tahap Berkas")
             ) {
               this.selectedBeasiswa.tidak_lulus.push(x);
             } else if (x.is_selection_passed == null) {
@@ -597,7 +451,7 @@ export default {
         });
     },
     info(item) {
-      this.selectedBeasiswa = {};
+      this.selectedBeasiswa = "";
       this.dialog = true;
       this.getPermohonan(item.id);
     },
@@ -605,21 +459,6 @@ export default {
       return this.$moment(date, "YYYY-MM-DD").format("Do MMMM YYYY");
     },
     isShowTimeline(item) {
-      if (item.is_selection_passed == 0) {
-        return false;
-      }
-      if (item.is_selection_passed == 1) {
-        return true;
-      }
-      if (item.is_berkas_passed == 0) {
-        return false;
-      }
-      if (item.is_interview_passed == 0) {
-        return false;
-      }
-      if (item.is_survey_passed == 0) {
-        return false;
-      }
       return true;
     },
     checkStatus(item) {
@@ -684,66 +523,159 @@ export default {
       this.addTimeline();
     },
     addTimeline() {
+      const permohonan = this.permohonans;
+      const beasiswa = this.selectedBeasiswa;
+      let status = true;
       var timeline = [];
 
+      status = permohonan.is_submitted || beasiswa.tahap == "Tahap Berkas";
       timeline.push({
-        kegiatan: "Pengisian Berkas",
-        awal_tgl: this.permohonans.beasiswa.awal_berkas,
-        akhir_tgl: this.permohonans.beasiswa.akhir_berkas,
-        msg: "Pengisian berkas",
-        is_done: true
-      });
-      if (this.permohonans.beasiswa.is_interview == 1) {
-        var is_done = false;
-        if (this.permohonans.is_interview_passed == 1) {
-          is_done = true;
+        kegiatan: "Kelengkapan Berkas",
+        msg: "Melengkapi berkas",
+        is_done: status,
+        time: permohonan.is_submitted ? permohonan.created_at : "",
+        color:
+          beasiswa.tahap != "Tahap Berkas"
+            ? permohonan.is_submitted
+              ? "green darken-2"
+              : "red darken-2"
+            : "transparent",
+        icon: {
+          icon:
+            beasiswa.tahap != "Tahap Berkas"
+              ? permohonan.is_submitted
+                ? "mdi-check"
+                : "mdi-close"
+              : "mdi-calendar-clock",
+          color:
+            beasiswa.tahap != "Tahap Berkas"
+              ? permohonan.is_submitted
+                ? "green darken-2"
+                : "red darken-2"
+              : "grey darken-3"
         }
+      });
+
+      if (status) {
         timeline.push({
-          kegiatan: "Wawancara",
-          awal_tgl: this.permohonans.beasiswa.awal_interview,
-          akhir_tgl: this.permohonans.beasiswa.akhir_interview,
-          is_done,
-          msg: `Lakukan wawancara pada tanggal
-            ${
-              this.permohonans.beasiswa.awal_interview
-                ? this.parseDate(this.permohonans.beasiswa.awal_interview) +
-                  " sampai "
-                : ""
-            }  ${this.parseDate(this.permohonans.beasiswa.akhir_interview)}`
+          kegiatan: "Berkas",
+          msg: "Verifikasi berkas",
+          is_done: permohonan.is_berkas_passed,
+          time: permohonan.verified_at ?? "",
+          color:
+            permohonan.is_berkas_passed !== null
+              ? permohonan.is_berkas_passed
+                ? "green darken-2"
+                : "red darken-2"
+              : "transparent",
+          icon: {
+            icon:
+              permohonan.is_berkas_passed !== null
+                ? permohonan.is_berkas_passed
+                  ? "mdi-check"
+                  : "mdi-close"
+                : "mdi-calendar-clock",
+            color:
+              permohonan.is_berkas_passed !== null
+                ? permohonan.is_berkas_passed
+                  ? "green darken-2"
+                  : "red darken-2"
+                : "grey darken-3"
+          }
         });
       }
-      if (this.permohonans.beasiswa.is_survey == 1) {
-        var is_done = false;
-        if (this.permohonans.is_survey_passed == 1) {
-          is_done = true;
-        }
+      status = status && permohonan.is_berkas_passed !== 0;
+
+      if (status && permohonan.beasiswa.is_interview) {
         timeline.push({
           kegiatan: "Wawancara",
-          awal_tgl: this.permohonans.beasiswa.awal_survey,
-          akhir_tgl: this.permohonans.beasiswa.akhir_survey,
-          is_done,
-          msg: `Team survey akan melakukan survey pada
-            ${
-              this.permohonans.beasiswa.awal_survey
-                ? this.parseDate(this.permohonans.beasiswa.awal_survey) +
-                  " sampai "
-                : ""
-            }  ${this.parseDate(
-            this.permohonans.beasiswa.akhir_survey
-          )}, harap menunggu.`
+          msg: "Wawancara",
+          is_done: permohonan.is_interview_passed,
+          time: permohonan.interviewed_at ?? "",
+          color:
+            permohonan.is_interview_passed !== null
+              ? permohonan.is_interview_passed
+                ? "green darken-2"
+                : "red darken-2"
+              : "transparent",
+          icon: {
+            icon:
+              permohonan.is_interview_passed !== null
+                ? permohonan.is_interview_passed
+                  ? "mdi-check"
+                  : "mdi-close"
+                : "mdi-calendar-clock",
+            color:
+              permohonan.is_interview_passed !== null
+                ? permohonan.is_interview_passed
+                  ? "green darken-2"
+                  : "red darken-2"
+                : "grey darken-3"
+          }
         });
       }
-      var is_done = false;
-      if (this.permohonans.is_selection_passed) {
-        is_done = true;
+      status = status && permohonan.is_interview_passed !== 0;
+
+      if (status && permohonan.beasiswa.is_survey) {
+        timeline.push({
+          kegiatan: "Survey",
+          msg: "Survey",
+          is_done: permohonan.is_survey_passed,
+          time: permohonan.surved_at ?? "",
+          color:
+            permohonan.is_survey_passed !== null
+              ? permohonan.is_survey_passed
+                ? "green darken-2"
+                : "red darken-2"
+              : "transparent",
+          icon: {
+            icon:
+              permohonan.is_survey_passed !== null
+                ? permohonan.is_survey_passed
+                  ? "mdi-check"
+                  : "mdi-close"
+                : "mdi-calendar-clock",
+            color:
+              permohonan.is_survey_passed !== null
+                ? permohonan.is_survey_passed
+                  ? "green darken-2"
+                  : "red darken-2"
+                : "grey darken-3"
+          }
+        });
       }
-      timeline.push({
-        kegiatan: "Seleksi pimpinan",
-        awal_tgl: null,
-        akhir_tgl: null,
-        is_done,
-        msg: "Harap menunggu hasil seleksi pimpinan."
-      });
+      status = status && permohonan.is_survey_passed !== 0;
+
+      if (status) {
+        timeline.push({
+          kegiatan: "Kelulusan",
+          msg: "Hasil Akhir",
+          is_done: permohonan.is_selection_passed,
+          time: permohonan.selected_at ?? "",
+          color:
+            beasiswa.status == "Selesai"
+              ? permohonan.is_selection_passed
+                ? "green darken-2"
+                : "red darken-2"
+              : "transparent",
+          icon: {
+            icon:
+              beasiswa.status == "Selesai"
+                ? permohonan.is_selection_passed
+                  ? "mdi-check"
+                  : "mdi-close"
+                : "mdi-calendar-clock",
+            color:
+              beasiswa.status == "Selesai"
+                ? permohonan.is_selection_passed
+                  ? "green darken-2"
+                  : "red-darken-2"
+                : "grey darken-3"
+          }
+        });
+      }
+      status = permohonan.is_selection_passed;
+
       this.permohonans["timeline"] = timeline;
       timeline = [];
     },
