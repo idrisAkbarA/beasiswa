@@ -206,7 +206,7 @@ class BeasiswaController extends Controller
                       }
                     }
                 }
-              
+
                 array_push($finalData, $temp);
             }
         }
@@ -221,10 +221,17 @@ class BeasiswaController extends Controller
             ->get();
         return response()->json($beasiswa);
     }
-    public function getAllWithPermohonan()
+    public function getAllWithPermohonan(Request $request)
     {
         $beasiswa = Beasiswa::orderBy('id', 'DESC')->get();
-        $beasiswa->makeVisible(['berkas', 'interview', 'survey', 'selection', 'lulus']);
+        $tahap = $request->tahap ?? [
+            'berkas',
+            'interview',
+            'survey',
+            'selection',
+            'lulus'
+        ];
+        $beasiswa->makeVisible($tahap);
         return response()->json($beasiswa);
     }
     public function getActive()
@@ -242,7 +249,6 @@ class BeasiswaController extends Controller
             ->with(['instansi'])
             ->findOrFail($id);
         $tahap = $request->tahap ?? [
-            'status',
             'permohonan',
             'berkas',
             'interview',
