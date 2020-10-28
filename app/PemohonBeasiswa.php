@@ -26,7 +26,9 @@ class PemohonBeasiswa extends Model
     public function getVerificatorAttribute()
     {
         $petugas = UserPetugas::find($this->verificator_id);
-        if (!$petugas) {
+        if (!$this->is_submitted && $this->beasiswa->status != 'Tahap Berkas') {
+            return 'Berkas tdk lengkap';
+        } else if (!$petugas) {
             return '-';
         }
         return $petugas->nama_lengkap;
