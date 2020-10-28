@@ -43,6 +43,16 @@ class BeasiswaController extends Controller
     }
     public function report(Request $request)
     {
+        function petugas($id){
+            // return "pantek";
+            // return UserPetugas::find($id);
+            $result = UserPetugas::find($id);
+            if($result!=null){
+                return $result['nama_lengkap'];
+            }else{
+                return null;
+            }
+        }   
         $beasiswaCol = [];
         $whereFakultas = [];
         $whereTahap = [];
@@ -194,8 +204,6 @@ class BeasiswaController extends Controller
                     $status = "Dalam Tahap Seleksi";
                 }
                 $temp[$namedTahapKey] = $status;
-                // $temp['test'] = $fieldList;
-
                 // set field list
                 if ($fieldList!=null) {
                     foreach ($fieldList as $fieldKey => $fieldValue) {
@@ -230,6 +238,11 @@ class BeasiswaController extends Controller
                         }
                     }
                 }
+                
+                
+                $temp['Verificator'] = petugas($valueP['verificator_id']);
+                $temp['Pewawancara'] = petugas($valueP['interviewer_id']);
+                $temp['surveyor_id'] = petugas($valueP['surveyor_id']);
                 array_push($finalData, $temp);
             }
         }
