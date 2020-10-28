@@ -165,7 +165,8 @@
 </template>
 
 <script>
-// const FileDownload = require("js-file-download");
+const FileDownload = require("js-file-download");
+var FileSaver = require('file-saver');
 import { mapActions, mapState } from "vuex";
 import Axios from "axios";
 export default {
@@ -308,22 +309,24 @@ export default {
           status: this.statusSelected,
           field_list: fieldList
         };
-        console.log(this.params);
         !isDownload
           ? this.getReport(this.params)
-          : this
-              .link(`/api/beasiswa/download-report?beasiswa=${this.beasiswaSelected}
-                                                    &fakultas=${this.fakultasSelected}
-                                                    &tahap=${this.tahapSelected}
-                                                    &status=${this.statusSelected}
-                                                    $field_list=${fieldList}
-          `);
+          : this.getReportDownload(this.params);
       }
     },
     link(url) {
       var a = url;
       var link = a.replace(" ", "%20");
       window.open(link, "_blank");
+    },
+    getReportDownload(data) {
+      Axios.get("/api/beasiswa/download-report", {
+        params: data,
+        responseType: "blob"
+      },
+      ).then(response => {
+        FileDownload(response.data, 'Beasiswa.xlsx');
+      });
     }
   },
   data() {

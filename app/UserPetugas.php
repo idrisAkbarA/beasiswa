@@ -9,7 +9,7 @@ class UserPetugas extends Authenticatable
 {
     use Notifiable;
 
-    protected $guard = 'petugas';
+    // protected $guard = 'petugas';
 
     protected $fillable = [
         'name', 'nama_lengkap', 'email', 'password', 'fakultas_id', 'role'

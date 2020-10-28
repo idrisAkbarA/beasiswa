@@ -43,6 +43,17 @@ class BeasiswaController extends Controller
     }
     public function report(Request $request)
     {
+        function petugas($id)
+        {
+            // return "pantek";
+            // return UserPetugas::find($id);
+            $result = UserPetugas::find($id);
+            if ($result != null) {
+                return $result['nama_lengkap'];
+            } else {
+                return null;
+            }
+        }
         $beasiswaCol = [];
         $whereFakultas = [];
         $whereTahap = [];
@@ -176,7 +187,7 @@ class BeasiswaController extends Controller
         // set final data
         foreach ($beasiswaCol as $keyB => $valueB) {
             foreach ($valueB['permohonan'] as $keyP => $valueP) {
-                $form = json_decode($valueP['form'],true);
+                $form = json_decode($valueP['form'], true);
                 $temp = [];
                 $status = '';
                 $temp['Beasiswa'] = $valueB['nama'];
@@ -194,19 +205,45 @@ class BeasiswaController extends Controller
                     $status = "Dalam Tahap Seleksi";
                 }
                 $temp[$namedTahapKey] = $status;
-
                 // set field list
-                foreach ($fieldList as $fieldKey => $fieldValue) {
-                    foreach ($form as $formKey => $formValue) {
-                      if($formValue['pertanyaan'] == $fieldValue){
-                          if($formValue['type']=='Upload File'){
-
-                          }
-                          $temp[$fieldValue] = $formValue["value"];
-                      }
+                if ($fieldList != null) {
+                    foreach ($fieldList as $fieldKey => $fieldValue) {
+                        foreach ($form as $formKey => $formValue) {
+                            if ($formValue['pertanyaan'] == $fieldValue) { // get all matched requested list
+                                // check if it is a file upload or a multiple upload
+                                // if it is, the value should be it's status
+                                // Lulus/Tidak Lulus/Belum di verifikasi
+                                if ($formValue['type'] == 'Upload File' || $formValue['type'] == 'Multiple Upload') {
+                                    try {
+                                        if ($formValue['isLulus'] === null) {
+                                            $temp[$fieldValue] = "Belum verifikasi";
+                                        } else if ($formValue['isLulus'] === true) {
+                                            $temp[$fieldValue] = "Lulus verifikasi";
+                                        } else if ($formValue['isLulus'] === false) {
+                                            $temp[$fieldValue] = "Tidak lulus verifikasi";
+                                        }
+                                    } catch (\Throwable $th) {
+                                        $temp[$fieldValue] = "Belum verifikasi";
+                                    }
+                                } else {
+                                    $temp[$fieldValue] = $formValue["value"];
+                                    if ($formValue['isLulus'] === null) {
+                                        $temp["STATUS " . $fieldValue] = "Belum verifikasi";
+                                    } else if ($formValue['isLulus'] === true) {
+                                        $temp["STATUS " . $fieldValue] = "Lulus verifikasi";
+                                    } else if ($formValue['isLulus'] === false) {
+                                        $temp["STATUS " . $fieldValue] = "Tidak lulus verifikasi";
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
 
+
+                $temp['Verificator'] = petugas($valueP['verificator_id']);
+                $temp['Pewawancara'] = petugas($valueP['interviewer_id']);
+                $temp['surveyor_id'] = petugas($valueP['surveyor_id']);
                 array_push($finalData, $temp);
             }
         }
