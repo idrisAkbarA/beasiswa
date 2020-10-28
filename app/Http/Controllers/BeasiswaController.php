@@ -176,7 +176,7 @@ class BeasiswaController extends Controller
         // set final data
         foreach ($beasiswaCol as $keyB => $valueB) {
             foreach ($valueB['permohonan'] as $keyP => $valueP) {
-                $form = json_decode($valueP['form'],true);
+                $form = json_decode($valueP['form'], true);
                 $temp = [];
                 $status = '';
                 $temp['Beasiswa'] = $valueB['nama'];
@@ -194,19 +194,35 @@ class BeasiswaController extends Controller
                     $status = "Dalam Tahap Seleksi";
                 }
                 $temp[$namedTahapKey] = $status;
+                // $temp['test'] = $fieldList;
 
                 // set field list
-                foreach ($fieldList as $fieldKey => $fieldValue) {
-                    foreach ($form as $formKey => $formValue) {
-                      if($formValue['pertanyaan'] == $fieldValue){
-                          if($formValue['type']=='Upload File'){
-
-                          }
-                          $temp[$fieldValue] = $formValue["value"];
-                      }
+                if ($fieldList!=null) {
+                    foreach ($fieldList as $fieldKey => $fieldValue) {
+                        foreach ($form as $formKey => $formValue) {
+                            if ($formValue['pertanyaan'] == $fieldValue) { // get all matched requested list
+                                // check if it is a file upload or a multiple upload
+                                // if it is, the value should be it's status
+                                // Lulus/Tidak Lulus/Belum di verifikasi  
+                                if ($formValue['type'] == 'Upload File' || $formValue['type'] == 'Multiple Upload' ) {
+                                    try {
+                                        if ($formValue['isLulus'] === null) {
+                                            $temp[$fieldValue] = "Belum verifikasi";
+                                        } else if ($formValue['isLulus'] === true) {
+                                            $temp[$fieldValue] = "Lulus verifikasi";
+                                        } else if ($formValue['isLulus'] === false) {
+                                            $temp[$fieldValue] = "Tidak lulus verifikasi";
+                                        }
+                                    } catch (\Throwable $th) {
+                                        $temp[$fieldValue] = "Belum verifikasi";
+                                    }
+                                } else {
+                                    $temp[$fieldValue] = $formValue["value"];
+                                }
+                            }
+                        }
                     }
                 }
-              
                 array_push($finalData, $temp);
             }
         }

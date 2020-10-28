@@ -25,6 +25,8 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "file-saver": "^2.0.2",
+        "js-file-download": "^0.4.12",
         "moment": "^2.29.0",
         "vue-router": "^3.4.7",
         "vue-window-size": "^0.6.2",
