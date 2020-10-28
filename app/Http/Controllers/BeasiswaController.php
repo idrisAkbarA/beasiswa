@@ -218,6 +218,13 @@ class BeasiswaController extends Controller
                                     }
                                 } else {
                                     $temp[$fieldValue] = $formValue["value"];
+                                    if ($formValue['isLulus'] === null) {
+                                        $temp["STATUS ".$fieldValue] = "Belum verifikasi";
+                                    } else if ($formValue['isLulus'] === true) {
+                                        $temp["STATUS ".$fieldValue] = "Lulus verifikasi";
+                                    } else if ($formValue['isLulus'] === false) {
+                                        $temp["STATUS ".$fieldValue] = "Tidak lulus verifikasi";
+                                    }
                                 }
                             }
                         }
