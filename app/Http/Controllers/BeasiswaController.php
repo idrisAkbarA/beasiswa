@@ -256,6 +256,7 @@ class BeasiswaController extends Controller
                         continue;
                     }
                 }
+                $temp['Keterangan'] = $valueP['keterangan'];
                 // $temp['is akun'] = isset($request['akun']);
                 // $temp['value akun'] = isset($request['akun'])?$request['akun']:null;
                 // $temp['akun dari sono'] = $valueP['verificator_id'] ;
