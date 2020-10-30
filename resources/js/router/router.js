@@ -44,8 +44,9 @@ import PetinggiHome from "../views/Petugas/Petinggi/Home.vue";
 import Verificator from "../views/Petugas/Verificator/Verificator.vue";
 import VerificatorHome from "../views/Petugas/Verificator/Home.vue";
 import VerificatorHistory from "../views/Petugas/Verificator/History.vue";
+import VerificatorReport from "../views/Petugas/Verificator/Laporan.vue";
 
-import store from '../store/store'
+import store from "../store/store";
 
 Vue.use(VueRouter);
 
@@ -79,19 +80,21 @@ const routes = [
                     .get("/api/user/petugas")
                     .then(response => {
                         console.log(response.data);
-                        response.data.role == 1 ? next() : next({ name: 'Unauthorized' });
+                        response.data.role == 1
+                            ? next()
+                            : next({ name: "Unauthorized" });
                     })
                     .catch(error => {
-                        console.log("---------")
+                        console.log("---------");
                         console.log(error);
-                        console.log("---------")
+                        console.log("---------");
                         next({ name: "Landing Page" });
                     });
             } else if (
                 from.name == "Login Petugas" &&
                 store.state.auth.isAuth != true
             ) {
-                console.log("Op tidak bisa")
+                console.log("Op tidak bisa");
                 next(false);
             } else if (
                 from.name == "Login Petugas" &&
@@ -99,7 +102,6 @@ const routes = [
             ) {
                 next();
             }
-
         },
         children: [
             {
@@ -168,19 +170,21 @@ const routes = [
                     .get("/api/user/petugas")
                     .then(response => {
                         console.log(response.data);
-                        response.data.role == 0 ? next() : next({ name: 'Unauthorized' });
+                        response.data.role == 0
+                            ? next()
+                            : next({ name: "Unauthorized" });
                     })
                     .catch(error => {
-                        console.log("---------")
+                        console.log("---------");
                         console.log(error);
-                        console.log("---------")
+                        console.log("---------");
                         next({ name: "Landing Page" });
                     });
             } else if (
                 from.name == "Login Petugas" &&
                 store.state.auth.isAuth != true
             ) {
-                console.log("Op tidak bisa")
+                console.log("Op tidak bisa");
                 next(false);
             } else if (
                 from.name == "Login Petugas" &&
@@ -188,7 +192,6 @@ const routes = [
             ) {
                 next();
             }
-
         },
         children: [
             {
@@ -231,34 +234,28 @@ const routes = [
                         next();
                     })
                     .catch(error => {
-                        console.log("---------")
+                        console.log("---------");
                         console.log(error);
-                        console.log("---------")
+                        console.log("---------");
                         next({ name: "Landing Page" });
                     });
             } else if (
                 from.name == "Landing Page" &&
                 store.state.auth.isAuth != true
-            ) 
-            {
-                console.log("Op tidak bisa")
+            ) {
+                console.log("Op tidak bisa");
                 next(false);
-            }
-             else if (
+            } else if (
                 from.name == "Landing Page" &&
                 store.state.auth.isAuth == true
-            ) 
-            {
+            ) {
                 next();
-            }
-             else if (
+            } else if (
                 from.name == "Login Mahasiswa" &&
                 store.state.auth.isAuth == true
-            ) 
-            {
+            ) {
                 next();
             }
-
         },
         children: [
             {
@@ -287,19 +284,21 @@ const routes = [
                     .get("/api/user/petugas")
                     .then(response => {
                         console.log(response.data);
-                        response.data.role == 2 ? next() : next({ name: 'Unauthorized' });
+                        response.data.role == 2
+                            ? next()
+                            : next({ name: "Unauthorized" });
                     })
                     .catch(error => {
-                        console.log("---------")
+                        console.log("---------");
                         console.log(error);
-                        console.log("---------")
+                        console.log("---------");
                         next({ name: "Landing Page" });
                     });
             } else if (
                 from.name == "Login Petugas" &&
                 store.state.auth.isAuth != true
             ) {
-                console.log("Op tidak bisa")
+                console.log("Op tidak bisa");
                 next(false);
             } else if (
                 from.name == "Login Petugas" &&
@@ -307,7 +306,6 @@ const routes = [
             ) {
                 next();
             }
-
         },
         children: [
             {
@@ -319,7 +317,7 @@ const routes = [
                 name: "Interviewer History",
                 path: "history",
                 component: InterviewerHistory
-            },
+            }
         ]
     },
     {
@@ -331,19 +329,21 @@ const routes = [
                     .get("/api/user/petugas")
                     .then(response => {
                         console.log(response.data);
-                        response.data.role == 3 ? next() : next({ name: 'Unauthorized' });
+                        response.data.role == 3
+                            ? next()
+                            : next({ name: "Unauthorized" });
                     })
                     .catch(error => {
-                        console.log("---------")
+                        console.log("---------");
                         console.log(error);
-                        console.log("---------")
+                        console.log("---------");
                         next({ name: "Landing Page" });
                     });
             } else if (
                 from.name == "Login Petugas" &&
                 store.state.auth.isAuth != true
             ) {
-                console.log("Op tidak bisa")
+                console.log("Op tidak bisa");
                 next(false);
             } else if (
                 from.name == "Login Petugas" &&
@@ -351,7 +351,6 @@ const routes = [
             ) {
                 next();
             }
-
         },
         children: [
             {
@@ -363,7 +362,7 @@ const routes = [
                 name: "Surveyor History",
                 path: "history",
                 component: SurveyorHistory
-            },
+            }
         ]
     },
     {
@@ -375,19 +374,21 @@ const routes = [
                     .get("/api/user/petugas")
                     .then(response => {
                         console.log(response.data);
-                        response.data.role == 4 ? next() : next({ name: 'Unauthorized' });
+                        response.data.role == 4
+                            ? next()
+                            : next({ name: "Unauthorized" });
                     })
                     .catch(error => {
-                        console.log("---------")
+                        console.log("---------");
                         console.log(error);
-                        console.log("---------")
+                        console.log("---------");
                         next({ name: "Landing Page" });
                     });
             } else if (
                 from.name == "Login Petugas" &&
                 store.state.auth.isAuth != true
             ) {
-                console.log("Op tidak bisa")
+                console.log("Op tidak bisa");
                 next(false);
             } else if (
                 from.name == "Login Petugas" &&
@@ -395,7 +396,6 @@ const routes = [
             ) {
                 next();
             }
-
         },
         children: [
             {
@@ -413,20 +413,27 @@ const routes = [
                 await axios
                     .get("/api/user/petugas")
                     .then(response => {
+                        store.state.auth.role = response.data.role;
+                        store.state.auth.nama = response.data.nama_lengkap;
+                        store.state.auth.fakultas = response.data.fakultas;
+                        store.state.auth.id = response.data.id;
+                        store.state.auth.isAuth = true;
                         console.log(response.data);
-                        response.data.role == 5 ? next() : next({ name: 'Unauthorized' });
+                        response.data.role == 5
+                            ? next()
+                            : next({ name: "Unauthorized" });
                     })
                     .catch(error => {
-                        console.log("---------")
+                        console.log("---------");
                         console.log(error);
-                        console.log("---------")
+                        console.log("---------");
                         next({ name: "Landing Page" });
                     });
             } else if (
                 from.name == "Login Petugas" &&
                 store.state.auth.isAuth != true
             ) {
-                console.log("Op tidak bisa")
+                console.log("Op tidak bisa");
                 next(false);
             } else if (
                 from.name == "Login Petugas" &&
@@ -434,7 +441,6 @@ const routes = [
             ) {
                 next();
             }
-
         },
         children: [
             {
@@ -447,6 +453,11 @@ const routes = [
                 path: "history",
                 component: VerificatorHistory
             },
+            {
+                name: "Verificator Report",
+                path: "laporan",
+                component: VerificatorReport
+            }
         ]
     }
 ];

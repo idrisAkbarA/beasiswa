@@ -88,6 +88,9 @@ export default {
             console.log(response.data);
             if (response.data.status == "Authenticated") {
             this.$store.state.auth.role = response.data.user.role;
+            this.$store.state.auth.nama = response.data.user.nama_lengkap;
+            this.$store.state.auth.fakultas = response.data.user.fakultas;
+            this.$store.state.auth.id = response.data.user.id;
             this.$store.state.auth.isAuth = true;
               if (response.data.user.role == 1) {
                 this.$router.push({

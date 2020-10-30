@@ -10,8 +10,8 @@ Axios.defaults.withCredentials = true;
 
 export default new Vuex.Store({
     state: {
-        appSettings: [],
-        auth: { role: null, isAuth: false },
+        appSettings:[],
+        auth: { name:null, id:null, role: null, isAuth: false },
         report: [],
         url: pack.baseUrl,
         name: "idris",
