@@ -545,6 +545,7 @@
 import { mapActions, mapMutations, mapState } from "vuex";
 export default {
   created() {
+    console.log("auth:",this.auth)
     this.loading = true;
     this.getAppSettings();
     this.getBeasiswaWithPermohonan().then(response=>{
@@ -583,6 +584,7 @@ export default {
       axios
         .get(`${this.url}/api/user/petugas`)
         .then(response => {
+          console.log("petugas:",response.data)
           this.petugas = response.data;
         })
         .catch(error => {
@@ -680,7 +682,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["beasiswa", "url", "appSettings", "isTableLoading"]),
+    ...mapState(["auth","beasiswa", "url", "appSettings", "isTableLoading"]),
     resultQuery() {
       if (this.searchQuery) {
         if (typeof this.beasiswa[this.index].berkas == "object") {

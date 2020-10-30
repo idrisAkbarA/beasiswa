@@ -43,16 +43,17 @@ class BeasiswaController extends Controller
     }
     public function report(Request $request)
     {
-        function petugas($id){
+        function petugas($id)
+        {
             // return "pantek";
             // return UserPetugas::find($id);
             $result = UserPetugas::find($id);
-            if($result!=null){
+            if ($result != null) {
                 return $result['nama_lengkap'];
-            }else{
+            } else {
                 return null;
             }
-        }   
+        }
         $beasiswaCol = [];
         $whereFakultas = [];
         $whereTahap = [];
@@ -159,6 +160,7 @@ class BeasiswaController extends Controller
                             unset($item['permohonan'][$key]);
                         }
                     }
+                    
                 }
             } else {
                 if (count($whereTahap) > 0) {
@@ -205,21 +207,26 @@ class BeasiswaController extends Controller
                 }
                 $temp[$namedTahapKey] = $status;
                 // set field list
-                if ($fieldList!=null) {
+                if ($fieldList != null) {
                     foreach ($fieldList as $fieldKey => $fieldValue) {
                         foreach ($form as $formKey => $formValue) {
                             if ($formValue['pertanyaan'] == $fieldValue) { // get all matched requested list
                                 // check if it is a file upload or a multiple upload
                                 // if it is, the value should be it's status
                                 // Lulus/Tidak Lulus/Belum di verifikasi  
-                                if ($formValue['type'] == 'Upload File' || $formValue['type'] == 'Multiple Upload' ) {
+                                if ($formValue['type'] == 'Upload File' || $formValue['type'] == 'Multiple Upload') {
                                     try {
+                                        if($formValue['value']!= null || $formValue['value']!= [] ){
+                                            $temp[$fieldValue] = "File Diupload";
+                                        }else{
+                                            $temp[$fieldValue] = "File Tidak Diupload";
+                                        }
                                         if ($formValue['isLulus'] === null) {
-                                            $temp[$fieldValue] = "Belum verifikasi";
+                                            $temp["STATUS " . $fieldValue] = "Belum verifikasi";
                                         } else if ($formValue['isLulus'] === true) {
-                                            $temp[$fieldValue] = "Lulus verifikasi";
+                                            $temp["STATUS " . $fieldValue] = "Lulus verifikasi";
                                         } else if ($formValue['isLulus'] === false) {
-                                            $temp[$fieldValue] = "Tidak lulus verifikasi";
+                                            $temp["STATUS " . $fieldValue] = "Tidak lulus verifikasi";
                                         }
                                     } catch (\Throwable $th) {
                                         $temp[$fieldValue] = "Belum verifikasi";
@@ -227,26 +234,35 @@ class BeasiswaController extends Controller
                                 } else {
                                     $temp[$fieldValue] = $formValue["value"];
                                     if ($formValue['isLulus'] === null) {
-                                        $temp["STATUS ".$fieldValue] = "Belum verifikasi";
+                                        $temp["STATUS " . $fieldValue] = "Belum verifikasi";
                                     } else if ($formValue['isLulus'] === true) {
-                                        $temp["STATUS ".$fieldValue] = "Lulus verifikasi";
+                                        $temp["STATUS " . $fieldValue] = "Lulus verifikasi";
                                     } else if ($formValue['isLulus'] === false) {
-                                        $temp["STATUS ".$fieldValue] = "Tidak lulus verifikasi";
+                                        $temp["STATUS " . $fieldValue] = "Tidak lulus verifikasi";
                                     }
                                 }
                             }
                         }
                     }
                 }
-                
-                
-                $temp['Verificator'] = petugas($valueP['verificator_id']);
-                $temp['Pewawancara'] = petugas($valueP['interviewer_id']);
-                $temp['surveyor_id'] = petugas($valueP['surveyor_id']);
+
+                if (!isset($request['isVerificator'])) {
+                    $temp['Verificator'] = petugas($valueP['verificator_id']);
+                    $temp['Pewawancara'] = petugas($valueP['interviewer_id']);
+                    $temp['Surveyor'] = petugas($valueP['surveyor_id']);
+                }
+                if(isset($request['akun'])){
+                    if ($valueP['verificator_id'] != $request['akun']) {
+                        continue;
+                    }
+                }
+                // $temp['is akun'] = isset($request['akun']);
+                // $temp['value akun'] = isset($request['akun'])?$request['akun']:null;
+                // $temp['akun dari sono'] = $valueP['verificator_id'] ;
                 array_push($finalData, $temp);
             }
         }
-        // return [$whereFakultas,$whereTahap];
+        // return [$whereFakultas,$whereTahap]
         // return $beasiswaCol;
         return $finalData;
     }

@@ -36,6 +36,13 @@
         <v-btn
           small
           text
+          @click="laporan"
+        >
+          <v-icon>mdi-file-document</v-icon>Laporan
+        </v-btn>
+        <v-btn
+          small
+          text
           @click="history"
         >
           <v-icon>mdi-history</v-icon>History
@@ -85,6 +92,9 @@ export default {
     },
     history() {
       this.$router.push({ name: "Verificator History" });
+    },
+    laporan() {
+      this.$router.push({ name: "Verificator Report" });
     },
     logout() {
       axios

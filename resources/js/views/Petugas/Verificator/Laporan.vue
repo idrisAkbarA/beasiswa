@@ -1,8 +1,10 @@
 <template>
   <v-container>
     <v-card
+      class="pb-9"
+      color="#E8F5E9"
+      light
       tile
-      color="transparent"
       flat
     >
       <v-card-title>
@@ -32,7 +34,7 @@
                   auto-select-first
                   @change="getFieldList"
                   filled
-                  color="white"
+                  color="green"
                   label="Beasiswa"
                   :loading="beaLoading"
                   :disabled="beaLoading"
@@ -43,17 +45,15 @@
               </v-col>
               <v-col>
                 <v-select
-                  v-model="fakultasSelected"
+                  v-model="akunSelected"
                   :rules="rule"
-                  :loading="fakLoading"
-                  :disabled="fakLoading"
                   filled
                   class="ml-1"
-                  color="white"
-                  :items="fakItem"
+                  color="green"
+                  :items="akun"
                   item-value="id"
                   item-text="nama"
-                  label="Fakultas"
+                  label="Akun"
                 ></v-select>
               </v-col>
               <v-col>
@@ -62,7 +62,7 @@
                   :rules="rule"
                   filled
                   class="ml-1"
-                  color="white"
+                  color="green"
                   :items="tahap"
                   item-text="text"
                   item-value="value"
@@ -75,7 +75,7 @@
                   :rules="rule"
                   filled
                   class="ml-1"
-                  color="white"
+                  color="green"
                   :items="status"
                   item-text="text"
                   item-value="value"
@@ -89,7 +89,9 @@
               class="mb-7"
               :disabled="isSpesificBeasiswaSelected"
             >
-              <v-expansion-panel>
+              <v-expansion-panel
+              class="outlined"
+              >
                 <!-- <v-progress-linear
                   color="green"
                   indeterminate
@@ -133,13 +135,17 @@
           </v-row>
           <v-row no-gutters>
             <v-btn
+       
               :disabled="isDownloadDisabled"
               color="green darken-2"
               @click="getLaporan(false)"
+              class="white--text"
             >lihat laporan</v-btn>
             <v-btn
+            
+            color="green darken-2"
               :disabled="isDownloadDisabled"
-              class="ml-1"
+              class="ml-1 white--text"
               :loading="downloadLoading"
               @click="getLaporan(true)"
             >
@@ -149,27 +155,35 @@
               Download laporan
             </v-btn>
           </v-row>
+          <v-row>
+
+          </v-row>
         </v-container>
       </v-card-text>
+      <v-card class="ml-7 mr-7 ">
+        <v-data-table
+        
+          :headers="headers"
+          :items="report"
+          :items-per-page="15"
+          :loading="isTableLoading"
+          loading-text="Memuat... Mohon tunggu"
+        ></v-data-table>
+      </v-card>
     </v-card>
-    <v-card class="ml-7 mr-7">
-      <v-data-table
-        :headers="headers"
-        :items="report"
-        :items-per-page="5"
-        :loading="isTableLoading"
-        loading-text="Memuat... Mohon tunggu"
-      ></v-data-table>
-    </v-card>
+
   </v-container>
 </template>
 
 <script>
 const FileDownload = require("js-file-download");
-var FileSaver = require('file-saver');
+var FileSaver = require("file-saver");
 import { mapActions, mapState } from "vuex";
 import Axios from "axios";
 export default {
+  created(){
+    console.log(this.auth)
+  },
   watch: {
     fieldList: {
       deep: true,
@@ -186,7 +200,22 @@ export default {
     }
   },
   computed: {
-    ...mapState(["report", "url", "fakultas", "isTableLoading", "beasiswa"]),
+    ...mapState(["auth","report", "url", "fakultas", "isTableLoading", "beasiswa"]),
+    fakultasSelected: {
+      get:function(){return this.auth.fakultas.id}},
+    akun:{
+      get: function(){
+        return [
+          {
+            nama:"Fakultas",
+            id: "fakultas"
+          },
+          { nama: this.auth.nama + " (Saya)",
+            id: this.auth.id
+          }
+        ]
+      }
+    },
     selectUnSelectAllField: {
       // Property description:
       // set value of it's own v-model and select/unselect all corresponding fields
@@ -307,8 +336,12 @@ export default {
           fakultas: this.fakultasSelected,
           tahap: this.tahapSelected,
           status: this.statusSelected,
-          field_list: fieldList
+          field_list: fieldList,
+          isVerificator: true
         };
+        if(this.akunSelected != "fakultas"){
+          this.params['akun'] = this.akunSelected;
+        }
         !isDownload
           ? this.getReport(this.params)
           : this.getReportDownload(this.params);
@@ -324,9 +357,8 @@ export default {
       Axios.get("/api/beasiswa/download-report", {
         params: data,
         responseType: "blob"
-      },
-      ).then(response => {
-        FileDownload(response.data, 'Beasiswa.xlsx');
+      }).then(response => {
+        FileDownload(response.data, "Beasiswa.xlsx");
         this.downloadLoading = false;
       });
     }
@@ -358,8 +390,8 @@ export default {
         { value: "seleksi", text: "Seleksi" }
       ],
       beasiswaSelected: null,
-      fakultasSelected: null,
       tahapSelected: null,
+      akunSelected: null,
       statusSelected: null,
       params: {}
     };
