@@ -69,7 +69,7 @@ class PemohonBeasiswa extends Model
     public function setIsBerkasPassedAttribute($value)
     {
         $petugas = Auth::guard('petugas')->user();
-        if ($this->is_berkas_passed === null || $petugas->role == 0) {
+        if ($this->is_berkas_passed === null || $this->verificator_id == $petugas->id || $petugas->role == 0) {
             $this->attributes['is_berkas_passed'] = $value;
             $this->attributes['verificator_id'] = Auth::guard('petugas')->id();
             $this->attributes['verified_at'] = now();
