@@ -20,8 +20,7 @@ class PemohonBeasiswaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function getAll(Request $request)
-    {
-    }
+    { }
 
     public function get(Request $request, $id)
     {
@@ -142,10 +141,11 @@ class PemohonBeasiswaController extends Controller
     public function setBerkas(Request $request)
     {
         $permohonan = PemohonBeasiswa::find($request['id']);
-        $permohonan->is_berkas_passed = $request['bool'];
-        $permohonan->keterangan = $request['keterangan'];
-        $permohonan->form = $request['form'];
-        $permohonan->save();
+        $permohonan->update($request->all());
+        // $permohonan->is_berkas_passed = $request['bool'];
+        // $permohonan->keterangan = $request['keterangan'];
+        // $permohonan->form = $request['form'];
+        // $permohonan->save();
         return response()->json([
             'status' => $permohonan->wasChanged('is_berkas_passed')
         ]);

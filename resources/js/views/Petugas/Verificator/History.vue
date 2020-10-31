@@ -341,7 +341,6 @@
               class="mt-2"
               hint="Wajib diisi"
               :persistent-hint="true"
-              v-if="!dialogDelete.value"
               label="Keterangan"
               rows="1"
               auto-grow
@@ -355,13 +354,6 @@
             <v-btn @click="dialogDelete = false, keterangan = null" color="white" text>Batal</v-btn>
             <v-spacer></v-spacer>
             <v-btn
-              v-if="dialogDelete.value"
-              color="#2E7D32"
-              dark
-              @click="setBerkas(dialogDelete.value)"
-            >Ya</v-btn>
-            <v-btn
-              v-if="!dialogDelete.value"
               color="#2E7D32"
               :disabled="!keterangan"
               dark
@@ -417,6 +409,12 @@ export default {
           { judul: "IPK", isi: val.mahasiswa.ipk }
         ];
       }
+    },
+    sheetDetail: function(val) {
+      if (!val) {
+        this.keterangan = null;
+        this.editMode = false;
+      }
     }
   },
   created() {
@@ -450,14 +448,11 @@ export default {
     setBerkas(val) {
       this.btnLoading = true;
       this.loading = true;
-      if (val) {
-        this.keterangan = null;
-      }
       axios
         .put(`${this.url}/api/pemohon/set-berkas`, {
           id: this.selectedPermohonan.id,
-          bool: val,
-          keterangan: this.keterangan,
+          is_berkas_passed: val,
+          keterangan_edit: this.keterangan,
           form: this.parsedForm
         })
         .then(response => {
@@ -483,6 +478,7 @@ export default {
         .then(() => {
           this.btnLoading = false;
           this.loading = false;
+          this.editMode = false;
           this.keterangan = null;
         });
     }

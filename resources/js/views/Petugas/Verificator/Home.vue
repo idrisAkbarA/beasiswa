@@ -51,7 +51,7 @@
               <v-col cols="12">Memuat data</v-col>
             </v-row>
             <p v-if="!beasiswa[0] && loading == false" class="text-center">Tidak ada berkas</p>
-            <v-expansion-panels hover inset>
+            <v-expansion-panels hover inset v-if="!loading">
               <v-expansion-panel v-for="(item,i) in beasiswa" :key="i">
                 <v-expansion-panel-header>
                   <v-row no-gutters align="center" justify="space-between">
@@ -404,7 +404,7 @@
 import { mapActions, mapMutations, mapState } from "vuex";
 export default {
   created() {
-    console.log("auth:",this.auth)
+    console.log("auth:", this.auth);
     this.loading = true;
     this.getAppSettings();
     this.getBeasiswa();
@@ -447,7 +447,7 @@ export default {
       axios
         .get(`${this.url}/api/user/petugas`)
         .then(response => {
-          console.log("petugas:",response.data)
+          console.log("petugas:", response.data);
           this.petugas = response.data;
         })
         .catch(error => {
@@ -485,7 +485,7 @@ export default {
       axios
         .put(`${this.url}/api/pemohon/set-berkas`, {
           id: this.selectedPermohonan.id,
-          bool: bool,
+          is_berkas_passed: bool,
           keterangan: this.keterangan,
           form: this.parsedForm
         })
@@ -530,6 +530,11 @@ export default {
         ];
       }
     },
+    sheetDetail: function(val) {
+      if (!val) {
+        this.keterangan = null;
+      }
+    },
     parsedForm: {
       deep: true,
       handler(val) {
@@ -548,7 +553,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["auth","beasiswa", "url", "appSettings", "isTableLoading"]),
+    ...mapState(["auth", "beasiswa", "url", "appSettings", "isTableLoading"]),
     resultQuery() {
       if (this.searchQuery) {
         if (typeof this.beasiswa[this.index].berkas == "object") {
