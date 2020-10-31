@@ -456,7 +456,7 @@ export default {
       axios
         .put(`${this.url}/api/pemohon/set-berkas`, {
           id: this.selectedPermohonan.id,
-          val: val,
+          bool: val,
           keterangan: this.keterangan,
           form: this.parsedForm
         })
