@@ -3,6 +3,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Unauthorized from "../views/Unauthorized.vue";
+import NotFound from "../views/404.vue";
 import Login from "../views/Login.vue";
 import LoginPetugas from "../views/LoginPetugas.vue";
 import Petugas from "../views/Petugas/Petugas.vue";
@@ -459,7 +460,12 @@ const routes = [
                 component: VerificatorReport
             }
         ]
-    }
+    },
+    {
+        path: "/*",
+        name: "Not Found",
+        component: NotFound
+    },
 ];
 
 const router = new VueRouter({

@@ -137,6 +137,7 @@
                     :items="[{i:0, v:'D3'}, {i:1, v:'S1'}, {i:2, v:'S2'}, {i:3, v:'S3'}]"
                     item-text="v"
                     item-value="i"
+                    :rules="ruleJenjang"
                     label="Jenjang"
                     color="white"
                     :disabled="isDisabled(dateBerkasEdit)"
@@ -729,8 +730,10 @@
                 </v-col>
                 <v-col cols="4">
                   <v-select
+                    @change="jenjangShow"
                     multiple
                     v-model="jenjang"
+                    :rules="ruleJenjang"
                     :items="[{i:0, v:'D3'}, {i:1, v:'S1'}, {i:2, v:'S2'} , {i:3, v:'S3'}]"
                     item-text="v"
                     item-value="i"
@@ -1283,6 +1286,9 @@ export default {
       "storeBeasiswa",
       "deleteBeasiswa"
     ]),
+    jenjangShow(v){
+      console.log(v)
+    },
     deleteBea(item) {
       this.deleteId = item.id;
       this.deleteDialog = true;
@@ -1664,6 +1670,7 @@ export default {
         }
       },
       rule: [v => !!v || "Field ini wajib diisi"],
+      ruleJenjang: [v => (v || '').length > 0 || "Field ini wajib diisi"],
       isSaveDisabled: false,
       isEditDisabled: false,
       validation: true,

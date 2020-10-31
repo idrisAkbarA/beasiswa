@@ -249,6 +249,7 @@ export default {
   }),
   mounted() {
     console.log(this.$route);
+    console.log(this.$route.matched);
     // this.$vuetify.theme.dark = true;
   }
 };
