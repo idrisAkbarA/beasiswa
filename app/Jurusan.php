@@ -17,9 +17,4 @@ class Jurusan extends Model
     {
         return $this->hasMany('App\User');
     }
-
-    public function ukt()
-    {
-        return $this->belongsToMany('App\GolonganUKT', 'ukt', 'jurusan_id', 'golongan_ukt_id');
-    }
 }

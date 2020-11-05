@@ -63,6 +63,6 @@ class User extends Authenticatable
 
     public function jurusan()
     {
-        return $this->belongsTo('App\Jurusan')->with('ukt');
+        return $this->belongsTo('App\Jurusan');
     }
 }
