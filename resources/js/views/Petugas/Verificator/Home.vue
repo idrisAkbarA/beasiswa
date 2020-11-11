@@ -404,8 +404,6 @@
 import { mapActions, mapMutations, mapState } from "vuex";
 export default {
   created() {
-    console.log("auth:", this.auth);
-    this.loading = true;
     this.getAppSettings();
     this.getBeasiswa();
     this.getPetugas();
@@ -424,9 +422,14 @@ export default {
     },
     getBeasiswa() {
       this.loading = true;
-      this.getBeasiswaWithPermohonan("berkas").then(response => {
-        this.loading = false;
-      });
+      this.getBeasiswaWithPermohonan("berkas")
+        .then(response => {
+          this.loading = false;
+        })
+        .catch(error => {
+          console.error(error);
+          this.loading = false;
+        });
     },
     checkMaintenance() {
       axios
@@ -475,7 +478,7 @@ export default {
           this.snackbar.show = true;
         }
       }
-    }, // 11920120273 syariah kip
+    },
     setBerkas(bool) {
       this.btnLoading = true;
       this.loading = true;
@@ -490,7 +493,6 @@ export default {
           form: this.parsedForm
         })
         .then(response => {
-          this.getBeasiswa();
           this.sheetDetail = false;
           this.dialogDelete = false;
           this.snackbar = {
@@ -510,8 +512,8 @@ export default {
           };
         })
         .then(() => {
+          this.getBeasiswa();
           this.btnLoading = false;
-          this.loading = false;
           this.keterangan = null;
         });
     }
