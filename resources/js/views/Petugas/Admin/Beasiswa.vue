@@ -1221,13 +1221,13 @@ export default {
           : this.dateBerkas[0];
 
         if (this.is_wawancara) {
-          awal_wawancara = this.dateWawancara[1] ? this.dateWawancara[0] : null;
+          awal_wawancara = this.dateWawancara[1] ? this.dateWawancara[0] : formatedToday;
           akhir_wawancara = this.dateWawancara[1]
             ? this.dateWawancara[1]
             : this.dateWawancara[0];
         }
         if (this.is_survey) {
-          awal_survey = this.dateSurvey[1] ? this.dateSurvey[0] : null;
+          awal_survey = this.dateSurvey[1] ? this.dateSurvey[0] : formatedToday;
           akhir_survey = this.dateSurvey[1]
             ? this.dateSurvey[1]
             : this.dateSurvey[0];
