@@ -95,7 +95,8 @@ class Beasiswa extends Model
                 ->when($this->is_interview == 1, function ($q) {
                     return $q->where('is_interview_passed', 1);
                 })
-                ->whereNull('is_survey_passed');
+                ->whereNull('is_survey_passed')
+                ->values();
         }
         return [];
     }

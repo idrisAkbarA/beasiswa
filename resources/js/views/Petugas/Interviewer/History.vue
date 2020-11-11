@@ -8,44 +8,34 @@
     style="overflow-y: auto"
   >
     <v-card-text>
-      <v-subheader><strong class="text-dark">History interview</strong></v-subheader>
+      <v-subheader>
+        <strong class="text-dark">History interview</strong>
+      </v-subheader>
       <v-row class="pl-8 pr-8">
-        <v-text-field
-          prepend-inner-icon="mdi-magnify"
-          clearable
-          label="Pencarian"
-        ></v-text-field>
+        <v-text-field prepend-inner-icon="mdi-magnify" clearable label="Pencarian"></v-text-field>
       </v-row>
       <v-row>
         <v-card-text>
-          <p
-            v-if="!beasiswa.length"
-            class="text-center"
-          >Tidak ada berkas</p>
-          <v-expansion-panels
-            hover
-            inset
-          >
-            <v-expansion-panel
-              v-for="(item,i) in beasiswa"
-              :key="i"
-            >
+          <v-row v-if="loading" justify="center" align-content="center" class="text-center">
+            <v-col cols="12">
+              <v-progress-circular class="mx-auto" color="green" indeterminate></v-progress-circular>
+            </v-col>
+            <v-col cols="12">Memuat data</v-col>
+          </v-row>
+          <p v-if="!beasiswa.length && !loading" class="text-center">Tidak ada berkas</p>
+          <v-expansion-panels hover inset v-if="!loading">
+            <v-expansion-panel v-for="(item,i) in beasiswa" :key="i">
               <v-expansion-panel-header>
-                <v-row
-                  no-gutters
-                  align="center"
-                  justify="space-between"
-                >
-                  <v-col cols="6"><strong>{{item.nama}}</strong></v-col>
+                <v-row no-gutters align="center" justify="space-between">
+                  <v-col cols="6">
+                    <strong>{{item.nama}}</strong>
+                  </v-col>
                   <v-col
                     class="text-right mr-3"
                     cols="4"
                     v-if="Object.keys(item.permohonan).length < 1"
                   >
-                    <span class="caption text-muted">
-                      Belum ada permohonan masuk
-
-                    </span>
+                    <span class="caption text-muted">Belum ada permohonan masuk</span>
                   </v-col>
                   <v-col
                     class="text-right mr-3"
@@ -58,10 +48,7 @@
                       label
                       dark
                       color="green"
-                    >
-                      {{Object.keys(item.permohonan).length}} Permohonan diinterview
-
-                    </v-chip>
+                    >{{Object.keys(item.permohonan).length}} Permohonan diinterview</v-chip>
                   </v-col>
                 </v-row>
               </v-expansion-panel-header>
@@ -79,11 +66,10 @@
                     @focus="index = i"
                   ></v-text-field>
                   <v-subheader>Permohonan ({{!searchQuery ? Object.keys(item.permohonan).length : resultQuery.length}})</v-subheader>
-                  <v-list-item-group
-                    class="bg-white"
-                    color="primary"
-                  >
-                    <template v-for="(permohonan, index) in !searchQuery ? item.permohonan : resultQuery">
+                  <v-list-item-group class="bg-white" color="primary">
+                    <template
+                      v-for="(permohonan, index) in !searchQuery ? item.permohonan : resultQuery"
+                    >
                       <v-list-item
                         :key="index"
                         @click="sheetDetail = true, selectedPermohonan = permohonan, parsedForm = JSON.parse(permohonan.form)"
@@ -91,23 +77,19 @@
                         <template>
                           <v-list-item-content>
                             <v-list-item-title v-text="permohonan.mahasiswa.nama"></v-list-item-title>
-                            <v-list-item-subtitle v-text="`${permohonan.mahasiswa.jurusan.nama} (${permohonan.mahasiswa.fakultas.nama})`"></v-list-item-subtitle>
+                            <v-list-item-subtitle
+                              v-text="`${permohonan.mahasiswa.jurusan.nama} (${permohonan.mahasiswa.fakultas.nama})`"
+                            ></v-list-item-subtitle>
                           </v-list-item-content>
                           <v-list-item-action>
-                            <v-icon
-                              color="blue"
-                              v-if="permohonan.is_interview_passed"
-                            >mdi-check</v-icon>
-                            <v-icon
-                              color="red"
-                              v-else
-                            >mdi-close</v-icon>
+                            <v-icon color="blue" v-if="permohonan.is_interview_passed">mdi-check</v-icon>
+                            <v-icon color="red" v-else>mdi-close</v-icon>
                           </v-list-item-action>
                         </template>
                       </v-list-item>
                       <v-divider
                         v-if="index < Object.keys(item.permohonan).length - 1"
-                        :key="index"
+                        :key="'divider '+index"
                         class="my-0"
                       ></v-divider>
                     </template>
@@ -150,6 +132,7 @@ export default {
   },
   methods: {
     getHistory() {
+      this.loading = true;
       axios
         .get(`${this.url}/api/permohonan/my-history`, {
           params: {
@@ -166,11 +149,15 @@ export default {
             color: "red",
             message: error
           };
+        })
+        .then(() => {
+          this.loading = false;
         });
     }
   },
   data() {
     return {
+      loading: false,
       searchQuery: "",
       beasiswa: []
     };
