@@ -456,7 +456,6 @@ export default {
           form: this.parsedForm
         })
         .then(response => {
-          this.getHistory();
           this.sheetDetail = false;
           this.dialogDelete = false;
           this.snackbar = {
@@ -476,8 +475,8 @@ export default {
           };
         })
         .then(() => {
+          this.getHistory();
           this.btnLoading = false;
-          this.loading = false;
           this.editMode = false;
           this.keterangan = null;
         });

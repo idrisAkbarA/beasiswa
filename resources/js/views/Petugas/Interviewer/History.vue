@@ -16,8 +16,14 @@
       </v-row>
       <v-row>
         <v-card-text>
-          <p v-if="!beasiswa.length" class="text-center">Tidak ada berkas</p>
-          <v-expansion-panels hover inset>
+          <v-row v-if="loading" justify="center" align-content="center" class="text-center">
+            <v-col cols="12">
+              <v-progress-circular class="mx-auto" color="green" indeterminate></v-progress-circular>
+            </v-col>
+            <v-col cols="12">Memuat data</v-col>
+          </v-row>
+          <p v-if="!beasiswa.length && !loading" class="text-center">Tidak ada berkas</p>
+          <v-expansion-panels hover inset v-if="!loading">
             <v-expansion-panel v-for="(item,i) in beasiswa" :key="i">
               <v-expansion-panel-header>
                 <v-row no-gutters align="center" justify="space-between">
@@ -126,6 +132,7 @@ export default {
   },
   methods: {
     getHistory() {
+      this.loading = true;
       axios
         .get(`${this.url}/api/permohonan/my-history`, {
           params: {
@@ -142,11 +149,15 @@ export default {
             color: "red",
             message: error
           };
+        })
+        .then(() => {
+          this.loading = false;
         });
     }
   },
   data() {
     return {
+      loading: false,
       searchQuery: "",
       beasiswa: []
     };
