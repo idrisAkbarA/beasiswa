@@ -7,10 +7,10 @@ use App\Beasiswa;
 use App\UserPetugas;
 use App\PemohonBeasiswa;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Exports\PemohonExport;
 use App\Imports\KelulusanImport;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Auth;
 
 class PemohonBeasiswaController extends Controller
 {
@@ -213,9 +213,11 @@ class PemohonBeasiswaController extends Controller
     }
     public function storeFile(Request $request)
     {
+        $beasiswa =  Beasiswa::find($request['id']);
+        $namaBeasiswa = str_replace(" ","-",$beasiswa['nama']);
         $user = Auth::guard("mahasiswa")->user();
-        $fileName = "files/" . $request['id'] . '/' . $user['nim'] . "/" . Carbon::now()->format("Y-m-d-H-i-s") . $request->file->getClientOriginalName();
-        $request->file->move(public_path('files/' . $request['id'] . '/' . $user['nim']), $fileName);
+        $fileName = "files/" . $request['id'] .'-'.$namaBeasiswa. '/' . $user['nim'] . "/" . Carbon::now()->format("Y-m-d-H-i-s") . $request->file->getClientOriginalName();
+        $request->file->move(public_path('files/' . $request['id'] .'-'.$namaBeasiswa. '/' . $user['nim']), $fileName);
 
         return response()->json(['success' => 'You have successfully upload file.', 'file_name' => $fileName]);
     }
