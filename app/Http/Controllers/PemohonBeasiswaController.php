@@ -53,36 +53,61 @@ class PemohonBeasiswaController extends Controller
         return $beasiswa;
         // return $user;
     }
+
+    public function countSubmit()
+    {
+        $berkas = PemohonBeasiswa::with('beasiswa')
+            ->whereHas('beasiswa', function ($q) {
+                return $q->where('akhir_berkas', '>=', Carbon::now());
+            })
+            ->where('is_submitted', 0)
+            ->count();
+        return $berkas;
+    }
+
     public function countBerkas()
     {
-        $berkas = $this->cekBerkas();
-        return count($berkas);
+        $berkas = PemohonBeasiswa::with('beasiswa')
+            ->whereHas('beasiswa', function ($q) {
+                return $q->where('akhir_berkas', '>=', Carbon::now());
+            })
+            ->where('is_submitted', 1)
+            ->whereNull('is_berkas_passed')
+            ->count();
+        return $berkas;
     }
-    public function cekBerkas()
-    {
+    // public function cekBerkas()
+    // {
 
-        $permohonan = PemohonBeasiswa::where("is_berkas_passed", null)
-            ->where("akhir_berkas", ">=", Carbon::now())
-            ->join("beasiswas", "beasiswas.id", "=", "pemohon_beasiswas.beasiswa_id")
-            ->join("users", "users.nim", "=", "pemohon_beasiswas.mhs_id")
-            ->select(["pemohon_beasiswas.*", "beasiswas.nama AS nama_beasiswa", "beasiswas.akhir_berkas", "users.nama"])
-            ->get();
+    //     $permohonan = PemohonBeasiswa::where("is_berkas_passed", null)
+    //         ->where("akhir_berkas", ">=", Carbon::now())
+    //         ->join("beasiswas", "beasiswas.id", "=", "pemohon_beasiswas.beasiswa_id")
+    //         ->join("users", "users.nim", "=", "pemohon_beasiswas.mhs_id")
+    //         ->select(["pemohon_beasiswas.*", "beasiswas.nama AS nama_beasiswa", "beasiswas.akhir_berkas", "users.nama"])
+    //         ->get();
 
 
-        foreach ($permohonan as $key => $value) {
-            $value['form'] = json_decode($value['form']);
-        }
-        return $permohonan;
-    }
+    //     foreach ($permohonan as $key => $value) {
+    //         $value['form'] = json_decode($value['form']);
+    //     }
+    //     return $permohonan;
+    // }
     public function countInterview()
     {
-        $interview = $this->cekInterview();
-        return count($interview);
+        $interview = PemohonBeasiswa::with('beasiswa')
+            ->whereHas('beasiswa', function ($q) {
+                return $q->where('akhir_interview', '>=', Carbon::now());
+            })
+            ->where('is_berkas_passed', 1)
+            ->whereNull('is_interview_passed')
+            ->count();
+        return $interview;
     }
     public function countLulus()
     {
-        $permohonan = PemohonBeasiswa::where("is_selection_passed", 1)->get();
-        return count($permohonan);
+        $lulus = PemohonBeasiswa::where('is_selection_passed', 1)
+            ->count();
+        return $lulus;
     }
     public function lulus()
     {
@@ -142,10 +167,6 @@ class PemohonBeasiswaController extends Controller
     {
         $permohonan = PemohonBeasiswa::find($request['id']);
         $permohonan->update($request->all());
-        // $permohonan->is_berkas_passed = $request['bool'];
-        // $permohonan->keterangan = $request['keterangan'];
-        // $permohonan->form = $request['form'];
-        // $permohonan->save();
         return response()->json([
             'status' => $permohonan->wasChanged('is_berkas_passed')
         ]);
@@ -180,17 +201,11 @@ class PemohonBeasiswaController extends Controller
     public function store(Request $request)
     {
         $user = Auth::guard("mahasiswa")->user();
-        // return $user->nim;
         $request['nim'] = $user->nim;
         $permohonan = PemohonBeasiswa::updateOrCreate(
             ['mhs_id' => $user->nim, 'beasiswa_id' => $request['beasiswa_id']],
             $request->all()
         );
-        // $permohonan = new PemohonBeasiswa;
-        // $permohonan->mhs_id         = $user->nim;
-        // $permohonan->beasiswa_id    = $request['beasiswa_id'];
-        // $permohonan->form           = json_encode($request['form']);
-        // $permohonan->save();
 
         return response()->json([
             'status' => 'Success: Permohonan added'

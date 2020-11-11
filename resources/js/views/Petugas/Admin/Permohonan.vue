@@ -724,6 +724,11 @@ export default {
           { judul: "Status", isi: val.status }
         ];
       }
+    },
+    dialog: function(val) {
+      if (!val) {
+        this.filter = "permohonan";
+      }
     }
   },
   computed: {

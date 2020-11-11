@@ -209,7 +209,7 @@ class BeasiswaController extends Controller
         foreach ($beasiswaCol as $keyB => $valueB) {
             $semesters = explode(",",$valueB['semester']);
             foreach ($valueB['permohonan'] as $keyP => $valueP) {
-                // check if somehow some permohonan that isnt match required semester happened to be 
+                // check if somehow some permohonan that isnt match required semester happened to be
                 // included here, if it did, filter out
 
                 $isSemesterMatched = false;
@@ -349,7 +349,7 @@ class BeasiswaController extends Controller
 
     public function countBeasiswa()
     {
-        return count(Beasiswa::all());
+        return Beasiswa::all()->count();
     }
 
     public function get($id)
