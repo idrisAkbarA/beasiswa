@@ -205,7 +205,21 @@ class BeasiswaController extends Controller
 
         // set final data
         foreach ($beasiswaCol as $keyB => $valueB) {
+            $semesters = explode(",",$valueB['semester']);
             foreach ($valueB['permohonan'] as $keyP => $valueP) {
+                // check if somehow some permohonan that isnt match required semester happened to be 
+                // included here, if it did, filter out
+
+                $isSemesterMatched = false;
+                foreach ($semesters as $keySemester => $valueSemester) {
+                    if($valueP['mahasiswa']['semester']==$valueSemester){
+                        $isSemesterMatched = true;
+                        break;
+                    }
+                }
+                if($isSemesterMatched!=true) continue; // semester filter clear
+
+
                 $form = json_decode($valueP['form'], true);
                 $temp = [];
                 $status = '';
