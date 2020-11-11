@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Artisan;
+use Carbon\Carbon;
 use App\Beasiswa;
 use App\Instansi;
-use Carbon\Carbon;
 
 use App\UserPetugas;
 use App\Settings\Backup;
@@ -32,8 +31,8 @@ class BeasiswaController extends Controller
         $result = DB::select(DB::raw($get_all_table_query));
         $tables = [];
         foreach ($result as $key => $value) {
-            $temp = (array)$value;
-            array_push($tables,$temp[array_key_first($temp)]);
+            $temp = (array) $value;
+            array_push($tables, $temp[array_key_first($temp)]);
         }
 
         $structure = '';
@@ -44,14 +43,14 @@ class BeasiswaController extends Controller
             $show_table_result = DB::select(DB::raw($show_table_query));
 
             foreach ($show_table_result as $show_table_row) {
-                $show_table_row = (array)$show_table_row;
+                $show_table_row = (array) $show_table_row;
                 $structure .= "\n\n" . $show_table_row["Create Table"] . ";\n\n";
             }
             $select_query = "SELECT * FROM " . $table;
             $records = DB::select(DB::raw($select_query));
 
             foreach ($records as $record) {
-                $record = (array)$record;
+                $record = (array) $record;
                 $table_column_array = array_keys($record);
                 foreach ($table_column_array as $key => $name) {
                     $table_column_array[$key] = '`' . $table_column_array[$key] . '`';
@@ -352,7 +351,6 @@ class BeasiswaController extends Controller
     }
     public function getAllWithPermohonan(Request $request)
     {
-        $beasiswa = Beasiswa::orderBy('id', 'DESC')->get();
         $tahap = $request->tahap ?? [
             'berkas',
             'interview',
@@ -360,6 +358,11 @@ class BeasiswaController extends Controller
             'selection',
             'lulus'
         ];
+        $beasiswa = Beasiswa::when(is_string($tahap), function ($q) use ($tahap) {
+            return $q->where('awal_' . $tahap, '<=', Carbon::now())
+                ->where('akhir_' . $tahap, '>=', Carbon::now());
+        })
+            ->orderBy('id', 'DESC')->get();
         $beasiswa->makeVisible($tahap);
         return response()->json($beasiswa);
     }
