@@ -31,6 +31,13 @@ class Beasiswa extends Model
         'lulus'
     ];
 
+    public function setQuotaAttribute($value)
+    {
+        if ($value > 0){
+            $this->attributes['quota'] = ($value);
+        }
+    }
+
     public function setFieldsAttribute($value)
     {
         $this->attributes['fields'] = json_encode($value);

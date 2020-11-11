@@ -89,10 +89,10 @@ class PemohonBeasiswa extends Model
     public function setIsSurveyPassedAttribute($value)
     {
         $petugas = Auth::guard('petugas')->user();
-        if ($this->is_interview_passed === null || $petugas->role == 0) {
-            $this->attributes['is_interview_passed'] = $value;
-            $this->attributes['interviewer_id'] = Auth::guard('petugas')->id();
-            $this->attributes['interviewed_at'] = now();
+        if ($this->is_survey_passed === null || $petugas->role == 0) {
+            $this->attributes['is_survey_passed'] = $value;
+            $this->attributes['surveyor_id'] = Auth::guard('petugas')->id();
+            $this->attributes['surveyed_at'] = now();
         }
     }
 
