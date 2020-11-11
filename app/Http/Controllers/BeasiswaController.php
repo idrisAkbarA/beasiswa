@@ -6,11 +6,13 @@ use Artisan;
 use App\Beasiswa;
 use App\Instansi;
 use Carbon\Carbon;
+
 use App\UserPetugas;
 use App\Settings\Backup;
 use App\Settings\Settings;
 use Illuminate\Http\Request;
 use App\Exports\BeasiswaExport;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -24,16 +26,56 @@ class BeasiswaController extends Controller
     }
     public function getBackup()
     {
-        // $filename = "backup-" . Carbon::now()->format('Y-m-d-H-i-s') . ".sql";
+        // this code below is modified from https://stackoverflow.com/a/60979123/8512108
 
-        // $command = "mysqldump --user=" . env('DB_USERNAME') ." --password=" . env('DB_PASSWORD') . " --host=" . env('DB_HOST') . " " . env('DB_DATABASE') . " > " . storage_path() . "/app/backup/" . $filename;
+        $get_all_table_query = "SHOW TABLES";
+        $result = DB::select(DB::raw($get_all_table_query));
+        $tables = [];
+        foreach ($result as $key => $value) {
+            $temp = (array)$value;
+            array_push($tables,$temp[array_key_first($temp)]);
+        }
 
-        // $returnVar = NULL;
-        // $output  = NULL;
+        $structure = '';
+        $data = '';
+        foreach ($tables as $table) {
+            $show_table_query = "SHOW CREATE TABLE " . $table . "";
 
-        // exec($command, $output, $returnVar);
-        // Storage::download("/app/backup/".$filename);
-        // Artisan::call("backupDB");
+            $show_table_result = DB::select(DB::raw($show_table_query));
+
+            foreach ($show_table_result as $show_table_row) {
+                $show_table_row = (array)$show_table_row;
+                $structure .= "\n\n" . $show_table_row["Create Table"] . ";\n\n";
+            }
+            $select_query = "SELECT * FROM " . $table;
+            $records = DB::select(DB::raw($select_query));
+
+            foreach ($records as $record) {
+                $record = (array)$record;
+                $table_column_array = array_keys($record);
+                foreach ($table_column_array as $key => $name) {
+                    $table_column_array[$key] = '`' . $table_column_array[$key] . '`';
+                }
+
+                $table_value_array = array_values($record);
+                $data .= "\nINSERT INTO $table (";
+
+                $data .= "" . implode(", ", $table_column_array) . ") VALUES \n";
+
+                foreach ($table_value_array as $key => $record_column)
+                    $table_value_array[$key] = addslashes($record_column);
+
+                $data .= "('" . implode("','", $table_value_array) . "');\n";
+            }
+        }
+        $file_name = "backup-" . Carbon::now()->format('Y-m-d-H-i-s') . ".sql";
+        $file_handle = fopen(storage_path() . "/app/backup/" . $file_name, 'w + ');
+
+        $output = $structure . $data;
+        fwrite($file_handle, $output);
+        fclose($file_handle);
+        return Storage::download("backup/" . $file_name);
+        // echo "DB backup ready";
     }
     public function setAppSettings(Request $request)
     {
@@ -207,19 +249,19 @@ class BeasiswaController extends Controller
 
         // set final data
         foreach ($beasiswaCol as $keyB => $valueB) {
-            $semesters = explode(",",$valueB['semester']);
+            $semesters = explode(",", $valueB['semester']);
             foreach ($valueB['permohonan'] as $keyP => $valueP) {
                 // check if somehow some permohonan that isnt match required semester happened to be
                 // included here, if it did, filter out
 
                 $isSemesterMatched = false;
                 foreach ($semesters as $keySemester => $valueSemester) {
-                    if($valueP['mahasiswa']['semester']==$valueSemester){
+                    if ($valueP['mahasiswa']['semester'] == $valueSemester) {
                         $isSemesterMatched = true;
                         break;
                     }
                 }
-                if($isSemesterMatched!=true) continue; // semester filter clear
+                if ($isSemesterMatched != true) continue; // semester filter clear
 
 
                 $form = json_decode($valueP['form'], true);
