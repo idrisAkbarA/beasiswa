@@ -1134,15 +1134,13 @@ export default {
           : this.dateBerkasEdit[0];
 
         if (this.is_wawancaraEdit) {
-          awal_wawancara = this.dateWawancaraEdit[1]
-            ? this.dateWawancaraEdit[0]
-            : null;
+          awal_wawancara = this.dateWawancaraEdit[0];
           akhir_wawancara = this.dateWawancaraEdit[1]
             ? this.dateWawancaraEdit[1]
             : this.dateWawancaraEdit[0];
         }
         if (this.is_surveyEdit) {
-          awal_survey = this.dateSurveyEdit[1] ? this.dateSurveyEdit[0] : null;
+          awal_survey = this.dateSurveyEdit[0];
           akhir_survey = this.dateSurveyEdit[1]
             ? this.dateSurveyEdit[1]
             : this.dateSurveyEdit[0];
@@ -1221,15 +1219,13 @@ export default {
           : this.dateBerkas[0];
 
         if (this.is_wawancara) {
-          awal_wawancara = this.dateWawancara[1]
-            ? this.dateWawancara[0]
-            : formatedToday;
+          awal_wawancara = this.dateWawancara[0];
           akhir_wawancara = this.dateWawancara[1]
             ? this.dateWawancara[1]
             : this.dateWawancara[0];
         }
         if (this.is_survey) {
-          awal_survey = this.dateSurvey[1] ? this.dateSurvey[0] : formatedToday;
+          awal_survey = this.dateSurvey[0];
           akhir_survey = this.dateSurvey[1]
             ? this.dateSurvey[1]
             : this.dateSurvey[0];
