@@ -113,7 +113,7 @@ export default {
   },
   created() {
     axios
-      .get("/api/user")
+      .get("/api/user/mahasiswa")
       .then(response => {
         console.log(response.data);
         console.log("go");

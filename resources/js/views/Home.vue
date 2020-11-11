@@ -15,18 +15,6 @@ export default {
   },
   created() {
     this.checkMaintenance();
-    // axios
-    //   .get("/api/user")
-    //   .then(response => {
-    //     console.log(response.data);
-    //     console.log("go");
-    //     this.$router.push({ path: `/mahasiswa/home` });
-    //   })
-    //   .catch(error => {
-    //     this.isAuthenticated = false;
-    //     this.component = "FrontPage";
-    //     // this.$router.push("login");
-    //   });
   },
   computed: {
     ...mapState(["url"])
@@ -36,7 +24,7 @@ export default {
        axios.get("/api/beasiswa/settings").then(response => {
          console.log(response.data['isMaintenanceMode'])
               if(response.data['isMaintenanceMode'] == 0){
-                console.log("maintenance")
+                console.log("not maintenance")
                 this.checkLogin()
               }else{
                 this.component = "Maintenance"
@@ -47,10 +35,11 @@ export default {
     },
     checkLogin(){
       axios
-      .get("/api/user")
+      .get("/api/user/mahasiswa")
       .then(response => {
         console.log(response.data);
         console.log("go");
+        this.$store.state.auth.isAuth = true;
         this.$router.push({ path: `/mahasiswa/home` });
       })
       .catch(error => {

@@ -60,8 +60,8 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 export default {
-  computed:{
-    ...mapState(['auth','url'])
+  computed: {
+    ...mapState(["auth", "url"])
   },
   data() {
     return {
@@ -73,7 +73,6 @@ export default {
     };
   },
   methods: {
-
     login() {
       this.loading = true;
       axios.get("/sanctum/csrf-cookie").then(response => {
@@ -87,11 +86,11 @@ export default {
             window.localStorage.setItem("user", response.data.role);
             console.log(response.data);
             if (response.data.status == "Authenticated") {
-            this.$store.state.auth.role = response.data.user.role;
-            this.$store.state.auth.nama = response.data.user.nama_lengkap;
-            this.$store.state.auth.fakultas = response.data.user.fakultas;
-            this.$store.state.auth.id = response.data.user.id;
-            this.$store.state.auth.isAuth = true;
+              this.$store.state.auth.role = response.data.user.role;
+              this.$store.state.auth.nama = response.data.user.nama_lengkap;
+              this.$store.state.auth.fakultas = response.data.user.fakultas;
+              this.$store.state.auth.id = response.data.user.id;
+              this.$store.state.auth.isAuth = true;
               if (response.data.user.role == 1) {
                 this.$router.push({
                   path: `admin/${response.data.user.name}/dashboard`
@@ -130,7 +129,7 @@ export default {
     }
   },
   created() {
-    console.log(this.url)
+    console.log(this.url);
     console.log(this.$store.state.auth.isAuth);
     axios.get("/sanctum/csrf-cookie").then(response => {
       // console.log(response)
@@ -139,7 +138,40 @@ export default {
         .get("/api/user/petugas")
         .then(response => {
           console.log(response.data);
-          this.$router.push({ path: `/${response.data["name"]}/dashboard` });
+          this.$store.state.auth.role = response.data.role;
+          this.$store.state.auth.nama = response.data.nama_lengkap;
+          this.$store.state.auth.fakultas = response.data.fakultas;
+          this.$store.state.auth.id = response.data.id;
+          this.$store.state.auth.isAuth = true;
+          if (response.data.role == 1) {
+            this.$router.push({
+              path: `admin/${response.data.name}/dashboard`
+            });
+          } else if (response.data.role == 2) {
+            console.log("interviewer");
+            this.$router.push({
+              path: `/interviewer/${response.data.name}/home`
+            });
+          } else if (response.data.role == 3) {
+            console.log("interviewer");
+            this.$router.push({
+              path: `/surveyor/${response.data.name}/home`
+            });
+          } else if (response.data.role == 4) {
+            console.log("interviewer");
+            this.$router.push({
+              path: `/petinggi/${response.data.name}/home`
+            });
+          } else if (response.data.role == 5) {
+            this.$router.push({
+              path: `/verificator/${response.data.name}/home`
+            });
+          } else if (response.data.role == 0) {
+            console.log("asd");
+            this.$router.push({
+              path: `/super/${response.data.name}`
+            });
+          }
         })
         .catch(error => {
           console.log(error.response.status);

@@ -284,6 +284,11 @@ const routes = [
                 await axios
                     .get("/api/user/petugas")
                     .then(response => {
+                        store.state.auth.role = response.data.role;
+                        store.state.auth.nama = response.data.nama_lengkap;
+                        store.state.auth.fakultas = response.data.fakultas;
+                        store.state.auth.id = response.data.id;
+                        store.state.auth.isAuth = true;
                         console.log(response.data);
                         response.data.role == 2
                             ? next()
