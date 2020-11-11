@@ -3,6 +3,7 @@
 /public/storage
 /public/files
 /storage/*.key
+/storage/backup
 /storage/framework/laravel-excel
 /vendor
 /ignored/*

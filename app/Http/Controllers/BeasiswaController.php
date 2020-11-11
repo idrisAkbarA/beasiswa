@@ -1,19 +1,37 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Artisan;
 use App\Beasiswa;
-use App\UserPetugas;
 use App\Instansi;
+use Carbon\Carbon;
+use App\UserPetugas;
+use App\Settings\Backup;
 use App\Settings\Settings;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Exports\BeasiswaExport;
 use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+
 
 class BeasiswaController extends Controller
 {
+    public function getBackupList(){
+        return response()->json(Backup::list());
+    }
+    public function getBackup(){
+        // $filename = "backup-" . Carbon::now()->format('Y-m-d-H-i-s') . ".sql";
+        
+        // $command = "mysqldump --user=" . env('DB_USERNAME') ." --password=" . env('DB_PASSWORD') . " --host=" . env('DB_HOST') . " " . env('DB_DATABASE') . " > " . storage_path() . "/app/backup/" . $filename;
+
+        // $returnVar = NULL;
+        // $output  = NULL;
+        
+        // exec($command, $output, $returnVar);
+        // Storage::download("/app/backup/".$filename);
+        // Artisan::call("backupDB");
+    }
     public function setAppSettings(Request $request)
     {
         // return $request['settings'];

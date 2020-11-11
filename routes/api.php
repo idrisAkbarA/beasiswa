@@ -41,6 +41,8 @@ Route::middleware('auth:petugas')->delete('/petugas/{id}', 'PetugasController@de
 
 Route::put('/beasiswa/settings', 'BeasiswaController@setAppSettings');
 Route::get('/beasiswa/settings', 'BeasiswaController@getAppSettings');
+Route::get('/beasiswa/backup-list', 'BeasiswaController@getBackupList');
+Route::get('/beasiswa/get-backup', 'BeasiswaController@getBackup');
 Route::get('/beasiswa/no-auth', 'BeasiswaController@getAll');
 Route::get('/beasiswa/download-report', 'BeasiswaController@downloadReport');
 Route::get('/beasiswa/report', 'BeasiswaController@report');
