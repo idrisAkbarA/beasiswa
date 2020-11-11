@@ -32,7 +32,7 @@
             <v-tab-item>
               <v-col cols="12">
                 <v-row>
-                  <div class="col-lg-6 col-md-12 mb-5">
+                  <div class="col-lg-10 col-md-12 mb-5">
                     <v-chip
                       color="blue"
                       :outlined="filter != 'permohonan'"
@@ -41,6 +41,12 @@
                     >Semua ({{undefined !== selectedBeasiswa.permohonan ? selectedBeasiswa.permohonan.length : 0}})</v-chip>
                     <v-chip
                       color="orange"
+                      :outlined="filter != 'tidak_lengkap'"
+                      class="mr-2 mb-2"
+                      @click="filter = 'tidak_lengkap'"
+                    >Tidak Lengkap ({{undefined !== selectedBeasiswa.tidak_lengkap ? selectedBeasiswa.tidak_lengkap.length : 0}})</v-chip>
+                    <v-chip
+                      color="cyan"
                       :outlined="filter != 'on_progress'"
                       class="mr-2 mb-2"
                       @click="filter = 'on_progress'"
@@ -58,7 +64,7 @@
                       @click="filter = 'lulus'"
                     >Lulus ({{undefined !== selectedBeasiswa.lulus ? selectedBeasiswa.lulus.length : 0}})</v-chip>
                   </div>
-                  <div class="col-lg-6 col-md-12 mb-5">
+                  <div class="col-lg-2 col-md-12 mb-5">
                     <v-spacer></v-spacer>
                     <v-chip
                       light
@@ -258,6 +264,12 @@
       <v-card v-if="permohonans">
         <v-card-title>Detail Permohonan</v-card-title>
         <v-card-text>
+          <v-col cols="12">
+            <h6 class="text-light">{{permohonans.mahasiswa.nama}}</h6>
+            <p
+              class="text-muted text-caption"
+            >{{permohonans.mahasiswa.jurusan.nama}} ({{permohonans.mahasiswa.fakultas.nama}})</p>
+          </v-col>
           <v-col cols="12" v-if="permohonans">
             <v-timeline dense v-if="isShowTimeline(permohonans)">
               <v-slide-x-reverse-transition group hide-on-leave>
@@ -359,16 +371,18 @@ export default {
           const item = response.data;
           this.selectedBeasiswa = item;
           this.lulus = item.lulus;
+          this.selectedBeasiswa.tidak_lengkap = [];
           this.selectedBeasiswa.tidak_lulus = [];
           this.selectedBeasiswa.on_progress = [];
           item.permohonan.forEach(x => {
-            if (
+            if (!x.is_submitted) {
+              this.selectedBeasiswa.tidak_lengkap.push(x);
+            } else if (
               (x.is_selection_passed == null && item.deleted_at != null) ||
               x.is_berkas_passed == 0 ||
               x.is_interview_passed == 0 ||
               x.is_survey_passed == 0 ||
-              x.is_selection_passed == 0 ||
-              (x.is_submitted == 0 && item.status != "Tahap Berkas")
+              x.is_selection_passed == 0
             ) {
               this.selectedBeasiswa.tidak_lulus.push(x);
             } else if (x.is_selection_passed == null) {

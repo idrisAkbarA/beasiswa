@@ -289,7 +289,7 @@ class BeasiswaController extends Controller
                             if ($formValue['pertanyaan'] == $fieldValue) { // get all matched requested list
                                 // check if it is a file upload or a multiple upload
                                 // if it is, the value should be it's status
-                                // Lulus/Tidak Lulus/Belum di verifikasi  
+                                // Lulus/Tidak Lulus/Belum di verifikasi
                                 if ($formValue['type'] == 'Upload File' || $formValue['type'] == 'Multiple Upload') {
                                     try {
                                         if ($formValue['value'] != null || $formValue['value'] != []) {
@@ -456,7 +456,6 @@ class BeasiswaController extends Controller
     public function selesai()
     {
         $beasiswaOnProgress = Beasiswa::onProgress();
-        // $beasiswaOnProgress->makeVisible(['berkas', 'interview', 'survey', 'selection', 'lulus', 'permohonan']);
         $data = [
             'selesai' => $beasiswaOnProgress,
         ];

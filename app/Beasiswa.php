@@ -33,7 +33,7 @@ class Beasiswa extends Model
 
     public function setQuotaAttribute($value)
     {
-        if ($value > 0){
+        if ($value > 0) {
             $this->attributes['quota'] = ($value);
         }
     }
@@ -92,10 +92,11 @@ class Beasiswa extends Model
         if ($this->is_survey) {
             return $this->permohonan
                 ->where('is_berkas_passed', 1)
-                ->when($this->is_interview == 1, function ($q) {
-                    return $q->where('is_interview_passed', 1);
-                })
                 ->whereNull('is_survey_passed')
+                // ->when($this->is_interview == 1, function ($q) {
+                //     return $q->where('is_interview_passed', 1);
+                // })
+                // ->whereNull('is_survey_passed')
                 ->values();
         }
         return [];
