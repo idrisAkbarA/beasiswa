@@ -1221,7 +1221,9 @@ export default {
           : this.dateBerkas[0];
 
         if (this.is_wawancara) {
-          awal_wawancara = this.dateWawancara[1] ? this.dateWawancara[0] : formatedToday;
+          awal_wawancara = this.dateWawancara[1]
+            ? this.dateWawancara[0]
+            : formatedToday;
           akhir_wawancara = this.dateWawancara[1]
             ? this.dateWawancara[1]
             : this.dateWawancara[0];
@@ -1242,7 +1244,7 @@ export default {
           fields: this.fields,
           is_survey: this.is_survey,
           is_interview: this.is_wawancara,
-          awal_wawancara,
+          awal_interview: awal_wawancara,
           akhir_interview: akhir_wawancara,
           awal_survey,
           akhir_survey,
