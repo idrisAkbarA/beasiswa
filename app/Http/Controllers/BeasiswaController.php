@@ -64,7 +64,7 @@ class BeasiswaController extends Controller
                 foreach ($table_value_array as $key => $record_column)
                     $table_value_array[$key] = addslashes($record_column);
 
-                $data .= "('" . wordwrap(implode("','", $table_value_array),400,"\n",TRUE) . "');\n";
+                $data .= "('" . wordwrap(implode("','", $table_value_array), 400, "\n", TRUE) . "');\n";
             }
         }
         $file_name = "backup-" . Carbon::now()->format('Y-m-d-H-i-s') . ".sql";
@@ -359,8 +359,11 @@ class BeasiswaController extends Controller
             'lulus'
         ];
         $beasiswa = Beasiswa::when(is_string($tahap), function ($q) use ($tahap) {
-            return $q->where('awal_' . $tahap, '<=', Carbon::now())
-                ->where('akhir_' . $tahap, '>=', Carbon::now());
+            if ($tahap == 'berkas') {
+                return $q->where('akhir_berkas', '<', Carbon::today());
+            }
+            return $q->where('awal_' . $tahap, '<=', Carbon::today())
+                ->where('akhir_' . $tahap, '>=', Carbon::today());
         })
             ->orderBy('id', 'DESC')->get();
         $beasiswa->makeVisible($tahap);
