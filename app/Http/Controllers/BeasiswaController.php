@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Artisan;
 use App\Beasiswa;
 use App\Instansi;
@@ -17,17 +18,19 @@ use Illuminate\Support\Facades\Storage;
 
 class BeasiswaController extends Controller
 {
-    public function getBackupList(){
+    public function getBackupList()
+    {
         return response()->json(Backup::list());
     }
-    public function getBackup(){
+    public function getBackup()
+    {
         // $filename = "backup-" . Carbon::now()->format('Y-m-d-H-i-s') . ".sql";
-        
+
         // $command = "mysqldump --user=" . env('DB_USERNAME') ." --password=" . env('DB_PASSWORD') . " --host=" . env('DB_HOST') . " " . env('DB_DATABASE') . " > " . storage_path() . "/app/backup/" . $filename;
 
         // $returnVar = NULL;
         // $output  = NULL;
-        
+
         // exec($command, $output, $returnVar);
         // Storage::download("/app/backup/".$filename);
         // Artisan::call("backupDB");
@@ -178,7 +181,6 @@ class BeasiswaController extends Controller
                             unset($item['permohonan'][$key]);
                         }
                     }
-                    
                 }
             } else {
                 if (count($whereTahap) > 0) {
@@ -231,12 +233,12 @@ class BeasiswaController extends Controller
                             if ($formValue['pertanyaan'] == $fieldValue) { // get all matched requested list
                                 // check if it is a file upload or a multiple upload
                                 // if it is, the value should be it's status
-                                // Lulus/Tidak Lulus/Belum di verifikasi  
+                                // Lulus/Tidak Lulus/Belum di verifikasi
                                 if ($formValue['type'] == 'Upload File' || $formValue['type'] == 'Multiple Upload') {
                                     try {
-                                        if($formValue['value']!= null || $formValue['value']!= [] ){
+                                        if ($formValue['value'] != null || $formValue['value'] != []) {
                                             $temp[$fieldValue] = "File Diupload";
-                                        }else{
+                                        } else {
                                             $temp[$fieldValue] = "File Tidak Diupload";
                                         }
                                         if ($formValue['isLulus'] === null) {
@@ -269,7 +271,7 @@ class BeasiswaController extends Controller
                     $temp['Pewawancara'] = petugas($valueP['interviewer_id']);
                     $temp['Surveyor'] = petugas($valueP['surveyor_id']);
                 }
-                if(isset($request['akun'])){
+                if (isset($request['akun'])) {
                     if ($valueP['verificator_id'] != $request['akun']) {
                         continue;
                     }
@@ -398,7 +400,6 @@ class BeasiswaController extends Controller
     public function selesai()
     {
         $beasiswaOnProgress = Beasiswa::onProgress();
-        // $beasiswaOnProgress->makeVisible(['berkas', 'interview', 'survey', 'selection', 'lulus', 'permohonan']);
         $data = [
             'selesai' => $beasiswaOnProgress,
         ];

@@ -9,43 +9,30 @@
     <v-card-text>
       <v-subheader>Permohonan Beasiswa</v-subheader>
       <v-row class="pl-8 pr-8">
-        <v-text-field
-          prepend-inner-icon="mdi-magnify"
-          clearable
-          label="Pencarian"
-        ></v-text-field>
+        <v-text-field prepend-inner-icon="mdi-magnify" clearable label="Pencarian"></v-text-field>
       </v-row>
       <v-row>
         <v-card-text>
-          <p
-            v-if="!beasiswa"
-            class="text-center"
-          >Tidak ada peserta wawancara</p>
-          <v-expansion-panels
-            hover
-            inset
-          >
-
-            <v-expansion-panel
-              v-for="(item,i) in beasiswa"
-              :key="i"
-            >
+          <v-row v-if="loading" justify="center" align-content="center" class="text-center">
+            <v-col cols="12">
+              <v-progress-circular class="mx-auto" color="green" indeterminate></v-progress-circular>
+            </v-col>
+            <v-col cols="12">Memuat data</v-col>
+          </v-row>
+          <p v-if="!beasiswa.length && !loading" class="text-center">Tidak ada data</p>
+          <v-expansion-panels hover inset v-if="!loading">
+            <v-expansion-panel v-for="(item,i) in beasiswa" :key="i">
               <v-expansion-panel-header>
-                <v-row
-                  no-gutters
-                  align="center"
-                  justify="space-between"
-                >
-                  <v-col cols="6"><strong>{{item.nama}}</strong></v-col>
+                <v-row no-gutters align="center" justify="space-between">
+                  <v-col cols="6">
+                    <strong>{{item.nama}}</strong>
+                  </v-col>
                   <v-col
                     class="text-right mr-3"
                     cols="4"
                     v-if="Object.keys(item.selection).length < 1"
                   >
-                    <span class="caption text-muted">
-                      Belum ada permohonan masuk
-
-                    </span>
+                    <span class="caption text-muted">Belum ada permohonan masuk</span>
                   </v-col>
                   <v-col
                     class="text-right mr-3"
@@ -58,10 +45,7 @@
                       label
                       dark
                       color="green"
-                    >
-                      {{Object.keys(item.selection).length}} Permohonan masuk
-
-                    </v-chip>
+                    >{{Object.keys(item.selection).length}} Permohonan masuk</v-chip>
                   </v-col>
                 </v-row>
               </v-expansion-panel-header>
@@ -70,9 +54,7 @@
                 <v-row>
                   <v-divider></v-divider>
                 </v-row>
-                <span>
-                  Kuota penerima beasiswa : {{Object.keys(item.lulus).length}} / {{item.quota}} Orang
-                </span>
+                <span>Kuota penerima beasiswa : {{Object.keys(item.lulus).length}} / {{item.quota}} Orang</span>
                 <v-badge
                   inline
                   content=" Terpenuhi"
@@ -108,9 +90,7 @@
                         :headers="headers.permohonan"
                         :items="Object.values(item.lulus)"
                         @click:row="gaLulus"
-                      >
-
-                      </v-data-table>
+                      ></v-data-table>
                     </v-tab-item>
                   </v-tabs>
                 </div>
@@ -122,48 +102,33 @@
                     class="mr-3"
                     @click="tutup(item)"
                   >Tutup Penerimaan beasiswa</v-btn>
-
                 </v-row>
               </v-expansion-panel-content>
             </v-expansion-panel>
-
           </v-expansion-panels>
         </v-card-text>
       </v-row>
     </v-card-text>
     <!-- Dialog Detail -->
-    <div
-      class="text-center"
-      v-if="dialogDetail"
-    >
-      <v-dialog
-        v-model="dialogDetail"
-        width="600"
-      >
+    <div class="text-center" v-if="dialogDetail">
+      <v-dialog v-model="dialogDetail" width="600">
         <v-card>
-          <v-card-title
-            class="headline white--text"
-            primary-title
-          >
-            <i class="mdi mdi-account mr-2"></i> {{selectedPermohonan.mahasiswa.nama}}
+          <v-card-title class="headline white--text" primary-title>
+            <i class="mdi mdi-account mr-2"></i>
+            {{selectedPermohonan.mahasiswa.nama}}
           </v-card-title>
 
           <v-card-text class="mt-2 white--text">
             <v-tabs fixed-tabs>
-              <v-tab>
-                Permohonan Beasiswa
-              </v-tab>
-              <v-tab>
-                Biodata Mahasiswa
-              </v-tab>
+              <v-tab>Permohonan Beasiswa</v-tab>
+              <v-tab>Biodata Mahasiswa</v-tab>
               <v-tab-item>
                 <v-row
-                  no-gutters=""
+                  no-gutters
                   class="ma-5"
                   v-for="(field,index) in JSON.parse(selectedPermohonan.form)"
                   :key="index"
                 >
-
                   <v-col style="padding-bottom:0 !important;">
                     <p>{{field.pertanyaan}}</p>
                     <v-container v-if="field.type == 'Checkboxes'">
@@ -180,11 +145,8 @@
                           hide-details
                           class="shrink mr-2 mt-0"
                         ></v-checkbox>
-                        <span>
-                          {{item.label}}
-                        </span>
+                        <span>{{item.label}}</span>
                       </v-row>
-
                     </v-container>
                     <v-container v-if="field.type == 'Multiple Upload'">
                       <v-row
@@ -203,11 +165,9 @@
                             :value="item.label"
                             disabled
                           ></v-checkbox>
-
                         </v-col>
                         <v-col cols="6">
                           <span>{{item.label}}</span>
-
                         </v-col>
                         <v-col cols="5">
                           <v-btn
@@ -216,37 +176,48 @@
                             @click="link(item.file_name)"
                           >lihat file</v-btn>
                         </v-col>
-
                       </v-row>
-
                     </v-container>
-                    <p v-if="field.type == 'Pilihan'"><span>
-                        <v-icon>mdi-text-short</v-icon>{{field.value}}
-                      </span></p>
-                    <p v-if="field.type == 'Jawaban Pendek'"><span>
-                        <v-icon>mdi-text-short</v-icon>{{field.value}}
-                      </span></p>
-                    <p v-if="field.type == 'Jawaban Angka'"><span>
-                        <v-icon>mdi-text-short</v-icon>{{field.value}}
-                      </span></p>
-                    <p v-if="field.type == 'Tanggal'"><span>
-                        <v-icon>mdi-text-short</v-icon>{{field.value}}
-                      </span></p>
+                    <p v-if="field.type == 'Pilihan'">
+                      <span>
+                        <v-icon>mdi-text-short</v-icon>
+                        {{field.value}}
+                      </span>
+                    </p>
+                    <p v-if="field.type == 'Jawaban Pendek'">
+                      <span>
+                        <v-icon>mdi-text-short</v-icon>
+                        {{field.value}}
+                      </span>
+                    </p>
+                    <p v-if="field.type == 'Jawaban Angka'">
+                      <span>
+                        <v-icon>mdi-text-short</v-icon>
+                        {{field.value}}
+                      </span>
+                    </p>
+                    <p v-if="field.type == 'Tanggal'">
+                      <span>
+                        <v-icon>mdi-text-short</v-icon>
+                        {{field.value}}
+                      </span>
+                    </p>
                     <v-btn
                       v-if="field.type == 'Upload File'"
                       small
                       @click="link(field.value)"
                     >lihat file</v-btn>
-                    <p v-if="field.type == 'Paragraf'"><span>
-                        <v-icon>mdi-text-short</v-icon>{{field.value}}
-                      </span></p>
+                    <p v-if="field.type == 'Paragraf'">
+                      <span>
+                        <v-icon>mdi-text-short</v-icon>
+                        {{field.value}}
+                      </span>
+                    </p>
                   </v-col>
                   <v-col cols="12">
                     <v-divider></v-divider>
                   </v-col>
-                  <v-col cols="12">
-
-                  </v-col>
+                  <v-col cols="12"></v-col>
                 </v-row>
               </v-tab-item>
               <v-tab-item>
@@ -255,8 +226,7 @@
                   :items="selectedMahasiswa"
                   hide-default-header
                   hide-default-footer
-                >
-                </v-data-table>
+                ></v-data-table>
               </v-tab-item>
             </v-tabs>
           </v-card-text>
@@ -264,17 +234,9 @@
           <v-divider></v-divider>
 
           <v-card-actions>
-            <v-btn
-              @click="dialogDetail = false, selectedPermohonan = {}"
-              color="white"
-              text
-            >batal</v-btn>
+            <v-btn @click="dialogDetail = false, selectedPermohonan = {}" color="white" text>batal</v-btn>
             <v-spacer></v-spacer>
-            <v-btn
-              color="#2E7D32"
-              dark
-              @click="lulus()"
-            >
+            <v-btn color="#2E7D32" dark @click="lulus()">
               <v-icon>check</v-icon>Lulus
             </v-btn>
           </v-card-actions>
@@ -282,20 +244,10 @@
       </v-dialog>
     </div>
     <!-- Dialog Delete -->
-    <div
-      class="text-center"
-      v-if="dialogDelete"
-    >
-      <v-dialog
-        v-model="dialogDelete"
-        width="400"
-        overlay-color="#2E7D32"
-      >
+    <div class="text-center" v-if="dialogDelete">
+      <v-dialog v-model="dialogDelete" width="400" overlay-color="#2E7D32">
         <v-card>
-          <v-card-title
-            class="headline white--text"
-            primary-title
-          >
+          <v-card-title class="headline white--text" primary-title>
             <i class="mdi mdi-checkbox-marked-circle-outline mr-2"></i> Tutup Penerimaan Beasiswa
           </v-card-title>
 
@@ -316,46 +268,25 @@
               ></v-badge>
             </small>
           </v-card-text>
-          <v-card-text class="white--text text-center pb-0">
-            Apakah anda yakin akan menutup beasiswa ini ?
-          </v-card-text>
+          <v-card-text
+            class="white--text text-center pb-0"
+          >Apakah anda yakin akan menutup beasiswa ini ?</v-card-text>
 
           <v-divider></v-divider>
 
           <v-card-actions>
-            <v-btn
-              @click="dialogDelete = false"
-              color="white"
-              text
-            >batal</v-btn>
+            <v-btn @click="dialogDelete = false" color="white" text>batal</v-btn>
             <v-spacer></v-spacer>
-            <v-btn
-              color="#2E7D32"
-              dark
-              @click="deleteSelectedBeasiswa()"
-            >
-              Selesai
-            </v-btn>
+            <v-btn color="#2E7D32" dark @click="deleteSelectedBeasiswa()">Selesai</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
     </div>
     <!-- Snackbar -->
-    <v-snackbar
-      v-model="snackbar.show"
-      :timeout="2000"
-    >
+    <v-snackbar v-model="snackbar.show" :timeout="2000">
       {{ snackbar.message }}
-
       <template v-slot:action="{ attrs }">
-        <v-btn
-          :color="snackbar.color"
-          text
-          v-bind="attrs"
-          @click="snackbar.show = false"
-        >
-          Close
-        </v-btn>
+        <v-btn :color="snackbar.color" text v-bind="attrs" @click="snackbar.show = false">Close</v-btn>
       </template>
     </v-snackbar>
   </v-card>
@@ -365,7 +296,7 @@
 import { mapActions, mapMutations, mapState } from "vuex";
 export default {
   created() {
-    this.getBeasiswaWithPermohonan();
+    this.getBeasiswa();
   },
   methods: {
     width() {
@@ -378,6 +309,18 @@ export default {
       }
     },
     ...mapActions(["getBeasiswaWithPermohonan", "selesaiBeasiswa"]),
+    getBeasiswa() {
+      this.loading = true;
+      const param = ["selection", "lulus"];
+      this.getBeasiswaWithPermohonan(param)
+        .then(() => {
+          this.loading = false;
+        })
+        .catch(error => {
+          console.error(error);
+          this.loading = false;
+        });
+    },
     gaLulus(item) {
       this.selectedPermohonan = item;
       this.lulus();
@@ -419,10 +362,10 @@ export default {
               message: "Kuota beasiswa sudah penuh!"
             };
           } else {
-            this.getBeasiswaWithPermohonan();
+            this.getBeasiswa();
           }
           this.dialogDetail = false;
-          this.selectedPermohonan = {};
+          this.selectedPermohonan = null;
         })
         .catch(error => {
           console.error(error);
@@ -500,6 +443,7 @@ export default {
       dialogDelete: false,
       dialogDetail: false,
       btnLoading: false,
+      loading: false,
       snackbar: {
         show: false
       },
