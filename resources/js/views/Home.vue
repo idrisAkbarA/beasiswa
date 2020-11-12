@@ -16,9 +16,6 @@ export default {
   created() {
     this.checkMaintenance();
   },
-  computed: {
-    ...mapState(["url"])
-  },
   methods: {
     checkMaintenance(){
        axios.get("/api/beasiswa/settings").then(response => {

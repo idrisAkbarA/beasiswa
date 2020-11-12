@@ -84,7 +84,7 @@ export default {
 
   },
   computed: {
-    ...mapState(["beasiswa", "url"])
+    ...mapState(["beasiswa"])
   },
   data() {
     return {

@@ -699,7 +699,6 @@ export default {
   computed: {
     ...mapState([
       "jurusan",
-      "url",
       "isOpenBeasiswa",
       "mhs",
       "isTableLoading",

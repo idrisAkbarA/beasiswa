@@ -75,6 +75,23 @@ const routes = [
     {
         path: "/admin/:petugas",
         component: Petugas,
+        beforeRouteUpdate:(next)=>{
+            console.log("patek")
+            axios
+                    .get("/api/user/petugas")
+                    .then(response => {
+                        console.log(response.data);
+                        response.data.role == 1
+                            ? next()
+                            : next({ name: "Unauthorized" });
+                    })
+                    .catch(error => {
+                        console.log("---------");
+                        console.log(error);
+                        console.log("---------");
+                        next({ name: "Landing Page" });
+                    });
+        },
         async beforeEnter(to, from, next) {
             if (from.name == null) {
                 await axios

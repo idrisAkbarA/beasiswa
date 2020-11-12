@@ -186,7 +186,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["report", "url", "fakultas", "isTableLoading", "beasiswa"]),
+    ...mapState(["report", "fakultas", "isTableLoading", "beasiswa"]),
     selectUnSelectAllField: {
       // Property description:
       // set value of it's own v-model and select/unselect all corresponding fields

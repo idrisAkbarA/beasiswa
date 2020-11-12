@@ -71,9 +71,6 @@ export default {
   created() {
     // this.checkMaintenance()
   },
-  computed: {
-    ...mapState(["url"])
-  },
   methods: {
     checkMaintenance() {
       axios
@@ -98,7 +95,7 @@ export default {
     },
     logout() {
       axios
-        .get(this.url + "/api/logout-petugas", {
+        .get("/api/logout-petugas", {
           params: {
             user: window.localStorage.getItem("user")
           }

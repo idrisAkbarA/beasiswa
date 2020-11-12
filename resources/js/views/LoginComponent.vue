@@ -50,7 +50,7 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["mutateNim",'url','mutateUser']),
+    ...mapMutations(["mutateNim",'mutateUser']),
     login() {
       this.loading = true;
       axios.get("/sanctum/csrf-cookie").then(response => {

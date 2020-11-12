@@ -386,7 +386,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["beasiswa", "url"]),
+    ...mapState(["beasiswa"]),
     count() {
       return this.beasiswa.length;
     }

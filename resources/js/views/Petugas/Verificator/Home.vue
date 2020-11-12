@@ -448,7 +448,7 @@ export default {
     },
     getPetugas() {
       axios
-        .get(`${this.url}/api/user/petugas`)
+        .get(`/api/user/petugas`)
         .then(response => {
           console.log("petugas:", response.data);
           this.petugas = response.data;
@@ -486,7 +486,7 @@ export default {
         this.keterangan = null;
       }
       axios
-        .put(`${this.url}/api/pemohon/set-berkas`, {
+        .put(`/api/pemohon/set-berkas`, {
           id: this.selectedPermohonan.id,
           is_berkas_passed: bool,
           keterangan: this.keterangan,
@@ -555,7 +555,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["auth", "beasiswa", "url", "appSettings", "isTableLoading"]),
+    ...mapState(["auth", "beasiswa", "appSettings", "isTableLoading"]),
     resultQuery() {
       if (this.searchQuery) {
         if (typeof this.beasiswa[this.index].berkas == "object") {

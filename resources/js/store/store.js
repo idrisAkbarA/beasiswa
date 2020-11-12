@@ -90,14 +90,14 @@ export default new Vuex.Store({
     actions: {
         getAppSettings({ commit, dispatch, state }) {
             commit("mutateTableLoading", true);
-            Axios.get(state.url + "/api/beasiswa/settings").then(response => {
+            Axios.get("/api/beasiswa/settings").then(response => {
                 commit("mutateAppSettings", response.data);
                 commit("mutateTableLoading", false);
             });
         },
         getReport({ commit, dispatch, state }, data) {
             commit("mutateTableLoading", true);
-            Axios.get(state.url + "/api/beasiswa/report", {
+            Axios.get("/api/beasiswa/report", {
                 // params: { data }
                 params: data
             }).then(response => {
@@ -107,21 +107,21 @@ export default new Vuex.Store({
         },
         getAkunPetugas({ commit, dispatch, state }) {
             commit("mutateTableLoading", true);
-            Axios.get(state.url + "/api/petugas").then(response => {
+            Axios.get("/api/petugas").then(response => {
                 commit("mutateAkunPetugas", response.data);
                 commit("mutateTableLoading", false);
             });
         },
         getCekBerkas({ commit, dispatch, state }) {
             commit("mutateTableLoading", true);
-            Axios.get(state.url + "/api/pemohon/cek-berkas").then(response => {
+            Axios.get("/api/pemohon/cek-berkas").then(response => {
                 commit("mutateCekBerkas", response.data);
                 commit("mutateTableLoading", false);
             });
         },
         getCekInterview({ commit, dispatch, state }) {
             commit("mutateTableLoading", true);
-            Axios.get(state.url + "/api/pemohon/cek-interview").then(
+            Axios.get("/api/pemohon/cek-interview").then(
                 response => {
                     commit("mutateCekInterview", response.data);
                     commit("mutateTableLoading", false);
@@ -130,7 +130,7 @@ export default new Vuex.Store({
         },
         getCekSurvey({ commit, dispatch, state }) {
             commit("mutateTableLoading", true);
-            Axios.get(state.url + "/api/pemohon/cek-survey").then(response => {
+            Axios.get("/api/pemohon/cek-survey").then(response => {
                 commit("mutateCekSurvey", response.data);
                 commit("mutateTableLoading", false);
             });
@@ -138,7 +138,7 @@ export default new Vuex.Store({
         getBeasiswaSingle({ commit, dispatch, state }, id) {
             commit("mutateTableLoading", true);
             return new Promise((resolve, reject) => {
-                Axios.get(state.url + "/api/beasiswa/" + id)
+                Axios.get("/api/beasiswa/" + id)
                     .then(response => {
                         commit("mutateBeasiswaSingle", response.data);
                         commit("mutateTableLoading", false);
@@ -151,14 +151,14 @@ export default new Vuex.Store({
         },
         getBeasiswa({ commit, dispatch, state }) {
             commit("mutateTableLoading", true);
-            Axios.get(state.url + "/api/beasiswa").then(response => {
+            Axios.get("/api/beasiswa").then(response => {
                 commit("mutateBeasiswa", response.data);
                 commit("mutateTableLoading", false);
             });
         },
         getBeasiswaActive({ commit, dispatch, state }) {
             commit("mutateTableLoading", true);
-            Axios.get(state.url + "/api/beasiswa/get-active").then(response => {
+            Axios.get("/api/beasiswa/get-active").then(response => {
                 commit("mutateBeasiswa", response.data);
                 commit("mutateTableLoading", false);
             });
@@ -166,7 +166,7 @@ export default new Vuex.Store({
         getBeasiswaNoAuth({ commit, dispatch, state }) {
             return new Promise((resolve, reject) => {
                 commit("mutateTableLoading", true);
-                Axios.get(state.url + "/api/beasiswa/no-auth").then(
+                Axios.get("/api/beasiswa/no-auth").then(
                     response => {
                         commit("mutateBeasiswa", response.data);
                         commit("mutateTableLoading", false);
@@ -178,7 +178,7 @@ export default new Vuex.Store({
         getBeasiswaWithPermohonan({ commit, dispatch, state }, tahap) {
             commit("mutateTableLoading", true);
             return new Promise((resolve, reject) => {
-                Axios.get(state.url + "/api/beasiswa/with-permohonan", {
+                Axios.get("/api/beasiswa/with-permohonan", {
                     params: {
                         tahap: tahap
                     }
@@ -193,7 +193,7 @@ export default new Vuex.Store({
         },
         storeAkunPetugas({ commit, dispatch, state }, data) {
             return new Promise((resolve, reject) => {
-                Axios.post(state.url + "/api/petugas", data)
+                Axios.post("/api/petugas", data)
                     .then(response => {
                         dispatch("getAkunPetugas");
                         resolve(response);
@@ -206,7 +206,7 @@ export default new Vuex.Store({
         editAkunPetugas({ commit, dispatch, state }, data) {
             return new Promise((resolve, reject) => {
                 console.log(data);
-                Axios.put(state.url + "/api/petugas/" + data.id, {
+                Axios.put("/api/petugas/" + data.id, {
                     name: data.name,
                     password: data.password,
                     role: data.role
@@ -223,7 +223,7 @@ export default new Vuex.Store({
         editAppSettings({ commit, dispatch, state }, data) {
             return new Promise((resolve, reject) => {
                 console.log(data, "woi");
-                Axios.put(state.url + "/api/beasiswa/settings", {
+                Axios.put("/api/beasiswa/settings", {
                     settings: data
                 })
                     .then(response => {
@@ -237,7 +237,7 @@ export default new Vuex.Store({
         },
         deleteAkunPetugas({ commit, dispatch, state }, data) {
             return new Promise((resolve, reject) => {
-                Axios.delete(state.url + "/api/petugas/" + data.id)
+                Axios.delete("/api/petugas/" + data.id)
                     .then(response => {
                         dispatch("getAkunPetugas");
                         resolve(response);
@@ -249,7 +249,7 @@ export default new Vuex.Store({
         },
         editBeasiswa({ commit, dispatch, state }, data) {
             return new Promise((resolve, reject) => {
-                Axios.put(state.url + "/api/beasiswa/" + data.id, {
+                Axios.put("/api/beasiswa/" + data.id, {
                     id: data.id,
                     nama: data.nama,
                     deskripsi: data.deskripsi,
@@ -282,7 +282,7 @@ export default new Vuex.Store({
         },
         storeBeasiswa({ commit, dispatch, state }, data) {
             return new Promise((resolve, reject) => {
-                Axios.post(state.url + "/api/beasiswa", { data })
+                Axios.post("/api/beasiswa", { data })
                     .then(response => {
                         dispatch("getBeasiswa");
                         dispatch("getInstansi");
@@ -295,7 +295,7 @@ export default new Vuex.Store({
         },
         storeInstansi({ commit, dispatch, state }, data) {
             return new Promise((resolve, reject) => {
-                Axios.post(state.url + "/api/instansi", data)
+                Axios.post("/api/instansi", data)
                     .then(response => {
                         dispatch("getInstansi");
                         resolve(response);
@@ -307,57 +307,57 @@ export default new Vuex.Store({
         },
         getInstansi({ commit, dispatch, state }) {
             commit("mutateTableLoading", true);
-            Axios.get(state.url + "/api/instansi").then(response => {
+            Axios.get("/api/instansi").then(response => {
                 commit("mutateInstansi", response.data);
                 commit("mutateTableLoading", false);
             });
         },
         deleteInstansi({ commit, dispatch, state }, id) {
-            Axios.delete(state.url + "/api/instansi/" + id).then(response => {
+            Axios.delete("/api/instansi/" + id).then(response => {
                 dispatch("getInstansi");
             });
         },
         selesaiBeasiswa({ commit, dispatch, state }, id) {
-            Axios.delete(state.url + "/api/beasiswa/selesai/" + id).then(response => {
+            Axios.delete("/api/beasiswa/selesai/" + id).then(response => {
                 dispatch("getBeasiswaWithPermohonan");
             });
         },
         deleteBeasiswa({ commit, dispatch, state }, id) {
-            Axios.delete(state.url + "/api/beasiswa/" + id).then(response => {
+            Axios.delete("/api/beasiswa/" + id).then(response => {
                 dispatch("getBeasiswa");
             });
         },
         deleteBeasiswaWithPermohonan({ commit, dispatch, state }, id) {
-            Axios.delete(state.url + "/api/beasiswa/" + id).then(response => {
+            Axios.delete("/api/beasiswa/" + id).then(response => {
                 dispatch("getBeasiswaWithPermohonan");
             });
         },
         editInstansi({ commit, dispatch, state }, data) {
-            Axios.put(state.url + "/api/instansi/" + data.id, {
+            Axios.put("/api/instansi/" + data.id, {
                 name: data.name
             }).then(response => {
                 dispatch("getInstansi");
             });
         },
         getFakultas({ commit, dispatch, state }) {
-            Axios.get(state.url + "/api/fakultas").then(response => {
+            Axios.get("/api/fakultas").then(response => {
                 commit("mutateFakultas", response.data);
             });
         },
         getJurusan({ commit, dispatch, state }) {
-            Axios.get(state.url + "/api/jurusan").then(response => {
+            Axios.get("/api/jurusan").then(response => {
                 commit("mutateJurusan", response.data);
             });
         },
         searchPermohonan({ commit, dispatch, state }, query) {
-            Axios.get(state.url + "/api/pemohon/search", {
+            Axios.get("/api/pemohon/search", {
                 params: {
                     q: query
                 }
             });
         },
         cekPersyaratan({ commit, dispatch, state }, id) {
-            Axios.get(state.url + "/api/beasiswa/cek/" + id);
+            Axios.get("/api/beasiswa/cek/" + id);
         }
     },
     modules: {

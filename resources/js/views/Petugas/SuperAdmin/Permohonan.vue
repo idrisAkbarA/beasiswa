@@ -141,7 +141,7 @@ export default {
     console.log("ttt");
   },
   computed: {
-    ...mapState(["cekBerkas", "beasiswaSingle", "nim", "url", "isTableLoading"])
+    ...mapState(["cekBerkas", "beasiswaSingle", "nim", "isTableLoading"])
   },
   methods: {
     ...mapActions(["getCekBerkas"]),
@@ -168,7 +168,7 @@ export default {
     },
     setBerkas() {
       axios
-        .put(`${this.url}/api/pemohon/set-berkas`, {
+        .put(`/api/pemohon/set-berkas`, {
           bool: this.bool,
           id: this.rincian.id
         })

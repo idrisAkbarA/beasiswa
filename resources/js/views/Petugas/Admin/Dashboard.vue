@@ -83,9 +83,6 @@
 <script>
 import { mapState } from "vuex";
 export default {
-  computed: {
-    ...mapState(["url"])
-  },
   data() {
     return {
       isSubmit: 0,

@@ -61,7 +61,7 @@ axios.defaults.withCredentials = true;
 axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 export default {
   computed: {
-    ...mapState(["auth", "url"])
+    ...mapState(["auth"])
   },
   data() {
     return {
@@ -129,7 +129,6 @@ export default {
     }
   },
   created() {
-    console.log(this.url);
     console.log(this.$store.state.auth.isAuth);
     axios.get("/sanctum/csrf-cookie").then(response => {
       // console.log(response)

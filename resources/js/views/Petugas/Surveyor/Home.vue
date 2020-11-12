@@ -343,7 +343,7 @@ export default {
     setSurvey(bool) {
       this.btnLoading = true;
       axios
-        .put(`${this.url}/api/pemohon/set-survey`, {
+        .put(`/api/pemohon/set-survey`, {
           id: this.selectedPermohonan.id,
           bool: bool
         })
@@ -388,7 +388,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["beasiswa", "url"]),
+    ...mapState(["beasiswa"]),
     resultQuery() {
       if (this.searchQuery) {
         if (typeof this.beasiswa[this.index].survey == "object") {

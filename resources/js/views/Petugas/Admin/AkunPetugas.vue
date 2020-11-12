@@ -276,7 +276,6 @@ export default {
   computed: {
     ...mapState([
       "nim",
-      "url",
       "isTableLoading",
       "akunPetugas",
       "isOpenBeasiswa",
@@ -302,7 +301,7 @@ export default {
     ]),
     getPetugas() {
       this.btnLoading = true;
-      axios.get(`${this.url}/api/user/petugas`).then(response => {
+      axios.get(`/api/user/petugas`).then(response => {
         this.petugas = response.data;
         this.btnLoading = false;
       });

@@ -377,7 +377,6 @@
 import { mapState } from "vuex";
 export default {
   computed: {
-    ...mapState(["url"]),
     resultQuery() {
       if (this.searchQuery) {
         if (typeof this.beasiswa[this.index].permohonan == "object") {
@@ -425,7 +424,7 @@ export default {
       this.loading = true;
       this.beasiswa = [];
       axios
-        .get(`${this.url}/api/permohonan/my-history`, {
+        .get(`/api/permohonan/my-history`, {
           params: {
             key: "berkas"
           }
@@ -449,7 +448,7 @@ export default {
       this.btnLoading = true;
       this.loading = true;
       axios
-        .put(`${this.url}/api/pemohon/set-berkas`, {
+        .put(`/api/pemohon/set-berkas`, {
           id: this.selectedPermohonan.id,
           is_berkas_passed: val,
           keterangan_edit: this.keterangan,

@@ -350,7 +350,7 @@ export default {
     lulus() {
       this.btnLoading = true;
       axios
-        .put(`${this.url}/api/pemohon/set-selection`, {
+        .put(`/api/pemohon/set-selection`, {
           bool: this.selectedPermohonan.is_selection_passed == 1 ? 0 : 1,
           id: this.selectedPermohonan.id
         })
@@ -432,7 +432,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["beasiswa", "url"])
+    ...mapState(["beasiswa"])
   },
   data() {
     return {

@@ -62,9 +62,6 @@
 <script>
 import { mapState } from "vuex";
 export default {
-  computed: {
-    ...mapState(["url"])
-  },
   methods: {
     history() {
       this.$router.push({ name: "Surveyor History" });

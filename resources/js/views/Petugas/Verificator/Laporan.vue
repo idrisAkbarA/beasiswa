@@ -200,7 +200,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["auth","report", "url", "fakultas", "isTableLoading", "beasiswa"]),
+    ...mapState(["auth","report", "fakultas", "isTableLoading", "beasiswa"]),
     fakultasSelected: {
       get:function(){return this.auth.fakultas.id}},
     akun:{

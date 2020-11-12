@@ -114,7 +114,7 @@
 import { mapState } from "vuex";
 export default {
   computed: {
-    ...mapState(["url"]),
+   
     user() {
       return JSON.parse(window.localStorage.getItem("userDetail"));
     }

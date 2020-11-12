@@ -108,7 +108,6 @@
 import { mapState } from "vuex";
 export default {
   computed: {
-    ...mapState(["url"]),
     resultQuery() {
       if (this.searchQuery) {
         if (typeof this.beasiswa[this.index].permohonan == "object") {
@@ -134,7 +133,7 @@ export default {
     getHistory() {
       this.loading = true;
       axios
-        .get(`${this.url}/api/permohonan/my-history`, {
+        .get(`/api/permohonan/my-history`, {
           params: {
             key: "interview"
           }

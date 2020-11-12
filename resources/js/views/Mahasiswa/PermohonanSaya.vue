@@ -222,9 +222,6 @@ export default {
       });
     }
   },
-  computed: {
-    ...mapState(["url"])
-  },
   data() {
     return {
       permohonans: [],
