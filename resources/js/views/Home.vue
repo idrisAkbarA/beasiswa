@@ -15,6 +15,7 @@ export default {
   },
   created() {
     this.checkMaintenance();
+    console.log("hi")
   },
   methods: {
     checkMaintenance(){
