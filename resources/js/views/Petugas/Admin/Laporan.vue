@@ -159,7 +159,17 @@
         :items-per-page="5"
         :loading="isTableLoading"
         loading-text="Memuat... Mohon tunggu"
-      ></v-data-table>
+        :search="search"
+      >
+        <template v-slot:top>
+        <v-text-field
+          v-model="search"
+          label="Pencarian"
+          color="green"
+          class="mx-4"
+        ></v-text-field>
+      </template>
+      </v-data-table>
     </v-card>
   </v-container>
 </template>
@@ -333,6 +343,7 @@ export default {
   },
   data() {
     return {
+      search:null,
       selectAll: {
         label: "Pilih semua",
         value: false

@@ -140,10 +140,18 @@ class BeasiswaController extends Controller
     }
     public function report(Request $request)
     {
+        function statusTahap($tahap){
+            if ($tahap === 1) {
+                $status = "Lulus";
+            } else if ($tahap === 0) {
+                $status = "Gagal";
+            } else if ($tahap === null) {
+                $status = "Dalam Tahap Seleksi";
+            }
+            return $status;
+        }
         function petugas($id)
         {
-            // return "pantek";
-            // return UserPetugas::find($id);
             $result = UserPetugas::find($id);
             if ($result != null) {
                 return $result['nama_lengkap'];
@@ -287,7 +295,6 @@ class BeasiswaController extends Controller
             foreach ($valueB['permohonan'] as $keyP => $valueP) {
                 // check if somehow some permohonan that isnt match required semester happened to be
                 // included here, if it did, filter out
-
                 $isSemesterMatched = false;
                 foreach ($semesters as $keySemester => $valueSemester) {
                     if ($valueP['mahasiswa']['semester'] == $valueSemester) {
@@ -297,8 +304,7 @@ class BeasiswaController extends Controller
                 }
                 if ($isSemesterMatched != true) continue; // semester filter clear
 
-
-                $form = json_decode($valueP['form'], true);
+                // if($tahapKey==)
                 $temp = [];
                 $status = '';
                 $temp['Beasiswa'] = $valueB['nama'];
@@ -308,29 +314,48 @@ class BeasiswaController extends Controller
                 $temp['Fakultas'] = $valueP['mahasiswa']['fakultas']['nama'];
                 $temp['IPS'] = round($valueP['mahasiswa']['ips'], 2);
                 $temp['IPK'] = round($valueP['mahasiswa']['ipk'], 2);
-                if ($valueP[$tahapKey] === 1) {
-                    $status = "Lulus";
-                } else if ($valueP[$tahapKey] === 0) {
-                    $status = "Gagal";
-                } else if ($valueP[$tahapKey] === null) {
-                    $status = "Dalam Tahap Seleksi";
+
+
+
+                // $status = statusTahap($valueP[$tahapKey]);
+                if($namedTahapKey != "Tahap Berkas"){
+                    $temp["Tahap Berkas"] = statusTahap($valueP["is_berkas_passed"]);
+                    // if($namedTahapKey=="Tahap interview"){
+                    //     $temp["Tahap Survey"] = statusTahap($valueP["is_survey_passed"]);
+                    // }else{
+                    //     $temp["Tahap Interview"] = statusTahap($valueP["is_interview_passed"]);
+                    // }
                 }
-                $temp[$namedTahapKey] = $status;
+                $temp[$namedTahapKey] = statusTahap($valueP[$tahapKey]);
                 // set field list
+                $form = json_decode($valueP['form'], true);
                 if ($fieldList != null) {
-                    foreach ($fieldList as $fieldKey => $fieldValue) {
-                        foreach ($form as $formKey => $formValue) {
-                            if ($formValue['pertanyaan'] == $fieldValue) { // get all matched requested list
-                                // check if it is a file upload or a multiple upload
-                                // if it is, the value should be it's status
-                                // Lulus/Tidak Lulus/Belum di verifikasi
-                                if ($formValue['type'] == 'Upload File' || $formValue['type'] == 'Multiple Upload') {
-                                    try {
-                                        if ($formValue['value'] != null || $formValue['value'] != []) {
-                                            $temp[$fieldValue] = "File Diupload";
-                                        } else {
-                                            $temp[$fieldValue] = "File Tidak Diupload";
+                    try {
+                        foreach ($fieldList as $fieldKey => $fieldValue) {
+                            foreach ($form as $formKey => $formValue) {
+                                if ($formValue['pertanyaan'] == $fieldValue) { // get all matched requested list
+                                    // check if it is a file upload or a multiple upload
+                                    // if it is, the value should be it's status
+                                    // Lulus/Tidak Lulus/Belum di verifikasi
+                                    if ($formValue['type'] == 'Upload File' || $formValue['type'] == 'Multiple Upload') {
+                                        try {
+                                            if ($formValue['value'] != null || $formValue['value'] != []) {
+                                                $temp[$fieldValue] = "File Diupload";
+                                            } else {
+                                                $temp[$fieldValue] = "File Tidak Diupload";
+                                            }
+                                            if ($formValue['isLulus'] === null) {
+                                                $temp["STATUS " . $fieldValue] = "Belum verifikasi";
+                                            } else if ($formValue['isLulus'] === true) {
+                                                $temp["STATUS " . $fieldValue] = "Lulus verifikasi";
+                                            } else if ($formValue['isLulus'] === false) {
+                                                $temp["STATUS " . $fieldValue] = "Tidak lulus verifikasi";
+                                            }
+                                        } catch (\Throwable $th) {
+                                            $temp[$fieldValue] = "Belum verifikasi";
                                         }
+                                    } else {
+                                        $temp[$fieldValue] = $formValue["value"];
                                         if ($formValue['isLulus'] === null) {
                                             $temp["STATUS " . $fieldValue] = "Belum verifikasi";
                                         } else if ($formValue['isLulus'] === true) {
@@ -338,22 +363,14 @@ class BeasiswaController extends Controller
                                         } else if ($formValue['isLulus'] === false) {
                                             $temp["STATUS " . $fieldValue] = "Tidak lulus verifikasi";
                                         }
-                                    } catch (\Throwable $th) {
-                                        $temp[$fieldValue] = "Belum verifikasi";
-                                    }
-                                } else {
-                                    $temp[$fieldValue] = $formValue["value"];
-                                    if ($formValue['isLulus'] === null) {
-                                        $temp["STATUS " . $fieldValue] = "Belum verifikasi";
-                                    } else if ($formValue['isLulus'] === true) {
-                                        $temp["STATUS " . $fieldValue] = "Lulus verifikasi";
-                                    } else if ($formValue['isLulus'] === false) {
-                                        $temp["STATUS " . $fieldValue] = "Tidak lulus verifikasi";
                                     }
                                 }
                             }
                         }
+                    } catch (\Throwable $th) {
+                        continue;
                     }
+                  
                 }
 
                 if (!isset($request['isVerificator'])) {
