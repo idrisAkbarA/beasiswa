@@ -10,18 +10,53 @@ use App\UserPetugas;
 use App\Settings\Backup;
 use App\Settings\Settings;
 use Illuminate\Http\Request;
+use App\Jobs\pull;
 use App\Exports\BeasiswaExport;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\Process\Process;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 
 
 class BeasiswaController extends Controller
 {
+    public function pull()
+    {
+        // echo "making job";
+        $process = new pull();
+        dispatch($process);
+        // echo "starting queue";
+        // $data['output'] = shell_exec( '(cd '. base_path() .' && php artisan pull)' );
+
+        // // debug
+        // dd( $data );
+        // $process = new Process(["git","pull"]);
+        // $process = new Process(["git","pull"]);
+        // $process->setWorkingDirectory(base_path());
+        // // $dir = $process->getWorkingDirectory();
+        // // echo $dir;
+        // $process->run(function ($type, $buffer) {
+        //     if (Process::ERR === $type) {
+        //         echo 'ERR > '.$buffer;
+        //     } else {
+        //         echo 'OUT > '.$buffer;
+        //     }
+        // });
+        // // Artisan::call("pull");
+        // $process = new Process(['ls']);
+        // $process->run('git pull');
+        // $output = $process->getOutput();
+        // echo $output;
+    }
     public function getBackupList()
     {
         return response()->json(Backup::list());
+    }
+    public function getFullBackup()
+    {
+        Artisan::call("backup:run");
     }
     public function getBackup()
     {

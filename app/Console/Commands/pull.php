@@ -37,6 +37,7 @@ class pull extends Command
      */
     public function handle()
     {
+        echo "pulling from repo..\n";
         $command = "git pull";
         
         $returnVar = NULL;
@@ -44,11 +45,14 @@ class pull extends Command
         
         exec($command, $output, $returnVar);
 
+        echo "\npulled\n";
+        echo "\nrunning npm to build..\n";
         $command = "npm run prod";
         
         $returnVar = NULL;
         $output  = NULL;
         
         echo exec($command, $output, $returnVar);
+        echo "\nDone";
     }
 }
