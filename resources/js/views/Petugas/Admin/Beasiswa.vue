@@ -1,6 +1,10 @@
 <template>
   <v-container>
-    <v-skeleton-loader type="table" :loading="isTableLoading" transition="fade-transition">
+    <v-skeleton-loader
+      type="table"
+      :loading="isTableLoading"
+      transition="fade-transition"
+    >
       <!-- style="background-color: #2e7d323b" -->
       <v-data-table
         :headers="headers"
@@ -10,10 +14,18 @@
         class="elevation-10 mb-10"
       >
         <template v-slot:item.actions="{ item }">
-          <v-btn icon x-small class="mr-2" @click="edit(item)">
+          <v-btn
+            icon
+            x-small
+            class="mr-2"
+            @click="edit(item)"
+          >
             <v-icon>mdi-pencil</v-icon>
           </v-btn>
-          <v-icon small @click="deleteBea(item)">mdi-delete</v-icon>
+          <v-icon
+            small
+            @click="deleteBea(item)"
+          >mdi-delete</v-icon>
         </template>
         <template v-slot:no-data>no data</template>
       </v-data-table>
@@ -21,12 +33,21 @@
 
     <!-- btms -->
 
-    <v-bottom-sheet scrollable :width="width()" inset overlay-color="#69F0AE" v-model="toggleEdit">
+    <v-bottom-sheet
+      scrollable
+      :width="width()"
+      inset
+      overlay-color="#69F0AE"
+      v-model="toggleEdit"
+    >
       <v-card>
         <v-card-title>
           <span>Edit Beasiswa</span>
           <v-spacer></v-spacer>
-          <v-btn @click="batalEdit()" text>batal</v-btn>
+          <v-btn
+            @click="batalEdit()"
+            text
+          >batal</v-btn>
           <v-btn
             color="#2E7D32"
             :loading="btnLoading"
@@ -36,8 +57,15 @@
         </v-card-title>
         <vue-scroll :ops="ops">
           <v-card-text style="height: 600px;">
-            <v-form ref="editForm" v-model="validationEdit" lazy-validation>
-              <v-row dense class="ml-1 mr-1">
+            <v-form
+              ref="editForm"
+              v-model="validationEdit"
+              lazy-validation
+            >
+              <v-row
+                dense
+                class="ml-1 mr-1"
+              >
                 <v-col>
                   <v-text-field
                     color="#C8E6C9"
@@ -47,7 +75,10 @@
                   ></v-text-field>
                 </v-col>
               </v-row>
-              <v-row dense class="ml-1 mr-1">
+              <v-row
+                dense
+                class="ml-1 mr-1"
+              >
                 <v-col>
                   <v-textarea
                     auto-grow
@@ -59,7 +90,10 @@
                   ></v-textarea>
                 </v-col>
               </v-row>
-              <v-row dense class="ml-1 mr-1">
+              <v-row
+                dense
+                class="ml-1 mr-1"
+              >
                 <v-col cols="4">
                   <v-combobox
                     color="white"
@@ -270,282 +304,460 @@
               <v-row>
                 <v-divider></v-divider>
               </v-row>
-              <v-row>
-                <v-subheader>Buat Form</v-subheader>
-              </v-row>
+              <v-tabs
+                color="green darken-2"
+                fixed-tabs
+              >
+                <v-tab>
+                  <v-badge
+                    content="Wajib diisi!"
+                    :value="false"
+                    color="red"
+                  >
+                    Buat Form Berkas
+                  </v-badge>
 
-              <!-- Form -->
-              <transition-group name="scale-transition">
-                <v-card
-                  v-for="field in fieldsEdit"
-                  :key="field.index"
-                  elevation="10"
-                  color="#388E3C"
-                  class="mb-2"
-                  style="padding-bottom:0 !important;"
-                >
-                  <v-container style="padding-bottom:0 !important;">
-                    <v-row style="padding-bottom:0 !important;">
-                      <v-col cols="7" style="padding-bottom:0 !important;">
-                        <v-text-field
-                          color="white"
-                          dense
-                          :disabled="isDisabled(dateBerkasEdit)"
-                          label="Pertanyaan"
-                          v-model="field.pertanyaan"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col cols="5" style="padding-bottom:0 !important;">
-                        <v-select
-                          v-model="field.type"
-                          dense
-                          :disabled="isDisabled(dateBerkasEdit)"
-                          :items="itemTypes"
-                          label="Tipe isian"
-                          color="white"
-                          outlined
-                        ></v-select>
-                      </v-col>
-                    </v-row>
+                </v-tab>
+                <v-tab :disabled="!is_wawancaraEdit">Interview(Opsional)</v-tab>
+                <v-tab :disabled="!is_surveyEdit">Survey(Opsional)</v-tab>
+
+                <v-tab-item>
+                  <v-container fluid>
                     <v-row>
-                      <v-col style="padding-bottom:0 !important;">
-                        <v-radio-group
-                          v-if="field.type == 'Pilihan'"
-                          column
-                          :disabled="isDisabled(dateBerkasEdit)"
-                          :mandatory="field.pilihan.required"
-                        >
-                          <v-row align="center">
-                            <span class="ml-2 mr-1">Pilihan wajib diisi</span>
-                            <v-switch
-                              v-model="field.pilihan.required"
+                      <v-subheader>Buat form pendaftaran yang akan diisi oleh mahasiswa</v-subheader>
+                    </v-row>
+                    <!-- Form -->
+                    <transition-group name="scale-transition">
+                      <v-card
+                        v-for="field in fieldsEdit"
+                        :key="field.index"
+                        elevation="10"
+                        color="#388E3C"
+                        class="mb-2"
+                        style="padding-bottom:0 !important;"
+                      >
+                        <v-container style="padding-bottom:0 !important;">
+                          <v-row style="padding-bottom:0 !important;">
+                            <v-col
+                              cols="7"
+                              style="padding-bottom:0 !important;"
+                            >
+                              <v-text-field
+                                color="white"
+                                dense
+                                :disabled="isDisabled(dateBerkasEdit)"
+                                label="Pertanyaan"
+                                v-model="field.pertanyaan"
+                              ></v-text-field>
+                            </v-col>
+                            <v-col
+                              cols="5"
+                              style="padding-bottom:0 !important;"
+                            >
+                              <v-select
+                                v-model="field.type"
+                                dense
+                                :disabled="isDisabled(dateBerkasEdit)"
+                                :items="itemTypes"
+                                label="Tipe isian"
+                                color="white"
+                                outlined
+                              ></v-select>
+                            </v-col>
+                          </v-row>
+                          <v-row>
+                            <v-col style="padding-bottom:0 !important;">
+                              <v-radio-group
+                                v-if="field.type == 'Pilihan'"
+                                column
+                                :disabled="isDisabled(dateBerkasEdit)"
+                                :mandatory="field.pilihan.required"
+                              >
+                                <v-row align="center">
+                                  <span class="ml-2 mr-1">Pilihan wajib diisi</span>
+                                  <v-switch
+                                    v-model="field.pilihan.required"
+                                    color="white"
+                                    :disabled="isDisabled(dateBerkasEdit)"
+                                  ></v-switch>
+                                </v-row>
+
+                                <v-radio
+                                  v-for="(item,index) in field.pilihan.items"
+                                  :key="index"
+                                  :value="item.label"
+                                  color="white"
+                                >
+                                  <template v-slot:label>
+                                    <v-row align="center">
+                                      <v-text-field
+                                        class="ma-2"
+                                        color="white"
+                                        dense
+                                        filled
+                                        label="Label"
+                                        :disabled="isDisabled(dateBerkasEdit)"
+                                        v-model="item.label"
+                                      ></v-text-field>
+                                      <v-btn
+                                        class="ma-2"
+                                        icon
+                                        color="white"
+                                        :disabled="isDisabled(dateBerkasEdit)"
+                                        @click="deletePilihanItem(field,item.label)"
+                                      >
+                                        <v-icon>mdi-close</v-icon>
+                                      </v-btn>
+                                    </v-row>
+                                  </template>
+                                </v-radio>
+                                <v-btn
+                                  class="mt-2 grey darken-3"
+                                  fab
+                                  dark
+                                  small
+                                  :disabled="isDisabled(dateBerkasEdit)"
+                                  @click="addPilihanItemEdit(field.index)"
+                                >
+                                  <v-icon dark>mdi-plus</v-icon>
+                                </v-btn>
+                              </v-radio-group>
+
+                              <!-- checkme -->
+                              <v-container v-if="field.type == 'Multiple Upload'">
+                                <v-row
+                                  align="center"
+                                  v-for="(item,index) in field.multiUpload.items"
+                                  :key="index"
+                                  :value="item.label"
+                                >
+                                  <v-checkbox
+                                    color="white"
+                                    hide-details
+                                    class="shrink mr-2 mt-0"
+                                    :disabled="isDisabled(dateBerkasEdit)"
+                                    :value="item.label"
+                                  ></v-checkbox>
+                                  <v-text-field
+                                    v-model="item.label"
+                                    dense
+                                    color="white"
+                                    filled
+                                    :disabled="isDisabled(dateBerkasEdit)"
+                                    label="Nama File"
+                                  ></v-text-field>
+                                  <v-file-input
+                                    disabled
+                                    filled
+                                    label="Upload File"
+                                  ></v-file-input>
+                                  <v-btn
+                                    class="ma-2"
+                                    icon
+                                    color="white"
+                                    :disabled="isDisabled(dateBerkasEdit)"
+                                    @click="deleteMultiUploadItemEdit(field,item.label)"
+                                  >
+                                    <v-icon>mdi-close</v-icon>
+                                  </v-btn>
+                                </v-row>
+                                <v-row>
+                                  <v-btn
+                                    class="mt-2 grey darken-3"
+                                    fab
+                                    dark
+                                    small
+                                    :disabled="isDisabled(dateBerkasEdit)"
+                                    @click="addMultiUploadItemEdit(field.index)"
+                                  >
+                                    <v-icon dark>mdi-plus</v-icon>
+                                  </v-btn>
+                                </v-row>
+                              </v-container>
+                              <v-container v-if="field.type == 'Checkboxes'">
+                                <v-row
+                                  align="center"
+                                  v-for="(item,index) in field.checkboxes.items"
+                                  :key="index"
+                                  :value="item.label"
+                                >
+                                  <v-checkbox
+                                    color="white"
+                                    hide-details
+                                    :disabled="isDisabled(dateBerkasEdit)"
+                                    class="shrink mr-2 mt-0"
+                                  ></v-checkbox>
+                                  <v-text-field
+                                    v-model="item.label"
+                                    dense
+                                    color="white"
+                                    filled
+                                    :disabled="isDisabled(dateBerkasEdit)"
+                                    label="Label"
+                                  ></v-text-field>
+                                  <v-btn
+                                    class="ma-2"
+                                    icon
+                                    color="white"
+                                    :disabled="isDisabled(dateBerkasEdit)"
+                                    @click="deleteCheckboxesItemEdit(field,item.label)"
+                                  >
+                                    <v-icon>mdi-close</v-icon>
+                                  </v-btn>
+                                </v-row>
+                                <v-row>
+                                  <v-btn
+                                    class="mt-2 grey darken-3"
+                                    fab
+                                    dark
+                                    small
+                                    :disabled="isDisabled(dateBerkasEdit)"
+                                    @click="addCheckboxesItemEdit(field.index)"
+                                  >
+                                    <v-icon dark>mdi-plus</v-icon>
+                                  </v-btn>
+                                </v-row>
+                              </v-container>
+
+                              <v-text-field
+                                prepend-icon="mdi-text-short"
+                                v-if="field.type == 'Jawaban Pendek'"
+                                dense
+                                disabled
+                                filled
+                                placeholder="Jawaban Pendek"
+                              ></v-text-field>
+                              <v-text-field
+                                prepend-icon="mdi-numeric"
+                                v-if="field.type == 'Jawaban Angka'"
+                                dense
+                                disabled
+                                filled
+                                type="number"
+                                placeholder="Jawaban Angka"
+                              ></v-text-field>
+                              <v-text-field
+                                prepend-icon="mdi-calendar"
+                                v-if="field.type == 'Tanggal'"
+                                dense
+                                disabled
+                                filled
+                                label="Tanggal"
+                              ></v-text-field>
+                              <v-file-input
+                                v-if="field.type == 'Upload File'"
+                                dense
+                                disabled
+                                filled
+                                placeholder="Upload File"
+                              ></v-file-input>
+                              <v-textarea
+                                auto-grow
+                                prepend-icon="mdi-view-headline"
+                                v-if="field.type == 'Paragraf'"
+                                color="white"
+                                rows="1"
+                                disabled
+                                filled
+                                dense
+                                label="Paragraf"
+                              ></v-textarea>
+                            </v-col>
+                          </v-row>
+                          <v-row
+                            class="mb-2"
+                            align="center"
+                            justify="end"
+                          >
+                            <v-btn
+                              icon
                               color="white"
                               :disabled="isDisabled(dateBerkasEdit)"
+                              @click="deleteFieldEdit(field)"
+                            >
+                              <v-icon>mdi-trash-can</v-icon>
+                            </v-btn>
+                            <span class="ml-2 mr-1">Wajib diisi</span>
+                            <v-switch
+                              v-model="field.required"
+                              :disabled="isDisabled(dateBerkasEdit)"
+                              color="white"
                             ></v-switch>
                           </v-row>
-
-                          <v-radio
-                            v-for="(item,index) in field.pilihan.items"
-                            :key="index"
-                            :value="item.label"
-                            color="white"
-                          >
-                            <template v-slot:label>
-                              <v-row align="center">
-                                <v-text-field
-                                  class="ma-2"
-                                  color="white"
-                                  dense
-                                  filled
-                                  label="Label"
-                                  :disabled="isDisabled(dateBerkasEdit)"
-                                  v-model="item.label"
-                                ></v-text-field>
-                                <v-btn
-                                  class="ma-2"
-                                  icon
-                                  color="white"
-                                  :disabled="isDisabled(dateBerkasEdit)"
-                                  @click="deletePilihanItem(field,item.label)"
-                                >
-                                  <v-icon>mdi-close</v-icon>
-                                </v-btn>
-                              </v-row>
-                            </template>
-                          </v-radio>
-                          <v-btn
-                            class="mt-2 grey darken-3"
-                            fab
-                            dark
-                            small
-                            :disabled="isDisabled(dateBerkasEdit)"
-                            @click="addPilihanItemEdit(field.index)"
-                          >
-                            <v-icon dark>mdi-plus</v-icon>
-                          </v-btn>
-                        </v-radio-group>
-
-                        <!-- checkme -->
-                        <v-container v-if="field.type == 'Multiple Upload'">
-                          <v-row
-                            align="center"
-                            v-for="(item,index) in field.multiUpload.items"
-                            :key="index"
-                            :value="item.label"
-                          >
-                            <v-checkbox
-                              color="white"
-                              hide-details
-                              class="shrink mr-2 mt-0"
-                              :disabled="isDisabled(dateBerkasEdit)"
-                              :value="item.label"
-                            ></v-checkbox>
-                            <v-text-field
-                              v-model="item.label"
-                              dense
-                              color="white"
-                              filled
-                              :disabled="isDisabled(dateBerkasEdit)"
-                              label="Nama File"
-                            ></v-text-field>
-                            <v-file-input disabled filled label="Upload File"></v-file-input>
-                            <v-btn
-                              class="ma-2"
-                              icon
-                              color="white"
-                              :disabled="isDisabled(dateBerkasEdit)"
-                              @click="deleteMultiUploadItemEdit(field,item.label)"
-                            >
-                              <v-icon>mdi-close</v-icon>
-                            </v-btn>
-                          </v-row>
-                          <v-row>
-                            <v-btn
-                              class="mt-2 grey darken-3"
-                              fab
-                              dark
-                              small
-                              :disabled="isDisabled(dateBerkasEdit)"
-                              @click="addMultiUploadItemEdit(field.index)"
-                            >
-                              <v-icon dark>mdi-plus</v-icon>
-                            </v-btn>
-                          </v-row>
                         </v-container>
-                        <v-container v-if="field.type == 'Checkboxes'">
-                          <v-row
-                            align="center"
-                            v-for="(item,index) in field.checkboxes.items"
-                            :key="index"
-                            :value="item.label"
-                          >
-                            <v-checkbox
-                              color="white"
-                              hide-details
-                              :disabled="isDisabled(dateBerkasEdit)"
-                              class="shrink mr-2 mt-0"
-                            ></v-checkbox>
-                            <v-text-field
-                              v-model="item.label"
-                              dense
-                              color="white"
-                              filled
-                              :disabled="isDisabled(dateBerkasEdit)"
-                              label="Label"
-                            ></v-text-field>
-                            <v-btn
-                              class="ma-2"
-                              icon
-                              color="white"
-                              :disabled="isDisabled(dateBerkasEdit)"
-                              @click="deleteCheckboxesItemEdit(field,item.label)"
-                            >
-                              <v-icon>mdi-close</v-icon>
-                            </v-btn>
-                          </v-row>
-                          <v-row>
-                            <v-btn
-                              class="mt-2 grey darken-3"
-                              fab
-                              dark
-                              small
-                              :disabled="isDisabled(dateBerkasEdit)"
-                              @click="addCheckboxesItemEdit(field.index)"
-                            >
-                              <v-icon dark>mdi-plus</v-icon>
-                            </v-btn>
-                          </v-row>
-                        </v-container>
-
-                        <v-text-field
-                          prepend-icon="mdi-text-short"
-                          v-if="field.type == 'Jawaban Pendek'"
-                          dense
-                          disabled
-                          filled
-                          placeholder="Jawaban Pendek"
-                        ></v-text-field>
-                        <v-text-field
-                          prepend-icon="mdi-numeric"
-                          v-if="field.type == 'Jawaban Angka'"
-                          dense
-                          disabled
-                          filled
-                          type="number"
-                          placeholder="Jawaban Angka"
-                        ></v-text-field>
-                        <v-text-field
-                          prepend-icon="mdi-calendar"
-                          v-if="field.type == 'Tanggal'"
-                          dense
-                          disabled
-                          filled
-                          label="Tanggal"
-                        ></v-text-field>
-                        <v-file-input
-                          v-if="field.type == 'Upload File'"
-                          dense
-                          disabled
-                          filled
-                          placeholder="Upload File"
-                        ></v-file-input>
-                        <v-textarea
-                          auto-grow
-                          prepend-icon="mdi-view-headline"
-                          v-if="field.type == 'Paragraf'"
-                          color="white"
-                          rows="1"
-                          disabled
-                          filled
-                          dense
-                          label="Paragraf"
-                        ></v-textarea>
-                      </v-col>
-                    </v-row>
-                    <v-row class="mb-2" align="center" justify="end">
+                      </v-card>
+                    </transition-group>
+                    <v-row justify="center">
                       <v-btn
-                        icon
-                        color="white"
+                        class="mt-2"
+                        fab
+                        dark
+                        small
+                        color="green"
                         :disabled="isDisabled(dateBerkasEdit)"
-                        @click="deleteFieldEdit(field)"
+                        @click="addFieldsEdit()"
                       >
-                        <v-icon>mdi-trash-can</v-icon>
+                        <v-icon dark>mdi-plus</v-icon>
                       </v-btn>
-                      <span class="ml-2 mr-1">Wajib diisi</span>
-                      <v-switch
-                        v-model="field.required"
-                        :disabled="isDisabled(dateBerkasEdit)"
-                        color="white"
-                      ></v-switch>
                     </v-row>
                   </v-container>
-                </v-card>
-              </transition-group>
-              <v-row justify="center">
-                <v-btn
-                  class="mt-2"
-                  fab
-                  dark
-                  small
-                  color="green"
-                  :disabled="isDisabled(dateBerkasEdit)"
-                  @click="addFieldsEdit()"
-                >
-                  <v-icon dark>mdi-plus</v-icon>
-                </v-btn>
-              </v-row>
+                </v-tab-item>
+                <v-tab-item>
+                  <v-container fluid>
+                    <v-row>
+                      <v-subheader>Buat list pertanyaan untuk ditanyakan saat wawancara</v-subheader>
+                    </v-row>
+                    <v-img
+                      v-if="fieldsInterviewEdit.length<1"
+                      class="mx-auto"
+                      max-width="260"
+                      :src="'/images/pertanyaan.png'"
+                    >
+                    </v-img>
+                    <div
+                      style="width:100%"
+                      v-if="fieldsInterviewEdit.length<1"
+                    >
+                      <h4 style="text-align:center">Tambah pertanyaan</h4>
+                    </div>
+                    <transition-group name="scale-transition">
+                      <v-card
+                        v-for="(field) in fieldsInterviewEdit"
+                        :key="field.id"
+                        elevation="10"
+                        class="mb-2"
+                        :color="is_wawancaraEdit?'orange darken-2':'orange darken-4'"
+                      >
+                        <v-container>
+                          <v-row
+                            justify="center"
+                            align="center"
+                          >
+                            <v-text-field
+                              color="white"
+                              class="ml-3 mr-3"
+                              label="Pertanyaan"
+                              v-model="field.pertanyaan"
+                              :rules="is_wawancaraEdit?rules.required:[]"
+                              :disabled="!is_wawancaraEdit"
+                            >
+                            </v-text-field>
+                            <v-btn
+                              class="ma-2"
+                              icon
+                              color="white"
+                              @click="deleteOptionalField('fieldsInterviewEdit',field)"
+                              :disabled="!is_wawancaraEdit"
+                            >
+                              <v-icon>mdi-close</v-icon>
+                            </v-btn>
+                          </v-row>
+                        </v-container>
+                      </v-card>
+                    </transition-group>
+                    <v-row justify="center">
+                      <v-btn
+                        class="mt-2"
+                        fab
+                        dark
+                        small
+                        :color="is_wawancaraEdit?'orange darken-2':'orange darken-4'"
+                        :disabled="!is_wawancaraEdit"
+                        @click="addOptionalField('fieldsInterviewEdit')"
+                      >
+                        <v-icon dark>mdi-plus</v-icon>
+                      </v-btn>
+                    </v-row>
+                  </v-container>
+                </v-tab-item>
+                <v-tab-item>
+                  <v-container fluid>
+                    <v-row>
+                      <v-subheader>Buat list survey</v-subheader>
+                    </v-row>
+                    <v-img
+                      v-if="fieldsSurveyEdit.length<1"
+                      class="mx-auto"
+                      max-width="260"
+                      :src="'/images/pertanyaan.png'"
+                    >
+                    </v-img>
+                    <div
+                      style="width:100%"
+                      v-if="fieldsSurveyEdit.length<1"
+                    >
+                      <h4 style="text-align:center">Tambah List</h4>
+                    </div>
+                    <transition-group name="scale-transition">
+                      <v-card
+                        v-for="(field) in fieldsSurveyEdit"
+                        :key="field.id"
+                        elevation="10"
+                        class="mb-2"
+                        :color="is_surveyEdit?'blue-grey darken-2':'blue-grey darken-4'"
+                      >
+                        <v-container>
+                          <v-row>
+                            <v-text-field
+                              color="white"
+                              class="ml-3 mr-3"
+                              label="Pertanyaan"
+                              :disabled="!is_surveyEdit"
+                              :rules="is_surveyEdit?rules.required:[]"
+                              v-model="field.pertanyaan"
+                            >
+                            </v-text-field>
+                            <v-btn
+                              class="ma-2"
+                              icon
+                              color="white"
+                              :disabled="!is_surveyEdit"
+                              @click="deleteOptionalField('fieldsSurveyEdit',field)"
+                            >
+                              <v-icon>mdi-close</v-icon>
+                            </v-btn>
+                          </v-row>
+                        </v-container>
+                      </v-card>
+                    </transition-group>
+                    <v-row justify="center">
+                      <v-btn
+                        class="mt-2"
+                        fab
+                        dark
+                        small
+                        :disabled="!is_surveyEdit"
+                        :color="is_surveyEdit?'blue-grey darken-2':'blue-grey darken-4'"
+                        @click="addOptionalField('fieldsSurveyEdit')"
+                      >
+                        <v-icon dark>mdi-plus</v-icon>
+                      </v-btn>
+                    </v-row>
+                  </v-container>
+                </v-tab-item>
+              </v-tabs>
+
             </v-form>
           </v-card-text>
         </vue-scroll>
       </v-card>
     </v-bottom-sheet>
 
-    <v-bottom-sheet scrollable width="60%" inset overlay-color="#69F0AE" v-model="toggleBeasiswa">
+    <v-bottom-sheet
+      scrollable
+      inset
+      overlay-color="#69F0AE"
+      :width="width()"
+      v-model="toggleBeasiswa"
+    >
       <v-card>
         <v-card-title>
           <span>Buat Beasiswa</span>
           <v-spacer></v-spacer>
-          <v-btn @click="batal()" text>batal</v-btn>
+          <v-btn
+            @click="batal()"
+            text
+          >batal</v-btn>
           <v-btn
             color="#2E7D32"
             :loading="btnLoading"
@@ -556,8 +768,15 @@
         </v-card-title>
         <vue-scroll :ops="ops">
           <v-card-text style="height: 600px;">
-            <v-form ref="saveForm" v-model="validation" lazy-validation>
-              <v-row dense class="ml-1 mr-1">
+            <v-form
+              ref="saveForm"
+              v-model="validation"
+              lazy-validation
+            >
+              <v-row
+                dense
+                class="ml-1 mr-1"
+              >
                 <v-col>
                   <v-text-field
                     color="#C8E6C9"
@@ -567,7 +786,10 @@
                   ></v-text-field>
                 </v-col>
               </v-row>
-              <v-row dense class="ml-1 mr-1">
+              <v-row
+                dense
+                class="ml-1 mr-1"
+              >
                 <v-col>
                   <v-textarea
                     auto-grow
@@ -581,7 +803,10 @@
               </v-row>
               <!-- v-model="select" -->
               <!-- :items="items" -->
-              <v-row dense class="ml-1 mr-1">
+              <v-row
+                dense
+                class="ml-1 mr-1"
+              >
                 <v-col cols="4">
                   <v-combobox
                     color="white"
@@ -688,7 +913,12 @@
               </v-row>
               <v-row>
                 <v-col cols="6">
-                  <v-checkbox color="white" v-model="is_survey" label="Tahap Survey" hide-details></v-checkbox>
+                  <v-checkbox
+                    color="white"
+                    v-model="is_survey"
+                    label="Tahap Survey"
+                    hide-details
+                  ></v-checkbox>
                 </v-col>
                 <v-col cols="6">
                   <v-menu
@@ -725,7 +955,11 @@
                   <v-expansion-panel-content>
                     <v-row>
                       <v-col cols="6">
-                        <v-checkbox label="IPK" v-model="checked.ipk" @></v-checkbox>
+                        <v-checkbox
+                          label="IPK"
+                          v-model="checked.ipk"
+                          @
+                        ></v-checkbox>
                       </v-col>
                       <v-col cols="6">
                         <v-text-field
@@ -737,7 +971,10 @@
                         ></v-text-field>
                       </v-col>
                       <v-col cols="6">
-                        <v-checkbox label="Semester" v-model="checked.semester"></v-checkbox>
+                        <v-checkbox
+                          label="Semester"
+                          v-model="checked.semester"
+                        ></v-checkbox>
                       </v-col>
                       <v-col cols="6">
                         <v-text-field
@@ -750,7 +987,10 @@
                         <small>berupa angka dipisah oleh koma, cth: 1,3</small>
                       </v-col>
                       <v-col cols="6">
-                        <v-checkbox label="UKT" v-model="checked.ukt"></v-checkbox>
+                        <v-checkbox
+                          label="UKT"
+                          v-model="checked.ukt"
+                        ></v-checkbox>
                       </v-col>
                       <v-col cols="6">
                         <v-select
@@ -762,7 +1002,10 @@
                         ></v-select>
                       </v-col>
                       <v-col cols="6">
-                        <v-checkbox label="Tidak menerima beasiswa lain" v-model="form.is_first"></v-checkbox>
+                        <v-checkbox
+                          label="Tidak menerima beasiswa lain"
+                          v-model="form.is_first"
+                        ></v-checkbox>
                       </v-col>
                       <v-col cols="6"></v-col>
                     </v-row>
@@ -772,242 +1015,431 @@
               <v-row>
                 <v-divider></v-divider>
               </v-row>
-              <v-row>
-                <v-subheader>Buat Form</v-subheader>
-              </v-row>
+              <v-tabs
+                color="green darken-2"
+                fixed-tabs
+              >
+                <v-tab>
+                  <v-badge
+                    content="!"
+                    :value="errorPertanyaan"
+                    color="red"
+                  >
+                    Buat Form Berkas
+                  </v-badge>
+                </v-tab>
+                <v-tab :disabled="!is_wawancara">Interview(Opsional)</v-tab>
+                <v-tab :disabled="!is_survey">Survey(Opsional)</v-tab>
 
-              <!-- Form -->
-              <transition-group name="scale-transition">
-                <v-card
-                  color="#388E3C"
-                  v-for="field in fields"
-                  :key="field.index"
-                  elevation="10"
-                  class="mb-2"
-                  style="padding-bottom:0 !important;"
-                >
-                  <v-container style="padding-bottom:0 !important;">
-                    <v-row style="padding-bottom:0 !important;">
-                      <v-col cols="7" style="padding-bottom:0 !important;">
-                        <v-text-field
-                          color="white"
-                          dense
-                          label="Pertanyaan"
-                          v-model="field.pertanyaan"
-                          :rules="rules.required"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col cols="5" style="padding-bottom:0 !important;">
-                        <v-select
-                          v-model="field.type"
-                          dense
-                          :items="itemTypes"
-                          label="Tipe isian"
-                          color="white"
-                          outlined
-                        ></v-select>
-                      </v-col>
-                    </v-row>
+                <v-tab-item>
+                  <v-container fluid>
                     <v-row>
-                      <v-col style="padding-bottom:0 !important;">
-                        <v-radio-group
-                          v-if="field.type == 'Pilihan'"
-                          column
-                          :mandatory="field.pilihan.required"
-                        >
-                          <v-row align="center">
-                            <span class="ml-2 mr-1">Pilihan wajib diisi</span>
-                            <v-switch v-model="field.pilihan.required" color="white"></v-switch>
-                          </v-row>
-
-                          <v-radio
-                            v-for="(item,index) in field.pilihan.items"
-                            :key="index"
-                            :value="item.label"
-                            color="white"
-                          >
-                            <template v-slot:label>
-                              <v-row align="center">
-                                <v-text-field
-                                  class="ma-2"
-                                  color="white"
-                                  dense
-                                  filled
-                                  label="Label"
-                                  v-model="item.label"
-                                ></v-text-field>
-                                <v-btn
-                                  class="ma-2"
-                                  icon
-                                  color="white"
-                                  @click="deletePilihanItem(field,item.label)"
-                                >
-                                  <v-icon>mdi-close</v-icon>
-                                </v-btn>
-                              </v-row>
-                            </template>
-                          </v-radio>
-                          <v-btn
-                            class="mt-2 grey darken-3"
-                            fab
-                            dark
-                            small
-                            @click="addPilihanItem(field.index)"
-                          >
-                            <v-icon dark>mdi-plus</v-icon>
-                          </v-btn>
-                        </v-radio-group>
-                        <!-- cb -->
-                        <v-container v-if="field.type == 'Checkboxes'">
-                          <v-row
-                            align="center"
-                            v-for="(item,index) in field.checkboxes.items"
-                            :key="index"
-                            :value="item.label"
-                          >
-                            <v-checkbox
-                              color="white"
-                              hide-details
-                              class="shrink mr-2 mt-0"
-                              :value="item.label"
-                            ></v-checkbox>
-                            <v-text-field
-                              v-model="item.label"
-                              dense
-                              color="white"
-                              filled
-                              label="Label"
-                            ></v-text-field>
-                            <v-btn
-                              class="ma-2"
-                              icon
-                              color="white"
-                              @click="deleteCheckboxesItem(field,item.label)"
-                            >
-                              <v-icon>mdi-close</v-icon>
-                            </v-btn>
-                          </v-row>
-                          <v-row>
-                            <v-btn
-                              class="mt-2 grey darken-3"
-                              fab
-                              dark
-                              small
-                              @click="addCheckboxesItem(field.index)"
-                            >
-                              <v-icon dark>mdi-plus</v-icon>
-                            </v-btn>
-                          </v-row>
-                        </v-container>
-                        <v-container v-if="field.type == 'Multiple Upload'">
-                          <v-row
-                            align="center"
-                            v-for="(item,index) in field.multiUpload.items"
-                            :key="index"
-                            :value="item.label"
-                          >
-                            <v-checkbox
-                              color="white"
-                              hide-details
-                              class="shrink mr-2 mt-0"
-                              :value="item.label"
-                            ></v-checkbox>
-                            <v-text-field
-                              v-model="item.label"
-                              dense
-                              color="white"
-                              filled
-                              label="Nama File"
-                            ></v-text-field>
-                            <v-file-input disabled filled label="Upload File"></v-file-input>
-                            <v-btn
-                              class="ma-2"
-                              icon
-                              color="white"
-                              @click="deleteMultiUploadItem(field,item.label)"
-                            >
-                              <v-icon>mdi-close</v-icon>
-                            </v-btn>
-                          </v-row>
-                          <v-row>
-                            <v-btn
-                              class="mt-2 grey darken-3"
-                              fab
-                              dark
-                              small
-                              @click="addMultiUploadItem(field.index)"
-                            >
-                              <v-icon dark>mdi-plus</v-icon>
-                            </v-btn>
-                          </v-row>
-                        </v-container>
-
-                        <v-text-field
-                          prepend-icon="mdi-text-short"
-                          v-if="field.type == 'Jawaban Pendek'"
-                          dense
-                          disabled
-                          filled
-                          placeholder="Jawaban Pendek"
-                        ></v-text-field>
-                        <v-text-field
-                          prepend-icon="mdi-numeric"
-                          v-if="field.type == 'Jawaban Angka'"
-                          dense
-                          disabled
-                          filled
-                          type="number"
-                          placeholder="Jawaban Angka"
-                        ></v-text-field>
-                        <v-text-field
-                          prepend-icon="mdi-calendar"
-                          v-if="field.type == 'Tanggal'"
-                          dense
-                          disabled
-                          filled
-                          label="Tanggal"
-                        ></v-text-field>
-                        <v-file-input
-                          v-if="field.type == 'Upload File'"
-                          dense
-                          disabled
-                          filled
-                          placeholder="Upload File"
-                        ></v-file-input>
-                        <v-textarea
-                          auto-grow
-                          prepend-icon="mdi-view-headline"
-                          v-if="field.type == 'Paragraf'"
-                          color="white"
-                          rows="1"
-                          disabled
-                          filled
-                          dense
-                          label="Paragraf"
-                        ></v-textarea>
-                      </v-col>
+                      <v-subheader>Buat form pendaftaran yang akan diisi oleh mahasiswa</v-subheader>
                     </v-row>
-                    <v-row class="mb-2" align="center" justify="end">
-                      <v-btn icon color="white" @click="deleteField(field)">
-                        <v-icon>mdi-trash-can</v-icon>
+
+                    <!-- Form -->
+                    <transition-group name="scale-transition">
+                      <v-card
+                        color="green darken-2"
+                        v-for="field in fields"
+                        :key="field.index"
+                        elevation="10"
+                        class="mb-2"
+                        style="padding-bottom:0 !important;"
+                      >
+                        <v-container style="padding-bottom:0 !important;">
+                          <v-row style="padding-bottom:0 !important;">
+                            <v-col
+                              cols="7"
+                              style="padding-bottom:0 !important;"
+                              class="error-form-berkas"
+                            >
+                              <v-text-field
+                                color="white"
+                                dense
+                                label="Pertanyaan"
+                                v-model="field.pertanyaan"
+                                :rules="rules.pertanyaan"
+                              ></v-text-field>
+                            </v-col>
+                            <v-col
+                              cols="5"
+                              style="padding-bottom:0 !important;"
+                            >
+                              <v-select
+                                v-model="field.type"
+                                dense
+                                :items="itemTypes"
+                                label="Tipe isian"
+                                color="white"
+                                outlined
+                              ></v-select>
+                            </v-col>
+                          </v-row>
+                          <v-row>
+                            <v-col style="padding-bottom:0 !important;">
+                              <v-radio-group
+                                v-if="field.type == 'Pilihan'"
+                                column
+                                :mandatory="field.pilihan.required"
+                              >
+                                <v-row align="center">
+                                  <span class="ml-2 mr-1">Pilihan wajib diisi</span>
+                                  <v-switch
+                                    v-model="field.pilihan.required"
+                                    color="white"
+                                  ></v-switch>
+                                </v-row>
+
+                                <v-radio
+                                  v-for="(item,index) in field.pilihan.items"
+                                  :key="index"
+                                  :value="item.label"
+                                  color="white"
+                                >
+                                  <template v-slot:label>
+                                    <v-row align="center">
+                                      <v-text-field
+                                        class="ma-2"
+                                        color="white"
+                                        dense
+                                        filled
+                                        label="Label"
+                                        v-model="item.label"
+                                      ></v-text-field>
+                                      <v-btn
+                                        class="ma-2"
+                                        icon
+                                        color="white"
+                                        @click="deletePilihanItem(field,item.label)"
+                                      >
+                                        <v-icon>mdi-close</v-icon>
+                                      </v-btn>
+                                    </v-row>
+                                  </template>
+                                </v-radio>
+                                <v-btn
+                                  class="mt-2 grey darken-3"
+                                  fab
+                                  dark
+                                  small
+                                  @click="addPilihanItem(field.index)"
+                                >
+                                  <v-icon dark>mdi-plus</v-icon>
+                                </v-btn>
+                              </v-radio-group>
+                              <!-- cb -->
+                              <v-container v-if="field.type == 'Checkboxes'">
+                                <v-row
+                                  align="center"
+                                  v-for="(item,index) in field.checkboxes.items"
+                                  :key="index"
+                                  :value="item.label"
+                                >
+                                  <v-checkbox
+                                    color="white"
+                                    hide-details
+                                    class="shrink mr-2 mt-0"
+                                    :value="item.label"
+                                  ></v-checkbox>
+                                  <v-text-field
+                                    v-model="item.label"
+                                    dense
+                                    color="white"
+                                    filled
+                                    label="Label"
+                                  ></v-text-field>
+                                  <v-btn
+                                    class="ma-2"
+                                    icon
+                                    color="white"
+                                    @click="deleteCheckboxesItem(field,item.label)"
+                                  >
+                                    <v-icon>mdi-close</v-icon>
+                                  </v-btn>
+                                </v-row>
+                                <v-row>
+                                  <v-btn
+                                    class="mt-2 grey darken-3"
+                                    fab
+                                    dark
+                                    small
+                                    @click="addCheckboxesItem(field.index)"
+                                  >
+                                    <v-icon dark>mdi-plus</v-icon>
+                                  </v-btn>
+                                </v-row>
+                              </v-container>
+                              <v-container v-if="field.type == 'Multiple Upload'">
+                                <v-row
+                                  align="center"
+                                  v-for="(item,index) in field.multiUpload.items"
+                                  :key="index"
+                                  :value="item.label"
+                                >
+                                  <v-checkbox
+                                    color="white"
+                                    hide-details
+                                    class="shrink mr-2 mt-0"
+                                    :value="item.label"
+                                  ></v-checkbox>
+                                  <v-text-field
+                                    v-model="item.label"
+                                    dense
+                                    color="white"
+                                    filled
+                                    label="Nama File"
+                                  ></v-text-field>
+                                  <v-file-input
+                                    disabled
+                                    filled
+                                    label="Upload File"
+                                  ></v-file-input>
+                                  <v-btn
+                                    class="ma-2"
+                                    icon
+                                    color="white"
+                                    @click="deleteMultiUploadItem(field,item.label)"
+                                  >
+                                    <v-icon>mdi-close</v-icon>
+                                  </v-btn>
+                                </v-row>
+                                <v-row>
+                                  <v-btn
+                                    class="mt-2 grey darken-3"
+                                    fab
+                                    dark
+                                    small
+                                    @click="addMultiUploadItem(field.index)"
+                                  >
+                                    <v-icon dark>mdi-plus</v-icon>
+                                  </v-btn>
+                                </v-row>
+                              </v-container>
+
+                              <v-text-field
+                                prepend-icon="mdi-text-short"
+                                v-if="field.type == 'Jawaban Pendek'"
+                                dense
+                                disabled
+                                filled
+                                placeholder="Jawaban Pendek"
+                              ></v-text-field>
+                              <v-text-field
+                                prepend-icon="mdi-numeric"
+                                v-if="field.type == 'Jawaban Angka'"
+                                dense
+                                disabled
+                                filled
+                                type="number"
+                                placeholder="Jawaban Angka"
+                              ></v-text-field>
+                              <v-text-field
+                                prepend-icon="mdi-calendar"
+                                v-if="field.type == 'Tanggal'"
+                                dense
+                                disabled
+                                filled
+                                label="Tanggal"
+                              ></v-text-field>
+                              <v-file-input
+                                v-if="field.type == 'Upload File'"
+                                dense
+                                disabled
+                                filled
+                                placeholder="Upload File"
+                              ></v-file-input>
+                              <v-textarea
+                                auto-grow
+                                prepend-icon="mdi-view-headline"
+                                v-if="field.type == 'Paragraf'"
+                                color="white"
+                                rows="1"
+                                disabled
+                                filled
+                                dense
+                                label="Paragraf"
+                              ></v-textarea>
+                            </v-col>
+                          </v-row>
+                          <v-row
+                            class="mb-2"
+                            align="center"
+                            justify="end"
+                          >
+                            <v-btn
+                              icon
+                              color="white"
+                              @click="deleteField(field)"
+                            >
+                              <v-icon>mdi-trash-can</v-icon>
+                            </v-btn>
+                            <span class="ml-2 mr-1">Wajib diisi</span>
+                            <v-switch
+                              v-model="field.required"
+                              color="white"
+                            ></v-switch>
+                          </v-row>
+                        </v-container>
+                      </v-card>
+                    </transition-group>
+                    <v-row justify="center">
+                      <v-btn
+                        class="mt-2"
+                        fab
+                        dark
+                        small
+                        color="green"
+                        @click="addField()"
+                      >
+                        <v-icon dark>mdi-plus</v-icon>
                       </v-btn>
-                      <span class="ml-2 mr-1">Wajib diisi</span>
-                      <v-switch v-model="field.required" color="white"></v-switch>
                     </v-row>
                   </v-container>
-                </v-card>
-              </transition-group>
-              <v-row justify="center">
-                <v-btn class="mt-2" fab dark small color="green" @click="addField()">
-                  <v-icon dark>mdi-plus</v-icon>
-                </v-btn>
-              </v-row>
+                </v-tab-item>
+                <v-tab-item>
+                  <v-container fluid>
+                    <v-row>
+                      <v-subheader>Buat list pertanyaan untuk ditanyakan saat wawancara</v-subheader>
+                    </v-row>
+
+                    <v-img
+                      v-if="fieldsInterview.length<1"
+                      class="mx-auto"
+                      max-width="260"
+                      :src="'/images/pertanyaan.png'"
+                    >
+                    </v-img>
+                    <div
+                      style="width:100%"
+                      v-if="fieldsInterview.length<1"
+                    >
+                      <h4 style="text-align:center">Tambah pertanyaan</h4>
+                    </div>
+                    <transition-group name="scale-transition">
+                      <v-card
+                        v-for="(field) in fieldsInterview"
+                        :key="field.id"
+                        elevation="10"
+                        class="mb-2"
+                        :color="is_wawancara?'orange darken-2':'orange darken-4'"
+                      >
+                        <v-container>
+                          <v-row
+                            justify="center"
+                            align="center"
+                          >
+                            <v-text-field
+                              :disabled="!is_wawancara"
+                              color="white"
+                              class="ml-3 mr-3"
+                              label="Pertanyaan"
+                              v-model="field.pertanyaan"
+                              :rules="is_wawancara?rules.required:[]"
+                            >
+                            </v-text-field>
+                            <v-btn
+                              class="ma-2"
+                              icon
+                              color="white"
+                              :disabled="!is_wawancara"
+                              @click="deleteOptionalField('fieldsInterview',field)"
+                            >
+                              <v-icon>mdi-close</v-icon>
+                            </v-btn>
+                          </v-row>
+                        </v-container>
+                      </v-card>
+                    </transition-group>
+                    <v-row justify="center">
+                      <v-btn
+                        class="mt-2"
+                        fab
+                        dark
+                        small
+                        :disabled="!is_wawancara"
+                        :color="is_wawancara?'orange darken-2':'orange darken-4'"
+                        @click="addOptionalField('fieldsInterview')"
+                      >
+                        <v-icon dark>mdi-plus</v-icon>
+                      </v-btn>
+                    </v-row>
+                  </v-container>
+                </v-tab-item>
+                <v-tab-item>
+                  <v-container fluid>
+                    <v-row>
+                      <v-subheader>Buat list survey</v-subheader>
+                    </v-row>
+                    <v-img
+                      v-if="fieldsSurvey.length<1"
+                      class="mx-auto"
+                      max-width="260"
+                      :src="'/images/pertanyaan.png'"
+                    >
+                    </v-img>
+                    <div
+                      style="width:100%"
+                      v-if="fieldsSurvey.length<1"
+                    >
+                      <h4 style="text-align:center">Tambah list</h4>
+                    </div>
+                    <transition-group name="scale-transition">
+                      <v-card
+                        v-for="(field) in fieldsSurvey"
+                        :key="field.id"
+                        elevation="10"
+                        class="mb-2"
+                        color="blue-grey"
+                      >
+                        <v-container>
+                          <v-row>
+                            <v-text-field
+                              color="white"
+                              class="ml-3 mr-3"
+                              label="Pertanyaan"
+                              :rules="is_survey?rules.required:[]"
+                              v-model="field.pertanyaan"
+                            >
+                            </v-text-field>
+                            <v-btn
+                              class="ma-2"
+                              icon
+                              color="white"
+                              @click="deleteOptionalField('fieldsSurvey',field)"
+                            >
+                              <v-icon>mdi-close</v-icon>
+                            </v-btn>
+                          </v-row>
+                        </v-container>
+                      </v-card>
+                    </transition-group>
+                    <v-row justify="center">
+                      <v-btn
+                        class="mt-2"
+                        fab
+                        dark
+                        small
+                        color="blue-grey"
+                        @click="addOptionalField('fieldsSurvey')"
+                      >
+                        <v-icon dark>mdi-plus</v-icon>
+                      </v-btn>
+                    </v-row>
+                  </v-container>
+                </v-tab-item>
+              </v-tabs>
+
             </v-form>
           </v-card-text>
         </vue-scroll>
       </v-card>
     </v-bottom-sheet>
-    <v-dialog width="400" overlay-color="#69F0AE" v-model="deleteDialog">
+    <v-dialog
+      width="400"
+      overlay-color="#69F0AE"
+      v-model="deleteDialog"
+    >
       <v-card>
         <v-card-title class="mt-2">
           Apakah anda yakin ingin menghapus?
@@ -1016,19 +1448,34 @@
           </p>
         </v-card-title>
         <v-card-actions>
-          <v-btn text @click="dialogDelete = false">Batal</v-btn>
+          <v-btn
+            text
+            @click="dialogDelete = false"
+          >Batal</v-btn>
           <v-spacer></v-spacer>
-          <v-btn dark class="green" @click="finallyDelete">
+          <v-btn
+            dark
+            class="green"
+            @click="finallyDelete"
+          >
             <v-icon left>mdi-check</v-icon>iya
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
     <!-- Snackbar -->
-    <v-snackbar v-model="snackbar.show" :timeout="2000">
+    <v-snackbar
+      v-model="snackbar.show"
+      :timeout="2000"
+    >
       {{ snackbar.message }}
       <template v-slot:action="{ attrs }">
-        <v-btn :color="snackbar.color" text v-bind="attrs" @click="snackbar.show = false">Close</v-btn>
+        <v-btn
+          :color="snackbar.color"
+          text
+          v-bind="attrs"
+          @click="snackbar.show = false"
+        >Close</v-btn>
       </template>
     </v-snackbar>
     <!-- Akhir -->
@@ -1059,6 +1506,20 @@ export default {
       "storeBeasiswa",
       "deleteBeasiswa"
     ]),
+    addOptionalField(dataProperty) {
+      // push new empty pertanyaan with new id
+      // the new id is the last id index of array but added by 1
+      if (this[dataProperty].length < 1) {
+        this[dataProperty].push({ id: 0, pertanyaan: null });
+        return;
+      }
+      var lastIndex = this[dataProperty].length - 1;
+      var newIndex = this[dataProperty][lastIndex].id + 1;
+      this[dataProperty].push({ id: newIndex, pertanyaan: "" });
+    },
+    deleteOptionalField(dataProperty, field) {
+      this[dataProperty].splice(this[dataProperty].indexOf(field), 1);
+    },
     deleteBea(item) {
       this.deleteId = item.id;
       this.deleteDialog = true;
@@ -1073,6 +1534,8 @@ export default {
       this.jenjangEdit = item.jenjang;
       this.namaEdit = item.nama;
       this.fieldsEdit = JSON.parse(item.fields);
+      this.fieldsInterviewEdit = JSON.parse(item.fields_interview);
+      this.fieldsSurveyEdit = JSON.parse(item.fields_survey);
       this.deskripsiEdit = item.deskripsi;
       this.valueEdit = item.instansi_id;
       this.lainnya = {
@@ -1154,6 +1617,12 @@ export default {
           instansi: this.selected_instansiEdit,
           jenjang: this.jenjangEdit,
           fields: this.fieldsEdit,
+          fields_interview: this.is_wawancaraEdit
+            ? JSON.stringify(this.fieldsInterviewEdit)
+            : null,
+          fields_survey: this.is_surveyEdit
+            ? JSON.stringify(this.fieldsSurveyEdit)
+            : null,
           is_survey: this.is_surveyEdit,
           is_interview: this.is_wawancaraEdit,
           awal_interview: awal_wawancara,
@@ -1238,6 +1707,12 @@ export default {
           instansi: this.selected_instansi,
           jenjang: this.jenjang,
           fields: this.fields,
+          fields_interview: this.is_wawancara
+            ? JSON.stringify(this.fieldsInterview)
+            : null,
+          fields_survey: this.is_survey
+            ? JSON.stringify(this.fieldsSurvey)
+            : null,
           is_survey: this.is_survey,
           is_interview: this.is_wawancara,
           awal_interview: awal_wawancara,
@@ -1273,9 +1748,11 @@ export default {
       if (this.windowWidth <= 600) {
         return "100%";
       } else if (this.windowWidth <= 960) {
-        return "70%";
-      } else {
+        return "100%";
+      } else if (this.windowWidth <= 1500) {
         return "50%";
+      } else {
+        return "80%";
       }
     },
     batal() {
@@ -1396,6 +1873,16 @@ export default {
         today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + day;
 
       return formatedToday;
+    },
+    setPertanyaanBadgeToError() {
+      // console.log("error");
+      this.errorPertanyaan = true;
+      return "Field ini wajib diisi!";
+    },
+    setPertanyaanBadgeToNormal(v) {
+      // console.log("normal",);
+      this.errorPertanyaan = false;
+      return v;
     }
   },
 
@@ -1429,7 +1916,13 @@ export default {
           wheelDirectionReverse: true
         }
       },
+      errorPertanyaan: false,
       rules: {
+        pertanyaan: [
+          v =>
+            !!this.setPertanyaanBadgeToNormal(v) ||
+            this.setPertanyaanBadgeToError()
+        ],
         required: [v => !!v || "Field ini wajib diisi"],
         jenjang: [v => (v || "").length > 0 || "Field ini wajib diisi"],
         kuota: [v => v > 0 || "Kuota tidak boleh kurang dari 1"]
@@ -1464,6 +1957,10 @@ export default {
       deskripsi: "",
       selected_instansi: "",
       jenjang: [1],
+      fieldsInterview: [],
+      fieldsSurvey: [],
+      fieldsInterviewEdit: [],
+      fieldsSurveyEdit: [],
       fields: [
         {
           type: "Jawaban Pendek",
@@ -1536,5 +2033,8 @@ export default {
   position: fixed;
   bottom: 20px;
   z-index: 10;
+}
+.error-form-berkas .error-text {
+  color: black !important;
 }
 </style>

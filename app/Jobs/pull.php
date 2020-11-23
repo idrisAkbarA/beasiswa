@@ -30,20 +30,20 @@ class pull implements ShouldQueue
     public function handle()
     {
         $updatedFileList = $this->getGitUpdate(); // get updated filename from git
+        // echo "Pulling Data..";
         $this->downloadUpdate(); // pull from git repo
-
+        
         // do file checks and process it accordingly
+        // echo "Looping data..";
         foreach ($updatedFileList as $key => $value) {
             $isMigrationFile = substr($value,-9) == "table.php";
             if($value=="package.json") $this->npmInstall();
             if($value=="composer.json") $this->composerInstall();
             if($isMigrationFile) $this->migrate();
         }
-
         // build the app
-        $this->build();
-        // start queue worker
-        $this->startQueue();        
+        // echo "building..";
+        $this->build();       
     }
     public function getGitUpdate(){
         // this function checks what files that have been updated

@@ -45,6 +45,7 @@ Route::get('/beasiswa/settings', 'BeasiswaController@getAppSettings');
 Route::get('/beasiswa/backup-list', 'BeasiswaController@getBackupList');
 Route::get('/beasiswa/get-backup', 'BeasiswaController@getBackup');
 Route::get('/beasiswa/get-full-backup', 'BeasiswaController@getFullBackup');
+Route::get('/beasiswa/start-queue-daemon', 'BeasiswaController@startQueueDaemon');
 Route::get('/beasiswa/pull', 'BeasiswaController@pull');
 Route::get('/beasiswa/no-auth', 'BeasiswaController@getAll');
 Route::get('/beasiswa/download-report', 'BeasiswaController@downloadReport');

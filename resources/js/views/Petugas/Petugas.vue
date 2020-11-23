@@ -7,11 +7,44 @@
       app
       clipped
       :floating="true"
-      :permanent="permanent"
-      :expand-on-hover="expandOnHover"
-      :mini-variant="miniVariant"
+      :permanent="windowWidth <= 600 ? false : permanent"
+      :expand-on-hover="windowWidth <= 600 ? false : expandOnHover"
+      :mini-variant="windowWidth <=600 ? false : miniVariant"
       dark
     >
+      <!-- :floating="true"
+      :permanent="permanent"
+      :expand-on-hover="expandOnHover"
+      :mini-variant="miniVariant" -->
+      <v-card
+        v-if="windowWidth <= 600"
+        class="d-flex justify-center pt-4 pr-2 pl-2 "
+        flat
+        tile
+      >
+        <v-img
+          max-width="70"
+          :src="'/images/LogoUIN.png'"
+        >
+        </v-img>
+        <v-card-text> Aplikasi Beasiswa UIN Suska Riau</v-card-text>
+      </v-card>
+      <v-card
+      v-if="windowWidth<=600"
+        class="d-flex justify-center  pr-2 pl-2"
+        flat
+        tile
+      >
+        <v-card-text> Selamat datang {{$route.params.petugas}} <br>
+          <v-btn
+            small
+            block
+            @click="logout"
+          >
+            <v-icon>mdi-logout-variant</v-icon>keluar
+          </v-btn>
+        </v-card-text>
+      </v-card>
       <v-list dense>
         <v-list-item
           v-for="(page, i) in pages"
@@ -37,10 +70,13 @@
       dense
       clipped-left
     >
-      <v-app-bar-nav-icon @click.stop="miniVariant= !miniVariant; expandOnHover= !expandOnHover"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click.stop="toggleDrawer(windowWidth<=600)"></v-app-bar-nav-icon>
       <div style="width:100%; -webkit-app-region: drag;">
         <v-toolbar-title>
-          <span v-if="!$vuetify.breakpoint.mobile" class="font-weight-bold ml-4">
+          <span
+            v-if="!$vuetify.breakpoint.mobile"
+            class="font-weight-bold ml-4"
+          >
             App Beasiswa
           </span>
           <!-- Change this automaticly later usig VUEX -->
@@ -98,6 +134,7 @@
         </v-btn>
       </v-slide-y-transition>
       <v-btn
+        v-if="windowWidth>=600"
         small
         text
         @click="logout"
@@ -126,6 +163,14 @@ import { mapMutations, mapState } from "vuex";
 export default {
   methods: {
     ...mapMutations(["toggleOpenBeasiswa"]),
+    toggleDrawer(bool) {
+      if (!bool) {
+        this.miniVariant = !this.miniVariant;
+        this.expandOnHover = !this.expandOnHover;
+      } else {
+        this.drawer = !this.drawer;
+      }
+    },
     toggleBeasiswa() {
       this.toggleOpenBeasiswa(true);
     },
