@@ -18,4 +18,9 @@ class LPJ extends Model
     {
         return $this->belongsTo('App\Beasiswa')->onlyTrashed();
     }
+
+    public function permohonan()
+    {
+        return $this->hasMany('App\PermohonanLPJ');
+    }
 }

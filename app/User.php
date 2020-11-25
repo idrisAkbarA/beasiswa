@@ -61,6 +61,11 @@ class User extends Authenticatable
         return $this->hasMany('App\PemohonBeasiswa', 'mhs_id');
     }
 
+    public function permohonanLPJ()
+    {
+        return $this->hasMany('App\PermohonanaLPJ', 'mhs_id');
+    }
+
     public function jurusan()
     {
         return $this->belongsTo('App\Jurusan');
