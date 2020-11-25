@@ -409,6 +409,7 @@ export default {
     },
     save() {
       const data = this.form;
+      this.isLoading = true;
       axios
         .post(`/api/lpj`, data)
         .then(response => {
@@ -427,10 +428,12 @@ export default {
             color: "red",
             message: error
           };
-        });
+        })
+        .then(() => (isLoading = false));
     },
     update() {
       const data = this.form;
+      this.isLoading = true;
       axios
         .put(`/api/lpj/${data.id}`, data)
         .then(response => {
@@ -449,10 +452,12 @@ export default {
             color: "red",
             message: error
           };
-        });
+        })
+        .then(() => (isLoading = false));
     },
     destroy(item) {
       const id = item.id;
+      this.isLoading = true;
       axios
         .delete(`/api/lpj/${id}`)
         .then(response => {
@@ -471,7 +476,8 @@ export default {
             color: "red",
             message: error
           };
-        });
+        })
+        .then(() => (isLoading = false));
     },
     resetForm() {
       this.form = {
