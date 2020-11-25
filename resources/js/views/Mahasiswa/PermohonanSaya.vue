@@ -1,10 +1,26 @@
 <template>
   <v-container fill-height>
     <v-row
-      justify="center"
+      class="fill-height"
+      style="height:100%"
+      align="center"
       v-if="permohonans.length<1"
     >
-      <h2>Tidak ada permohonan</h2>
+      <v-col cols="12">
+        <v-img
+          class="mx-auto"
+          max-width="370"
+          :src="'/images/noaccess.png'"
+        >
+        </v-img>
+      </v-col>
+      <v-col cols="12">
+        <div
+          style="width:100%"
+        >
+          <h4 style="text-align:center">Anda belum memiliki permohonan beasiswa</h4>
+        </div>
+      </v-col>
     </v-row>
     <v-row
       justify="center"

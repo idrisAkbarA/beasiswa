@@ -13,7 +13,7 @@
       <v-col cols="12">
         <v-img
           class="mx-auto"
-          max-width="360"
+          max-width="340"
           :src="'/images/nothing.png'"
         >
         </v-img>

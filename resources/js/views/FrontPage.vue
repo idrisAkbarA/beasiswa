@@ -234,13 +234,6 @@
                             <span>
                               {{item.label}}
                             </span>
-                            <!-- <v-text-field
-                              v-model="item.label"
-                              dense
-                              color="white"
-                              filled
-                              label="Label"
-                            ></v-text-field> -->
                           </v-row>
 
                         </v-container>
