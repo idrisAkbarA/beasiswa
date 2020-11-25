@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-
+import router from "../router/router";
 import Axios from "axios";
 import mhsModule from "./modules/mhsModule";
 var pack = require("../../../package.json");
@@ -101,10 +101,16 @@ export default new Vuex.Store({
         },
         getAppSettings({ commit, dispatch, state }) {
             commit("mutateTableLoading", true);
-            Axios.get("/api/beasiswa/settings").then(response => {
-                commit("mutateAppSettings", response.data);
-                commit("mutateTableLoading", false);
-            });
+            Axios.get("/api/beasiswa/settings")
+                .then(response => {
+                    commit("mutateAppSettings", response.data);
+                    commit("mutateTableLoading", false);
+                })
+                .catch(error => {
+                    // if (error.response.status == 401) {
+                    //     router.push({ name: "Login Petugas" });
+                    //   }
+                });
         },
         getReport({ commit, dispatch, state }, data) {
             commit("mutateTableLoading", true);
@@ -118,10 +124,16 @@ export default new Vuex.Store({
         },
         getAkunPetugas({ commit, dispatch, state }) {
             commit("mutateTableLoading", true);
-            Axios.get("/api/petugas").then(response => {
-                commit("mutateAkunPetugas", response.data);
-                commit("mutateTableLoading", false);
-            });
+            Axios.get("/api/petugas")
+                .then(response => {
+                    commit("mutateAkunPetugas", response.data);
+                    commit("mutateTableLoading", false);
+                })
+                .catch(error => {
+                    if (error.response.status == 401) {
+                        router.push({ name: "Login Petugas" });
+                    }
+                });
         },
         getCekBerkas({ commit, dispatch, state }) {
             commit("mutateTableLoading", true);
@@ -132,12 +144,10 @@ export default new Vuex.Store({
         },
         getCekInterview({ commit, dispatch, state }) {
             commit("mutateTableLoading", true);
-            Axios.get("/api/pemohon/cek-interview").then(
-                response => {
-                    commit("mutateCekInterview", response.data);
-                    commit("mutateTableLoading", false);
-                }
-            );
+            Axios.get("/api/pemohon/cek-interview").then(response => {
+                commit("mutateCekInterview", response.data);
+                commit("mutateTableLoading", false);
+            });
         },
         getCekSurvey({ commit, dispatch, state }) {
             commit("mutateTableLoading", true);
@@ -162,16 +172,26 @@ export default new Vuex.Store({
         },
         getBeasiswa({ commit, dispatch, state }) {
             commit("mutateTableLoading", true);
-            Axios.get("/api/beasiswa").then(response => {
-                commit("mutateBeasiswa", response.data);
-                commit("mutateTableLoading", false);
-            });
+            Axios.get("/api/beasiswa")
+                .then(response => {
+                    commit("mutateBeasiswa", response.data);
+                    commit("mutateTableLoading", false);
+                })
+                .catch(error => {
+                    if (error.response.status == 401) {
+                        router.push({ name: "Login Petugas" });
+                    }
+                });
         },
         getBeasiswaActive({ commit, dispatch, state }) {
             commit("mutateTableLoading", true);
             Axios.get("/api/beasiswa/get-active").then(response => {
                 commit("mutateBeasiswa", response.data);
                 commit("mutateTableLoading", false);
+            }).catch(error => {
+                if (error.response.status == 401) {
+                    router.push({ name: "Landing Page" });
+                }
             });
         },
         getBeasiswaSelesai({ commit, dispatch, state }) {
@@ -184,13 +204,11 @@ export default new Vuex.Store({
         getBeasiswaNoAuth({ commit, dispatch, state }) {
             return new Promise((resolve, reject) => {
                 commit("mutateTableLoading", true);
-                Axios.get("/api/beasiswa/no-auth").then(
-                    response => {
-                        commit("mutateBeasiswa", response.data);
-                        commit("mutateTableLoading", false);
-                        resolve(response.data);
-                    }
-                );
+                Axios.get("/api/beasiswa/no-auth").then(response => {
+                    commit("mutateBeasiswa", response.data);
+                    commit("mutateTableLoading", false);
+                    resolve(response.data);
+                });
             });
         },
         getBeasiswaWithPermohonan({ commit, dispatch, state }, tahap) {
@@ -200,14 +218,16 @@ export default new Vuex.Store({
                     params: {
                         tahap: tahap
                     }
-                }).then(
-                    response => {
-                        commit("mutateBeasiswa", response.data);
-                        commit("mutateTableLoading", false);
-                        resolve(response);
+                }).then(response => {
+                    commit("mutateBeasiswa", response.data);
+                    commit("mutateTableLoading", false);
+                    resolve(response);
+                }).catch(error => {
+                    if (error.response.status == 401) {
+                        router.push({ name: "Login Petugas" });
                     }
-                );
-            })
+                });
+            });
         },
         storeAkunPetugas({ commit, dispatch, state }, data) {
             return new Promise((resolve, reject) => {
@@ -217,6 +237,9 @@ export default new Vuex.Store({
                         resolve(response);
                     })
                     .catch(error => {
+                        if (error.response.status == 401) {
+                            router.push({ name: "Login Petugas" });
+                        }
                         reject(error);
                     });
             });
@@ -234,6 +257,9 @@ export default new Vuex.Store({
                         resolve(response);
                     })
                     .catch(error => {
+                        if (error.response.status == 401) {
+                            router.push({ name: "Login Petugas" });
+                        }
                         reject(error);
                     });
             });
@@ -249,6 +275,9 @@ export default new Vuex.Store({
                         resolve(response);
                     })
                     .catch(error => {
+                        if (error.response.status == 401) {
+                            router.push({ name: "Login Petugas" });
+                        }
                         reject(error);
                     });
             });
@@ -261,6 +290,9 @@ export default new Vuex.Store({
                         resolve(response);
                     })
                     .catch(error => {
+                        if (error.response.status == 401) {
+                            router.push({ name: "Login Petugas" });
+                        }
                         reject(error);
                     });
             });
@@ -294,6 +326,9 @@ export default new Vuex.Store({
                         resolve(response);
                     })
                     .catch(error => {
+                        if (error.response.status == 401) {
+                            router.push({ name: "Login Petugas" });
+                        }
                         reject(error);
                     });
             });
@@ -307,6 +342,9 @@ export default new Vuex.Store({
                         resolve(response);
                     })
                     .catch(error => {
+                        if (error.response.status == 401) {
+                            router.push({ name: "Login Petugas" });
+                        }
                         reject(error);
                     });
             });
@@ -325,10 +363,16 @@ export default new Vuex.Store({
         },
         getInstansi({ commit, dispatch, state }) {
             commit("mutateTableLoading", true);
-            Axios.get("/api/instansi").then(response => {
-                commit("mutateInstansi", response.data);
-                commit("mutateTableLoading", false);
-            });
+            Axios.get("/api/instansi")
+                .then(response => {
+                    commit("mutateInstansi", response.data);
+                    commit("mutateTableLoading", false);
+                })
+                .catch(error => {
+                    if (error.response.status == 401) {
+                        router.push({ name: "Login Petugas" });
+                    }
+                });
         },
         deleteInstansi({ commit, dispatch, state }, id) {
             Axios.delete("/api/instansi/" + id).then(response => {

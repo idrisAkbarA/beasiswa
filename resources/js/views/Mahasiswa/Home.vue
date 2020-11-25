@@ -1,14 +1,35 @@
 <template>
   <v-container
     fluid
-    fill-height
     class="main pa-0 ma-0"
   >
     <!-- <v-card @click="goto">pepek</v-card> -->
-
-      <h2 v-if="beasiswa.length<1" class="text-center" style="width:100vw">Tidak ada beasiswa yang tersedia</h2>
-   
-    <v-row justify="center">
+    <v-row
+      class="fill-height"
+      style="height:100%"
+      align="center"
+      v-if="beasiswa.length<1"
+    >
+      <v-col cols="12">
+        <v-img
+          class="mx-auto"
+          max-width="340"
+          :src="'/images/nothing.png'"
+        >
+        </v-img>
+      </v-col>
+      <v-col cols="12">
+        <div
+          style="width:100%"
+        >
+          <h4 style="text-align:center">Maaf, belum ada beasiswa yang tersedia saat ini</h4>
+        </div>
+      </v-col>
+    </v-row>
+    <v-row
+      v-else
+      justify="center"
+    >
 
       <v-card
         @click="goto(item)"
@@ -81,7 +102,6 @@ export default {
   mounted() {},
   created() {
     this.getBeasiswaActive();
-
   },
   computed: {
     ...mapState(["beasiswa"])

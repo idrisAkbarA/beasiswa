@@ -21,7 +21,7 @@
             Pendaftaran Beasiswa
             Uin Suska Riau</h4>
           <v-divider></v-divider>
-          <h5 class="mt-10 ml-10 mr-10">Beasiswa tersedia: <span>
+          <h5 class="mt-10 ml-10 mr-10">Total beasiswa sampai saat ini: <span>
               <v-chip
                 class="elevation-10"
                 color="green"
@@ -112,7 +112,7 @@
                   <v-img
                     :height="300"
                     :width="200"
-                    gradient="to top right, rgba(58, 231, 87, 0.33), rgba(25,32,72,.7)"
+                    :gradient="isTersediaColor(item)"
                     :src="'https://picsum.photos/200/300?random='+index"
                   >
 
@@ -127,7 +127,7 @@
                       </v-skeleton-loader>
                     </template>
                     <v-card-title><span>{{index+1}}</span>
-                      <v-spacer></v-spacer><span class="caption">Tersedia</span>
+                      <v-spacer></v-spacer><span class="caption">{{isTersedia(item)}}</span>
                     </v-card-title>
                     <v-card-text style="height:100%">
                       <h2>{{item.nama.length>60 ? item.nama.substring(0,60) + " ..." : item.nama}}</h2>
@@ -234,13 +234,6 @@
                             <span>
                               {{item.label}}
                             </span>
-                            <!-- <v-text-field
-                              v-model="item.label"
-                              dense
-                              color="white"
-                              filled
-                              label="Label"
-                            ></v-text-field> -->
                           </v-row>
 
                         </v-container>
@@ -323,6 +316,44 @@
                           dense
                           label="Paragraf"
                         ></v-textarea>
+                        <v-container v-if="field.type == 'Multiple Upload'">
+                          <v-row
+                            align="center"
+                            v-for="(item,index) in field.multiUpload.items"
+                            :key="index"
+                            :value="item.label"
+                          >
+                            <v-checkbox
+                              color="white"
+                              hide-details
+                              class="shrink mr-2 mt-0"
+                              :value="item.label"
+                              disabled
+                            ></v-checkbox>
+                            <v-text-field
+                              v-model="item.label"
+                              dense
+                              color="white"
+                              filled
+                              label="Nama File"
+                              disabled
+                            ></v-text-field>
+                            <v-file-input
+                              filled
+                              label="Upload File"
+                              disabled
+                            ></v-file-input>
+                            <v-btn
+                              class="ma-2"
+                              icon
+                              color="white"
+                              @click="deleteMultiUploadItem(field,item.label)"
+                              disabled
+                            >
+                              <v-icon>mdi-close</v-icon>
+                            </v-btn>
+                          </v-row>
+                        </v-container>
                       </v-col>
                     </v-row>
                   </v-container>
@@ -354,6 +385,22 @@ export default {
   },
   methods: {
     ...mapActions(["getBeasiswaNoAuth"]),
+    isTersediaColor(beasiswa) {
+      return this.$moment(new Date()).isSameOrBefore(
+        beasiswa.akhir_berkas,
+        "day"
+      )
+        ? "to top right, rgba(58, 231, 87, 0.33), rgba(25,32,72,.7)"
+        : "to top right, rgba(255, 0, 0, 0.795), rgba(25,32,72,.7)";
+    },
+    isTersedia(beasiswa) {
+      return this.$moment(new Date()).isSameOrBefore(
+        beasiswa.akhir_berkas,
+        "day"
+      )
+        ? "Tersedia"
+        : "Penerimaan Ditutup";
+    },
     isNoRule(item) {
       if (item.semester && item.total_sks && item.ukt && is_first) {
         return false;
@@ -429,6 +476,7 @@ export default {
 .list-beasiswa {
   position: absolute;
   height: 100%;
+  /* color: rgba(255, 0, 0, 0.795) */
 }
 
 .gridy {

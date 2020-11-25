@@ -1,6 +1,6 @@
 <template>
   <v-container class="pa-10">
-    <v-row justify="center">
+    <v-row >
       <v-col>
         <v-card :height="100*1.2" :width="200*1.2">
           <v-img
@@ -95,6 +95,10 @@ export default {
   created() {
     axios.get("/api/pemohon/count-submit").then(response => {
       this.isSubmit = response.data;
+    }).catch(error=>{
+      if(error.response.status==401){
+        this.$router.push({ name: "Login Petugas" });
+      }
     });
     axios.get("/api/pemohon/count-interview").then(response => {
       this.interview = response.data;

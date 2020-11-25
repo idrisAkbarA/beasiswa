@@ -425,6 +425,10 @@ export default {
           this.selectedPermohonan = {};
         })
         .catch(error => {
+          if (error.response.status == 401) {
+            this.$router.push({ name: "Login Petugas" });
+          }
+
           console.error(error);
           this.snackbar = {
             show: true,

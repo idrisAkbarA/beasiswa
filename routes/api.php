@@ -41,11 +41,12 @@ Route::middleware('auth:petugas')->get('/petugas/{id}', 'PetugasController@get')
 Route::middleware('auth:petugas')->delete('/petugas/{id}', 'PetugasController@delete');
 
 Route::get('/beasiswa/count-beasiswa', 'BeasiswaController@countBeasiswa');
-Route::put('/beasiswa/settings', 'BeasiswaController@setAppSettings');
+Route::middleware('auth:petugas')->put('/beasiswa/settings', 'BeasiswaController@setAppSettings');
 Route::get('/beasiswa/settings', 'BeasiswaController@getAppSettings');
 Route::get('/beasiswa/backup-list', 'BeasiswaController@getBackupList');
 Route::get('/beasiswa/get-backup', 'BeasiswaController@getBackup');
 Route::get('/beasiswa/get-full-backup', 'BeasiswaController@getFullBackup');
+Route::get('/beasiswa/start-queue-daemon', 'BeasiswaController@startQueueDaemon');
 Route::get('/beasiswa/pull', 'BeasiswaController@pull');
 Route::get('/beasiswa/no-auth', 'BeasiswaController@getAll');
 Route::get('/beasiswa/download-report', 'BeasiswaController@downloadReport');
@@ -54,7 +55,7 @@ Route::middleware('auth:petugas')->post('/beasiswa', 'BeasiswaController@store')
 Route::middleware('auth:petugas')->put('/beasiswa/{id}', 'BeasiswaController@edit');
 Route::get('/beasiswa/selection', 'BeasiswaController@selection');
 Route::middleware('auth:petugas,mahasiswa')->get('/beasiswa', 'BeasiswaController@getAll');
-Route::get('/beasiswa/get-active', 'BeasiswaController@getActive');
+Route::middleware('auth:petugas,mahasiswa')->get('/beasiswa/get-active', 'BeasiswaController@getActive');
 Route::middleware('auth:petugas,mahasiswa')->get('/beasiswa/with-permohonan', 'BeasiswaController@getAllWithPermohonan');
 Route::get('/beasiswa/progress', 'BeasiswaController@progress');
 Route::get('/beasiswa/selesai', 'BeasiswaController@selesai');
@@ -82,10 +83,10 @@ Route::middleware('auth:mahasiswa')->get('/permohonan/{id}', 'PemohonBeasiswaCon
 Route::middleware('auth:petugas')->get('/permohonan/{petugas}/history', 'PemohonBeasiswaController@history');
 Route::get('/pemohon/search', 'PemohonBeasiswaController@search');
 Route::get('/pemohon', 'PemohonBeasiswaController@getAll');
-Route::post('/pemohon/file', 'PemohonBeasiswaController@storeFile');
-Route::post('/pemohon', 'PemohonBeasiswaController@store');
+Route::middleware('auth:petugas,mahasiswa')->post('/pemohon/file', 'PemohonBeasiswaController@storeFile');
+Route::middleware('auth:petugas,mahasiswa')->post('/pemohon', 'PemohonBeasiswaController@store');
 Route::get('/pemohon/cek-berkas', 'PemohonBeasiswaController@cekBerkas');
-Route::middleware('auth:mahasiswa')->get('/pemohon/cek-isHas', 'PemohonBeasiswaController@isHasBeasiswa');
+Route::middleware('auth:petugas,mahasiswa')->get('/pemohon/cek-isHas', 'PemohonBeasiswaController@isHasBeasiswa');
 Route::middleware('auth:petugas')->get('/pemohon/cek-isHas-admin', 'PemohonBeasiswaController@isHasBeasiswaAdmin');
 
 
@@ -93,10 +94,10 @@ Route::put('/pemohon/set-berkas', 'PemohonBeasiswaController@setBerkas');
 Route::get('/pemohon/cek-interview', 'PemohonBeasiswaController@cekinterview');
 Route::get('/pemohon/cek-selection', 'PemohonBeasiswaController@cekSelection');
 Route::get('/pemohon/cek-survey', 'PemohonBeasiswaController@cekSurvey');
-Route::put('/pemohon/set-berkas', 'PemohonBeasiswaController@setBerkas');
-Route::put('/pemohon/set-interview', 'PemohonBeasiswaController@setInterview');
-Route::put('/pemohon/set-survey', 'PemohonBeasiswaController@setSurvey');
-Route::put('/pemohon/set-selection', 'PemohonBeasiswaController@setselection');
+Route::middleware('auth:petugas')->put('/pemohon/set-berkas', 'PemohonBeasiswaController@setBerkas');
+Route::middleware('auth:petugas')->put('/pemohon/set-interview', 'PemohonBeasiswaController@setInterview');
+Route::middleware('auth:petugas')->put('/pemohon/set-survey', 'PemohonBeasiswaController@setSurvey');
+Route::middleware('auth:petugas')->put('/pemohon/set-selection', 'PemohonBeasiswaController@setselection');
 Route::get('/pemohon/count-submit', 'PemohonBeasiswaController@countSubmit');
 Route::get('/pemohon/count-berkas', 'PemohonBeasiswaController@countBerkas');
 Route::get('/pemohon/count-interview', 'PemohonBeasiswaController@countInterview');

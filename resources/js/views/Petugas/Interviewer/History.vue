@@ -12,21 +12,48 @@
         <strong class="text-dark">History interview</strong>
       </v-subheader>
       <v-row class="pl-8 pr-8">
-        <v-text-field prepend-inner-icon="mdi-magnify" clearable label="Pencarian"></v-text-field>
+        <v-text-field
+          prepend-inner-icon="mdi-magnify"
+          clearable
+          label="Pencarian"
+        ></v-text-field>
       </v-row>
       <v-row>
         <v-card-text>
-          <v-row v-if="loading" justify="center" align-content="center" class="text-center">
+          <v-row
+            v-if="loading"
+            justify="center"
+            align-content="center"
+            class="text-center"
+          >
             <v-col cols="12">
-              <v-progress-circular class="mx-auto" color="green" indeterminate></v-progress-circular>
+              <v-progress-circular
+                class="mx-auto"
+                color="green"
+                indeterminate
+              ></v-progress-circular>
             </v-col>
             <v-col cols="12">Memuat data</v-col>
           </v-row>
-          <p v-if="!beasiswa.length && !loading" class="text-center">Tidak ada berkas</p>
-          <v-expansion-panels hover inset v-if="!loading">
-            <v-expansion-panel v-for="(item,i) in beasiswa" :key="i">
+          <p
+            v-if="!beasiswa.length && !loading"
+            class="text-center"
+          >Tidak ada berkas</p>
+          <v-expansion-panels
+            hover
+            inset
+            v-if="!loading"
+          >
+            <v-expansion-panel
+              v-for="(item,i) in beasiswa"
+              :key="i"
+            >
               <v-expansion-panel-header>
-                <v-row no-gutters align="center" justify="space-between">
+                <v-row
+                  no-gutters
+                  align="center"
+                  justify="space-between"
+                >
                   <v-col cols="6">
                     <strong>{{item.nama}}</strong>
                   </v-col>
@@ -66,10 +93,11 @@
                     @focus="index = i"
                   ></v-text-field>
                   <v-subheader>Permohonan ({{!searchQuery ? Object.keys(item.permohonan).length : resultQuery.length}})</v-subheader>
-                  <v-list-item-group class="bg-white" color="primary">
-                    <template
-                      v-for="(permohonan, index) in !searchQuery ? item.permohonan : resultQuery"
-                    >
+                  <v-list-item-group
+                    class="bg-white"
+                    color="primary"
+                  >
+                    <template v-for="(permohonan, index) in !searchQuery ? item.permohonan : resultQuery">
                       <v-list-item
                         :key="index"
                         @click="sheetDetail = true, selectedPermohonan = permohonan, parsedForm = JSON.parse(permohonan.form)"
@@ -77,13 +105,17 @@
                         <template>
                           <v-list-item-content>
                             <v-list-item-title v-text="permohonan.mahasiswa.nama"></v-list-item-title>
-                            <v-list-item-subtitle
-                              v-text="`${permohonan.mahasiswa.jurusan.nama} (${permohonan.mahasiswa.fakultas.nama})`"
-                            ></v-list-item-subtitle>
+                            <v-list-item-subtitle v-text="`${permohonan.mahasiswa.jurusan.nama} (${permohonan.mahasiswa.fakultas.nama})`"></v-list-item-subtitle>
                           </v-list-item-content>
                           <v-list-item-action>
-                            <v-icon color="blue" v-if="permohonan.is_interview_passed">mdi-check</v-icon>
-                            <v-icon color="red" v-else>mdi-close</v-icon>
+                            <v-icon
+                              color="blue"
+                              v-if="permohonan.is_interview_passed"
+                            >mdi-check</v-icon>
+                            <v-icon
+                              color="red"
+                              v-else
+                            >mdi-close</v-icon>
                           </v-list-item-action>
                         </template>
                       </v-list-item>
@@ -142,6 +174,10 @@ export default {
           this.beasiswa = response.data;
         })
         .catch(error => {
+          if (error.response.status == 401) {
+            this.$router.push({ name: "Login Petugas" });
+          }
+
           console.error(error);
           this.snackbar = {
             show: true,

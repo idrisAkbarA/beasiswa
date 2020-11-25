@@ -86,7 +86,7 @@
                     <template v-for="(permohonan, index) in !searchQuery ? item.survey : resultQuery">
                       <v-list-item
                         :key="permohonan.nama"
-                        @click="sheetDetail = true, selectedPermohonan = permohonan"
+                        @click="sheetDetail = true, selectedPermohonan = permohonan; setSurveyList(permohonan)"
                       >
                         <template>
                           <v-list-item-content>
@@ -143,6 +143,23 @@
               Biodata Mahasiswa
             </v-tab>
             <v-tab-item>
+              <v-row v-if="selectedSurveyList">
+                <v-card
+                  class="mt-4 mb-4"
+                  width="100%"
+                  color="green darken-4"
+                >
+                  <v-card-title>List Survey</v-card-title>
+                  <v-card-subtitle>Harap lakukan survey terhadap poin-poin berikut:</v-card-subtitle>
+                  <v-card-text>
+                    <li
+                      v-for="(list,i) in selectedSurveyList"
+                      :key="i"
+                    >{{list.pertanyaan}}</li>
+                  </v-card-text>
+                </v-card>
+                <v-subheader>Berkas Mahasiswa</v-subheader>
+              </v-row>
               <v-row
                 no-gutters=""
                 class="ma-5"
@@ -334,6 +351,18 @@ export default {
     this.getBeasiswaWithPermohonan();
   },
   methods: {
+    setSurveyList(permohonan) {
+      console.log(permohonan);
+      this.beasiswa.every(beasiswa => {
+        if (beasiswa.id == permohonan.beasiswa_id) {
+          var temp = JSON.parse(beasiswa.fields_survey);
+          temp.length > 0 ? (this.selectedSurveyList = temp) : null;
+          // console.log("pertanyaan: " ,this.selectedInterviewList);
+          return false;
+        }
+        return true;
+      });
+    },
     ...mapActions(["getBeasiswaWithPermohonan"]),
     link(url) {
       var a = "/" + url;
@@ -360,6 +389,9 @@ export default {
           };
         })
         .catch(error => {
+          if (error.response.status == 401) {
+            this.$router.push({ name: "Login Petugas" });
+          }
           console.error(error);
           this.snackbar = {
             show: true,
@@ -411,6 +443,7 @@ export default {
     return {
       index: 0,
       searchQuery: "",
+      selectedSurveyList: null,
       selectedPermohonan: {},
       selectedMahasiswa: {},
       snackbar: { show: false },

@@ -1,8 +1,16 @@
 <template>
   <v-container>
-    <v-card class="mx-auto" v-if="appSettings.isVerificatorMaintenanceMode==1">
+    <v-card
+      class="mx-auto"
+      v-if="appSettings.isVerificatorMaintenanceMode==1"
+    >
       <v-container>
-        <v-row justify="center" align="center" align-content="center" no-gutters>
+        <v-row
+          justify="center"
+          align="center"
+          align-content="center"
+          no-gutters
+        >
           <v-col cols="12">
             <v-img
               v-if="!$vuetify.breakpoint.mobile"
@@ -18,12 +26,13 @@
             ></v-img>
           </v-col>
           <v-col cols="12">
-            <h3
-              class="mx-auto text-center center-text font-weight-light"
-            >Maaf halaman ini sedang dalam tahap maintenance, kembali dalam beberapa waktu lagi</h3>
+            <h3 class="mx-auto text-center center-text font-weight-light">Maaf halaman ini sedang dalam tahap maintenance, kembali dalam beberapa waktu lagi</h3>
           </v-col>
         </v-row>
-        <v-row justify="center" no-gutters></v-row>
+        <v-row
+          justify="center"
+          no-gutters
+        ></v-row>
       </v-container>
     </v-card>
     <v-card
@@ -40,21 +49,48 @@
           <strong class="text-dark">Permohonan Beasiswa Fakultas {{petugas.fakultas.nama}}</strong>
         </v-subheader>
         <v-row class="pl-8 pr-8">
-          <v-text-field prepend-inner-icon="mdi-magnify" clearable label="Pencarian"></v-text-field>
+          <v-text-field
+            prepend-inner-icon="mdi-magnify"
+            clearable
+            label="Pencarian"
+          ></v-text-field>
         </v-row>
         <v-row>
           <v-card-text>
-            <v-row v-if="loading" justify="center" align-content="center" class="text-center">
+            <v-row
+              v-if="loading"
+              justify="center"
+              align-content="center"
+              class="text-center"
+            >
               <v-col cols="12">
-                <v-progress-circular class="mx-auto" color="green" indeterminate></v-progress-circular>
+                <v-progress-circular
+                  class="mx-auto"
+                  color="green"
+                  indeterminate
+                ></v-progress-circular>
               </v-col>
               <v-col cols="12">Memuat data</v-col>
             </v-row>
-            <p v-if="!beasiswa[0] && loading == false" class="text-center">Tidak ada berkas</p>
-            <v-expansion-panels hover inset v-if="!loading">
-              <v-expansion-panel v-for="(item,i) in beasiswa" :key="i">
+            <p
+              v-if="!beasiswa[0] && loading == false"
+              class="text-center"
+            >Tidak ada berkas</p>
+            <v-expansion-panels
+              hover
+              inset
+              v-if="!loading"
+            >
+              <v-expansion-panel
+                v-for="(item,i) in beasiswa"
+                :key="i"
+              >
                 <v-expansion-panel-header>
-                  <v-row no-gutters align="center" justify="space-between">
+                  <v-row
+                    no-gutters
+                    align="center"
+                    justify="space-between"
+                  >
                     <v-col cols="6">
                       <strong>{{item.nama}}</strong>
                     </v-col>
@@ -94,10 +130,11 @@
                       @focus="index = i"
                     ></v-text-field>
                     <v-subheader>Permohonan Masuk ({{!searchQuery ? Object.keys(item.berkas).length : resultQuery.length}})</v-subheader>
-                    <v-list-item-group class="bg-white" color="primary">
-                      <template
-                        v-for="(permohonan, index) in !searchQuery ? item.berkas : resultQuery"
-                      >
+                    <v-list-item-group
+                      class="bg-white"
+                      color="primary"
+                    >
+                      <template v-for="(permohonan, index) in !searchQuery ? item.berkas : resultQuery">
                         <v-list-item
                           :key="index"
                           @click="sheetDetail = true, selectedPermohonan = permohonan, parsedForm = JSON.parse(permohonan.form)"
@@ -105,9 +142,7 @@
                           <template>
                             <v-list-item-content>
                               <v-list-item-title v-text="permohonan.mahasiswa.nama"></v-list-item-title>
-                              <v-list-item-subtitle
-                                v-text="`${permohonan.mahasiswa.jurusan.nama} (${permohonan.mahasiswa.fakultas.nama})`"
-                              ></v-list-item-subtitle>
+                              <v-list-item-subtitle v-text="`${permohonan.mahasiswa.jurusan.nama} (${permohonan.mahasiswa.fakultas.nama})`"></v-list-item-subtitle>
                             </v-list-item-content>
                             <v-list-item-action>
                               <v-icon>mdi-chevron-right</v-icon>
@@ -138,11 +173,17 @@
         v-model="sheetDetail"
       >
         <v-card>
-          <v-card-title class="headline white--text" primary-title>
+          <v-card-title
+            class="headline white--text"
+            primary-title
+          >
             <i class="mdi mdi-account mr-2"></i>
             {{selectedPermohonan.mahasiswa.nama}}
             <v-spacer></v-spacer>
-            <v-icon @click="sheetDetail = false" color="red">mdi-close-box</v-icon>
+            <v-icon
+              @click="sheetDetail = false"
+              color="red"
+            >mdi-close-box</v-icon>
           </v-card-title>
 
           <v-card-text class="mt-2 white--text">
@@ -150,7 +191,12 @@
               <v-tab>Permohonan Beasiswa</v-tab>
               <v-tab>Biodata Mahasiswa</v-tab>
               <v-tab-item>
-                <v-row no-gutters class="ma-5" v-for="(field,index) in parsedForm" :key="index">
+                <v-row
+                  no-gutters
+                  class="ma-5"
+                  v-for="(field,index) in parsedForm"
+                  :key="index"
+                >
                   <v-col style="padding-bottom:0 !important;">
                     <p>{{field.pertanyaan}}</p>
                     <v-container v-if="field.type == 'Checkboxes'">
@@ -174,10 +220,22 @@
                           </v-row>
                         </v-col>
                         <v-col cols="3">
-                          <v-radio-group v-model="field.isLulus">
-                            <v-radio label="Lulus" :value="true"></v-radio>
-                            <v-radio label="Tidak Lulus" :value="false"></v-radio>
+                          <v-radio-group
+                            v-if="field.required"
+                            v-model="field.isLulus"
+                          >
+                            <v-radio
+                              label="Lulus"
+                              :value="true"
+                            ></v-radio>
+                            <v-radio
+                              label="Tidak Lulus"
+                              :value="false"
+                            ></v-radio>
                           </v-radio-group>
+                          <span v-else>
+                            Field ini tidak wajib
+                          </span>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -214,10 +272,22 @@
                           </v-row>
                         </v-col>
                         <v-col cols="3">
-                          <v-radio-group v-model="field.isLulus">
-                            <v-radio label="Lulus" :value="true"></v-radio>
-                            <v-radio label="Tidak Lulus" :value="false"></v-radio>
+                          <v-radio-group
+                            v-if="field.required"
+                            v-model="field.isLulus"
+                          >
+                            <v-radio
+                              label="Lulus"
+                              :value="true"
+                            ></v-radio>
+                            <v-radio
+                              label="Tidak Lulus"
+                              :value="false"
+                            ></v-radio>
                           </v-radio-group>
+                          <span v-else>
+                            Field ini tidak wajib
+                          </span>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -229,10 +299,22 @@
                         </span>
                       </v-col>
                       <v-col cols="3">
-                        <v-radio-group v-model="field.isLulus">
-                          <v-radio label="Lulus" :value="true"></v-radio>
-                          <v-radio label="Tidak Lulus" :value="false"></v-radio>
+                        <v-radio-group
+                          v-if="field.required"
+                          v-model="field.isLulus"
+                        >
+                          <v-radio
+                            label="Lulus"
+                            :value="true"
+                          ></v-radio>
+                          <v-radio
+                            label="Tidak Lulus"
+                            :value="false"
+                          ></v-radio>
                         </v-radio-group>
+                        <span v-else>
+                          Field ini tidak wajib
+                        </span>
                       </v-col>
                     </v-row>
                     <v-row v-if="field.type == 'Jawaban Pendek'">
@@ -243,10 +325,22 @@
                         </span>
                       </v-col>
                       <v-col cols="3">
-                        <v-radio-group v-model="field.isLulus">
-                          <v-radio label="Lulus" :value="true"></v-radio>
-                          <v-radio label="Tidak Lulus" :value="false"></v-radio>
+                        <v-radio-group
+                          v-if="field.required"
+                          v-model="field.isLulus"
+                        >
+                          <v-radio
+                            label="Lulus"
+                            :value="true"
+                          ></v-radio>
+                          <v-radio
+                            label="Tidak Lulus"
+                            :value="false"
+                          ></v-radio>
                         </v-radio-group>
+                        <span v-else>
+                          Field ini tidak wajib
+                        </span>
                       </v-col>
                     </v-row>
                     <v-row v-if="field.type == 'Jawaban Angka'">
@@ -257,10 +351,22 @@
                         </span>
                       </v-col>
                       <v-col cols="3">
-                        <v-radio-group v-model="field.isLulus">
-                          <v-radio label="Lulus" :value="true"></v-radio>
-                          <v-radio label="Tidak Lulus" :value="false"></v-radio>
+                        <v-radio-group
+                          v-if="field.required"
+                          v-model="field.isLulus"
+                        >
+                          <v-radio
+                            label="Lulus"
+                            :value="true"
+                          ></v-radio>
+                          <v-radio
+                            label="Tidak Lulus"
+                            :value="false"
+                          ></v-radio>
                         </v-radio-group>
+                        <span v-else>
+                          Field ini tidak wajib
+                        </span>
                       </v-col>
                     </v-row>
                     <v-row v-if="field.type == 'Tanggal'">
@@ -271,21 +377,48 @@
                         </span>
                       </v-col>
                       <v-col cols="3">
-                        <v-radio-group v-model="field.isLulus">
-                          <v-radio label="Lulus" :value="true"></v-radio>
-                          <v-radio label="Tidak Lulus" :value="false"></v-radio>
+                        <v-radio-group
+                          v-if="field.required"
+                          v-model="field.isLulus"
+                        >
+                          <v-radio
+                            label="Lulus"
+                            :value="true"
+                          ></v-radio>
+                          <v-radio
+                            label="Tidak Lulus"
+                            :value="false"
+                          ></v-radio>
                         </v-radio-group>
+                        <span v-else>
+                          Field ini tidak wajib
+                        </span>
                       </v-col>
                     </v-row>
                     <v-row v-if="field.type == 'Upload File'">
                       <v-col cols="9">
-                        <v-btn small @click="link(field.value)">lihat file</v-btn>
+                        <v-btn
+                          small
+                          @click="link(field.value)"
+                        >lihat file</v-btn>
                       </v-col>
                       <v-col cols="3">
-                        <v-radio-group v-model="field.isLulus">
-                          <v-radio label="Lulus" :value="true"></v-radio>
-                          <v-radio label="Tidak Lulus" :value="false"></v-radio>
-                        </v-radio-group>
+                                                  <v-radio-group
+                            v-if="field.required"
+                            v-model="field.isLulus"
+                          >
+                            <v-radio
+                              label="Lulus"
+                              :value="true"
+                            ></v-radio>
+                            <v-radio
+                              label="Tidak Lulus"
+                              :value="false"
+                            ></v-radio>
+                          </v-radio-group>
+                          <span v-else>
+                            Field ini tidak wajib
+                          </span>
                       </v-col>
                     </v-row>
                     <v-row v-if="field.type == 'Paragraf'">
@@ -296,10 +429,22 @@
                         </span>
                       </v-col>
                       <v-col cols="3">
-                        <v-radio-group v-model="field.isLulus">
-                          <v-radio label="Lulus" :value="true"></v-radio>
-                          <v-radio label="Tidak Lulus" :value="false"></v-radio>
-                        </v-radio-group>
+                                                 <v-radio-group
+                            v-if="field.required"
+                            v-model="field.isLulus"
+                          >
+                            <v-radio
+                              label="Lulus"
+                              :value="true"
+                            ></v-radio>
+                            <v-radio
+                              label="Tidak Lulus"
+                              :value="false"
+                            ></v-radio>
+                          </v-radio-group>
+                          <span v-else>
+                            Field ini tidak wajib
+                          </span>
                       </v-col>
                     </v-row>
                   </v-col>
@@ -345,10 +490,20 @@
         </v-card>
       </v-bottom-sheet>
       <!-- Dialog Delete -->
-      <div class="text-center" v-if="dialogDelete.show">
-        <v-dialog v-model="dialogDelete.show" width="400" overlay-color="#2E7D32">
+      <div
+        class="text-center"
+        v-if="dialogDelete.show"
+      >
+        <v-dialog
+          v-model="dialogDelete.show"
+          width="400"
+          overlay-color="#2E7D32"
+        >
           <v-card>
-            <v-card-title class="headline white--text" primary-title>
+            <v-card-title
+              class="headline white--text"
+              primary-title
+            >
               <i class="mdi mdi-checkbox-marked-circle-outline mr-2"></i> Varifikasi Berkas
             </v-card-title>
             <v-card-text class="white--text mt-2 pb-0">
@@ -370,7 +525,11 @@
             <v-divider></v-divider>
 
             <v-card-actions>
-              <v-btn @click="dialogDelete = false, keterangan = null" color="white" text>Batal</v-btn>
+              <v-btn
+                @click="dialogDelete = false, keterangan = null"
+                color="white"
+                text
+              >Batal</v-btn>
               <v-spacer></v-spacer>
               <v-btn
                 v-if="dialogDelete.value"
@@ -390,10 +549,19 @@
         </v-dialog>
       </div>
       <!-- Snackbar -->
-      <v-snackbar v-model="snackbar.show" :timeout="2000" :color="snackbar.color">
+      <v-snackbar
+        v-model="snackbar.show"
+        :timeout="2000"
+        :color="snackbar.color"
+      >
         {{ snackbar.message }}
         <template v-slot:action="{ attrs }">
-          <v-btn small text v-bind="attrs" @click="snackbar.show = false">tutup</v-btn>
+          <v-btn
+            small
+            text
+            v-bind="attrs"
+            @click="snackbar.show = false"
+          >tutup</v-btn>
         </template>
       </v-snackbar>
     </v-card>
@@ -427,6 +595,9 @@ export default {
           this.loading = false;
         })
         .catch(error => {
+          if (error.response.status == 401) {
+            this.$router.push({ name: "Login Petugas" });
+          }
           console.error(error);
           this.loading = false;
         });
@@ -504,6 +675,9 @@ export default {
           };
         })
         .catch(error => {
+          if (error.response.status == 401) {
+            this.$router.push({ name: "Login Petugas" });
+          }
           console.error(error);
           this.snackbar = {
             show: true,
@@ -543,6 +717,9 @@ export default {
         console.log(val);
         for (let i = 0; i < val.length; i++) {
           const element = val[i];
+          if (element.required == false) {
+            continue;
+          }
           if (element.isLulus == null) {
             this.btnLoading = true;
             this.btnTidakLulus = true;
