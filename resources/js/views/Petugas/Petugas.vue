@@ -32,24 +32,23 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar
-      app
-      dense
-      clipped-left
-    >
+    <v-app-bar app dense clipped-left>
       <v-app-bar-nav-icon @click.stop="miniVariant= !miniVariant; expandOnHover= !expandOnHover"></v-app-bar-nav-icon>
       <div style="width:100%; -webkit-app-region: drag;">
         <v-toolbar-title>
-          <span v-if="!$vuetify.breakpoint.mobile" class="font-weight-bold ml-4">
-            App Beasiswa
-          </span>
+          <span v-if="!$vuetify.breakpoint.mobile" class="font-weight-bold ml-4">App Beasiswa</span>
           <!-- Change this automaticly later usig VUEX -->
           <span>{{$route.name}}</span>
         </v-toolbar-title>
       </div>
       <v-slide-y-transition>
+        <v-btn v-if="checkRoute('LPJ')" small class="green darken-3" @click="toggleBeasiswa()">
+          <v-icon>mdi-plus</v-icon>tambah LPJ
+        </v-btn>
+      </v-slide-y-transition>
+      <v-slide-y-transition>
         <v-btn
-          v-if="this.$route.name == 'List Permohonan'"
+          v-if="checkRoute('List Permohonan')"
           small
           class="green darken-3"
           @click="toggleBeasiswa()"
@@ -58,28 +57,18 @@
         </v-btn>
       </v-slide-y-transition>
       <v-slide-y-transition>
-        <v-btn
-          v-if="isBeasiswa"
-          small
-          class="green darken-3"
-          @click="toggleBeasiswa()"
-        >
+        <v-btn v-if="checkRoute('Beasiswa')" small class="green darken-3" @click="toggleBeasiswa()">
           <v-icon>mdi-plus</v-icon>tambah beasiswa
         </v-btn>
       </v-slide-y-transition>
       <v-slide-y-transition>
-        <v-btn
-          v-if="isInstansi"
-          small
-          class="green darken-3"
-          @click="toggleBeasiswa()"
-        >
+        <v-btn v-if="checkRoute('Instansi')" small class="green darken-3" @click="toggleBeasiswa()">
           <v-icon>mdi-plus</v-icon>tambah instansi
         </v-btn>
       </v-slide-y-transition>
       <v-slide-y-transition>
         <v-btn
-          v-if="isKelolaMahasiswa"
+          v-if="checkRoute('Kelola Mahasiswa')"
           small
           class="green darken-3"
           @click="toggleBeasiswa()"
@@ -89,7 +78,7 @@
       </v-slide-y-transition>
       <v-slide-y-transition>
         <v-btn
-          v-if="isAkunPetugas"
+          v-if="checkRoute('Akun Petugas')"
           small
           class="green darken-3"
           @click="toggleBeasiswa()"
@@ -97,26 +86,19 @@
           <v-icon>mdi-plus</v-icon>tambah akun petugas
         </v-btn>
       </v-slide-y-transition>
-      <v-btn
-        small
-        text
-        @click="logout"
-      >
+      <v-btn small text @click="logout">
         <v-icon>mdi-logout-variant</v-icon>keluar
       </v-btn>
     </v-app-bar>
 
     <v-main class="bg-pattern">
-      <transition
-        name="slide-fade"
-        mode="out-in"
-      >
+      <transition name="slide-fade" mode="out-in">
         <router-view></router-view>
       </transition>
 
       <!-- <v-fade-transition mode="in" hide-on-leave="true">
         <router-view></router-view>
-      </v-fade-transition> -->
+      </v-fade-transition>-->
     </v-main>
   </v-app>
 </template>
@@ -128,6 +110,9 @@ export default {
     ...mapMutations(["toggleOpenBeasiswa"]),
     toggleBeasiswa() {
       this.toggleOpenBeasiswa(true);
+    },
+    checkRoute(name) {
+      return this.$route.name == name;
     },
     logout() {
       axios
@@ -212,6 +197,11 @@ export default {
           icon: "mdi-account-details",
           title: "List Permohonan",
           to: `/admin/${petugas}/permohonan`
+        },
+        {
+          icon: "mdi-book-multiple",
+          title: "LPJ",
+          to: `/admin/${petugas}/lpj`
         },
         {
           icon: "mdi-account-group",

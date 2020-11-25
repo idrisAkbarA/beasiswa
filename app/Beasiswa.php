@@ -172,6 +172,15 @@ class Beasiswa extends Model
         return $beasiswa;
     }
 
+    public static function selesai()
+    {
+        $today = Carbon::today();
+        $beasiswa =  self::onlyTrashed()
+            ->with('instansi')
+            ->get();
+        return $beasiswa;
+    }
+
     public function isActive()
     {
         $today = Carbon::today();
@@ -237,5 +246,10 @@ class Beasiswa extends Model
     {
         return $this->hasMany('App\PemohonBeasiswa', 'beasiswa_id')
             ->with('mahasiswa');
+    }
+
+    public function lpj()
+    {
+        return $this->hasMany('App\LPJ');
     }
 }

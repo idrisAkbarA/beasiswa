@@ -140,7 +140,8 @@ class BeasiswaController extends Controller
     }
     public function report(Request $request)
     {
-        function statusTahap($tahap){
+        function statusTahap($tahap)
+        {
             if ($tahap === 1) {
                 $status = "Lulus";
             } else if ($tahap === 0) {
@@ -318,7 +319,7 @@ class BeasiswaController extends Controller
 
 
                 // $status = statusTahap($valueP[$tahapKey]);
-                if($namedTahapKey != "Tahap Berkas"){
+                if ($namedTahapKey != "Tahap Berkas") {
                     $temp["Tahap Berkas"] = statusTahap($valueP["is_berkas_passed"]);
                     // if($namedTahapKey=="Tahap interview"){
                     //     $temp["Tahap Survey"] = statusTahap($valueP["is_survey_passed"]);
@@ -370,7 +371,6 @@ class BeasiswaController extends Controller
                     } catch (\Throwable $th) {
                         continue;
                     }
-                  
                 }
 
                 if (!isset($request['isVerificator'])) {
@@ -511,12 +511,19 @@ class BeasiswaController extends Controller
         $beasiswa->forcedelete();
         return response()->json(['status' => "Success: Beasiswa Deleted"]);
     }
-    public function selesai()
+
+    public function progress()
     {
         $beasiswaOnProgress = Beasiswa::onProgress();
         $data = [
             'selesai' => $beasiswaOnProgress,
         ];
         return response()->json($data);
+    }
+
+    public function selesai()
+    {
+        $beasiswaSelesai = Beasiswa::selesai();
+        return response()->json($beasiswaSelesai);
     }
 }

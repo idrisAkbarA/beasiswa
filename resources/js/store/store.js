@@ -10,14 +10,15 @@ Axios.defaults.withCredentials = true;
 
 export default new Vuex.Store({
     state: {
-        appSettings:[],
-        auth: { name:null, id:null, role: null, isAuth: false },
+        appSettings: [],
+        auth: { name: null, id: null, role: null, isAuth: false },
         report: [],
         url: pack.baseUrl,
         name: "idris",
         akunPetugas: [],
         nim: "",
         jurusan: [],
+        lpj: [],
         fakultas: [],
         cekBerkas: [],
         cekInterview: [],
@@ -71,6 +72,9 @@ export default new Vuex.Store({
         mutateBeasiswa(state, data) {
             state.beasiswa = data;
         },
+        mutateLPJ(state, data) {
+            state.lpj = data;
+        },
         mutateBeasiswaSingle(state, data) {
             state.beasiswaSingle = data;
         },
@@ -88,6 +92,13 @@ export default new Vuex.Store({
         }
     },
     actions: {
+        getLPJ({ commit, dispatch, state }) {
+            commit("mutateTableLoading", true);
+            Axios.get("/api/lpj").then(response => {
+                commit("mutateLPJ", response.data);
+                commit("mutateTableLoading", false);
+            });
+        },
         getAppSettings({ commit, dispatch, state }) {
             commit("mutateTableLoading", true);
             Axios.get("/api/beasiswa/settings").then(response => {
@@ -159,6 +170,13 @@ export default new Vuex.Store({
         getBeasiswaActive({ commit, dispatch, state }) {
             commit("mutateTableLoading", true);
             Axios.get("/api/beasiswa/get-active").then(response => {
+                commit("mutateBeasiswa", response.data);
+                commit("mutateTableLoading", false);
+            });
+        },
+        getBeasiswaSelesai({ commit, dispatch, state }) {
+            commit("mutateTableLoading", true);
+            Axios.get("/api/beasiswa/selesai").then(response => {
                 commit("mutateBeasiswa", response.data);
                 commit("mutateTableLoading", false);
             });

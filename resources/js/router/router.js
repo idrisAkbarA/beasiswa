@@ -15,7 +15,7 @@ import Akun from "../views/Petugas/Admin/Akun.vue";
 import AkunPetugas from "../views/Petugas/Admin/AkunPetugas.vue";
 import Kelulusan from "../views/Petugas/Admin/Kelulusan.vue";
 import KelolaMhs from "../views/Petugas/Admin/Mahasiswa.vue";
-import CekPermohonan from "../views/Petugas/Admin/CekPermohonan.vue";
+import LPJ from "../views/Petugas/Admin/LPJ.vue";
 import Laporan from "../views/Petugas/Admin/Laporan.vue";
 import Pengaturan from "../views/Petugas/Admin/Pengaturan.vue";
 
@@ -75,22 +75,22 @@ const routes = [
     {
         path: "/admin/:petugas",
         component: Petugas,
-        beforeRouteUpdate:(next)=>{
+        beforeRouteUpdate: (next) => {
             console.log("patek")
             axios
-                    .get("/api/user/petugas")
-                    .then(response => {
-                        console.log(response.data);
-                        response.data.role == 1
-                            ? next()
-                            : next({ name: "Unauthorized" });
-                    })
-                    .catch(error => {
-                        console.log("---------");
-                        console.log(error);
-                        console.log("---------");
-                        next({ name: "Landing Page" });
-                    });
+                .get("/api/user/petugas")
+                .then(response => {
+                    console.log(response.data);
+                    response.data.role == 1
+                        ? next()
+                        : next({ name: "Unauthorized" });
+                })
+                .catch(error => {
+                    console.log("---------");
+                    console.log(error);
+                    console.log("---------");
+                    next({ name: "Landing Page" });
+                });
         },
         async beforeEnter(to, from, next) {
             if (from.name == null) {
@@ -148,9 +148,9 @@ const routes = [
                 component: Beasiswa
             },
             {
-                name: "Cek Berkas Permohonan",
-                path: "cek-berkas-permohonan",
-                component: CekPermohonan
+                name: "LPJ",
+                path: "LPJ",
+                component: LPJ
             },
             {
                 name: "List Permohonan",

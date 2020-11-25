@@ -54,9 +54,9 @@ export default {
                 dispatch('getMahasiswa')
             })
         },
-        getBeasiswaSelesai({ commit, dispatch, rootState }) {
+        getBeasiswaProgress({ commit, dispatch, rootState }) {
             commit("mutateTableLoading", true);
-            Axios.get(rootState.url + "/api/beasiswa/selesai").then(response => {
+            Axios.get(rootState.url + "/api/beasiswa/progress").then(response => {
                 commit('mutateBeasiswaProgress', response.data);
                 commit("mutateTableLoading", false);
             })

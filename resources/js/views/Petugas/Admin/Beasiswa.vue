@@ -941,7 +941,6 @@
                             </v-btn>
                           </v-row>
                         </v-container>
-
                         <v-text-field
                           prepend-icon="mdi-text-short"
                           v-if="field.type == 'Jawaban Pendek'"
@@ -1398,7 +1397,6 @@ export default {
       return formatedToday;
     }
   },
-
   computed: {
     ...mapState([
       "beasiswa",

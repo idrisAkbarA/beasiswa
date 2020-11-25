@@ -350,12 +350,12 @@
 import { mapActions, mapMutations, mapState } from "vuex";
 export default {
   created() {
-    this.getBeasiswaSelesai();
+    this.getBeasiswaProgress();
     this.getInstansi();
   },
   methods: {
     ...mapMutations(["toggleOpenBeasiswa", "mutateLoading"]),
-    ...mapActions(["getBeasiswaSelesai", "getInstansi", "storeBeasiswa"]),
+    ...mapActions(["getBeasiswaProgress", "getInstansi", "storeBeasiswa"]),
     compareType(a, b) {
       a == b ? true : false;
     },
@@ -411,7 +411,7 @@ export default {
       this.storeBeasiswa(form)
         .then(() => {
           this.toggleBeasiswa = false;
-          this.getBeasiswaSelesai();
+          this.getBeasiswaProgress();
         })
         .catch(error => {
           console.error(error);

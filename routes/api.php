@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LPJController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
@@ -55,6 +56,7 @@ Route::get('/beasiswa/selection', 'BeasiswaController@selection');
 Route::middleware('auth:petugas,mahasiswa')->get('/beasiswa', 'BeasiswaController@getAll');
 Route::get('/beasiswa/get-active', 'BeasiswaController@getActive');
 Route::middleware('auth:petugas,mahasiswa')->get('/beasiswa/with-permohonan', 'BeasiswaController@getAllWithPermohonan');
+Route::get('/beasiswa/progress', 'BeasiswaController@progress');
 Route::get('/beasiswa/selesai', 'BeasiswaController@selesai');
 Route::middleware('auth:petugas')->get('/beasiswa/{id}/permohonan', 'BeasiswaController@getPermohonan');
 Route::middleware('auth:petugas,mahasiswa')->get('/beasiswa/{id}', 'BeasiswaController@get');
@@ -99,3 +101,10 @@ Route::get('/pemohon/count-submit', 'PemohonBeasiswaController@countSubmit');
 Route::get('/pemohon/count-berkas', 'PemohonBeasiswaController@countBerkas');
 Route::get('/pemohon/count-interview', 'PemohonBeasiswaController@countInterview');
 Route::get('/pemohon/count-lulus', 'PemohonBeasiswaController@countLulus');
+
+Route::prefix('/lpj')->group(function () {
+    Route::get('/', 'LPJController@index');
+    Route::post('/', 'LPJController@store');
+    Route::put('{lpj}', 'LPJController@update');
+    Route::delete('{lpj}', 'LPJController@destroy');
+});
