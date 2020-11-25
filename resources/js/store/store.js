@@ -99,6 +99,13 @@ export default new Vuex.Store({
                 commit("mutateTableLoading", false);
             });
         },
+        getLPJActive({ commit, dispatch, state }) {
+            commit("mutateTableLoading", true);
+            Axios.get("/api/lpj/active").then(response => {
+                commit("mutateLPJ", response.data);
+                commit("mutateTableLoading", false);
+            });
+        },
         getAppSettings({ commit, dispatch, state }) {
             commit("mutateTableLoading", true);
             Axios.get("/api/beasiswa/settings")

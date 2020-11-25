@@ -105,6 +105,7 @@ Route::get('/pemohon/count-lulus', 'PemohonBeasiswaController@countLulus');
 
 Route::prefix('/lpj')->group(function () {
     Route::get('/', 'LPJController@index');
+    Route::get('active', 'LPJController@indexMahasiswa');
     Route::post('/', 'LPJController@store');
     Route::put('{lpj}', 'LPJController@update');
     Route::delete('{lpj}', 'LPJController@destroy');

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\LPJ;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class LPJController extends Controller
 {
@@ -15,6 +17,29 @@ class LPJController extends Controller
     public function index()
     {
         $lpj = LPJ::with('beasiswa')->orderBy('id', 'DESC')->get();
+        return response()->json($lpj);
+    }
+
+    /**
+     * Display a listing of the resource in mahasiswa.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function indexMahasiswa()
+    {
+        $user = Auth::guard('mahasiswa')->user();
+        $today = Carbon::today();
+        $beasiswaLulus = $user->permohonan
+            ->where('is_selection_passed', 1)
+            ->pluck('beasiswa_id');
+        $lpj = LPJ::with('beasiswa')
+            ->whereHas('beasiswa', function ($q) use ($beasiswaLulus) {
+                return $q->whereIn('beasiswas.id', $beasiswaLulus);
+            })
+            ->whereDate('awal', '<=', $today)
+            ->whereDate('akhir', '>=', $today)
+            ->orderBy('id', 'DESC')
+            ->get();
         return response()->json($lpj);
     }
 

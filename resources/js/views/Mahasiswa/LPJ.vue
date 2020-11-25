@@ -1,12 +1,12 @@
 <template>
   <v-container fluid class="main pa-0 ma-0">
-    <v-row class="fill-height" style="height:100%" align="center" v-if="beasiswa.length<1">
+    <v-row class="fill-height" style="height:100%" align="center" v-if="lpj.length<1">
       <v-col cols="12">
         <v-img class="mx-auto" max-width="340" :src="'/images/nothing.png'"></v-img>
       </v-col>
       <v-col cols="12">
         <div style="width:100%">
-          <h4 style="text-align:center">Maaf, belum ada beasiswa yang tersedia saat ini</h4>
+          <h4 style="text-align:center">Maaf, belum ada LPJ yang tersedia saat ini</h4>
         </div>
       </v-col>
     </v-row>
@@ -17,7 +17,7 @@
         class="ma-3"
         :height="300*1.2"
         :width="200*1.2"
-        v-for="(item,index) in beasiswa"
+        v-for="(item,index) in lpj"
         :key="index"
       >
         <v-img
@@ -53,8 +53,7 @@
 import { mapState, mapActions } from "vuex";
 export default {
   methods: {
-    ...mapActions(["getBeasiswaActive"]),
-
+    ...mapActions(["getLPJActive"]),
     goto(item) {
       this.$router.push({
         path: "/mahasiswa/daftar-beasiswa/" + item.id
@@ -62,10 +61,10 @@ export default {
     }
   },
   created() {
-    this.getBeasiswaActive();
+    this.getLPJActive();
   },
   computed: {
-    ...mapState(["beasiswa"])
+    ...mapState(["lpj"])
   },
   data() {
     return {
