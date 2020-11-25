@@ -22,16 +22,12 @@
         <div
           style="width:100%"
         >
-          <h4 style="text-align:center">Maaf, belum ada beasiswa yang tersedia</h4>
+          <h4 style="text-align:center">Maaf, belum ada beasiswa yang tersedia saat ini</h4>
         </div>
       </v-col>
     </v-row>
-    <v-row>
-
-    </v-row>
-
     <v-row
-      v-if="beasiswa.length>1"
+      v-else
       justify="center"
     >
 

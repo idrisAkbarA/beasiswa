@@ -23,6 +23,7 @@
       </v-col>
     </v-row>
     <v-row
+    v-else
       justify="center"
       v-for="(item,index) in permohonans"
       :key="index"

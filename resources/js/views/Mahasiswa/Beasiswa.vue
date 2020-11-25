@@ -215,6 +215,7 @@
                       v-if="!item.file_name"
                     >
                       <v-file-input
+                      color="green"
                         @change="updateField(field)"
                         v-model="item.value"
                         :disabled="!item.isSelected"
@@ -227,6 +228,7 @@
                       v-if="item.file_name"
                     >
                       <v-file-input
+                      color="green"
                         @change="updateField(field)"
                         v-model="item.value"
                         :disabled="!item.isSelected"
