@@ -95,6 +95,10 @@ export default {
   created() {
     axios.get("/api/pemohon/count-submit").then(response => {
       this.isSubmit = response.data;
+    }).catch(error=>{
+      if(error.response.status==401){
+        this.$router.push({ name: "Login Petugas" });
+      }
     });
     axios.get("/api/pemohon/count-interview").then(response => {
       this.interview = response.data;

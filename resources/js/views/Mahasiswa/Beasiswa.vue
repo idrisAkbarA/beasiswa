@@ -507,14 +507,20 @@ export default {
     axios.get("/api/permohonan/" + this.$route.params.id).then(response => {
       console.log("test", response.data);
     });
-    this.getBeasiswaSingle(this.$route.params.id).then(response => {
-      if (Object.values(response.syarat).includes(false)) {
-        this.overlay = {
-          show: true,
-          message: response.syarat
-        };
-      }
-    });
+    this.getBeasiswaSingle(this.$route.params.id)
+      .then(response => {
+        if (Object.values(response.syarat).includes(false)) {
+          this.overlay = {
+            show: true,
+            message: response.syarat
+          };
+        }
+      })
+      .catch(error => {
+        if (error.response.status == 401) {
+          this.$router.push({ name: "Landing Page" });
+        }
+      });
     this.getUserPermohonan();
   },
   methods: {
@@ -625,35 +631,41 @@ export default {
         var data = new FormData();
         data.append("file", item.value);
         data.append("id", this.$route.params.id);
-        await this.upload(data).then(response => {
-          console.log(response.data);
-          var formTemp = JSON.parse(JSON.stringify(this.fields));
-          var index = this.fields.indexOf(item);
-          console.log(index);
-          formTemp[item.index - 1].value = response.data.file_name;
-          axios
-            .post(`/api/pemohon`, {
-              beasiswa_id: this.$route.params.id,
-              form: formTemp
-            })
-            .then(response => {
-              console.log(response.data);
-              this.getUserPermohonan();
-              this.overlay.message =
-                "Permohonan beasiswa berhasil dikirim, lihat status permohonan beasiswa";
-              this.loadingBtn = false;
-              // this.isDisabled = true;
-              this.snackbar = true;
-              this.isSure = false;
-            })
-            .catch(error => {
-              this.msg.color = "red";
-              this.msg.text =
-                "Maaf ada kendala ketika ingin menyimpan, coba lagi nanti..";
-              this.snackbar = true;
-              console.log(error);
-            });
-        });
+        await this.upload(data)
+          .then(response => {
+            console.log(response.data);
+            var formTemp = JSON.parse(JSON.stringify(this.fields));
+            var index = this.fields.indexOf(item);
+            console.log(index);
+            formTemp[item.index - 1].value = response.data.file_name;
+            axios
+              .post(`/api/pemohon`, {
+                beasiswa_id: this.$route.params.id,
+                form: formTemp
+              })
+              .then(response => {
+                console.log(response.data);
+                this.getUserPermohonan();
+                this.overlay.message =
+                  "Permohonan beasiswa berhasil dikirim, lihat status permohonan beasiswa";
+                this.loadingBtn = false;
+                // this.isDisabled = true;
+                this.snackbar = true;
+                this.isSure = false;
+              })
+              .catch(error => {
+                this.msg.color = "red";
+                this.msg.text =
+                  "Maaf ada kendala ketika ingin menyimpan, coba lagi nanti..";
+                this.snackbar = true;
+                console.log(error);
+              });
+          })
+          .catch(error => {
+            if (error.response.status == 401) {
+              this.goToLandingPage();
+            }
+          });
       }
     },
     checkMultipleUpload() {
@@ -710,35 +722,49 @@ export default {
     },
 
     getUserPermohonan() {
-      axios.get("/api/permohonan/" + this.$route.params.id).then(response => {
-        console.log(response.data);
-        if (response.data.length > 0) {
-          console.log("aku tidak kosong");
+      axios
+        .get("/api/permohonan/" + this.$route.params.id)
+        .then(response => {
+          console.log(response.data);
+          if (response.data.length > 0) {
+            console.log("aku tidak kosong");
 
-          console.log("cek tanggal",response.data);
-          this.fields = JSON.parse(response.data[0].form);
-          this.refference = JSON.parse(JSON.stringify(this.fields));
-        } else {
-          console.log("aku kosong");
-          this.getBeasiswaSingle(this.$route.params.id).then(response => {
-            this.defaultFields = JSON.parse(response.fields);
-            this.fields = this.defaultFields;
+            console.log("cek tanggal", response.data);
+            this.fields = JSON.parse(response.data[0].form);
             this.refference = JSON.parse(JSON.stringify(this.fields));
-          }).then(response=>{
-            console.log("response single ", response.data)
-          });
-        }
-        try {
-          this.isSubmitted = response.data[0].is_submitted == 1 ? true : false;
-          this.editOverlay = response.data[0].is_submitted == 1 ? true : false;
-        } catch (error) {
-          this.isSubmitted = false;
-        }
-        console.log(this.fields, "fields");
-      });
+          } else {
+            console.log("aku kosong");
+            this.getBeasiswaSingle(this.$route.params.id)
+              .then(response => {
+                this.defaultFields = JSON.parse(response.fields);
+                this.fields = this.defaultFields;
+                this.refference = JSON.parse(JSON.stringify(this.fields));
+              })
+              .then(response => {
+                console.log("response single ", response.data);
+              });
+          }
+          try {
+            this.isSubmitted =
+              response.data[0].is_submitted == 1 ? true : false;
+            this.editOverlay =
+              response.data[0].is_submitted == 1 ? true : false;
+          } catch (error) {
+            this.isSubmitted = false;
+          }
+          console.log(this.fields, "fields");
+        })
+        .catch(error => {
+          if (error.response.status == 401) {
+            this.$router.push({ name: "Landing Page" });
+          }
+        });
     },
-
-    upload: async (data) => {
+    goToLandingPage() {
+      this.$router.push({ name: "Landing Page" });
+    },
+    upload: async data => {
+      var ini = this;
       return axios({
         method: "post",
         url: "/api/pemohon/file",
@@ -775,6 +801,9 @@ export default {
             this.isSure = false;
           })
           .catch(error => {
+            if (error.response.status == 401) {
+              this.$router.push({ name: "Landing Page" });
+            }
             this.msg.color = "red";
             this.msg.text =
               "Maaf ada kendala ketika ingin menyimpan, coba lagi nanti..";
@@ -796,14 +825,13 @@ export default {
       //   finalForm.push(element);
       // });
     }
-
   },
   computed: {
     ...mapState(["beasiswaSingle", "nim"])
   },
   watch: {
-    beasiswaSingle(val){
-      console.log("beasiswa single",val)
+    beasiswaSingle(val) {
+      console.log("beasiswa single", val);
       var now = Date.now();
       // var akhir_berkas = val.
     },

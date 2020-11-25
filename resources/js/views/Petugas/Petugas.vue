@@ -30,7 +30,7 @@
         <v-card-text> Aplikasi Beasiswa UIN Suska Riau</v-card-text>
       </v-card>
       <v-card
-      v-if="windowWidth<=600"
+        v-if="windowWidth<=600"
         class="d-flex justify-center  pr-2 pl-2"
         flat
         tile

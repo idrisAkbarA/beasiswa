@@ -12,21 +12,47 @@
         <strong class="text-dark">History permohonan</strong>
       </v-subheader>
       <v-row class="pl-8 pr-8">
-        <v-text-field prepend-inner-icon="mdi-magnify" clearable label="Pencarian"></v-text-field>
+        <v-text-field
+          prepend-inner-icon="mdi-magnify"
+          clearable
+          label="Pencarian"
+        ></v-text-field>
       </v-row>
       <v-row>
         <v-card-text>
-          <v-row v-if="loading" justify="center" align-content="center" class="text-center">
+          <v-row
+            v-if="loading"
+            justify="center"
+            align-content="center"
+            class="text-center"
+          >
             <v-col cols="12">
-              <v-progress-circular class="mx-auto" color="green" indeterminate></v-progress-circular>
+              <v-progress-circular
+                class="mx-auto"
+                color="green"
+                indeterminate
+              ></v-progress-circular>
             </v-col>
             <v-col cols="12">Memuat data</v-col>
           </v-row>
-          <p v-if="!beasiswa.length && !loading" class="text-center">Tidak ada berkas</p>
-          <v-expansion-panels hover inset>
-            <v-expansion-panel v-for="(item,i) in beasiswa" :key="i">
+          <p
+            v-if="!beasiswa.length && !loading"
+            class="text-center"
+          >Tidak ada berkas</p>
+          <v-expansion-panels
+            hover
+            inset
+          >
+            <v-expansion-panel
+              v-for="(item,i) in beasiswa"
+              :key="i"
+            >
               <v-expansion-panel-header>
-                <v-row no-gutters align="center" justify="space-between">
+                <v-row
+                  no-gutters
+                  align="center"
+                  justify="space-between"
+                >
                   <v-col cols="6">
                     <strong>{{item.nama}}</strong>
                   </v-col>
@@ -66,10 +92,11 @@
                     @focus="index = i"
                   ></v-text-field>
                   <v-subheader>Permohonan ({{!searchQuery ? Object.keys(item.permohonan).length : resultQuery.length}})</v-subheader>
-                  <v-list-item-group class="bg-white" color="primary">
-                    <template
-                      v-for="(permohonan, index) in !searchQuery ? item.permohonan : resultQuery"
-                    >
+                  <v-list-item-group
+                    class="bg-white"
+                    color="primary"
+                  >
+                    <template v-for="(permohonan, index) in !searchQuery ? item.permohonan : resultQuery">
                       <v-list-item
                         :key="index"
                         @click="sheetDetail = true, selectedPermohonan = permohonan, parsedForm = JSON.parse(permohonan.form)"
@@ -77,13 +104,17 @@
                         <template>
                           <v-list-item-content>
                             <v-list-item-title v-text="permohonan.mahasiswa.nama"></v-list-item-title>
-                            <v-list-item-subtitle
-                              v-text="`${permohonan.mahasiswa.jurusan.nama} (${permohonan.mahasiswa.fakultas.nama})`"
-                            ></v-list-item-subtitle>
+                            <v-list-item-subtitle v-text="`${permohonan.mahasiswa.jurusan.nama} (${permohonan.mahasiswa.fakultas.nama})`"></v-list-item-subtitle>
                           </v-list-item-content>
                           <v-list-item-action>
-                            <v-icon color="blue" v-if="permohonan.is_berkas_passed">mdi-check</v-icon>
-                            <v-icon color="red" v-else>mdi-close</v-icon>
+                            <v-icon
+                              color="blue"
+                              v-if="permohonan.is_berkas_passed"
+                            >mdi-check</v-icon>
+                            <v-icon
+                              color="red"
+                              v-else
+                            >mdi-close</v-icon>
                           </v-list-item-action>
                         </template>
                       </v-list-item>
@@ -111,11 +142,17 @@
       v-model="sheetDetail"
     >
       <v-card>
-        <v-card-title class="headline white--text" primary-title>
+        <v-card-title
+          class="headline white--text"
+          primary-title
+        >
           <i class="mdi mdi-account mr-2"></i>
           {{selectedPermohonan.mahasiswa.nama}}
           <v-spacer></v-spacer>
-          <v-icon @click="sheetDetail = false" color="red">mdi-close-box</v-icon>
+          <v-icon
+            @click="sheetDetail = false"
+            color="red"
+          >mdi-close-box</v-icon>
         </v-card-title>
 
         <v-card-text class="mt-2 white--text">
@@ -123,7 +160,12 @@
             <v-tab>Permohonan Beasiswa</v-tab>
             <v-tab>Biodata Mahasiswa</v-tab>
             <v-tab-item>
-              <v-row no-gutters class="ma-5" v-for="(field,index) in parsedForm" :key="index">
+              <v-row
+                no-gutters
+                class="ma-5"
+                v-for="(field,index) in parsedForm"
+                :key="index"
+              >
                 <v-col style="padding-bottom:0 !important;">
                   <p>{{field.pertanyaan}}</p>
                   <v-container v-if="field.type == 'Checkboxes'">
@@ -148,8 +190,14 @@
                       </v-col>
                       <v-col cols="3">
                         <v-radio-group v-model="field.isLulus">
-                          <v-radio label="Lulus" :value="true"></v-radio>
-                          <v-radio label="Tidak Lulus" :value="false"></v-radio>
+                          <v-radio
+                            label="Lulus"
+                            :value="true"
+                          ></v-radio>
+                          <v-radio
+                            label="Tidak Lulus"
+                            :value="false"
+                          ></v-radio>
                         </v-radio-group>
                       </v-col>
                     </v-row>
@@ -257,7 +305,10 @@
                   </v-row>
                   <v-row v-if="field.type == 'Upload File'">
                     <v-col cols="9">
-                      <v-btn small @click="link(field.value)">lihat file</v-btn>
+                      <v-btn
+                        small
+                        @click="link(field.value)"
+                      >lihat file</v-btn>
                     </v-col>
                     <v-col cols="3">
                       <v-icon>{{field.isLulus ? 'mdi-check' : 'mdi-close'}}</v-icon>
@@ -304,7 +355,10 @@
 
         <v-card-actions v-if="!editMode">
           <v-spacer></v-spacer>
-          <v-btn light @click="editMode = true">Edit</v-btn>
+          <v-btn
+            light
+            @click="editMode = true"
+          >Edit</v-btn>
         </v-card-actions>
         <v-card-actions v-else>
           <v-btn
@@ -327,10 +381,20 @@
       </v-card>
     </v-bottom-sheet>
     <!-- Dialog Delete -->
-    <div class="text-center" v-if="dialogDelete.show">
-      <v-dialog v-model="dialogDelete.show" width="400" overlay-color="#2E7D32">
+    <div
+      class="text-center"
+      v-if="dialogDelete.show"
+    >
+      <v-dialog
+        v-model="dialogDelete.show"
+        width="400"
+        overlay-color="#2E7D32"
+      >
         <v-card>
-          <v-card-title class="headline white--text" primary-title>
+          <v-card-title
+            class="headline white--text"
+            primary-title
+          >
             <i class="mdi mdi-checkbox-marked-circle-outline mr-2"></i> Varifikasi Berkas
           </v-card-title>
           <v-card-text class="white--text mt-2 pb-0">
@@ -351,7 +415,11 @@
           <v-divider></v-divider>
 
           <v-card-actions>
-            <v-btn @click="dialogDelete = false, keterangan = null" color="white" text>Batal</v-btn>
+            <v-btn
+              @click="dialogDelete = false, keterangan = null"
+              color="white"
+              text
+            >Batal</v-btn>
             <v-spacer></v-spacer>
             <v-btn
               color="#2E7D32"
@@ -364,10 +432,19 @@
       </v-dialog>
     </div>
     <!-- Snackbar -->
-    <v-snackbar v-model="snackbar.show" :timeout="2000" :color="snackbar.color">
+    <v-snackbar
+      v-model="snackbar.show"
+      :timeout="2000"
+      :color="snackbar.color"
+    >
       {{ snackbar.message }}
       <template v-slot:action="{ attrs }">
-        <v-btn small text v-bind="attrs" @click="snackbar.show = false">tutup</v-btn>
+        <v-btn
+          small
+          text
+          v-bind="attrs"
+          @click="snackbar.show = false"
+        >tutup</v-btn>
       </template>
     </v-snackbar>
   </v-card>
@@ -433,6 +510,10 @@ export default {
           this.beasiswa = response.data;
         })
         .catch(error => {
+          if (error.response.status == 401) {
+            this.$router.push({ name: "Login Petugas" });
+          }
+
           console.error(error);
           this.snackbar = {
             show: true,
