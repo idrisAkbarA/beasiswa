@@ -3,6 +3,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Unauthorized from "../views/Unauthorized.vue";
+import Test from "../views/Test.vue";
 import NotFound from "../views/404.vue";
 import Login from "../views/Login.vue";
 import LoginPetugas from "../views/LoginPetugas.vue";
@@ -56,6 +57,11 @@ const routes = [
         path: "/",
         name: "Landing Page",
         component: Home
+    },
+    {
+        path: "/test",
+        name: "Landing Page",
+        component: Test
     },
     {
         path: "/unauthorized",

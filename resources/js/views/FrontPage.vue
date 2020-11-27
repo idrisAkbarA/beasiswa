@@ -391,7 +391,7 @@ export default {
         "day"
       )
         ? "to top right, rgba(58, 231, 87, 0.33), rgba(25,32,72,.7)"
-        : "to top right, rgba(255, 0, 0, 0.795), rgba(25,32,72,.7)";
+        : "to top right, rgba(0, 0, 0, 0.795), rgba(25,32,72,.7)";
     },
     isTersedia(beasiswa) {
       return this.$moment(new Date()).isSameOrBefore(

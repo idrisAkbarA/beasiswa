@@ -185,13 +185,13 @@
                 </v-radio>
               </v-radio-group>
               <v-container v-if="field.type == 'Multiple Upload'">
-                <template v-if="!$vuetify.breakpoint.mobile">
+                <template v-if="windowWidth>600">
 
                   <v-row
                     align-self="center"
                     align="center"
-                    v-for="(item,index) in field.multiUpload.items"
-                    :key="index"
+                    v-for="(item,i) in field.multiUpload.items"
+                    :key="i"
                     :value="item.label"
                     no-gutters
                   >
@@ -214,13 +214,23 @@
                       cols="7"
                       v-if="!item.file_name"
                     >
-                      <v-file-input
-                      color="green"
-                        @change="updateField(field)"
-                        v-model="item.value"
+                      <v-text-field
+                        color="green"
                         :disabled="!item.isSelected"
                         filled
+                        prepend-icon="mdi-attachment"
+                        :value="item.value ? item.value.name:null"
                         :label="'Upload '+item.label"
+                        @click="$refs[`fileInput_${index}_${i}`][0].$refs.input.click()"
+                      ></v-text-field>
+                      <!-- @click="testRefs()" -->
+                      <!-- v-model="item.value" -->
+                      <v-file-input
+                        @change="updateField(field)"
+                        hide-input
+                        :ref="`fileInput_${index}_${i}`"
+                        v-model="item.value"
+                        class="d-none"
                       ></v-file-input>
                     </v-col>
                     <v-col
@@ -228,7 +238,7 @@
                       v-if="item.file_name"
                     >
                       <v-file-input
-                      color="green"
+                        color="green"
                         @change="updateField(field)"
                         v-model="item.value"
                         :disabled="!item.isSelected"
@@ -250,7 +260,7 @@
                   </v-row>
                 </template>
 
-                <template v-if="$vuetify.breakpoint.mobile">
+                <template v-if="windowWidth<=600">
                   <v-row
                     class="mt-6"
                     align-self="center"
@@ -398,14 +408,22 @@
                     >lihat file anda</v-btn>
                   </v-col>
                 </v-row>
-                <v-file-input
+                <v-text-field
+                  prepend-icon="mdi-attachment"
                   v-if="!field.value"
-                  @change="updateField(field)"
                   dense
-                  v-model="field.value"
+                  :value="field.value ? field.value.name:null"
                   :rules="isRequired(field.required)"
+                   @click="$refs[`fileInput_${index}`][0].$refs.input.click()"
                   color="white"
                   placeholder="Upload File"
+                ></v-text-field>
+                <v-file-input
+                  @change="updateField(field)"
+                  hide-input
+                  :ref="`fileInput_${index}`"
+                  v-model="field.value"
+                  class="d-none"
                 ></v-file-input>
               </template>
               <v-textarea
@@ -527,6 +545,9 @@ export default {
   },
   methods: {
     ...mapActions(["getBeasiswaSingle"]),
+    testRefs() {
+      console.log(this.$refs);
+    },
     link(url) {
       var a = "/" + url;
       var link = a.replace(" ", "%20");
