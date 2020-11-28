@@ -227,6 +227,7 @@
                       <v-file-input
                         @change="updateField(field)"
                         hide-input
+                        accept="image/*, .pdf"
                         :ref="`fileInput_${index}_${i}`"
                         v-model="item.value"
                         class="d-none"
@@ -249,6 +250,7 @@
                       <v-file-input
                         @change="updateField(field)"
                         hide-input
+                        accept="image/*, .pdf"
                         :ref="`fileInput_${index}_${i}`"
                         v-model="item.value"
                         class="d-none"
@@ -318,6 +320,7 @@
                       <v-file-input
                         @change="updateField(field)"
                         hide-input
+                        accept="image/*, .pdf"
                         :ref="`fileInput_${index}_${i}`"
                         v-model="item.value"
                         class="d-none"
@@ -349,6 +352,7 @@
                       <v-file-input
                         @change="updateField(field)"
                         hide-input
+                        accept="image/*, .pdf"
                         :ref="`fileInput_${index}_${i}`"
                         v-model="item.value"
                         class="d-none"
@@ -449,6 +453,7 @@
                     <v-file-input
                       @change="fileChange($event,index)"
                       hide-input
+                      accept="image/*, .pdf"
                       :ref="`fileInput_${index}`"
                       class="d-none"
                     ></v-file-input>
@@ -475,6 +480,7 @@
                 <v-file-input
                   @change="updateField(field)"
                   hide-input
+                  accept="image/*, .pdf"
                   :ref="`fileInput_${index}`"
                   v-model="field.value"
                   class="d-none"
