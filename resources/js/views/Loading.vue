@@ -9,15 +9,14 @@
           align="center"
           justify="center"
         >
-          <v-col
-            cols="12"
-          >
+          
             <v-progress-circular
+            class="mx-auto"
               :size="50"
               color="amber"
               indeterminate
             ></v-progress-circular>
-          </v-col>
+          
         </v-row>
       </v-container>
     </v-main>

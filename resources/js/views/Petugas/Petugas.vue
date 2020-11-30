@@ -24,7 +24,7 @@
         <v-card-text>
           Selamat datang {{$route.params.petugas}}
           <br />
-          <v-btn small block @click="logout">
+          <v-btn class="mt-2" outlined color="green darken-2" small block @click="logout">
             <v-icon>mdi-logout-variant</v-icon>keluar
           </v-btn>
         </v-card-text>

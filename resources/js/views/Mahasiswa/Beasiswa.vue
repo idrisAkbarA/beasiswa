@@ -185,13 +185,13 @@
                 </v-radio>
               </v-radio-group>
               <v-container v-if="field.type == 'Multiple Upload'">
-                <template v-if="!$vuetify.breakpoint.mobile">
+                <template v-if="windowWidth>600">
 
                   <v-row
                     align-self="center"
                     align="center"
-                    v-for="(item,index) in field.multiUpload.items"
-                    :key="index"
+                    v-for="(item,i) in field.multiUpload.items"
+                    :key="i"
                     :value="item.label"
                     no-gutters
                   >
@@ -214,25 +214,44 @@
                       cols="7"
                       v-if="!item.file_name"
                     >
-                      <v-file-input
-                      color="green"
-                        @change="updateField(field)"
-                        v-model="item.value"
+                      <v-text-field
+                        color="green"
                         :disabled="!item.isSelected"
                         filled
+                        prepend-icon="mdi-attachment"
+                        :value="item.value ? item.value.name:null"
                         :label="'Upload '+item.label"
+                        @click="$refs[`fileInput_${index}_${i}`][0].$refs.input.click()"
+                      ></v-text-field>
+                      <!-- v-model="item.value" -->
+                      <v-file-input
+                        @change="updateField(field)"
+                        hide-input
+                        :ref="`fileInput_${index}_${i}`"
+                        v-model="item.value"
+                        class="d-none"
                       ></v-file-input>
                     </v-col>
                     <v-col
                       cols="4"
                       v-if="item.file_name"
                     >
-                      <v-file-input
-                      color="green"
-                        @change="updateField(field)"
-                        v-model="item.value"
+                      <v-text-field
+                        color="green"
                         :disabled="!item.isSelected"
-                        :label="'Ganti File '+item.label"
+                    
+                        prepend-icon="mdi-attachment"
+                        :value="item.value ? item.value.name:null"
+                        :label="'Upload '+item.label"
+                        @click="$refs[`fileInput_${index}_${i}`][0].$refs.input.click()"
+                      ></v-text-field>
+                      <!-- v-model="item.value" -->
+                      <v-file-input
+                        @change="updateField(field)"
+                        hide-input
+                        :ref="`fileInput_${index}_${i}`"
+                        v-model="item.value"
+                        class="d-none"
                       ></v-file-input>
                     </v-col>
                     <v-col
@@ -250,7 +269,7 @@
                   </v-row>
                 </template>
 
-                <template v-if="$vuetify.breakpoint.mobile">
+                <template v-if="windowWidth<=600">
                   <v-row
                     class="mt-6"
                     align-self="center"
@@ -278,25 +297,61 @@
                       cols="11"
                       v-if="!item.file_name"
                     >
-                      <v-file-input
-                        hide-details="auto"
+                      <!-- <v-file-input
                         @change="updateField(field)"
                         v-model="item.value"
                         :disabled="!item.isSelected"
                         filled
                         :label="'Upload '+item.label"
+                      ></v-file-input> -->
+                       <v-text-field
+                        hide-details="auto"
+                        color="green"
+                        :disabled="!item.isSelected"
+                        filled
+                        prepend-icon="mdi-attachment"
+                        :value="item.value ? item.value.name:null"
+                        :label="'Upload '+item.label"
+                        @click="$refs[`fileInput_${index}_${i}`][0].$refs.input.click()"
+                      ></v-text-field>
+                      <!-- v-model="item.value" -->
+                      <v-file-input
+                        @change="updateField(field)"
+                        hide-input
+                        :ref="`fileInput_${index}_${i}`"
+                        v-model="item.value"
+                        class="d-none"
                       ></v-file-input>
                     </v-col>
                     <v-col
                       cols="6"
                       v-if="item.file_name"
                     >
-                      <v-file-input
+                      <!-- <v-file-input
                         hide-details="auto"
                         @change="updateField(field)"
                         v-model="item.value"
                         :disabled="!item.isSelected"
                         :label="'Ganti File '+item.label"
+                      ></v-file-input> -->
+                       <v-text-field
+                      
+                        hide-details="auto"
+                        color="green"
+                        :disabled="!item.isSelected"
+                
+                        prepend-icon="mdi-attachment"
+                        :value="item.value ? item.value.name:null"
+                        :label="'Ganti File '+item.label"
+                        @click="$refs[`fileInput_${index}_${i}`][0].$refs.input.click()"
+                      ></v-text-field>
+                      <!-- v-model="item.value" -->
+                      <v-file-input
+                        @change="updateField(field)"
+                        hide-input
+                        :ref="`fileInput_${index}_${i}`"
+                        v-model="item.value"
+                        class="d-none"
                       ></v-file-input>
                     </v-col>
                     <v-col
@@ -315,6 +370,7 @@
                 </template>
                 <v-row>
                   <v-alert
+                  class="mt-2"
                     outlined
                     width="100%"
                     type="error"
@@ -382,12 +438,19 @@
                   v-if="field.value"
                 >
                   <v-col>
-                    <!-- :rules="isRequired(field.required)" -->
-                    <v-file-input
+                    <v-text-field
+                      prepend-icon="mdi-attachment"
+                      dense
                       label="Ganti File"
+                      @click="$refs[`fileInput_${index}`][0].$refs.input.click()"
                       color="white"
+                    ></v-text-field>
+                    <!-- :loading="true" -->
+                    <v-file-input
                       @change="fileChange($event,index)"
-                      :clearable="false"
+                      hide-input
+                      :ref="`fileInput_${index}`"
+                      class="d-none"
                     ></v-file-input>
                   </v-col>
                   <v-col>
@@ -398,14 +461,23 @@
                     >lihat file anda</v-btn>
                   </v-col>
                 </v-row>
-                <v-file-input
+                <v-text-field
+                  prepend-icon="mdi-attachment"
                   v-if="!field.value"
-                  @change="updateField(field)"
                   dense
-                  v-model="field.value"
+                  :value="field.value ? field.value.name:null"
                   :rules="isRequired(field.required)"
+                  @click="$refs[`fileInput_${index}`][0].$refs.input.click()"
                   color="white"
                   placeholder="Upload File"
+                ></v-text-field>
+                <!-- :loading="true" -->
+                <v-file-input
+                  @change="updateField(field)"
+                  hide-input
+                  :ref="`fileInput_${index}`"
+                  v-model="field.value"
+                  class="d-none"
                 ></v-file-input>
               </template>
               <v-textarea
@@ -527,6 +599,13 @@ export default {
   },
   methods: {
     ...mapActions(["getBeasiswaSingle"]),
+    testRefsWID(id) {
+      this.$refs[id][0].loading = true;
+      console.log(this.$refs[id]);
+    },
+    testRefs() {
+      console.log(this.$refs);
+    },
     link(url) {
       var a = "/" + url;
       var link = a.replace(" ", "%20");
@@ -588,12 +667,14 @@ export default {
     async updateFile(item) {
       console.log(item);
       if (item.type == "Multiple Upload") {
-        console.log("multi upload yg diupload itu lo");
+        console.log("multi upload yg diupload itu lo",item.multiUpload.items);
         for (let j = 0; j < item.multiUpload.items.length; j++) {
           const tempMulti = item.multiUpload.items[j];
           // console.log(tempMulti);
           // console.log(tempMulti.value);
-          if (tempMulti.value) {
+          // if(tempMulti.value=="File") console.log("huray");
+          if (tempMulti.value && tempMulti.value.length!=0) {
+          // console.log("lenght",tempMulti.value.length)
             var data = new FormData();
             data.append("file", tempMulti.value);
             data.append("id", this.$route.params.id);

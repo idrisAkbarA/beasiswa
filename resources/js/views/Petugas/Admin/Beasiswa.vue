@@ -1443,10 +1443,10 @@ export default {
           fields: this.fieldsEdit,
           fields_interview: this.is_wawancaraEdit
             ? JSON.stringify(this.fieldsInterviewEdit)
-            : null,
+            : '[]',
           fields_survey: this.is_surveyEdit
             ? JSON.stringify(this.fieldsSurveyEdit)
-            : null,
+            : '[]',
           is_survey: this.is_surveyEdit,
           is_interview: this.is_wawancaraEdit,
           awal_interview: awal_wawancara,
@@ -1533,10 +1533,10 @@ export default {
           fields: this.fields,
           fields_interview: this.is_wawancara
             ? JSON.stringify(this.fieldsInterview)
-            : null,
+            : '[]',
           fields_survey: this.is_survey
             ? JSON.stringify(this.fieldsSurvey)
-            : null,
+            : '[]',
           is_survey: this.is_survey,
           is_interview: this.is_wawancara,
           awal_interview: awal_wawancara,
@@ -1765,7 +1765,7 @@ export default {
       namaEdit: "",
       deskripsiEdit: "",
       selected_instansiEdit: "",
-      jenjangEdit: "",
+      jenjangEdit: [],
       fieldsEdit: {},
       isBerkasEdit: false,
       is_wawancaraEdit: false,
