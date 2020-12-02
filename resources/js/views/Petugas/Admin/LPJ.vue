@@ -7,13 +7,15 @@
         style="background-color: #2e7d323b"
         :items-per-page="10"
         class="elevation-10 mb-10"
-        @click:row="info"
       >
         <template v-slot:item.actions="{ item }">
-          <v-btn icon x-small class="mr-2" @click="edit(item)">
+          <v-btn icon x-small class="mr-2" @click="info(item)" title="Info">
+            <v-icon>mdi-information</v-icon>
+          </v-btn>
+          <v-btn icon x-small class="mr-2" @click="edit(item)" title="Edit">
             <v-icon>mdi-pencil</v-icon>
           </v-btn>
-          <v-icon small @click="dialogDelete = true, form = item">mdi-delete</v-icon>
+          <v-icon small @click="dialogDelete = true, form = item" title="Hapus">mdi-delete</v-icon>
         </template>
         <template v-slot:no-data>no data</template>
       </v-data-table>
@@ -116,13 +118,13 @@
             </v-tab-item>
             <v-tab-item>
               <v-col cols="12">
-                <!-- <v-data-table
-                  :headers="headers.detailBeasiswa"
-                  :items="detailBeasiswa"
+                <v-data-table
+                  :headers="headers.detailLPJ"
+                  :items="detailLPJ"
                   hide-default-header
                   hide-default-footer
                   class="elevation-1"
-                ></v-data-table>-->
+                ></v-data-table>
                 <p class="mt-3">{{selectedLPJ.deskripsi}}</p>
               </v-col>
             </v-tab-item>
@@ -739,6 +741,16 @@ export default {
     }
   },
   watch: {
+    selectedLPJ: function(val) {
+      if (val) {
+        this.detailLPJ = [
+          { judul: "Nama", isi: val.nama },
+          { judul: "Beasiswa", isi: val.beasiswa.nama ?? "-" },
+          { judul: "Awal Pengisian", isi: val.awal },
+          { judul: "Akhir Pengisian", isi: val.akhir }
+        ];
+      }
+    },
     bottomSheet: function(val) {
       if (!val) {
         this.resetForm();
@@ -796,6 +808,10 @@ export default {
           { text: "Jurusan", value: "mahasiswa.jurusan.nama", sortable: false },
           { text: "Status", value: "is_lulus" },
           { text: "Actions", value: "actions", sortable: false }
+        ],
+        detailLPJ: [
+          { text: "Judul", value: "judul" },
+          { text: "Isi", value: "isi" }
         ]
       },
       itemTypes: [
