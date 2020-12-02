@@ -61,9 +61,29 @@ class LPJController extends Controller
      * @param  \App\LPJ  $lPJ
      * @return \Illuminate\Http\Response
      */
-    public function show(LPJ $lPJ)
+    public function show(LPJ $lpj)
     {
-        //
+        $lpj->beasiswa = $lpj->beasiswa;
+        $lpj->permohonan = $lpj->permohonan;
+        return response()->json($lpj);
+    }
+
+    /**
+     * Show the register form to the specified resource.
+     *
+     * @param  \App\LPJ  $lPJ
+     * @return \Illuminate\Http\Response
+     */
+    public function daftar(LPJ $lpj)
+    {
+        $user = Auth::guard('mahasiswa')->user();
+        $result = $lpj->checkStatus($user);
+        $reply = [
+            'status' => $result['status'],
+            'message' => $result['message'],
+            'data' => $lpj
+        ];
+        return response()->json($reply);
     }
 
     /**

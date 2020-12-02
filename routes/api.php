@@ -105,8 +105,14 @@ Route::get('/pemohon/count-lulus', 'PemohonBeasiswaController@countLulus');
 
 Route::prefix('/lpj')->group(function () {
     Route::get('/', 'LPJController@index');
-    Route::get('active', 'LPJController@indexMahasiswa');
+    Route::get('/active', 'LPJController@indexMahasiswa');
+    Route::get('/daftar/{lpj}', 'LPJController@daftar');
+    Route::get('/{lpj}', 'LPJController@show');
     Route::post('/', 'LPJController@store');
-    Route::put('{lpj}', 'LPJController@update');
-    Route::delete('{lpj}', 'LPJController@destroy');
+    Route::put('/{lpj}', 'LPJController@update');
+    Route::delete('/{lpj}', 'LPJController@destroy');
+});
+
+Route::prefix('/permohonan-lpj')->group(function () {
+    //
 });

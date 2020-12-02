@@ -56,7 +56,7 @@ export default {
     ...mapActions(["getLPJActive"]),
     goto(item) {
       this.$router.push({
-        path: "/mahasiswa/daftar-beasiswa/" + item.id
+        path: "/mahasiswa/daftar-lpj/" + item.id
       });
     }
   },

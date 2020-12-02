@@ -17,7 +17,8 @@ class CreatePermohonanLpjTable extends Migration
             $table->id();
             $table->string('mhs_id');
             $table->integer('lpj_id');
-            $table->boolean('is_lulus');
+            $table->boolean('is_lulus')->nullable();
+            $table->boolean('is_submitted')->default(false);
             $table->json('form');
             $table->timestamps();
         });

@@ -32,6 +32,7 @@ import MHSHome from "../views/Mahasiswa/Home.vue";
 import MHSPermohonan from "../views/Mahasiswa/PermohonanSaya.vue";
 import MHSBeasiswa from "../views/Mahasiswa/Beasiswa.vue";
 import MHSLPJ from "../views/Mahasiswa/LPJ.vue";
+import MHSDaftarLPJ from "../views/Mahasiswa/DaftarLPJ.vue";
 
 import Interviewer from "../views/Petugas/Interviewer/Interviewer.vue";
 import InterviewerHome from "../views/Petugas/Interviewer/Home.vue";
@@ -302,6 +303,11 @@ const routes = [
                 name: "List LPJ",
                 path: "list-lpj",
                 component: MHSLPJ
+            },
+            {
+                name: "Daftar LPJ",
+                path: "daftar-lpj/:id",
+                component: MHSDaftarLPJ
             }
         ]
     },
