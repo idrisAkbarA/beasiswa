@@ -9,7 +9,7 @@
         class="elevation-10 mb-10"
       >
         <template v-slot:item.actions="{ item }">
-          <v-btn icon x-small class="mr-2" @click="info(item)" title="Info">
+          <v-btn icon x-small class="mr-2" @click="infoLPJ(item)" title="Info">
             <v-icon>mdi-information</v-icon>
           </v-btn>
           <v-btn icon x-small class="mr-2" @click="edit(item)" title="Edit">
@@ -110,7 +110,11 @@
                       <i :class="`mdi ${item.is_lulus ? 'mdi-check' : 'mdi-close'} mr-2`"></i>
                       {{item.status.text}}
                     </v-chip>
-                    <!-- <p v-else class="text-caption">-</p> -->
+                  </template>
+                  <template v-slot:item.actions="{ item }">
+                    <v-btn icon x-small class="mr-2" @click="infoPermohonan(item)" title="Info">
+                      <v-icon>mdi-information</v-icon>
+                    </v-btn>
                   </template>
                   <template v-slot:no-data>no data</template>
                 </v-data-table>
@@ -131,103 +135,219 @@
           </v-tabs>
         </v-card-text>
       </v-card>
-
-      <!-- right sheet -->
-      <!-- <v-navigation-drawer
-        v-if="drawer"
-        v-model="drawer"
+      <!-- Show Permohonan -->
+      <v-navigation-drawer
+        v-if="drawerShow"
+        v-model="drawerShow"
         absolute
         temporary
         right
         height="100%"
-        width="50vw"
+        width="40vw"
       >
         <v-list-item>
           <v-list-item-content>
             <v-list-item-title>
-              <strong>{{selectedLPJ.nama}}</strong>
+              <strong>{{selectedPermohonan.mahasiswa.nama}}</strong>
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-
         <v-divider></v-divider>
         <div class="col-12">
-          <v-row>
-            <v-timeline align-top dense>
-              <v-timeline-item color="blue" small>
-                <div>
-                  <div class="font-weight-normal">
-                    <strong>Download file .xlx</strong>
-                  </div>
-                  <div>
-                    <p>Download file template excel</p>
-                    <v-btn color="#2E7D32" :disabled="btnLoading" @click="downloadTemplate">
-                      <i class="mdi mdi-download mr-2"></i> Download template excel kosong
-                    </v-btn>
-                  </div>
-                </div>
-              </v-timeline-item>
-              <v-timeline-item color="blue" small>
-                <div>
-                  <div class="font-weight-normal">
-                    <strong>Tambahkan info mahasiswa dalam template excel.</strong>
-                  </div>
-                  <div class="pr-5">
-                    <p>Kolom yang wajib diisi adalah nim</p>
-                    <v-simple-table light dense>
-                      <thead>
-                        <tr>
-                          <th>A</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>
-                            <strong>NIM</strong>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>11750115076</td>
-                        </tr>
-                      </tbody>
-                    </v-simple-table>
-                  </div>
-                </div>
-              </v-timeline-item>
-              <v-timeline-item color="blue" small>
-                <div>
-                  <div class="font-weight-normal mb-3">
-                    <strong>Upload file .xlx</strong>
-                  </div>
-                  <div>
-                    <div v-if="file">
-                      <v-chip close small @click:close="file = ''" class="my-2">{{file.name}}</v-chip>
-                    </div>
-                    <v-btn
-                      color="#2E7D32"
-                      :disabled="btnLoading"
-                      @click="$refs.fileInput.$refs.input.click()"
+          <v-row
+            no-gutters
+            class="ma-5"
+            v-for="(field,index) in JSON.parse(selectedPermohonan.form)"
+            :key="index"
+          >
+            <v-col style="padding-bottom:0 !important;">
+              <p>{{field.pertanyaan}}</p>
+              <v-container v-if="field.type == 'Checkboxes'">
+                {{'pep'+field.isLulus}}
+                <v-row>
+                  <v-col cols="9">
+                    <v-row
+                      align="center"
+                      v-for="(item,index) in field.checkboxes.items"
+                      :key="index"
                     >
-                      <i class="mdi mdi-attachment mr-2"></i> Lampirkan file excel
-                    </v-btn>
-                    <v-file-input hide-input ref="fileInput" v-model="file" class="d-none"></v-file-input>
-                  </div>
-                </div>
-              </v-timeline-item>
-            </v-timeline>
+                      <v-checkbox
+                        disabled
+                        v-model="field.value"
+                        :value="item.label"
+                        color="white"
+                        hide-details
+                        class="shrink mr-2 mt-0"
+                      ></v-checkbox>
+                      <span>{{item.label}}</span>
+                    </v-row>
+                  </v-col>
+                  <!-- <v-col cols="3">
+                    <v-radio-group v-if="field.required" v-model="field.isLulus">
+                      <v-radio label="Lulus" :value="true"></v-radio>
+                      <v-radio label="Tidak Lulus" :value="false"></v-radio>
+                    </v-radio-group>
+                    <span v-else>Field ini tidak wajib</span>
+                  </v-col>-->
+                </v-row>
+              </v-container>
+              <v-container v-if="field.type == 'Multiple Upload'">
+                <v-row>
+                  <v-col cols="9">
+                    <v-row
+                      align="center"
+                      v-for="(item,index) in field.multiUpload.items"
+                      :key="index"
+                      :value="item.label"
+                      no-gutters
+                    >
+                      <v-col cols="1">
+                        <v-checkbox
+                          v-model="item.isSelected"
+                          color="white"
+                          hide-details
+                          class="shrink mr-2 mt-0"
+                          :value="item.label"
+                          disabled
+                        ></v-checkbox>
+                      </v-col>
+                      <v-col cols="6">
+                        <span>{{item.label}}</span>
+                      </v-col>
+                      <v-col cols="5">
+                        <v-btn v-if="item.file_name" small @click="link(item.file_name)">lihat file</v-btn>
+                      </v-col>
+                    </v-row>
+                  </v-col>
+                  <!-- <v-col cols="3">
+                    <v-radio-group v-if="field.required" v-model="field.isLulus">
+                      <v-radio label="Lulus" :value="true"></v-radio>
+                      <v-radio label="Tidak Lulus" :value="false"></v-radio>
+                    </v-radio-group>
+                    <span v-else>Field ini tidak wajib</span>
+                  </v-col>-->
+                </v-row>
+              </v-container>
+              <v-row v-if="field.type == 'Pilihan'">
+                <v-col cols="9">
+                  <span>
+                    <v-icon>mdi-text-short</v-icon>
+                    {{field.value}}
+                  </span>
+                </v-col>
+                <!-- <v-col cols="3">
+                  <v-radio-group v-if="field.required" v-model="field.isLulus">
+                    <v-radio label="Lulus" :value="true"></v-radio>
+                    <v-radio label="Tidak Lulus" :value="false"></v-radio>
+                  </v-radio-group>
+                  <span v-else>Field ini tidak wajib</span>
+                </v-col>-->
+              </v-row>
+              <v-row v-if="field.type == 'Jawaban Pendek'">
+                <v-col cols="9">
+                  <span>
+                    <v-icon>mdi-text-short</v-icon>
+                    {{field.value}}
+                  </span>
+                </v-col>
+                <!-- <v-col cols="3">
+                  <v-radio-group v-if="field.required" v-model="field.isLulus">
+                    <v-radio label="Lulus" :value="true"></v-radio>
+                    <v-radio label="Tidak Lulus" :value="false"></v-radio>
+                  </v-radio-group>
+                  <span v-else>Field ini tidak wajib</span>
+                </v-col>-->
+              </v-row>
+              <v-row v-if="field.type == 'Jawaban Angka'">
+                <v-col cols="9">
+                  <span>
+                    <v-icon>mdi-text-short</v-icon>
+                    {{field.value}}
+                  </span>
+                </v-col>
+                <!-- <v-col cols="3">
+                  <v-radio-group v-if="field.required" v-model="field.isLulus">
+                    <v-radio label="Lulus" :value="true"></v-radio>
+                    <v-radio label="Tidak Lulus" :value="false"></v-radio>
+                  </v-radio-group>
+                  <span v-else>Field ini tidak wajib</span>
+                </v-col>-->
+              </v-row>
+              <v-row v-if="field.type == 'Tanggal'">
+                <v-col>
+                  <span>
+                    <v-icon>mdi-text-short</v-icon>
+                    {{field.value}}
+                  </span>
+                </v-col>
+                <!-- <v-col cols="3">
+                  <v-radio-group v-if="field.required" v-model="field.isLulus">
+                    <v-radio label="Lulus" :value="true"></v-radio>
+                    <v-radio label="Tidak Lulus" :value="false"></v-radio>
+                  </v-radio-group>
+                  <span v-else>Field ini tidak wajib</span>
+                </v-col>-->
+              </v-row>
+              <v-row v-if="field.type == 'Upload File'">
+                <v-col cols="9">
+                  <v-btn small @click="link(field.value)">lihat file</v-btn>
+                </v-col>
+                <!-- <v-col cols="3">
+                  <v-radio-group v-if="field.required" v-model="field.isLulus">
+                    <v-radio label="Lulus" :value="true"></v-radio>
+                    <v-radio label="Tidak Lulus" :value="false"></v-radio>
+                  </v-radio-group>
+                  <span v-else>Field ini tidak wajib</span>
+                </v-col>-->
+              </v-row>
+              <v-row v-if="field.type == 'Paragraf'">
+                <v-col cols="9">
+                  <span>
+                    <v-icon>mdi-text-short</v-icon>
+                    {{field.value}}
+                  </span>
+                </v-col>
+                <!-- <v-col cols="3">
+                  <v-radio-group v-if="field.required" v-model="field.isLulus">
+                    <v-radio label="Lulus" :value="true"></v-radio>
+                    <v-radio label="Tidak Lulus" :value="false"></v-radio>
+                  </v-radio-group>
+                  <span v-else>Field ini tidak wajib</span>
+                </v-col>-->
+              </v-row>
+            </v-col>
+            <v-col cols="12">
+              <v-divider></v-divider>
+            </v-col>
+            <v-col cols="12"></v-col>
           </v-row>
         </div>
         <template v-slot:append>
-          <div class="px-2 py-2">
+          <div class="px-2 py-2" v-if="selectedPermohonan.is_lulus === null">
+            <v-btn dark text :loading="isLoading" @click="updatePermohonan(false)">Tdk Lulus</v-btn>
             <v-btn
               color="#2E7D32"
               class="float-right"
-              :loading="btnLoading"
-              @click="importPermohonan"
-            >Save</v-btn>
+              :loading="isLoading"
+              @click="updatePermohonan(true)"
+            >Lulus</v-btn>
+          </div>
+          <div class="px-2 py-2 mt-auto" v-else>
+            <small class="mb-0">
+              Status :
+              <strong
+                :class="[selectedPermohonan.is_lulus ? 'text-success' : 'text-danger']"
+              >{{selectedPermohonan.is_lulus ? 'Lulus' : 'Tidak Lulus'}}</strong>
+            </small>
+            <v-btn
+              color="#2E7D32"
+              class="float-right"
+              :loading="isLoading"
+              @click="selectedPermohonan.is_lulus = null"
+            >Ubah</v-btn>
           </div>
         </template>
-      </v-navigation-drawer>-->
+      </v-navigation-drawer>
     </v-dialog>
     <!-- Create and Edit -->
     <v-bottom-sheet
@@ -563,7 +683,7 @@ export default {
     this.getBeasiswaSelesai();
   },
   methods: {
-    ...mapMutations(["toggleOpenBeasiswa", "mutateLPJ"]),
+    ...mapMutations(["toggleOpenBeasiswa", "mutateLPJ", "mutateLoading"]),
     ...mapActions([
       "getBeasiswaSelesai",
       "getLPJ",
@@ -574,10 +694,28 @@ export default {
     allowedDateAkhir(val) {
       return val >= this.form.awal;
     },
-    info(item) {
+    infoLPJ(item) {
       this.selectedLPJ = item;
       this.dialogShow = true;
       this.showLPJ(item.id);
+    },
+    infoPermohonan(item) {
+      console.log(item);
+      this.selectedPermohonan = item;
+      this.drawerShow = true;
+    },
+    updatePermohonan(val) {
+      const id = this.selectedPermohonan.id;
+      const data = { is_lulus: val };
+      this.mutateLoading(true);
+      axios
+        .put(`/api/permohonan-lpj/${id}`, data)
+        .then(response => {
+          this.drawerShow = false;
+          this.showLPJ(this.selectedLPJ.id);
+          this.mutateLoading(false);
+        })
+        .catch(error => console.error(error));
     },
     addField() {
       // get the last array then add the order value
@@ -746,6 +884,7 @@ export default {
         this.detailLPJ = [
           { judul: "Nama", isi: val.nama },
           { judul: "Beasiswa", isi: val.beasiswa.nama ?? "-" },
+          { judul: "Kuota Beasiswa", isi: val.beasiswa.quota },
           { judul: "Awal Pengisian", isi: val.awal },
           { judul: "Akhir Pengisian", isi: val.akhir }
         ];
@@ -788,7 +927,9 @@ export default {
     return {
       data: null,
       selectedLPJ: null,
+      selectedPermohonan: null,
       dialogShow: false,
+      drawerShow: false,
       dialogDelete: false,
       search: "",
       filter: "permohonan",

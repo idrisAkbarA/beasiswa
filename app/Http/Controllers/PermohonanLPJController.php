@@ -18,16 +18,6 @@ class PermohonanLPJController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -50,17 +40,6 @@ class PermohonanLPJController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\PermohonanLPJ  $permohonanLPJ
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(PermohonanLPJ $permohonanLPJ)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -69,7 +48,8 @@ class PermohonanLPJController extends Controller
      */
     public function update(Request $request, PermohonanLPJ $permohonanLPJ)
     {
-        //
+        $permohonanLPJ->update($request->all());
+        return response()->json($permohonanLPJ);
     }
 
     /**
