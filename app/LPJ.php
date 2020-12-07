@@ -28,7 +28,11 @@ class LPJ extends Model
                 ->toArray();
             $status = !in_array($this->id, $permohonanLPJ);
             $message = 'Laporan anda telah terdaftar, apakah anda ingin mengubah laporan?';
-            !$status && $this->fields = $user->permohonanLPJ->where('id', $this->id)->form;
+            if (!$status) {
+                $permohonanLPJ = $user->permohonanLPJ->where('lpj_id', $this->id)->first();
+                $this->attributes['fields'] = $permohonanLPJ->form;
+                $this->attributes['is_submitted'] = $permohonanLPJ->is_submitted;
+            }
         }
         $result = [
             'status' => $status,

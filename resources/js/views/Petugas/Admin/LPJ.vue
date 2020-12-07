@@ -754,9 +754,9 @@ export default {
       item.splice(item.indexOf(label), 1);
     },
     edit(item) {
+      this.bottomSheet = true;
       this.form = item;
       this.form.fields = JSON.parse(item.fields);
-      this.bottomSheet = true;
     },
     submit() {
       // TODO: validate !!
@@ -764,7 +764,7 @@ export default {
     },
     save() {
       const data = this.form;
-      this.isLoading = true;
+      this.mutateLoading(true);
       axios
         .post(`/api/lpj`, data)
         .then(response => {
@@ -784,11 +784,11 @@ export default {
             message: error
           };
         })
-        .then(() => (isLoading = false));
+        .then(() => this.mutateLoading(false));
     },
     update() {
       const data = this.form;
-      this.isLoading = true;
+      this.mutateLoading(true);
       axios
         .put(`/api/lpj/${data.id}`, data)
         .then(response => {
@@ -808,11 +808,11 @@ export default {
             message: error
           };
         })
-        .then(() => (isLoading = false));
+        .then(() => this.mutateLoading(false));
     },
     destroy(item) {
       const id = item.id;
-      this.isLoading = true;
+      this.mutateLoading(true);
       axios
         .delete(`/api/lpj/${id}`)
         .then(response => {
@@ -832,7 +832,7 @@ export default {
             message: error
           };
         })
-        .then(() => (isLoading = false));
+        .then(() => this.mutateLoading(false));
     },
     showLPJ(id) {
       axios

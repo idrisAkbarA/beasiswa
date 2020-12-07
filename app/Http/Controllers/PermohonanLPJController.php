@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\LPJ;
 use App\PermohonanLPJ;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class PermohonanLPJController extends Controller
 {
@@ -25,7 +28,33 @@ class PermohonanLPJController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = Auth::guard('mahasiswa')->user();
+        $permohonan = PermohonanLPJ::updateOrCreate(
+            ['mhs_id' => $user->nim, 'lpj_id' => $request->lpj_id],
+            $request->all()
+        );
+        $reply = [
+            'status' => true,
+            'data' => $permohonan
+        ];
+        return response()->json($reply);
+    }
+
+    /**
+     * Store a new file resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeFile(Request $request)
+    {
+        $LPJ =  LPJ::find($request['id']);
+        $namaLPJ = str_replace(" ", "-", $LPJ['nama']);
+        $user = Auth::guard("mahasiswa")->user();
+        $fileName = "files/" . $request['id'] . '-' . $namaLPJ . '/' . $user['nim'] . "/" . Carbon::now()->format("Y-m-d-H-i-s") . $request->file->getClientOriginalName();
+        $request->file->move(public_path('files/' . $request['id'] . '-' . $namaLPJ . '/' . $user['nim']), $fileName);
+
+        return response()->json(['success' => 'You have successfully upload file.', 'file_name' => $fileName]);
     }
 
     /**
@@ -37,19 +66,6 @@ class PermohonanLPJController extends Controller
     public function show(PermohonanLPJ $permohonanLPJ)
     {
         //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\PermohonanLPJ  $permohonanLPJ
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, PermohonanLPJ $permohonanLPJ)
-    {
-        $permohonanLPJ->update($request->all());
-        return response()->json($permohonanLPJ);
     }
 
     /**

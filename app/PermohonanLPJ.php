@@ -13,6 +13,11 @@ class PermohonanLPJ extends Model
         'status'
     ];
 
+    public function setFormAttribute($value)
+    {
+        $this->attributes['form'] = json_encode($value);
+    }
+
     public function getStatusAttribute()
     {
         if ($this->is_submitted === 0) {
