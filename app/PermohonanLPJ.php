@@ -18,6 +18,14 @@ class PermohonanLPJ extends Model
         $this->attributes['form'] = json_encode($value);
     }
 
+    public function setIsLulusAttribute($value)
+    {
+        $this->attributes['is_lulus'] = $value;
+        if (!$value) {
+            $beasiswa = $this->lpj->beasiswa;
+        }
+    }
+
     public function getStatusAttribute()
     {
         if ($this->is_submitted === 0) {

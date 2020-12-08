@@ -713,9 +713,9 @@ export default {
         .then(response => {
           this.drawerShow = false;
           this.showLPJ(this.selectedLPJ.id);
-          this.mutateLoading(false);
         })
-        .catch(error => console.error(error));
+        .catch(error => console.error(error))
+        .then(this.mutateLoading(false));
     },
     addField() {
       // get the last array then add the order value
@@ -852,8 +852,8 @@ export default {
         );
       });
     },
-    link(url){
-         if (url == null) {
+    link(url) {
+      if (url == null) {
         this.snackbar.message = "Maaf, berkas tidak di upload";
         this.snackbar.color = "red";
         this.snackbar.show = true;

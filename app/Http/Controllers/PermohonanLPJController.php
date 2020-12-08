@@ -58,6 +58,22 @@ class PermohonanLPJController extends Controller
     }
 
     /**
+     * Update a resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, PermohonanLPJ $permohonan)
+    {
+        $permohonan->update($request->all());
+        $reply = [
+            'status' => true,
+            'data' => $permohonan
+        ];
+        return response()->json($reply);
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  \App\PermohonanLPJ  $permohonanLPJ

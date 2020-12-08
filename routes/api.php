@@ -115,5 +115,6 @@ Route::prefix('/lpj')->group(function () {
 
 Route::prefix('/permohonan-lpj')->group(function () {
     Route::post('/', 'PermohonanLPJController@store');
+    Route::put('/{permohonan}', 'PermohonanLPJController@update')->middleware('auth:petugas');
     Route::post('/file', 'PermohonanLPJController@storeFile');
 });
