@@ -308,7 +308,7 @@
         <v-card-title>
           <span>Tambah Beasiswa Selesai</span>
           <v-spacer></v-spacer>
-          <v-btn text class="mr-2" @click="toggleBeasiswa = false">batal</v-btn>
+          <v-btn text class="mr-2" @click="toggleBeasiswa = false">Batal</v-btn>
           <v-btn color="#2E7D32" :loading="btnLoading" @click="store">Simpan</v-btn>
         </v-card-title>
         <v-card-text style="height: 600px;">
@@ -641,7 +641,7 @@ export default {
           kegiatan: "Survey",
           msg: "Survey",
           is_done: permohonan.is_survey_passed,
-          time: permohonan.surved_at ?? "",
+          time: permohonan.surveyed_at ?? "",
           color:
             permohonan.is_survey_passed !== null
               ? permohonan.is_survey_passed

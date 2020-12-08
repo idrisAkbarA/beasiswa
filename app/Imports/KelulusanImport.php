@@ -34,8 +34,8 @@ class KelulusanImport implements ToCollection, WithHeadingRow
         foreach ($rows as $row) {
             $nim = $row['nim'];
 
-            if(!$nim)
-            return;
+            if (!$nim)
+                return;
 
             $permohonan = PemohonBeasiswa::create(
                 [
@@ -47,11 +47,14 @@ class KelulusanImport implements ToCollection, WithHeadingRow
             );
             array_push($listPermohonan, $permohonan);
         }
+        $update = [
+            'is_berkas_passed' => true,
+            'is_selection_passed' => true,
+            'is_interview_passed' => $this->_beasiswa->is_interview ? 1 : null,
+            'is_survey_passed' => $this->_beasiswa->is_survey ? 1 : null,
+        ];
         foreach ($listPermohonan as $permohonan) {
-            $permohonan->update([
-                'is_berkas_passed' => true,
-                'is_selection_passed' => true
-            ]);
+            $permohonan->update($update);
         }
     }
 }

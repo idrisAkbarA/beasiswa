@@ -182,13 +182,6 @@
                       <span>{{item.label}}</span>
                     </v-row>
                   </v-col>
-                  <!-- <v-col cols="3">
-                    <v-radio-group v-if="field.required" v-model="field.isLulus">
-                      <v-radio label="Lulus" :value="true"></v-radio>
-                      <v-radio label="Tidak Lulus" :value="false"></v-radio>
-                    </v-radio-group>
-                    <span v-else>Field ini tidak wajib</span>
-                  </v-col>-->
                 </v-row>
               </v-container>
               <v-container v-if="field.type == 'Multiple Upload'">
@@ -219,13 +212,6 @@
                       </v-col>
                     </v-row>
                   </v-col>
-                  <!-- <v-col cols="3">
-                    <v-radio-group v-if="field.required" v-model="field.isLulus">
-                      <v-radio label="Lulus" :value="true"></v-radio>
-                      <v-radio label="Tidak Lulus" :value="false"></v-radio>
-                    </v-radio-group>
-                    <span v-else>Field ini tidak wajib</span>
-                  </v-col>-->
                 </v-row>
               </v-container>
               <v-row v-if="field.type == 'Pilihan'">
@@ -235,13 +221,6 @@
                     {{field.value}}
                   </span>
                 </v-col>
-                <!-- <v-col cols="3">
-                  <v-radio-group v-if="field.required" v-model="field.isLulus">
-                    <v-radio label="Lulus" :value="true"></v-radio>
-                    <v-radio label="Tidak Lulus" :value="false"></v-radio>
-                  </v-radio-group>
-                  <span v-else>Field ini tidak wajib</span>
-                </v-col>-->
               </v-row>
               <v-row v-if="field.type == 'Jawaban Pendek'">
                 <v-col cols="9">
@@ -250,13 +229,6 @@
                     {{field.value}}
                   </span>
                 </v-col>
-                <!-- <v-col cols="3">
-                  <v-radio-group v-if="field.required" v-model="field.isLulus">
-                    <v-radio label="Lulus" :value="true"></v-radio>
-                    <v-radio label="Tidak Lulus" :value="false"></v-radio>
-                  </v-radio-group>
-                  <span v-else>Field ini tidak wajib</span>
-                </v-col>-->
               </v-row>
               <v-row v-if="field.type == 'Jawaban Angka'">
                 <v-col cols="9">
@@ -265,13 +237,6 @@
                     {{field.value}}
                   </span>
                 </v-col>
-                <!-- <v-col cols="3">
-                  <v-radio-group v-if="field.required" v-model="field.isLulus">
-                    <v-radio label="Lulus" :value="true"></v-radio>
-                    <v-radio label="Tidak Lulus" :value="false"></v-radio>
-                  </v-radio-group>
-                  <span v-else>Field ini tidak wajib</span>
-                </v-col>-->
               </v-row>
               <v-row v-if="field.type == 'Tanggal'">
                 <v-col>
@@ -280,25 +245,11 @@
                     {{field.value}}
                   </span>
                 </v-col>
-                <!-- <v-col cols="3">
-                  <v-radio-group v-if="field.required" v-model="field.isLulus">
-                    <v-radio label="Lulus" :value="true"></v-radio>
-                    <v-radio label="Tidak Lulus" :value="false"></v-radio>
-                  </v-radio-group>
-                  <span v-else>Field ini tidak wajib</span>
-                </v-col>-->
               </v-row>
               <v-row v-if="field.type == 'Upload File'">
                 <v-col cols="9">
                   <v-btn small @click="link(field.value)">lihat file</v-btn>
                 </v-col>
-                <!-- <v-col cols="3">
-                  <v-radio-group v-if="field.required" v-model="field.isLulus">
-                    <v-radio label="Lulus" :value="true"></v-radio>
-                    <v-radio label="Tidak Lulus" :value="false"></v-radio>
-                  </v-radio-group>
-                  <span v-else>Field ini tidak wajib</span>
-                </v-col>-->
               </v-row>
               <v-row v-if="field.type == 'Paragraf'">
                 <v-col cols="9">
@@ -307,13 +258,6 @@
                     {{field.value}}
                   </span>
                 </v-col>
-                <!-- <v-col cols="3">
-                  <v-radio-group v-if="field.required" v-model="field.isLulus">
-                    <v-radio label="Lulus" :value="true"></v-radio>
-                    <v-radio label="Tidak Lulus" :value="false"></v-radio>
-                  </v-radio-group>
-                  <span v-else>Field ini tidak wajib</span>
-                </v-col>-->
               </v-row>
             </v-col>
             <v-col cols="12">
@@ -720,7 +664,14 @@ export default {
             message: `Kelulusan beasiswa : ${isLulus ? "Lulus" : "Tidak Lulus"}`
           };
         })
-        .catch(error => console.error(error))
+        .catch(error => {
+          console.error(error);
+          this.snackbar = {
+            show: true,
+            color: "red",
+            message: error
+          };
+        })
         .then(this.mutateLoading(false));
     },
     addField() {
