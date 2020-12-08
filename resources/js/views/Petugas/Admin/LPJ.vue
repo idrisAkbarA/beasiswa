@@ -713,6 +713,12 @@ export default {
         .then(response => {
           this.drawerShow = false;
           this.showLPJ(this.selectedLPJ.id);
+          const isLulus = response.data.data.is_lulus;
+          this.snackbar = {
+            show: true,
+            color: isLulus ? "blue" : "red",
+            message: `Kelulusan beasiswa : ${isLulus ? "Lulus" : "Tidak Lulus"}`
+          };
         })
         .catch(error => console.error(error))
         .then(this.mutateLoading(false));
