@@ -92,11 +92,10 @@ class Beasiswa extends Model
         if ($this->is_survey) {
             return $this->permohonan
                 ->where('is_berkas_passed', 1)
-                ->whereNull('is_survey_passed')
                 // ->when($this->is_interview == 1, function ($q) {
                 //     return $q->where('is_interview_passed', 1);
                 // })
-                // ->whereNull('is_survey_passed')
+                ->whereNull('is_survey_passed')
                 ->values();
         }
         return [];
@@ -106,12 +105,12 @@ class Beasiswa extends Model
     {
         return $this->permohonan
             ->where('is_berkas_passed', 1)
-            ->when($this->is_interview == 1, function ($q) {
-                return $q->where('is_interview_passed', 1);
-            })
-            ->when($this->is_survey == 1, function ($q) {
-                return $q->where('is_survey_passed', 1);
-            })
+            // ->when($this->is_interview == 1, function ($q) {
+            //     return $q->where('is_interview_passed', 1);
+            // })
+            // ->when($this->is_survey == 1, function ($q) {
+            //     return $q->where('is_survey_passed', 1);
+            // })
             ->where('is_selection_passed', '!=', 1)
             ->values();
     }
@@ -120,12 +119,12 @@ class Beasiswa extends Model
     {
         return $this->permohonan
             ->where('is_berkas_passed', 1)
-            ->when($this->is_interview == 1, function ($q) {
-                return $q->where('is_interview_passed', 1);
-            })
-            ->when($this->is_survey == 1, function ($q) {
-                return $q->where('is_survey_passed', 1);
-            })
+            // ->when($this->is_interview == 1, function ($q) {
+            //     return $q->where('is_interview_passed', 1);
+            // })
+            // ->when($this->is_survey == 1, function ($q) {
+            //     return $q->where('is_survey_passed', 1);
+            // })
             ->where('is_selection_passed', 1)
             ->values();
     }
