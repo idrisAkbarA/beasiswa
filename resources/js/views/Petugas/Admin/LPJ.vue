@@ -852,6 +852,23 @@ export default {
         );
       });
     },
+    link(url){
+         if (url == null) {
+        this.snackbar.message = "Maaf, berkas tidak di upload";
+        this.snackbar.color = "red";
+        this.snackbar.show = true;
+      } else {
+        if (url.length > 1) {
+          var a = "/" + url;
+          var link = a.replace(" ", "%20");
+          window.open(link, "_blank");
+        } else {
+          this.snackbar.message = "Maaf, file yang anda buka corrupt";
+          this.snackbar.color = "red";
+          this.snackbar.show = true;
+        }
+      }
+    },
     resetForm() {
       this.form = {
         fields: [
