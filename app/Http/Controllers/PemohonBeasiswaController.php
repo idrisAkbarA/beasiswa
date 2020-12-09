@@ -36,6 +36,7 @@ class PemohonBeasiswaController extends Controller
     //     // return PemohonBeasiswa::with("beasiswa")->get();
     //     return Excel::download(new PemohonExport, 'pemohon.xlsx');
     // }
+
     public function IsHasBeasiswa()
     {
         $user = Auth::guard('mahasiswa')->user();
@@ -45,6 +46,7 @@ class PemohonBeasiswaController extends Controller
             ->get();
         return response()->json($beasiswa);
     }
+
     public function IsHasBeasiswaAdmin(Request $request)
     {
         $user = $request['nim'];
@@ -76,6 +78,7 @@ class PemohonBeasiswaController extends Controller
             ->count();
         return $berkas;
     }
+
     // public function cekBerkas()
     // {
 
@@ -92,6 +95,7 @@ class PemohonBeasiswaController extends Controller
     //     }
     //     return $permohonan;
     // }
+
     public function countInterview()
     {
         $interview = PemohonBeasiswa::with('beasiswa')
@@ -103,17 +107,20 @@ class PemohonBeasiswaController extends Controller
             ->count();
         return $interview;
     }
+
     public function countLulus()
     {
         $lulus = PemohonBeasiswa::where('is_selection_passed', 1)
             ->count();
         return $lulus;
     }
+
     public function lulus()
     {
         $permohonan = PemohonBeasiswa::where("is_selection_passed", 1)->get();
         return response()->json($permohonan);
     }
+
     public function cekInterview()
     {
 
@@ -131,6 +138,7 @@ class PemohonBeasiswaController extends Controller
         }
         return $permohonan;
     }
+
     public function cekSurvey()
     {
 
@@ -148,9 +156,9 @@ class PemohonBeasiswaController extends Controller
         }
         return $permohonan;
     }
+
     public function cekSelection()
     {
-
         $permohonan = PemohonBeasiswa::where("is_selection_passed", null)
             ->join("beasiswas", "beasiswas.id", "=", "pemohon_beasiswas.beasiswa_id")
             ->join("users", "users.nim", "=", "pemohon_beasiswas.mhs_id")
@@ -163,6 +171,7 @@ class PemohonBeasiswaController extends Controller
         }
         return $permohonan;
     }
+
     public function setBerkas(Request $request)
     {
         $permohonan = PemohonBeasiswa::find($request['id']);
@@ -171,6 +180,7 @@ class PemohonBeasiswaController extends Controller
             'status' => $permohonan->wasChanged('is_berkas_passed')
         ]);
     }
+
     public function setSurvey(Request $request)
     {
         $permohonan = PemohonBeasiswa::find($request['id']);
@@ -180,6 +190,7 @@ class PemohonBeasiswaController extends Controller
             'status' => $permohonan->wasChanged('is_survey_passed')
         ]);
     }
+
     public function setInterview(Request $request)
     {
         $permohonan = PemohonBeasiswa::find($request['id']);
@@ -189,6 +200,7 @@ class PemohonBeasiswaController extends Controller
             'status' => $permohonan->wasChanged('is_interview_passed')
         ]);
     }
+
     public function setSelection(Request $request)
     {
         $permohonan = PemohonBeasiswa::find($request['id']);
@@ -198,6 +210,7 @@ class PemohonBeasiswaController extends Controller
             'status' => $permohonan->wasChanged('is_selection_passed')
         ]);
     }
+
     public function store(Request $request)
     {
         $user = Auth::guard("mahasiswa")->user();
@@ -211,16 +224,18 @@ class PemohonBeasiswaController extends Controller
             'status' => 'Success: Permohonan added'
         ]);
     }
+
     public function storeFile(Request $request)
     {
         $beasiswa =  Beasiswa::find($request['id']);
-        $namaBeasiswa = str_replace(" ","-",$beasiswa['nama']);
+        $namaBeasiswa = str_replace(" ", "-", $beasiswa['nama']);
         $user = Auth::guard("mahasiswa")->user();
-        $fileName = "files/" . $request['id'] .'-'.$namaBeasiswa. '/' . $user['nim'] . "/" . Carbon::now()->format("Y-m-d-H-i-s") . $request->file->getClientOriginalName();
-        $request->file->move(public_path('files/' . $request['id'] .'-'.$namaBeasiswa. '/' . $user['nim']), $fileName);
+        $fileName = "files/" . $request['id'] . '-' . $namaBeasiswa . '/' . $user['nim'] . "/" . Carbon::now()->format("Y-m-d-H-i-s") . $request->file->getClientOriginalName();
+        $request->file->move(public_path('files/' . $request['id'] . '-' . $namaBeasiswa . '/' . $user['nim']), $fileName);
 
         return response()->json(['success' => 'You have successfully upload file.', 'file_name' => $fileName]);
     }
+
     public function search(Request $request)
     {
         $query = $request->q;
