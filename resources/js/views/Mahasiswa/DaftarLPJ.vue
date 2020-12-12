@@ -572,8 +572,9 @@ export default {
             };
           }
           this.lpj = response.data.data;
-          this.isSubmitted = response.data.data.is_submitted == 0 ? false:true;
-          console.log(this.isSubmitted)
+          this.isSubmitted =
+            (response.data.data.is_submitted == 0 )||(response.data.data.is_submitted ==null)? false : true;
+          console.log(this.isSubmitted);
         })
         .catch(error => console.error(error));
     },
@@ -584,11 +585,16 @@ export default {
     },
     fileChange(file, index) {
       this.fields[index].value = file;
+      console.log("debug change:",this.fields[index]);
       this.updateFile(this.fields[index]);
       //   this.getUserPermohonan();
       this.daftarLPJ();
     },
     updateField(item) {
+      console.log("debug item:",item)
+      // if(item.type == "Tanggal"){
+      //   console.log("tanggal")
+      // }
       if (item.type != "Multiple Upload" && item.type != "Upload File") {
         console.log("huy non upload");
         if (this.isSubmitted) {
@@ -846,6 +852,12 @@ export default {
     }
   },
   watch: {
+    lpj: {
+      deep: true,
+      handler: function(v) {
+        console.log("LPJ:", JSON.parse(v.fields));
+      }
+    },
     validation(v) {
       console.log(v);
       v ? (this.isDisabled = false) : (this.isDisabled = true);

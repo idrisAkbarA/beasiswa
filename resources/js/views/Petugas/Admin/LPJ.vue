@@ -1,6 +1,10 @@
 <template>
   <v-container>
-    <v-skeleton-loader type="table" :loading="isTableLoading" transition="fade-transition">
+    <v-skeleton-loader
+      type="table"
+      :loading="isTableLoading"
+      transition="fade-transition"
+    >
       <v-data-table
         :headers="headers.lpj"
         :items="lpj"
@@ -9,13 +13,29 @@
         class="elevation-10 mb-10"
       >
         <template v-slot:item.actions="{ item }">
-          <v-btn icon x-small class="mr-2" @click="infoLPJ(item)" title="Info">
+          <v-btn
+            icon
+            x-small
+            class="mr-2"
+            @click="infoLPJ(item)"
+            title="Info"
+          >
             <v-icon>mdi-information</v-icon>
           </v-btn>
-          <v-btn icon x-small class="mr-2" @click="edit(item)" title="Edit">
+          <v-btn
+            icon
+            x-small
+            class="mr-2"
+            @click="edit(item)"
+            title="Edit"
+          >
             <v-icon>mdi-pencil</v-icon>
           </v-btn>
-          <v-icon small @click="dialogDelete = true, form = item" title="Hapus">mdi-delete</v-icon>
+          <v-icon
+            small
+            @click="dialogDelete = true, form = item"
+            title="Hapus"
+          >mdi-delete</v-icon>
         </template>
         <template v-slot:no-data>no data</template>
       </v-data-table>
@@ -29,8 +49,15 @@
       v-if="dialogShow"
     >
       <v-card>
-        <v-toolbar dark color="green">
-          <v-btn icon dark @click="dialogShow = false">
+        <v-toolbar
+          dark
+          color="green"
+        >
+          <v-btn
+            icon
+            dark
+            @click="dialogShow = false"
+          >
             <v-icon>mdi-close</v-icon>
           </v-btn>
           <v-toolbar-title>{{selectedLPJ.nama}}</v-toolbar-title>
@@ -106,13 +133,22 @@
                   class="elevation-10 mb-10 row-pointer"
                 >
                   <template v-slot:item.is_lulus="{ item }">
-                    <v-chip dark :color="item.status.color">
+                    <v-chip
+                      dark
+                      :color="item.status.color"
+                    >
                       <i :class="`mdi ${item.is_lulus ? 'mdi-check' : 'mdi-close'} mr-2`"></i>
                       {{item.status.text}}
                     </v-chip>
                   </template>
                   <template v-slot:item.actions="{ item }">
-                    <v-btn icon x-small class="mr-2" @click="infoPermohonan(item)" title="Info">
+                    <v-btn
+                      icon
+                      x-small
+                      class="mr-2"
+                      @click="infoPermohonan(item)"
+                      title="Info"
+                    >
                       <v-icon>mdi-information</v-icon>
                     </v-btn>
                   </template>
@@ -163,7 +199,7 @@
             <v-col style="padding-bottom:0 !important;">
               <p>{{field.pertanyaan}}</p>
               <v-container v-if="field.type == 'Checkboxes'">
-                {{'pep'+field.isLulus}}
+                <!-- {{'pep'+field.isLulus}} -->
                 <v-row>
                   <v-col cols="9">
                     <v-row
@@ -208,7 +244,11 @@
                         <span>{{item.label}}</span>
                       </v-col>
                       <v-col cols="5">
-                        <v-btn v-if="item.file_name" small @click="link(item.file_name)">lihat file</v-btn>
+                        <v-btn
+                          v-if="item.file_name"
+                          small
+                          @click="link(item.file_name)"
+                        >lihat file</v-btn>
                       </v-col>
                     </v-row>
                   </v-col>
@@ -248,7 +288,10 @@
               </v-row>
               <v-row v-if="field.type == 'Upload File'">
                 <v-col cols="9">
-                  <v-btn small @click="link(field.value)">lihat file</v-btn>
+                  <v-btn
+                    small
+                    @click="link(field.value)"
+                  >lihat file</v-btn>
                 </v-col>
               </v-row>
               <v-row v-if="field.type == 'Paragraf'">
@@ -267,8 +310,16 @@
           </v-row>
         </div>
         <template v-slot:append>
-          <div class="px-2 py-2" v-if="selectedPermohonan.is_lulus === null">
-            <v-btn dark text :loading="isLoading" @click="updatePermohonan(false)">Tdk Lulus</v-btn>
+          <div
+            class="px-2 py-2"
+            v-if="selectedPermohonan.is_lulus === null"
+          >
+            <v-btn
+              dark
+              text
+              :loading="isLoading"
+              @click="updatePermohonan(false)"
+            >Tdk Lulus</v-btn>
             <v-btn
               color="#2E7D32"
               class="float-right"
@@ -276,12 +327,13 @@
               @click="updatePermohonan(true)"
             >Lulus</v-btn>
           </div>
-          <div class="px-2 py-2 mt-auto" v-else>
+          <div
+            class="px-2 py-2 mt-auto"
+            v-else
+          >
             <small class="mb-0">
               Status :
-              <strong
-                :class="[selectedPermohonan.is_lulus ? 'text-success' : 'text-danger']"
-              >{{selectedPermohonan.is_lulus ? 'Lulus' : 'Tidak Lulus'}}</strong>
+              <strong :class="[selectedPermohonan.is_lulus ? 'text-success' : 'text-danger']">{{selectedPermohonan.is_lulus ? 'Lulus' : 'Tidak Lulus'}}</strong>
             </small>
             <v-btn
               color="#2E7D32"
@@ -307,12 +359,24 @@
             <v-icon class="mr-2">mdi-book-multiple</v-icon>LPJ
           </span>
           <v-spacer></v-spacer>
-          <v-btn @click="bottomSheet = false" class="mr-2" text>batal</v-btn>
-          <v-btn color="#2E7D32" :loading="isLoading" @click="submit">Simpan</v-btn>
+          <v-btn
+            @click="bottomSheet = false"
+            class="mr-2"
+            text
+          >batal</v-btn>
+          <v-btn
+            color="#2E7D32"
+            :loading="isLoading"
+            @click="submit"
+          >Simpan</v-btn>
         </v-card-title>
         <v-card-text>
           <v-col cols="12">
-            <v-text-field color="#C8E6C9" label="Nama" v-model="form.nama"></v-text-field>
+            <v-text-field
+              color="#C8E6C9"
+              label="Nama"
+              v-model="form.nama"
+            ></v-text-field>
             <v-select
               color="#C8E6C9"
               label="Beasiswa"
@@ -323,7 +387,12 @@
             ></v-select>
             <v-row>
               <v-col cols="6">
-                <v-menu :nudge-right="40" transition="scale-transition" min-width="290px" offset-y>
+                <v-menu
+                  :nudge-right="40"
+                  transition="scale-transition"
+                  min-width="290px"
+                  offset-y
+                >
                   <template v-slot:activator="{ on, attrs }">
                     <v-text-field
                       label="Tanggal Mulai"
@@ -334,11 +403,20 @@
                       v-model="form.awal"
                     ></v-text-field>
                   </template>
-                  <v-date-picker color="green lighten-1" locale="id-ID" v-model="form.awal"></v-date-picker>
+                  <v-date-picker
+                    color="green lighten-1"
+                    locale="id-ID"
+                    v-model="form.awal"
+                  ></v-date-picker>
                 </v-menu>
               </v-col>
               <v-col cols="6">
-                <v-menu :nudge-right="40" transition="scale-transition" min-width="290px" offset-y>
+                <v-menu
+                  :nudge-right="40"
+                  transition="scale-transition"
+                  min-width="290px"
+                  offset-y
+                >
                   <template v-slot:activator="{ on, attrs }">
                     <v-text-field
                       label="Tanggal Akhir"
@@ -408,7 +486,10 @@
                     >
                       <v-row align="center">
                         <span class="ml-2 mr-1">Pilihan wajib diisi</span>
-                        <v-switch v-model="field.pilihan.required" color="white"></v-switch>
+                        <v-switch
+                          v-model="field.pilihan.required"
+                          color="white"
+                        ></v-switch>
                       </v-row>
 
                       <v-radio
@@ -462,7 +543,13 @@
                           class="shrink mr-2 mt-0"
                           :value="item.label"
                         ></v-checkbox>
-                        <v-text-field v-model="item.label" dense color="white" filled label="Label"></v-text-field>
+                        <v-text-field
+                          v-model="item.label"
+                          dense
+                          color="white"
+                          filled
+                          label="Label"
+                        ></v-text-field>
                         <v-btn
                           class="ma-2"
                           icon
@@ -504,7 +591,11 @@
                           filled
                           label="Nama File"
                         ></v-text-field>
-                        <v-file-input disabled filled label="Upload File"></v-file-input>
+                        <v-file-input
+                          disabled
+                          filled
+                          label="Upload File"
+                        ></v-file-input>
                         <v-btn
                           class="ma-2"
                           icon
@@ -571,18 +662,36 @@
                     ></v-textarea>
                   </v-col>
                 </v-row>
-                <v-row class="mb-2" align="center" justify="end">
-                  <v-btn icon color="white" @click="deleteField(field)">
+                <v-row
+                  class="mb-2"
+                  align="center"
+                  justify="end"
+                >
+                  <v-btn
+                    icon
+                    color="white"
+                    @click="deleteField(field)"
+                  >
                     <v-icon>mdi-trash-can</v-icon>
                   </v-btn>
                   <span class="ml-2 mr-1">Wajib diisi</span>
-                  <v-switch v-model="field.required" color="white"></v-switch>
+                  <v-switch
+                    v-model="field.required"
+                    color="white"
+                  ></v-switch>
                 </v-row>
               </v-container>
             </v-card>
           </transition-group>
           <v-row justify="center">
-            <v-btn class="mt-2" fab dark small color="green" @click="addField">
+            <v-btn
+              class="mt-2"
+              fab
+              dark
+              small
+              color="green"
+              @click="addField"
+            >
               <v-icon dark>mdi-plus</v-icon>
             </v-btn>
           </v-row>
@@ -590,7 +699,10 @@
       </v-card>
     </v-bottom-sheet>
     <!-- Dialog Delete -->
-    <v-dialog v-model="dialogDelete" width="500">
+    <v-dialog
+      v-model="dialogDelete"
+      width="500"
+    >
       <v-card>
         <v-card-title>
           <v-icon class="mr-2">mdi-trash-can</v-icon>Hapus LPJ
@@ -601,17 +713,33 @@
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
-          <v-btn color="secondary" text @click="dialogDelete = false">Tidak</v-btn>
+          <v-btn
+            color="secondary"
+            text
+            @click="dialogDelete = false"
+          >Tidak</v-btn>
           <v-spacer></v-spacer>
-          <v-btn color="#2E7D32" dark @click="destroy(form)">Ya</v-btn>
+          <v-btn
+            color="#2E7D32"
+            dark
+            @click="destroy(form)"
+          >Ya</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
     <!-- Snackbar -->
-    <v-snackbar v-model="snackbar.show" :timeout="2000">
+    <v-snackbar
+      v-model="snackbar.show"
+      :timeout="2000"
+    >
       {{ snackbar.message }}
       <template v-slot:action="{ attrs }">
-        <v-btn :color="snackbar.color" text v-bind="attrs" @click="snackbar.show = false">Close</v-btn>
+        <v-btn
+          :color="snackbar.color"
+          text
+          v-bind="attrs"
+          @click="snackbar.show = false"
+        >Close</v-btn>
       </template>
     </v-snackbar>
     <!-- Akhir -->
@@ -720,7 +848,14 @@ export default {
       this.form.id ? this.update() : this.save();
     },
     save() {
-      const data = this.form;
+      var data = this.form;
+      console.log(data)
+      data.fields.forEach(element => {
+        console.log("pantek",element)
+        if (element.type == "Checkboxes") {
+          element.value = [];
+        }
+      });
       this.mutateLoading(true);
       axios
         .post(`/api/lpj`, data)
