@@ -1,16 +1,31 @@
 <template>
   <v-sheet color="transparent">
-    <v-overlay :absolute="false" :value="overlay.show" color="green">
+    <v-overlay
+      :absolute="false"
+      :value="isSubmitted"
+      color="green"
+    >
       <v-card>
         <v-card-title>Laporan anda telah terdaftar</v-card-title>
         <v-card-subtitle>{{overlay.message}}</v-card-subtitle>
         <v-card-text>
-          <v-btn color="green darken-2" @click="overlay.show = false" block>edit laporan</v-btn>
+          <v-btn
+            color="green darken-2"
+            @click="isSubmitted = false"
+            block
+          >edit laporan</v-btn>
         </v-card-text>
       </v-card>
     </v-overlay>
-    <v-row align="center" justify="start">
-      <v-col cols="12" lg="4" md="4">
+    <v-row
+      align="center"
+      justify="start"
+    >
+      <v-col
+        cols="12"
+        lg="4"
+        md="4"
+      >
         <v-img
           class="ma-3 item"
           :max-height="300"
@@ -19,7 +34,10 @@
           :src="'https://picsum.photos/200/300?random'"
         ></v-img>
       </v-col>
-      <v-col :class="windowWidth <= 600 ?' ma-5 pa-5':''" v-if="lpj">
+      <v-col
+        :class="windowWidth <= 600 ?' ma-5 pa-5':''"
+        v-if="lpj"
+      >
         <v-row>
           <h1>{{lpj.nama}}</h1>
         </v-row>
@@ -93,7 +111,10 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-sheet width="100%" class="pa-5">
+      <v-sheet
+        width="100%"
+        class="pa-5"
+      >
         <h3>Form Laporan Pertanggungjawaban</h3>
         <p>
           Mohon isi setiap isian dengan teliti. Setiap perubahan akan langsung disimpan oleh aplikasi.
@@ -101,15 +122,27 @@
           <strong>DAFTAR</strong> untuk submit berkas LPJ ini. Berkas masih bisa diedit setelah mendaftar, sampai waktu pendaftaran usai.
           <br />Berkas yang tidak lengkap / tidak klik tombol daftar dianggap tidak mendaftar
         </p>
-        <v-form ref="form" v-model="validation" lazy-validation>
-          <v-row class="ma-5" v-for="(field,index) in fields" :key="index">
+        <v-form
+          ref="form"
+          v-model="validation"
+          lazy-validation
+        >
+          <v-row
+            class="ma-5"
+            v-for="(field,index) in fields"
+            :key="index"
+          >
             <v-col style="padding-bottom:0 !important;">
               <p>
                 <span v-if="field.required">*</span>
                 {{field.pertanyaan}}
               </p>
               <v-container v-if="field.type == 'Checkboxes'">
-                <v-row align="center" v-for="(item,index) in field.checkboxes.items" :key="index">
+                <v-row
+                  align="center"
+                  v-for="(item,index) in field.checkboxes.items"
+                  :key="index"
+                >
                   <v-checkbox
                     @change="updateField(field)"
                     v-model="field.value"
@@ -162,7 +195,10 @@
                     <v-col cols="4">
                       <span>{{item.label}}</span>
                     </v-col>
-                    <v-col cols="7" v-if="!item.file_name">
+                    <v-col
+                      cols="7"
+                      v-if="!item.file_name"
+                    >
                       <v-text-field
                         color="green"
                         :disabled="!item.isSelected"
@@ -181,7 +217,10 @@
                         class="d-none"
                       ></v-file-input>
                     </v-col>
-                    <v-col cols="4" v-if="item.file_name">
+                    <v-col
+                      cols="4"
+                      v-if="item.file_name"
+                    >
                       <v-text-field
                         color="green"
                         :disabled="!item.isSelected"
@@ -199,7 +238,11 @@
                         class="d-none"
                       ></v-file-input>
                     </v-col>
-                    <v-col cols="3" v-if="item.file_name" class="pl-2">
+                    <v-col
+                      cols="3"
+                      v-if="item.file_name"
+                      class="pl-2"
+                    >
                       <v-btn
                         block
                         class="mx-auto"
@@ -233,7 +276,10 @@
                     <!-- <v-col cols="6">
                       <span>{{item.label}}</span>
                     </v-col>-->
-                    <v-col cols="11" v-if="!item.file_name">
+                    <v-col
+                      cols="11"
+                      v-if="!item.file_name"
+                    >
                       <!-- <v-file-input
                         @change="updateField(field)"
                         v-model="item.value"
@@ -260,7 +306,10 @@
                         class="d-none"
                       ></v-file-input>
                     </v-col>
-                    <v-col cols="6" v-if="item.file_name">
+                    <v-col
+                      cols="6"
+                      v-if="item.file_name"
+                    >
                       <!-- <v-file-input
                         hide-details="auto"
                         @change="updateField(field)"
@@ -286,7 +335,11 @@
                         class="d-none"
                       ></v-file-input>
                     </v-col>
-                    <v-col cols="5" v-if="item.file_name" class="pl-2">
+                    <v-col
+                      cols="5"
+                      v-if="item.file_name"
+                      class="pl-2"
+                    >
                       <v-btn
                         block
                         class="mx-auto"
@@ -352,10 +405,16 @@
                     :clearable="!field.required"
                   ></v-text-field>
                 </template>
-                <v-date-picker v-model="field.value" @input="menu2 = false"></v-date-picker>
+                <v-date-picker
+                  v-model="field.value"
+                  @input="menu2 = false"
+                ></v-date-picker>
               </v-menu>
               <template v-if="field.type == 'Upload File'">
-                <v-row align="center" v-if="field.value">
+                <v-row
+                  align="center"
+                  v-if="field.value"
+                >
                   <v-col>
                     <v-text-field
                       prepend-icon="mdi-attachment"
@@ -373,7 +432,11 @@
                     ></v-file-input>
                   </v-col>
                   <v-col>
-                    <v-btn block color="grey darken-3" @click="link(field.value)">lihat file anda</v-btn>
+                    <v-btn
+                      block
+                      color="grey darken-3"
+                      @click="link(field.value)"
+                    >lihat file anda</v-btn>
                   </v-col>
                 </v-row>
                 <v-text-field
@@ -412,7 +475,10 @@
             </v-col>
           </v-row>
         </v-form>
-        <v-row align="center" justify="start">
+        <v-row
+          align="center"
+          justify="start"
+        >
           <v-col v-if="lpj">
             <v-btn
               :disabled="isDisabled"
@@ -442,7 +508,11 @@
         </v-row>
       </v-sheet>
     </v-row>
-    <v-dialog v-model="isSure" overlay-color="green" :width="width()">
+    <v-dialog
+      v-model="isSure"
+      overlay-color="green"
+      :width="width()"
+    >
       <v-card>
         <v-card-title>Peringatan</v-card-title>
         <v-card-text>
@@ -451,16 +521,32 @@
           <br />Apakah anda yakin untuk mendaftar?
         </v-card-text>
         <v-card-actions>
-          <v-btn @click="save()" color="green darken-2" :disabled="isLoading">Upload Berkas</v-btn>
-          <v-btn @click="isSure=false" text>batal</v-btn>
+          <v-btn
+            @click="save()"
+            color="green darken-2"
+            :disabled="isLoading"
+          >Upload Berkas</v-btn>
+          <v-btn
+            @click="isSure=false"
+            text
+          >batal</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-snackbar v-model="snackbar" :color="msg.color">
+    <v-snackbar
+      v-model="snackbar"
+      :color="msg.color"
+    >
       <v-icon>{{msg.icon}}</v-icon>
       {{ msg.text }}
       <template v-slot:action="{ attrs }">
-        <v-btn color="white" text v-bind="attrs" @click="snackbar = false" small>tutup</v-btn>
+        <v-btn
+          color="white"
+          text
+          v-bind="attrs"
+          @click="snackbar = false"
+          small
+        >tutup</v-btn>
       </template>
     </v-snackbar>
   </v-sheet>
@@ -486,6 +572,8 @@ export default {
             };
           }
           this.lpj = response.data.data;
+          this.isSubmitted = response.data.data.is_submitted == 0 ? false:true;
+          console.log(this.isSubmitted)
         })
         .catch(error => console.error(error));
     },

@@ -204,7 +204,6 @@
                         :value="item.label"
                         @change="checkMultipleUpload()"
                       ></v-checkbox>
-
                     </v-col>
                     <v-col cols="4">
                       <span>{{item.label}}</span>
