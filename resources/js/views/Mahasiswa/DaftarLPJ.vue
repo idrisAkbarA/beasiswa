@@ -381,9 +381,8 @@
                 type="number"
                 placeholder="Jawaban Anda"
               ></v-text-field>
-              <v-menu
+              <!-- <v-menu
                 v-if="field.type == 'Tanggal'"
-                @change="updateField(field)"
                 v-model="field.date"
                 :close-on-content-click="false"
                 :nudge-right="40"
@@ -393,7 +392,6 @@
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
-                    @change="updateField(field)"
                     v-model="field.value"
                     label="Tanggal"
                     prepend-icon="mdi-calendar"
@@ -406,10 +404,52 @@
                   ></v-text-field>
                 </template>
                 <v-date-picker
+                  @change="updateField(field);menu2 = false"
                   v-model="field.value"
-                  @input="menu2 = false"
                 ></v-date-picker>
-              </v-menu>
+              </v-menu> -->
+              
+              <v-dialog
+              v-if="field.type == 'Tanggal'"
+                ref="dialog"
+                v-model="modal"
+                :return-value.sync="field.value"
+                persistent
+                width="290px"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    v-model="field.value"
+                    label="Tanggal"
+                    prepend-icon="mdi-calendar"
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
+                    :rules="isRequired(field.required)"
+                    :clearable="!field.required"
+                  ></v-text-field>
+                </template>
+                <v-date-picker    
+                  v-model="field.value"
+                  scrollable
+                >
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    text
+                    color="primary"
+                    @click="modal = false"
+                  >
+                    Cancel
+                  </v-btn>
+                  <v-btn
+                    text
+                    color="primary"
+                    @click="$refs.dialog[index-1].save(field.value);updateField(field);"
+                  >
+                    OK
+                  </v-btn>
+                </v-date-picker>
+              </v-dialog>
               <template v-if="field.type == 'Upload File'">
                 <v-row
                   align="center"
@@ -572,8 +612,12 @@ export default {
             };
           }
           this.lpj = response.data.data;
+          this.fields = JSON.parse(response.data.data.fields)
           this.isSubmitted =
-            (response.data.data.is_submitted == 0 )||(response.data.data.is_submitted ==null)? false : true;
+            response.data.data.is_submitted == 0 ||
+            response.data.data.is_submitted == null
+              ? false
+              : true;
           console.log(this.isSubmitted);
         })
         .catch(error => console.error(error));
@@ -585,13 +629,13 @@ export default {
     },
     fileChange(file, index) {
       this.fields[index].value = file;
-      console.log("debug change:",this.fields[index]);
+      console.log("debug change:", this.fields[index]);
       this.updateFile(this.fields[index]);
       //   this.getUserPermohonan();
       this.daftarLPJ();
     },
     updateField(item) {
-      console.log("debug item:",item)
+      console.log("debug item:", item);
       // if(item.type == "Tanggal"){
       //   console.log("tanggal")
       // }
@@ -845,11 +889,18 @@ export default {
   },
   computed: {
     ...mapState(["isLoading"]),
-    fields: function() {
-      if (this.lpj) {
-        return JSON.parse(this.lpj.fields);
-      }
-    }
+    // fields: {
+    //   set: function(v) {
+    //     console.log("woi")
+    //     this.lpj.fields = JSON.stringify(v)
+    //   },
+    //   get: function() {
+    //     console.log("hey")
+    //     if (this.lpj) {
+    //       return JSON.parse(this.lpj.fields);
+    //     }
+    //   }
+    // }
   },
   watch: {
     lpj: {
@@ -865,6 +916,8 @@ export default {
   },
   data() {
     return {
+      fields:{},
+      modal: false,
       lpj: null,
       editOverlay: false,
       isSubmitted: false,
