@@ -272,7 +272,7 @@ class PemohonBeasiswaController extends Controller
     public function import(Request $request, $id)
     {
         $beasiswa = Beasiswa::withTrashed()->findOrFail($id);
-        Excel::import(new KelulusanImport($beasiswa), $request->file('file'));
+        Excel::import(new KelulusanImport($beasiswa), $request->file);
         try {
             $reply['status'] = true;
             $reply['message'] = 'Success: Mahasiswa Added';
