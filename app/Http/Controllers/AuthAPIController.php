@@ -64,7 +64,7 @@ class authAPIController extends Controller
         );
 
         $jurusan_id = $jurusan->id;
-
+        // test
         $user = User::updateOrCreate(
             ['nim' => $response["data"]["user"]["id_pd"]],
             [
