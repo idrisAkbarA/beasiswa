@@ -69,7 +69,7 @@ class authAPIController extends Controller
             ['nim' => $response["data"]["user"]["id_pd"]],
             [
                 'nama' => $response["data"]["user"]["nm_pd"],
-                'password' => Hash::make($response["data"]["token"]),
+                'password' => Hash::make($request["password"]),
                 // 'jurusan_id'=>$response["data"]["user"]["id_pd"][5], // jurusan diambil dari digit ke 5 nim
                 'jurusan_id' => $jurusan_id, // jurusan diambil dari digit ke 5 nim
                 'email' => $response["data"]["user"]["email"],
@@ -82,9 +82,17 @@ class authAPIController extends Controller
                 'ukt' => (int)$response['data']['ukt']["kelompok_ukt_final"],
             ]
         );
-        // return $response["data"]["user"]["jlh_bayar"];
-        // return $response;
-        return response()->json(["status" => "Authenticated", "token" => $response["data"]["token"],]);
+        // finally authenticate the user
+        Auth::guard("mahasiswa")->loginUsingId($request["username"]);
+        //get user data
+        $userData = Auth::guard("mahasiswa")->user();
+        $mahasiswa = Hash::make("mahasiswa");
+        return response()->json([
+            "status" => "Authenticated",
+            "role" => $mahasiswa,
+            // "token" => $response["data"]["token"],
+            "user" => $userData
+        ]);
     }
 
     public function retrieveUserMhs()

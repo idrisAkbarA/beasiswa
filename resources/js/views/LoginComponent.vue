@@ -46,20 +46,20 @@ export default {
       error: "",
       loading: false,
       isServer: true,
-      show1: false
+      show1: false,
     };
   },
   methods: {
-    ...mapMutations(["mutateNim",'mutateUser']),
+    ...mapMutations(["mutateNim", "mutateUser"]),
     login() {
       this.loading = true;
-      axios.get("/sanctum/csrf-cookie").then(response => {
+      axios.get("/sanctum/csrf-cookie").then((response) => {
         axios
           .post("/api/authenticate", {
             nim: this.nim,
-            password: this.pass
+            password: this.pass,
           })
-          .then(result => {
+          .then((result) => {
             window.localStorage.setItem("user", result.data.role);
             console.log(result);
             this.mutateNim(this.nim);
@@ -75,55 +75,73 @@ export default {
     },
     loginServer() {
       this.loading = true;
-      axios.get("/sanctum/csrf-cookie").then(response => {
+      axios.get("/sanctum/csrf-cookie").then((response) => {
         axios
           .post("/api/login-server", {
             username: this.nim,
-            password: this.pass
+            password: this.pass,
           })
-          .then(response => {
+          .then((response) => {
             // console.log(response);
-            axios
-              .post("/api/authenticate", {
-                nim: this.nim,
-                password: response.data.token
-              })
-              .then(result => {
-                window.localStorage.setItem("user", result.data.role);
-                // console.log(result);
-                this.mutateNim(this.nim);
-                if (result.data.status == "Authenticated") {
-                  this.$store.state.auth.isAuth = true;
-                window.localStorage.setItem("userDetail", JSON.stringify(result.data.user));
-                  // this.mutateUser(result.data.user);
-                  this.$router.push({ path: `/mahasiswa/home` });
-                } else {
-                  this.error = "Invalid username/password";
-                  this.loading = false;
-                }
-              });
+            window.localStorage.setItem("user", response.data.role);
+            // console.log(response);
+            this.mutateNim(this.nim);
+            if (response.data.status == "Authenticated") {
+              this.$store.state.auth.isAuth = true;
+              window.localStorage.setItem(
+                "userDetail",
+                JSON.stringify(response.data.user)
+              );
+              // this.mutateUser(response.data.user);
+              this.$router.push({ path: `/mahasiswa/home` });
+            } else {
+              this.error = "Invalid username/password";
+              this.loading = false;
+            }
+
+            // below is the old code
+
+            // axios
+            //   .post("/api/authenticate", {
+            //     nim: this.nim,
+            //     password: response.data.token
+            //   })
+            //   .then(result => {
+            //     window.localStorage.setItem("user", result.data.role);
+            //     // console.log(result);
+            //     this.mutateNim(this.nim);
+            //     if (result.data.status == "Authenticated") {
+            //       this.$store.state.auth.isAuth = true;
+            //     window.localStorage.setItem("userDetail", JSON.stringify(result.data.user));
+            //       // this.mutateUser(result.data.user);
+            //       this.$router.push({ path: `/mahasiswa/home` });
+            //     } else {
+            //       this.error = "Invalid username/password";
+            //       this.loading = false;
+            //     }
+            //   });
           })
-          .catch(error => {
+          .catch((error) => {
             this.error = "Terjadi kesalahan, cobalah dalam beberapa saat lagi.";
             this.loading = false;
             console.log(error);
           });
       });
-    }
+    },
   },
   created() {
     axios
       .get("/api/user/mahasiswa")
-      .then(response => {
+      .then((response) => {
         console.log(response.data);
         console.log("go");
         this.$router.push({ path: `/mahasiswa/home` });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error.response.status);
         // this.$router.push("login");
       });
-  }
+  },
 };
 </script>
 
