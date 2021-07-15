@@ -12,7 +12,7 @@
         :items-per-page="10"
         class="elevation-10 mb-10"
       >
-        <template v-slot:item.actions="{ item }">
+        <template v-slot:[`item.actions`]="{ item }">
           <v-btn
             icon
             x-small
@@ -132,7 +132,7 @@
                   style="background-color: #2e7d323b"
                   class="elevation-10 mb-10 row-pointer"
                 >
-                  <template v-slot:item.is_lulus="{ item }">
+                  <template v-slot:[`item.is_lulus`]="{ item }">
                     <v-chip
                       dark
                       :color="item.status.color"
@@ -141,7 +141,7 @@
                       {{item.status.text}}
                     </v-chip>
                   </template>
-                  <template v-slot:item.actions="{ item }">
+                  <template v-slot:[`item.actions`]="{ item }">
                     <v-btn
                       icon
                       x-small
