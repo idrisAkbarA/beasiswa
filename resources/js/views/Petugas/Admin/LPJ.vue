@@ -940,12 +940,14 @@ export default {
         .then(() => this.mutateLoading(false));
     },
     showLPJ(id) {
+      this.mutateLoading(true);
       axios
         .get(`/api/lpj/${id}`)
         .then((response) => {
           const data = response.data;
           this.selectedLPJ = data;
           this.filterStatuses(data.permohonan);
+          this.mutateLoading(false);
         })
         .catch((error) => console.error(error));
     },
