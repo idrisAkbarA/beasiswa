@@ -71,9 +71,9 @@ class LPJController extends Controller
             if (in_array($item->mhs_id, $lpj->permohonan->pluck('mhs_id')->toArray())) {
                 return false;
             }
-            $new = new PermohonanLPJ();
-            $new->mahasiswa = $item->mahasiswa;
-            $lpj->permohonan->push($new);
+            $permohonan = new PermohonanLPJ();
+            $permohonan->mahasiswa = $item->mahasiswa;
+            $lpj->permohonan->push($permohonan);
         });
         return response()->json($lpj);
     }

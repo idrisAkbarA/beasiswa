@@ -33,7 +33,7 @@ class PermohonanLPJ extends Model
                 'color' => 'orange',
                 'text' => 'Tidak Lengkap'
             ];
-        } else {
+        } elseif ($this->is_submitted === 1) {
             if ($this->is_lulus === null) {
                 $status = [
                     'color' => 'blue',
@@ -45,6 +45,11 @@ class PermohonanLPJ extends Model
                     'text' => $this->is_lulus ? 'Lulus' : 'Tidak Lulus'
                 ];
             }
+        } else {
+            $status = [
+                'color' => 'purple',
+                'text' => 'Belum Mengisi'
+            ];
         }
         return $status;
     }

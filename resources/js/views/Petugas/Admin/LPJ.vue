@@ -65,6 +65,17 @@
                       }})</v-chip
                     >
                     <v-chip
+                      color="purple"
+                      :outlined="filter != 'belum_mengisi'"
+                      class="mr-2 mb-2"
+                      @click="filter = 'belum_mengisi'"
+                      >Belum Mengisi ({{
+                        undefined !== selectedLPJ.belum_mengisi
+                          ? selectedLPJ.belum_mengisi.length
+                          : 0
+                      }})</v-chip
+                    >
+                    <v-chip
                       color="orange"
                       :outlined="filter != 'tidak_lengkap'"
                       class="mr-2 mb-2"
@@ -869,9 +880,7 @@ export default {
     },
     save() {
       var data = this.form;
-      console.log(data);
       data.fields.forEach((element) => {
-        console.log("pantek", element);
         if (element.type == "Checkboxes") {
           element.value = [];
         }
@@ -962,7 +971,7 @@ export default {
         });
     },
     filterStatuses(data) {
-      const statuses = ["Tidak Lengkap", "Proses", "Tidak Lulus", "Lulus"];
+      const statuses = ["Belum Mengisi", "Tidak Lengkap", "Proses", "Tidak Lulus", "Lulus"];
       statuses.forEach((x) => {
         this.selectedLPJ[x.replace(" ", "_").toLowerCase()] = data.filter(
           (y) => y.status.text == x
