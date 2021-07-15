@@ -103,7 +103,6 @@
                     >Lulus ({{undefined !== selectedLPJ.lulus ? selectedLPJ.lulus.length : 0}})</v-chip>
                   </div>
                   <div class="col-lg-2 col-md-12 mb-5">
-                    <v-spacer></v-spacer>
                     <v-chip
                       light
                       class="float-right"
@@ -115,12 +114,18 @@
                   </div>
                 </v-row>
                 <v-card-title>
+
+                  <v-btn
+                    @click="dialogLulusAll = true"
+                    class="text-white mr-6"
+                    color="orange darken-2"
+                  >Luluskan Semua LPJ</v-btn>
+
                   <v-text-field
                     v-model="search.permohonan"
                     append-icon="mdi-magnify"
                     label="Search"
                     single-line
-                    hide-details
                   ></v-text-field>
                 </v-card-title>
                 <v-data-table
@@ -738,6 +743,33 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog
+      overlay-color="green darken-2"
+      v-if="selectedLPJ"
+      v-model="dialogLulusAll"
+      width="500px"
+    >
+      <v-card>
+
+        <v-card-title>
+          Konfirmasi
+        </v-card-title>
+        <v-card-text>
+          Apakah anda yakin untuk meluluskan seluruh permohonan LPJ di beasiswa <strong>{{selectedLPJ.beasiswa.nama}}</strong>?
+        </v-card-text>
+        <v-card-actions>
+          <v-btn
+            color="green darken-2"
+            class="text-white"
+          >Luluskan Semua</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn
+            @click="dialogLulusAll = false"
+            text
+          >Batal</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <!-- Snackbar -->
     <v-snackbar
       v-model="snackbar.show"
@@ -940,12 +972,14 @@ export default {
         .then(() => this.mutateLoading(false));
     },
     showLPJ(id) {
+      this.mutateLoading(true);
       axios
         .get(`/api/lpj/${id}`)
         .then((response) => {
           const data = response.data;
           this.selectedLPJ = data;
           this.filterStatuses(data.permohonan);
+          this.mutateLoading(false);
         })
         .catch((error) => console.error(error));
     },
@@ -1053,6 +1087,7 @@ export default {
       dialogShow: false,
       drawerShow: false,
       dialogDelete: false,
+      dialogLulusAll: false,
       search: "",
       filter: "permohonan",
       form: {},
@@ -1067,8 +1102,9 @@ export default {
           { text: "Actions", value: "actions", sortable: false },
         ],
         permohonan: [
+          { text: "NIM", align: "start", value: "mahasiswa.nim" },
           { text: "Nama", align: "start", value: "mahasiswa.nama" },
-          { text: "Jurusan", value: "mahasiswa.jurusan.nama", sortable: false },
+          { text: "Jurusan", value: "mahasiswa.jurusan.nama", sortable: true },
           { text: "Status", value: "is_lulus" },
           { text: "Actions", value: "actions", sortable: false },
         ],
