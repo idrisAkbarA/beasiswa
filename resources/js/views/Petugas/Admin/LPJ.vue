@@ -1069,8 +1069,9 @@ export default {
           { text: "Actions", value: "actions", sortable: false },
         ],
         permohonan: [
+          { text: "NIM", align: "start", value: "mahasiswa.nim" },
           { text: "Nama", align: "start", value: "mahasiswa.nama" },
-          { text: "Jurusan", value: "mahasiswa.jurusan.nama", sortable: false },
+          { text: "Jurusan", value: "mahasiswa.jurusan.nama", sortable: true },
           { text: "Status", value: "is_lulus" },
           { text: "Actions", value: "actions", sortable: false },
         ],
