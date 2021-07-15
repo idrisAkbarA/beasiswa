@@ -53,7 +53,7 @@ class User extends Authenticatable
 
     public function getFakultasAttribute()
     {
-        return $this->jurusan->fakultas;
+        return $this->jurusan ? $this->jurusan->fakultas : '';
     }
 
     public function permohonan()
