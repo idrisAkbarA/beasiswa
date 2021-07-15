@@ -69,12 +69,11 @@ class LPJController extends Controller
         $lpj->permohonan = $lpj->permohonan;
 
         $lpj->beasiswa->getLulusAttribute()->each(function ($item) use ($lpj) {
-            if (in_array($item->mhs_id, $lpj->permohonan->pluck('mhs_id')->toArray())) {
-                return false;
+            if (!in_array($item->mhs_id, $lpj->permohonan->pluck('mhs_id')->toArray())) {
+                $permohonan = new PermohonanLPJ();
+                $permohonan->mahasiswa = $item->mahasiswa ?? new User(['nim' => $item->mhs_id]);
+                $lpj->permohonan->push($permohonan);
             }
-            $permohonan = new PermohonanLPJ();
-            $permohonan->mahasiswa = $item->mahasiswa ?? new User(['nim' => $item->mhs_id]);
-            $lpj->permohonan->push($permohonan);
         });
         return response()->json($lpj);
     }
