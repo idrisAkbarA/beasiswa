@@ -175,8 +175,9 @@
                       icon
                       x-small
                       class="mr-2"
-                      @click="infoPermohonan(item)"
                       title="Info"
+                      :disabled="item.status.text == 'Belum Mengisi'"
+                      @click="infoPermohonan(item)"
                     >
                       <v-icon>mdi-information</v-icon>
                     </v-btn>
