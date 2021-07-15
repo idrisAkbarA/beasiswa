@@ -13,29 +13,18 @@
         class="elevation-10 mb-10"
       >
         <template v-slot:[`item.actions`]="{ item }">
-          <v-btn
-            icon
-            x-small
-            class="mr-2"
-            @click="infoLPJ(item)"
-            title="Info"
-          >
+          <v-btn icon x-small class="mr-2" @click="infoLPJ(item)" title="Info">
             <v-icon>mdi-information</v-icon>
           </v-btn>
-          <v-btn
-            icon
-            x-small
-            class="mr-2"
-            @click="edit(item)"
-            title="Edit"
-          >
+          <v-btn icon x-small class="mr-2" @click="edit(item)" title="Edit">
             <v-icon>mdi-pencil</v-icon>
           </v-btn>
           <v-icon
             small
-            @click="dialogDelete = true, form = item"
+            @click="(dialogDelete = true), (form = item)"
             title="Hapus"
-          >mdi-delete</v-icon>
+            >mdi-delete</v-icon
+          >
         </template>
         <template v-slot:no-data>no data</template>
       </v-data-table>
@@ -49,18 +38,11 @@
       v-if="dialogShow"
     >
       <v-card>
-        <v-toolbar
-          dark
-          color="green"
-        >
-          <v-btn
-            icon
-            dark
-            @click="dialogShow = false"
-          >
+        <v-toolbar dark color="green">
+          <v-btn icon dark @click="dialogShow = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>{{selectedLPJ.nama}}</v-toolbar-title>
+          <v-toolbar-title>{{ selectedLPJ.nama }}</v-toolbar-title>
           <v-spacer></v-spacer>
         </v-toolbar>
         <v-card-text class="mt-5">
@@ -76,50 +58,80 @@
                       :outlined="filter != 'permohonan'"
                       class="mr-2 mb-2"
                       @click="filter = 'permohonan'"
-                    >Semua ({{undefined !== selectedLPJ.permohonan ? selectedLPJ.permohonan.length : 0}})</v-chip>
+                      >Semua ({{
+                        undefined !== selectedLPJ.permohonan
+                          ? selectedLPJ.permohonan.length
+                          : 0
+                      }})</v-chip
+                    >
                     <v-chip
                       color="orange"
                       :outlined="filter != 'tidak_lengkap'"
                       class="mr-2 mb-2"
                       @click="filter = 'tidak_lengkap'"
-                    >Tidak Lengkap ({{undefined !== selectedLPJ.tidak_lengkap ? selectedLPJ.tidak_lengkap.length : 0}})</v-chip>
+                      >Tidak Lengkap ({{
+                        undefined !== selectedLPJ.tidak_lengkap
+                          ? selectedLPJ.tidak_lengkap.length
+                          : 0
+                      }})</v-chip
+                    >
                     <v-chip
                       color="cyan"
                       :outlined="filter != 'proses'"
                       class="mr-2 mb-2"
                       @click="filter = 'proses'"
-                    >Proses ({{undefined !== selectedLPJ.proses ? selectedLPJ.proses.length : 0}})</v-chip>
+                      >Proses ({{
+                        undefined !== selectedLPJ.proses
+                          ? selectedLPJ.proses.length
+                          : 0
+                      }})</v-chip
+                    >
                     <v-chip
                       color="red"
                       :outlined="filter != 'tidak_lulus'"
                       class="mr-2 mb-2"
                       @click="filter = 'tidak_lulus'"
-                    >Tidak Lulus ({{undefined !== selectedLPJ.tidak_lulus ? selectedLPJ.tidak_lulus.length : 0}})</v-chip>
+                      >Tidak Lulus ({{
+                        undefined !== selectedLPJ.tidak_lulus
+                          ? selectedLPJ.tidak_lulus.length
+                          : 0
+                      }})</v-chip
+                    >
                     <v-chip
                       color="green"
                       :outlined="filter != 'lulus'"
                       class="mr-2 mb-2"
                       @click="filter = 'lulus'"
-                    >Lulus ({{undefined !== selectedLPJ.lulus ? selectedLPJ.lulus.length : 0}})</v-chip>
+                      >Lulus ({{
+                        undefined !== selectedLPJ.lulus
+                          ? selectedLPJ.lulus.length
+                          : 0
+                      }})</v-chip
+                    >
                   </div>
                   <div class="col-lg-2 col-md-12 mb-5">
                     <v-chip
                       light
                       class="float-right"
-                      v-if="selectedLPJ.deleted_at && selectedLPJ.lulus.length < selectedLPJ.quota"
+                      v-if="
+                        selectedLPJ.deleted_at &&
+                        selectedLPJ.lulus.length < selectedLPJ.quota
+                      "
                       @click.stop="drawer = !drawer"
                     >
-                      <v-icon class="mr-2">mdi-checkbox-marked-circle-outline</v-icon>Kelulusan
+                      <v-icon class="mr-2"
+                        >mdi-checkbox-marked-circle-outline</v-icon
+                      >Kelulusan
                     </v-chip>
                   </div>
                 </v-row>
                 <v-card-title>
-
                   <v-btn
                     @click="dialogLulusAll = true"
                     class="text-white mr-6"
                     color="orange darken-2"
-                  >Luluskan Semua LPJ</v-btn>
+                    >Luluskan Semua LPJ</v-btn
+                  >
 
                   <v-text-field
                     v-model="search.permohonan"
@@ -138,12 +150,13 @@
                   class="elevation-10 mb-10 row-pointer"
                 >
                   <template v-slot:[`item.is_lulus`]="{ item }">
-                    <v-chip
-                      dark
-                      :color="item.status.color"
-                    >
-                      <i :class="`mdi ${item.is_lulus ? 'mdi-check' : 'mdi-close'} mr-2`"></i>
-                      {{item.status.text}}
+                    <v-chip dark :color="item.status.color">
+                      <i
+                        :class="`mdi ${
+                          item.is_lulus ? 'mdi-check' : 'mdi-close'
+                        } mr-2`"
+                      ></i>
+                      {{ item.status.text }}
                     </v-chip>
                   </template>
                   <template v-slot:[`item.actions`]="{ item }">
@@ -170,7 +183,7 @@
                   hide-default-footer
                   class="elevation-1"
                 ></v-data-table>
-                <p class="mt-3">{{selectedLPJ.deskripsi}}</p>
+                <p class="mt-3">{{ selectedLPJ.deskripsi }}</p>
               </v-col>
             </v-tab-item>
           </v-tabs>
@@ -184,9 +197,7 @@
         width="500px"
       >
         <v-card>
-          <v-card-title>
-            Rincian Permohonan LPJ
-          </v-card-title>
+          <v-card-title> Rincian Permohonan LPJ </v-card-title>
           <v-card-subtitle>
             Lihat rincian dan validasi permohonan LPJ
           </v-card-subtitle>
@@ -194,7 +205,7 @@
             <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>
-                  <strong>{{selectedPermohonan.mahasiswa.nama}}</strong>
+                  <strong>{{ selectedPermohonan.mahasiswa.nama }}</strong>
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
@@ -203,18 +214,18 @@
               <v-row
                 no-gutters
                 class="ma-5"
-                v-for="(field,index) in JSON.parse(selectedPermohonan.form)"
+                v-for="(field, index) in JSON.parse(selectedPermohonan.form)"
                 :key="index"
               >
-                <v-col style="padding-bottom:0 !important;">
-                  <p>{{field.pertanyaan}}</p>
+                <v-col style="padding-bottom: 0 !important">
+                  <p>{{ field.pertanyaan }}</p>
                   <v-container v-if="field.type == 'Checkboxes'">
                     <!-- {{'pep'+field.isLulus}} -->
                     <v-row>
                       <v-col cols="9">
                         <v-row
                           align="center"
-                          v-for="(item,index) in field.checkboxes.items"
+                          v-for="(item, index) in field.checkboxes.items"
                           :key="index"
                         >
                           <v-checkbox
@@ -225,7 +236,7 @@
                             hide-details
                             class="shrink mr-2 mt-0"
                           ></v-checkbox>
-                          <span>{{item.label}}</span>
+                          <span>{{ item.label }}</span>
                         </v-row>
                       </v-col>
                     </v-row>
@@ -235,7 +246,7 @@
                       <v-col cols="9">
                         <v-row
                           align="center"
-                          v-for="(item,index) in field.multiUpload.items"
+                          v-for="(item, index) in field.multiUpload.items"
                           :key="index"
                           :value="item.label"
                           no-gutters
@@ -251,14 +262,15 @@
                             ></v-checkbox>
                           </v-col>
                           <v-col cols="6">
-                            <span>{{item.label}}</span>
+                            <span>{{ item.label }}</span>
                           </v-col>
                           <v-col cols="5">
                             <v-btn
                               v-if="item.file_name"
                               small
                               @click="link(item.file_name)"
-                            >lihat file</v-btn>
+                              >lihat file</v-btn
+                            >
                           </v-col>
                         </v-row>
                       </v-col>
@@ -268,7 +280,7 @@
                     <v-col cols="9">
                       <span>
                         <v-icon>mdi-text-short</v-icon>
-                        {{field.value}}
+                        {{ field.value }}
                       </span>
                     </v-col>
                   </v-row>
@@ -276,7 +288,7 @@
                     <v-col cols="9">
                       <span>
                         <v-icon>mdi-text-short</v-icon>
-                        {{field.value}}
+                        {{ field.value }}
                       </span>
                     </v-col>
                   </v-row>
@@ -284,7 +296,7 @@
                     <v-col cols="9">
                       <span>
                         <v-icon>mdi-text-short</v-icon>
-                        {{field.value}}
+                        {{ field.value }}
                       </span>
                     </v-col>
                   </v-row>
@@ -292,23 +304,20 @@
                     <v-col>
                       <span>
                         <v-icon>mdi-text-short</v-icon>
-                        {{field.value}}
+                        {{ field.value }}
                       </span>
                     </v-col>
                   </v-row>
                   <v-row v-if="field.type == 'Upload File'">
                     <v-col cols="9">
-                      <v-btn
-                        small
-                        @click="link(field.value)"
-                      >lihat file</v-btn>
+                      <v-btn small @click="link(field.value)">lihat file</v-btn>
                     </v-col>
                   </v-row>
                   <v-row v-if="field.type == 'Paragraf'">
                     <v-col cols="9">
                       <span>
                         <v-icon>mdi-text-short</v-icon>
-                        {{field.value}}
+                        {{ field.value }}
                       </span>
                     </v-col>
                   </v-row>
@@ -331,35 +340,42 @@
                   text
                   :loading="isLoading"
                   @click="updatePermohonan(false)"
-                >Tdk Lulus</v-btn>
+                  >Tdk Lulus</v-btn
+                >
                 <v-btn
                   color="#2E7D32"
                   class="float-right"
                   :loading="isLoading"
                   @click="updatePermohonan(true)"
-                >Lulus</v-btn>
+                  >Lulus</v-btn
+                >
               </div>
-              <div
-                class="px-2 py-2 mt-auto"
-                v-else
-              >
+              <div class="px-2 py-2 mt-auto" v-else>
                 <small class="mb-0">
                   Status :
-                  <strong :class="[selectedPermohonan.is_lulus ? 'text-success' : 'text-danger']">{{selectedPermohonan.is_lulus ? 'Lulus' : 'Tidak Lulus'}}</strong>
+                  <strong
+                    :class="[
+                      selectedPermohonan.is_lulus
+                        ? 'text-success'
+                        : 'text-danger',
+                    ]"
+                    >{{
+                      selectedPermohonan.is_lulus ? "Lulus" : "Tidak Lulus"
+                    }}</strong
+                  >
                 </small>
                 <v-btn
                   color="#2E7D32"
                   class="float-right"
                   :loading="isLoading"
                   @click="selectedPermohonan.is_lulus = null"
-                >Ubah</v-btn>
+                  >Ubah</v-btn
+                >
               </div>
             </template>
           </v-card-actions>
         </v-card>
-
       </v-dialog>
-
     </v-dialog>
     <!-- Create and Edit -->
     <v-bottom-sheet
@@ -371,20 +387,12 @@
     >
       <v-card>
         <v-card-title>
-          <span>
-            <v-icon class="mr-2">mdi-book-multiple</v-icon>LPJ
-          </span>
+          <span> <v-icon class="mr-2">mdi-book-multiple</v-icon>LPJ </span>
           <v-spacer></v-spacer>
-          <v-btn
-            @click="bottomSheet = false"
-            class="mr-2"
-            text
-          >batal</v-btn>
-          <v-btn
-            color="#2E7D32"
-            :loading="isLoading"
-            @click="submit"
-          >Simpan</v-btn>
+          <v-btn @click="bottomSheet = false" class="mr-2" text>batal</v-btn>
+          <v-btn color="#2E7D32" :loading="isLoading" @click="submit"
+            >Simpan</v-btn
+          >
         </v-card-title>
         <v-card-text>
           <v-col cols="12">
@@ -509,7 +517,7 @@
                       </v-row>
 
                       <v-radio
-                        v-for="(item,index) in field.pilihan.items"
+                        v-for="(item, index) in field.pilihan.items"
                         :key="index"
                         :value="item.label"
                         color="white"
@@ -528,7 +536,7 @@
                               class="ma-2"
                               icon
                               color="white"
-                              @click="deleteItem(field,item.label, 'pilihan')"
+                              @click="deleteItem(field, item.label, 'pilihan')"
                             >
                               <v-icon>mdi-close</v-icon>
                             </v-btn>
@@ -549,7 +557,7 @@
                     <v-container v-if="field.type == 'Checkboxes'">
                       <v-row
                         align="center"
-                        v-for="(item,index) in field.checkboxes.items"
+                        v-for="(item, index) in field.checkboxes.items"
                         :key="index"
                         :value="item.label"
                       >
@@ -570,7 +578,7 @@
                           class="ma-2"
                           icon
                           color="white"
-                          @click="deleteItem(field,item.label, 'checkboxes')"
+                          @click="deleteItem(field, item.label, 'checkboxes')"
                         >
                           <v-icon>mdi-close</v-icon>
                         </v-btn>
@@ -590,7 +598,7 @@
                     <v-container v-if="field.type == 'Multiple Upload'">
                       <v-row
                         align="center"
-                        v-for="(item,index) in field.multiUpload.items"
+                        v-for="(item, index) in field.multiUpload.items"
                         :key="index"
                         :value="item.label"
                       >
@@ -616,7 +624,7 @@
                           class="ma-2"
                           icon
                           color="white"
-                          @click="deleteItem(field,item.label, 'multiUpload')"
+                          @click="deleteItem(field, item.label, 'multiUpload')"
                         >
                           <v-icon>mdi-close</v-icon>
                         </v-btn>
@@ -678,36 +686,18 @@
                     ></v-textarea>
                   </v-col>
                 </v-row>
-                <v-row
-                  class="mb-2"
-                  align="center"
-                  justify="end"
-                >
-                  <v-btn
-                    icon
-                    color="white"
-                    @click="deleteField(field)"
-                  >
+                <v-row class="mb-2" align="center" justify="end">
+                  <v-btn icon color="white" @click="deleteField(field)">
                     <v-icon>mdi-trash-can</v-icon>
                   </v-btn>
                   <span class="ml-2 mr-1">Wajib diisi</span>
-                  <v-switch
-                    v-model="field.required"
-                    color="white"
-                  ></v-switch>
+                  <v-switch v-model="field.required" color="white"></v-switch>
                 </v-row>
               </v-container>
             </v-card>
           </transition-group>
           <v-row justify="center">
-            <v-btn
-              class="mt-2"
-              fab
-              dark
-              small
-              color="green"
-              @click="addField"
-            >
+            <v-btn class="mt-2" fab dark small color="green" @click="addField">
               <v-icon dark>mdi-plus</v-icon>
             </v-btn>
           </v-row>
@@ -715,31 +705,23 @@
       </v-card>
     </v-bottom-sheet>
     <!-- Dialog Delete -->
-    <v-dialog
-      v-model="dialogDelete"
-      width="500"
-    >
+    <v-dialog v-model="dialogDelete" width="500">
       <v-card>
         <v-card-title>
           <v-icon class="mr-2">mdi-trash-can</v-icon>Hapus LPJ
         </v-card-title>
         <v-card-text class="text-center">
           Apakah anda yakin ingin menghapus
-          <strong>{{form.nama}}</strong>? Perubahan tidak dapat dikembalikan!
+          <strong>{{ form.nama }}</strong
+          >? Perubahan tidak dapat dikembalikan!
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
-          <v-btn
-            color="secondary"
-            text
-            @click="dialogDelete = false"
-          >Tidak</v-btn>
+          <v-btn color="secondary" text @click="dialogDelete = false"
+            >Tidak</v-btn
+          >
           <v-spacer></v-spacer>
-          <v-btn
-            color="#2E7D32"
-            dark
-            @click="destroy(form)"
-          >Ya</v-btn>
+          <v-btn color="#2E7D32" dark @click="destroy(form)">Ya</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -750,31 +732,23 @@
       width="500px"
     >
       <v-card>
-
-        <v-card-title>
-          Konfirmasi
-        </v-card-title>
+        <v-card-title> Konfirmasi </v-card-title>
         <v-card-text>
-          Apakah anda yakin untuk meluluskan seluruh permohonan LPJ di beasiswa <strong>{{selectedLPJ.beasiswa.nama}}</strong>?
+          Apakah anda yakin untuk meluluskan seluruh permohonan LPJ di beasiswa
+          <strong>{{ selectedLPJ.beasiswa.nama }}</strong
+          >?
         </v-card-text>
         <v-card-actions>
-          <v-btn
-            color="green darken-2"
-            class="text-white"
-          >Luluskan Semua</v-btn>
+          <v-btn color="green darken-2" class="text-white"
+            >Luluskan Semua</v-btn
+          >
           <v-spacer></v-spacer>
-          <v-btn
-            @click="dialogLulusAll = false"
-            text
-          >Batal</v-btn>
+          <v-btn @click="dialogLulusAll = false" text>Batal</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
     <!-- Snackbar -->
-    <v-snackbar
-      v-model="snackbar.show"
-      :timeout="2000"
-    >
+    <v-snackbar v-model="snackbar.show" :timeout="2000">
       {{ snackbar.message }}
       <template v-slot:action="{ attrs }">
         <v-btn
@@ -782,7 +756,8 @@
           text
           v-bind="attrs"
           @click="snackbar.show = false"
-        >Close</v-btn>
+          >Close</v-btn
+        >
       </template>
     </v-snackbar>
     <!-- Akhir -->
@@ -981,7 +956,10 @@ export default {
           this.filterStatuses(data.permohonan);
           this.mutateLoading(false);
         })
-        .catch((error) => console.error(error));
+        .catch((error) => {
+          console.error(error);
+          this.mutateLoading(false);
+        });
     },
     filterStatuses(data) {
       const statuses = ["Tidak Lengkap", "Proses", "Tidak Lulus", "Lulus"];

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\LPJ;
+use App\PermohonanLPJ;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -65,6 +66,15 @@ class LPJController extends Controller
     {
         $lpj->beasiswa = $lpj->beasiswa;
         $lpj->permohonan = $lpj->permohonan;
+
+        $lpj->beasiswa->permohonan->each(function ($item) use ($lpj) {
+            if (in_array($item->mhs_id, $lpj->permohonan->pluck('mhs_id')->toArray())) {
+                return false;
+            }
+            $new = new PermohonanLPJ();
+            $new->mahasiswa = $item->mahasiswa;
+            $lpj->permohonan->push($new);
+        });
         return response()->json($lpj);
     }
 
