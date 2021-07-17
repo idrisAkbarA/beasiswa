@@ -72,7 +72,7 @@ class LPJController extends Controller
         // $result = Cache::rememberForever('lpj-' . $lpj->id, function () use ($lpj) {
         $lpj->beasiswa->getLulusAttribute()->each(function ($item) use ($lpj) {
             if (!in_array($item->mhs_id, $lpj->permohonan->pluck('mhs_id')->toArray())) {
-                $permohonan = new PermohonanLPJ();
+                $permohonan = new PermohonanLPJ(['mhs_id' => $item->mhs_id, 'form' => [], 'is_lulus' => null]);
                 $permohonan->mahasiswa = $item->mahasiswa ?? new User(['nim' => $item->mhs_id]);
                 $lpj->permohonan->push($permohonan);
             }

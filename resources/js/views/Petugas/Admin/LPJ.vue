@@ -176,7 +176,6 @@
                       x-small
                       class="mr-2"
                       title="Info"
-                      :disabled="item.status.text == 'Belum Mengisi'"
                       @click="infoPermohonan(item)"
                     >
                       <v-icon>mdi-information</v-icon>
@@ -217,7 +216,11 @@
             <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>
-                  <strong>{{ selectedPermohonan.mahasiswa.nama }}</strong>
+                  <strong>{{
+                    selectedPermohonan.mahasiswa
+                      ? selectedPermohonan.mahasiswa.nama
+                      : ""
+                  }}</strong>
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
@@ -341,50 +344,44 @@
               </v-row>
             </div>
           </v-card-text>
-          <v-card-actions>
-            <template v-slot:append>
-              <div
-                class="px-2 py-2"
-                v-if="selectedPermohonan.is_lulus === null"
+          <v-card-actions v-if="selectedPermohonan.is_lulus === null">
+            <v-btn
+              dark
+              text
+              :loading="isLoading"
+              @click="updatePermohonan(false)"
+              >Tdk Lulus</v-btn
+            >
+            <v-spacer></v-spacer>
+            <v-btn
+              color="#2E7D32"
+              class="float-right"
+              :loading="isLoading"
+              :disabled="selectedPermohonan.form === '[]'"
+              @click="updatePermohonan(true)"
+              >Lulus</v-btn
+            >
+          </v-card-actions>
+          <v-card-actions class="px-2 py-2 mt-auto" v-else>
+            <small class="mb-0">
+              Status :
+              <strong
+                :class="[
+                  selectedPermohonan.is_lulus ? 'text-success' : 'text-danger',
+                ]"
+                >{{
+                  selectedPermohonan.is_lulus ? "Lulus" : "Tidak Lulus"
+                }}</strong
               >
-                <v-btn
-                  dark
-                  text
-                  :loading="isLoading"
-                  @click="updatePermohonan(false)"
-                  >Tdk Lulus</v-btn
-                >
-                <v-btn
-                  color="#2E7D32"
-                  class="float-right"
-                  :loading="isLoading"
-                  @click="updatePermohonan(true)"
-                  >Lulus</v-btn
-                >
-              </div>
-              <div class="px-2 py-2 mt-auto" v-else>
-                <small class="mb-0">
-                  Status :
-                  <strong
-                    :class="[
-                      selectedPermohonan.is_lulus
-                        ? 'text-success'
-                        : 'text-danger',
-                    ]"
-                    >{{
-                      selectedPermohonan.is_lulus ? "Lulus" : "Tidak Lulus"
-                    }}</strong
-                  >
-                </small>
-                <v-btn
-                  color="#2E7D32"
-                  class="float-right"
-                  :loading="isLoading"
-                  @click="selectedPermohonan.is_lulus = null"
-                  >Ubah</v-btn
-                >
-              </div>
-            </template>
+            </small>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="#2E7D32"
+              class="float-right"
+              :loading="isLoading"
+              @click="selectedPermohonan.is_lulus = null"
+              >Ubah</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -809,9 +806,45 @@ export default {
       this.selectedPermohonan = item;
       this.drawerShow = true;
     },
+    createPermohonan() {
+      const data = {
+        mhs_id: this.selectedPermohonan.mahasiswa.nim,
+        lpj_id: this.selectedLPJ.id,
+        is_submitted: true,
+        is_lulus: false,
+        form: [],
+      };
+      this.mutateLoading(true);
+      axios
+        .post(`/api/permohonan-lpj`, data)
+        .then((response) => {
+          this.drawerShow = false;
+          this.showLPJ(this.selectedLPJ.id);
+          const isLulus = response.data.data.is_lulus;
+          this.snackbar = {
+            show: true,
+            color: isLulus ? "blue" : "red",
+            message: `Kelulusan beasiswa : ${
+              isLulus ? "Lulus" : "Tidak Lulus"
+            }`,
+          };
+        })
+        .catch((error) => {
+          console.error(error);
+          this.snackbar = {
+            show: true,
+            color: "red",
+            message: error,
+          };
+        });
+    },
     updatePermohonan(val) {
       const id = this.selectedPermohonan.id;
-      const data = { is_lulus: val };
+      if (id === undefined) {
+        this.createPermohonan();
+        return;
+      }
+      const data = { is_submitted: true, is_lulus: val };
       this.mutateLoading(true);
       axios
         .put(`/api/permohonan-lpj/${id}`, data)
@@ -879,7 +912,7 @@ export default {
         .put(`/api/lpj/lulus/${id}`)
         .then((response) => {
           this.mutateLoading(false);
-          this.showLPJ(id)
+          this.showLPJ(id);
           this.dialogLulusAll = false;
           this.snackbar = {
             show: true,
@@ -1123,7 +1156,7 @@ export default {
           { text: "Actions", value: "actions", sortable: false },
         ],
         permohonan: [
-          { text: "NIM", align: "start", value: "mahasiswa.nim" },
+          { text: "NIM", align: "start", value: "mhs_id" },
           { text: "Nama", align: "start", value: "mahasiswa.nama" },
           { text: "Jurusan", value: "mahasiswa.jurusan.nama", sortable: true },
           { text: "Status", value: "is_lulus" },
