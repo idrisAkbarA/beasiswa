@@ -1,28 +1,39 @@
 <template>
   <v-container>
-    <v-skeleton-loader type="table" :loading="isTableLoading" transition="fade-transition">
+    <v-skeleton-loader
+      type="table"
+      :loading="isTableLoading"
+      transition="fade-transition"
+    >
       <v-data-table
         :headers="headers.beasiswa"
         :items="beasiswaProgress.selesai"
         :items-per-page="10"
         @click:row="info"
-        style="background-color: #2e7d323b; cursor: hand;"
+        style="background-color: #2e7d323b; cursor: hand"
         class="elevation-10 mb-10 row-pointer"
       >
         <template v-slot:item.status="{ item }">
-          <v-chip :color="item.status == 'Selesai' ? 'green' : 'orange'">{{item.status}}</v-chip>
+          <v-chip :color="item.status == 'Selesai' ? 'green' : 'orange'">{{
+            item.status
+          }}</v-chip>
         </template>
         <template v-slot:no-data>no data</template>
       </v-data-table>
     </v-skeleton-loader>
 
-    <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+    <v-dialog
+      v-model="dialog"
+      fullscreen
+      hide-overlay
+      transition="dialog-bottom-transition"
+    >
       <v-card>
         <v-toolbar dark color="green">
           <v-btn icon dark @click="dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>{{selectedBeasiswa.nama}}</v-toolbar-title>
+          <v-toolbar-title>{{ selectedBeasiswa.nama }}</v-toolbar-title>
           <v-spacer></v-spacer>
         </v-toolbar>
         <v-card-text class="mt-5">
@@ -38,41 +49,71 @@
                       :outlined="filter != 'permohonan'"
                       class="mr-2 mb-2"
                       @click="filter = 'permohonan'"
-                    >Semua ({{undefined !== selectedBeasiswa.permohonan ? selectedBeasiswa.permohonan.length : 0}})</v-chip>
+                      >Semua ({{
+                        undefined !== selectedBeasiswa.permohonan
+                          ? selectedBeasiswa.permohonan.length
+                          : 0
+                      }})</v-chip
+                    >
                     <v-chip
                       color="orange"
                       :outlined="filter != 'tidak_lengkap'"
                       class="mr-2 mb-2"
                       @click="filter = 'tidak_lengkap'"
-                    >Tidak Lengkap ({{undefined !== selectedBeasiswa.tidak_lengkap ? selectedBeasiswa.tidak_lengkap.length : 0}})</v-chip>
+                      >Tidak Lengkap ({{
+                        undefined !== selectedBeasiswa.tidak_lengkap
+                          ? selectedBeasiswa.tidak_lengkap.length
+                          : 0
+                      }})</v-chip
+                    >
                     <v-chip
                       color="cyan"
                       :outlined="filter != 'on_progress'"
                       class="mr-2 mb-2"
                       @click="filter = 'on_progress'"
-                    >Proses ({{undefined !== selectedBeasiswa.on_progress ? selectedBeasiswa.on_progress.length : 0}})</v-chip>
+                      >Proses ({{
+                        undefined !== selectedBeasiswa.on_progress
+                          ? selectedBeasiswa.on_progress.length
+                          : 0
+                      }})</v-chip
+                    >
                     <v-chip
                       color="red"
                       :outlined="filter != 'tidak_lulus'"
                       class="mr-2 mb-2"
                       @click="filter = 'tidak_lulus'"
-                    >Tidak Lulus ({{undefined !== selectedBeasiswa.tidak_lulus ? selectedBeasiswa.tidak_lulus.length : 0}})</v-chip>
+                      >Tidak Lulus ({{
+                        undefined !== selectedBeasiswa.tidak_lulus
+                          ? selectedBeasiswa.tidak_lulus.length
+                          : 0
+                      }})</v-chip
+                    >
                     <v-chip
                       color="green"
                       :outlined="filter != 'lulus'"
                       class="mr-2 mb-2"
                       @click="filter = 'lulus'"
-                    >Lulus ({{undefined !== selectedBeasiswa.lulus ? selectedBeasiswa.lulus.length : 0}})</v-chip>
+                      >Lulus ({{
+                        undefined !== selectedBeasiswa.lulus
+                          ? selectedBeasiswa.lulus.length
+                          : 0
+                      }})</v-chip
+                    >
                   </div>
                   <div class="col-lg-2 col-md-12 mb-5">
                     <v-spacer></v-spacer>
                     <v-chip
                       light
                       class="float-right"
-                      v-if="selectedBeasiswa.deleted_at && selectedBeasiswa.lulus.length < selectedBeasiswa.quota"
+                      v-if="
+                        selectedBeasiswa.deleted_at &&
+                        selectedBeasiswa.lulus.length < selectedBeasiswa.quota
+                      "
                       @click.stop="drawer = !drawer"
                     >
-                      <v-icon class="mr-2">mdi-checkbox-marked-circle-outline</v-icon>Kelulusan
+                      <v-icon class="mr-2"
+                        >mdi-checkbox-marked-circle-outline</v-icon
+                      >Kelulusan
                     </v-chip>
                   </div>
                 </v-row>
@@ -98,11 +139,17 @@
                   <template v-slot:item.verificator="{ item }">
                     <v-chip
                       dark
-                      v-if="item.is_berkas_passed != null || item.is_submitted == 0"
+                      v-if="
+                        item.is_berkas_passed != null || item.is_submitted == 0
+                      "
                       :color="item.is_berkas_passed ? 'green' : 'red'"
                     >
-                      <i :class="`mdi ${item.is_berkas_passed ? 'mdi-check' : 'mdi-close'} mr-2`"></i>
-                      {{item.verificator}}
+                      <i
+                        :class="`mdi ${
+                          item.is_berkas_passed ? 'mdi-check' : 'mdi-close'
+                        } mr-2`"
+                      ></i>
+                      {{ item.verificator }}
                     </v-chip>
                     <p v-else class="text-caption">-</p>
                   </template>
@@ -113,9 +160,11 @@
                       :color="item.is_interview_passed ? 'green' : 'red'"
                     >
                       <i
-                        :class="`mdi ${item.is_interview_passed ? 'mdi-check' : 'mdi-close'} mr-2`"
+                        :class="`mdi ${
+                          item.is_interview_passed ? 'mdi-check' : 'mdi-close'
+                        } mr-2`"
                       ></i>
-                      {{item.interviewer}}
+                      {{ item.interviewer }}
                     </v-chip>
                     <p v-else class="text-caption">-</p>
                   </template>
@@ -125,8 +174,12 @@
                       v-if="item.is_survey_passed != null"
                       :color="item.is_survey_passed ? 'green' : 'red'"
                     >
-                      <i :class="`mdi ${item.is_survey_passed ? 'mdi-check' : 'mdi-close'} mr-2`"></i>
-                      {{item.surveyor}}
+                      <i
+                        :class="`mdi ${
+                          item.is_survey_passed ? 'mdi-check' : 'mdi-close'
+                        } mr-2`"
+                      ></i>
+                      {{ item.surveyor }}
                     </v-chip>
                     <p v-else class="text-caption">-</p>
                   </template>
@@ -137,9 +190,11 @@
                       :color="item.is_selection_passed ? 'green' : 'red'"
                     >
                       <i
-                        :class="`mdi ${item.is_selection_passed ? 'mdi-check' : 'mdi-close'} mr-2`"
+                        :class="`mdi ${
+                          item.is_selection_passed ? 'mdi-check' : 'mdi-close'
+                        } mr-2`"
                       ></i>
-                      {{item.selector}}
+                      {{ item.selector }}
                     </v-chip>
                     <p v-else class="text-caption">-</p>
                   </template>
@@ -156,7 +211,7 @@
                   hide-default-footer
                   class="elevation-1"
                 ></v-data-table>
-                <p class="mt-3">{{selectedBeasiswa.deskripsi}}</p>
+                <p class="mt-3">{{ selectedBeasiswa.deskripsi }}</p>
               </v-col>
             </v-tab-item>
           </v-tabs>
@@ -176,7 +231,7 @@
         <v-list-item>
           <v-list-item-content>
             <v-list-item-title>
-              <strong>{{selectedBeasiswa.nama}}</strong>
+              <strong>{{ selectedBeasiswa.nama }}</strong>
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -192,8 +247,13 @@
                   </div>
                   <div>
                     <p>Download file template excel</p>
-                    <v-btn color="#2E7D32" :disabled="btnLoading" @click="downloadTemplate">
-                      <i class="mdi mdi-download mr-2"></i> Download template excel kosong
+                    <v-btn
+                      color="#2E7D32"
+                      :disabled="btnLoading"
+                      @click="downloadTemplate"
+                    >
+                      <i class="mdi mdi-download mr-2"></i> Download template
+                      excel kosong
                     </v-btn>
                   </div>
                 </div>
@@ -201,7 +261,9 @@
               <v-timeline-item color="blue" small>
                 <div>
                   <div class="font-weight-normal">
-                    <strong>Tambahkan info mahasiswa dalam template excel.</strong>
+                    <strong
+                      >Tambahkan info mahasiswa dalam template excel.</strong
+                    >
                   </div>
                   <div class="pr-5">
                     <p>Kolom yang wajib diisi adalah nim</p>
@@ -232,16 +294,28 @@
                   </div>
                   <div>
                     <div v-if="file">
-                      <v-chip close small @click:close="file = ''" class="my-2">{{file.name}}</v-chip>
+                      <v-chip
+                        close
+                        small
+                        @click:close="file = ''"
+                        class="my-2"
+                        >{{ file.name }}</v-chip
+                      >
                     </div>
                     <v-btn
                       color="#2E7D32"
                       :disabled="btnLoading"
                       @click="$refs.fileInput.$refs.input.click()"
                     >
-                      <i class="mdi mdi-attachment mr-2"></i> Lampirkan file excel
+                      <i class="mdi mdi-attachment mr-2"></i> Lampirkan file
+                      excel
                     </v-btn>
-                    <v-file-input hide-input ref="fileInput" v-model="file" class="d-none"></v-file-input>
+                    <v-file-input
+                      hide-input
+                      ref="fileInput"
+                      v-model="file"
+                      class="d-none"
+                    ></v-file-input>
                   </div>
                 </div>
               </v-timeline-item>
@@ -255,7 +329,8 @@
               class="float-right"
               :loading="btnLoading"
               @click="importPermohonan"
-            >Save</v-btn>
+              >Save</v-btn
+            >
           </div>
         </template>
       </v-navigation-drawer>
@@ -264,17 +339,21 @@
       <v-card v-if="permohonans">
         <v-card-title>Detail Permohonan</v-card-title>
         <v-card-text>
-          <v-col cols="12">
-            <h6 class="text-light">{{permohonans.mahasiswa.nama}}</h6>
-            <p
-              class="text-muted text-caption"
-            >{{permohonans.mahasiswa.jurusan.nama}} ({{permohonans.mahasiswa.fakultas.nama}})</p>
+          <v-col cols="12" v-if="permohonans.mahasiswa">
+            <h6 class="text-light">
+              {{ permohonans.mahasiswa.nama }}
+            </h6>
+            <p class="text-muted text-caption">
+              {{ permohonans.mahasiswa.jurusan.nama }} ({{
+                permohonans.mahasiswa.fakultas.nama
+              }})
+            </p>
           </v-col>
           <v-col cols="12" v-if="permohonans">
             <v-timeline dense v-if="isShowTimeline(permohonans)">
               <v-slide-x-reverse-transition group hide-on-leave>
                 <v-timeline-item
-                  v-for="(time,index) in permohonans.timeline"
+                  v-for="(time, index) in permohonans.timeline"
                   :key="index"
                   small
                   fill-dot
@@ -284,8 +363,10 @@
                   <v-row>
                     <v-col cols="12" xl="8">
                       <v-alert :class="`${time.color} mb-0 pb-0`">
-                        {{time.msg}}
-                        <p class="caption">{{time.time ? parseDate(time.time) : ''}}</p>
+                        {{ time.msg }}
+                        <p class="caption">
+                          {{ time.time ? parseDate(time.time) : "" }}
+                        </p>
                       </v-alert>
                     </v-col>
                   </v-row>
@@ -296,28 +377,44 @@
           <v-col cols="12" v-if="permohonans.keterangan">
             <span>Keterangan :</span>
             <br />
-            <p>{{permohonans.keterangan}}</p>
+            <p>{{ permohonans.keterangan }}</p>
           </v-col>
         </v-card-text>
       </v-card>
     </v-dialog>
     <!-- Akhir -->
     <!-- bottom sheet create -->
-    <v-bottom-sheet scrollable width="60%" inset overlay-color="#69F0AE" v-model="toggleBeasiswa">
+    <v-bottom-sheet
+      scrollable
+      width="60%"
+      inset
+      overlay-color="#69F0AE"
+      v-model="toggleBeasiswa"
+    >
       <v-card>
         <v-card-title>
           <span>Tambah Beasiswa Selesai</span>
           <v-spacer></v-spacer>
           <v-btn text class="mr-2" @click="toggleBeasiswa = false">Batal</v-btn>
-          <v-btn color="#2E7D32" :loading="btnLoading" @click="store">Simpan</v-btn>
+          <v-btn color="#2E7D32" :loading="btnLoading" @click="store"
+            >Simpan</v-btn
+          >
         </v-card-title>
-        <v-card-text style="height: 600px;">
+        <v-card-text style="height: 600px">
           <v-row dense class="ml-1 mr-1">
             <v-col cols="12">
-              <v-text-field color="#C8E6C9" label="Nama Beasiswa" v-model="form.nama"></v-text-field>
+              <v-text-field
+                color="#C8E6C9"
+                label="Nama Beasiswa"
+                v-model="form.nama"
+              ></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-text-field color="#C8E6C9" label="Deskripsi Beasiswa" v-model="form.deskripsi"></v-text-field>
+              <v-text-field
+                color="#C8E6C9"
+                label="Deskripsi Beasiswa"
+                v-model="form.deskripsi"
+              ></v-text-field>
             </v-col>
             <v-col cols="10">
               <v-combobox
@@ -330,7 +427,12 @@
               ></v-combobox>
             </v-col>
             <v-col cols="2">
-              <v-text-field type="number" label="Kuota" min="0" v-model="form.quota"></v-text-field>
+              <v-text-field
+                type="number"
+                label="Kuota"
+                min="0"
+                v-model="form.quota"
+              ></v-text-field>
             </v-col>
           </v-row>
         </v-card-text>
@@ -340,7 +442,13 @@
     <v-snackbar v-model="snackbar.show" :timeout="2000">
       {{ snackbar.message }}
       <template v-slot:action="{ attrs }">
-        <v-btn :color="snackbar.color" text v-bind="attrs" @click="snackbar.show = false">Close</v-btn>
+        <v-btn
+          :color="snackbar.color"
+          text
+          v-bind="attrs"
+          @click="snackbar.show = false"
+          >Close</v-btn
+        >
       </template>
     </v-snackbar>
   </v-container>
@@ -365,16 +473,16 @@ export default {
         .get(`/api/beasiswa/${id}/permohonan`, {
           params: {
             // tahap: "lulus"
-          }
+          },
         })
-        .then(response => {
+        .then((response) => {
           const item = response.data;
           this.selectedBeasiswa = item;
           this.lulus = item.lulus;
           this.selectedBeasiswa.tidak_lengkap = [];
           this.selectedBeasiswa.tidak_lulus = [];
           this.selectedBeasiswa.on_progress = [];
-          item.permohonan.forEach(x => {
+          item.permohonan.forEach((x) => {
             if (!x.is_submitted) {
               this.selectedBeasiswa.tidak_lengkap.push(x);
             } else if (
@@ -390,7 +498,7 @@ export default {
             }
           });
         })
-        .catch(error => {
+        .catch((error) => {
           if (error.response.status == 401) {
             this.$router.push({ name: "Login Petugas" });
           }
@@ -398,7 +506,7 @@ export default {
           this.snackbar = {
             show: true,
             color: "red",
-            message: error
+            message: error,
           };
         })
         .then(() => {
@@ -416,7 +524,7 @@ export default {
           this.toggleBeasiswa = false;
           this.getBeasiswaProgress();
         })
-        .catch(error => {
+        .catch((error) => {
           if (error.response.status == 401) {
             this.$router.push({ name: "Login Petugas" });
           }
@@ -424,7 +532,7 @@ export default {
           this.snackbar = {
             show: true,
             color: "red",
-            message: error
+            message: error,
           };
         });
     },
@@ -436,10 +544,10 @@ export default {
       axios
         .post("/api/permohonan/import/" + this.selectedBeasiswa.id, formData, {
           headers: {
-            "Content-Type": "multipart/form-data"
-          }
+            "Content-Type": "multipart/form-data",
+          },
         })
-        .then(response => {
+        .then((response) => {
           if (response.data.status) {
             this.drawer = false;
             this.selectedBeasiswa = response.data.data;
@@ -448,22 +556,22 @@ export default {
             this.snackbar = {
               show: true,
               color: "blue",
-              message: "Success!"
+              message: "Success!",
             };
           } else {
             this.snackbar = {
               show: true,
               color: "red",
-              message: response.data.message
+              message: response.data.message,
             };
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error);
           this.snackbar = {
             show: true,
             color: "red",
-            message: error
+            message: error,
           };
         })
         .then(() => {
@@ -475,7 +583,7 @@ export default {
       this.dialog = true;
       this.getPermohonan(item.id);
     },
-    parseDate: function(date) {
+    parseDate: function (date) {
       return this.$moment(date, "YYYY-MM-DD").format("Do MMMM YYYY");
     },
     isShowTimeline(item) {
@@ -572,8 +680,8 @@ export default {
               ? permohonan.is_submitted
                 ? "green darken-2"
                 : "red darken-2"
-              : "grey darken-3"
-        }
+              : "grey darken-3",
+        },
       });
 
       if (status) {
@@ -600,8 +708,8 @@ export default {
                 ? permohonan.is_berkas_passed
                   ? "green darken-2"
                   : "red darken-2"
-                : "grey darken-3"
-          }
+                : "grey darken-3",
+          },
         });
       }
       status = status && permohonan.is_berkas_passed !== 0;
@@ -630,8 +738,8 @@ export default {
                 ? permohonan.is_interview_passed
                   ? "green darken-2"
                   : "red darken-2"
-                : "grey darken-3"
-          }
+                : "grey darken-3",
+          },
         });
       }
       status = status && permohonan.is_interview_passed !== 0;
@@ -660,8 +768,8 @@ export default {
                 ? permohonan.is_survey_passed
                   ? "green darken-2"
                   : "red darken-2"
-                : "grey darken-3"
-          }
+                : "grey darken-3",
+          },
         });
       }
       status = status && permohonan.is_survey_passed !== 0;
@@ -690,8 +798,8 @@ export default {
                 ? permohonan.is_selection_passed
                   ? "green darken-2"
                   : "red-darken-2"
-                : "grey darken-3"
-          }
+                : "grey darken-3",
+          },
         });
       }
       status = permohonan.is_selection_passed;
@@ -715,10 +823,10 @@ export default {
     downloadTemplate() {
       const link = "/template/template_kelulusan.xlsx";
       window.open(link, "_blank");
-    }
+    },
   },
   watch: {
-    selectedBeasiswa: function(val) {
+    selectedBeasiswa: function (val) {
       if (val) {
         this.detailBeasiswa = [
           { judul: "Nama", isi: val.nama },
@@ -727,15 +835,15 @@ export default {
           { judul: "Tahap Interview", isi: this.cekTahap(val, "interview") },
           { judul: "Tahap Survey", isi: this.cekTahap(val, "survey") },
           { judul: "Kuota", isi: `${val.lulus.length}/${val.quota}` },
-          { judul: "Status", isi: val.status }
+          { judul: "Status", isi: val.status },
         ];
       }
     },
-    dialog: function(val) {
+    dialog: function (val) {
       if (!val) {
         this.filter = "permohonan";
       }
-    }
+    },
   },
   computed: {
     ...mapState([
@@ -743,16 +851,16 @@ export default {
       "isOpenBeasiswa",
       "instansi",
       "isTableLoading",
-      "isLoading"
+      "isLoading",
     ]),
     toggleBeasiswa: {
-      get: function() {
+      get: function () {
         return this.isOpenBeasiswa;
       },
-      set: function(data) {
+      set: function (data) {
         this.toggleOpenBeasiswa(data);
-      }
-    }
+      },
+    },
   },
   data() {
     return {
@@ -775,39 +883,39 @@ export default {
       snackbar: { show: false },
       search: {
         beasiswa: "",
-        permohonan: ""
+        permohonan: "",
       },
       headers: {
         detailBeasiswa: [
           { text: "Judul", value: "judul" },
-          { text: "Isi", value: "isi" }
+          { text: "Isi", value: "isi" },
         ],
         beasiswa: [
           {
             text: "Beasiswa",
             align: "start",
             sortable: false,
-            value: "nama"
+            value: "nama",
           },
           { text: "Instansi", value: "instansi.name" },
-          { text: "Status", value: "status" }
+          { text: "Status", value: "status" },
         ],
         pemohon: [
           {
             text: "Nama",
             align: "start",
             sortable: false,
-            value: "mahasiswa.nama"
+            value: "mahasiswa.nama",
           },
           { text: "NIM", value: "mhs_id" },
           { text: "Berkas", value: "verificator" },
           { text: "Interview", value: "interviewer" },
           { text: "Survey", value: "surveyor" },
-          { text: "Lulus", value: "selector" }
-        ]
-      }
+          { text: "Lulus", value: "selector" },
+        ],
+      },
     };
-  }
+  },
 };
 </script>
 
