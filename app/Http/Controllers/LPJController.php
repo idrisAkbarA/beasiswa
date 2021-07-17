@@ -165,10 +165,8 @@ class LPJController extends Controller
         try {
             $count = 0;
             foreach ($permohonan as $row) {
-                if ($row->is_submitted) {
-                    $row->update(['is_lulus' => 1]);
-                    $count += 1;
-                }
+                $row->update(['is_lulus' => 1]);
+                $count += 1;
             }
             $reply = [
                 'status' => true,
