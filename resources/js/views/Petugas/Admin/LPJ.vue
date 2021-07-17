@@ -751,11 +751,14 @@
           >?
         </v-card-text>
         <v-card-actions>
-          <v-btn color="green darken-2" class="text-white"
+          <v-btn @click="dialogLulusAll = false" text>Batal</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="green darken-2"
+            class="text-white"
+            @click="lulusAll(selectedLPJ.id)"
             >Luluskan Semua</v-btn
           >
-          <v-spacer></v-spacer>
-          <v-btn @click="dialogLulusAll = false" text>Batal</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -870,6 +873,30 @@ export default {
       var item = this.form.fields[this.form.fields.indexOf(field)][type].items;
       item.splice(item.indexOf(label), 1);
     },
+    lulusAll(id) {
+      this.mutateLoading(true);
+      axios
+        .put(`/api/lpj/lulus/${id}`)
+        .then((response) => {
+          this.mutateLoading(false);
+          this.showLPJ(id)
+          this.dialogLulusAll = false;
+          this.snackbar = {
+            show: true,
+            color: "success",
+            message: response.data.message,
+          };
+        })
+        .catch((error) => {
+          this.mutateLoading(false);
+          console.error(error);
+          this.snackbar = {
+            show: true,
+            color: "red",
+            message: error,
+          };
+        });
+    },
     edit(item) {
       this.bottomSheet = true;
       this.form = item;
@@ -972,7 +999,13 @@ export default {
         });
     },
     filterStatuses(data) {
-      const statuses = ["Belum Mengisi", "Tidak Lengkap", "Proses", "Tidak Lulus", "Lulus"];
+      const statuses = [
+        "Belum Mengisi",
+        "Tidak Lengkap",
+        "Proses",
+        "Tidak Lulus",
+        "Lulus",
+      ];
       statuses.forEach((x) => {
         this.selectedLPJ[x.replace(" ", "_").toLowerCase()] = data.filter(
           (y) => y.status.text == x

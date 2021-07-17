@@ -110,6 +110,36 @@ class LPJController extends Controller
     }
 
     /**
+     * Update all permohonan LPJ to lulus if is_submitted == 1.
+     *
+     * @param  \App\LPJ $lpj
+     * @return \Illuminate\Http\Response
+     */
+    public function lulusAll(LPJ $lpj)
+    {
+        $permohonan = $lpj->permohonan->where('is_submitted', 1);
+        try {
+            $count = 0;
+            foreach ($permohonan as $row) {
+                if ($row->is_submitted) {
+                    $row->update(['is_lulus' => 1]);
+                    $count += 1;
+                }
+            }
+            $reply = [
+                'status' => true,
+                'message' => "Berhasil meluluskan {$count} LPJ",
+            ];
+        } catch (Exception $e) {
+            $reply = [
+                'status' => false,
+                'message' => $e->getMessage(),
+            ];
+        }
+        return response()->json($reply);
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  \App\LPJ  $lPJ
