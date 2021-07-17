@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class PermohonanLPJ extends Model
 {
@@ -12,6 +13,18 @@ class PermohonanLPJ extends Model
     protected $appends = [
         'status'
     ];
+    protected static function booted()
+    {
+        static::created(function ($permohonanLPJ) {
+            Cache::forget('lpj-', $permohonanLPJ->lpj->id);
+        });
+        static::updated(function ($permohonanLPJ) {
+            Cache::forget('lpj-', $permohonanLPJ->lpj->id);
+        });
+        static::saved(function ($permohonanLPJ) {
+            Cache::forget('lpj-', $permohonanLPJ->lpj->id);
+        });
+    }
 
     public function setFormAttribute($value)
     {
