@@ -1,6 +1,10 @@
 <template>
   <v-container>
-    <v-skeleton-loader type="table" :loading="isTableLoading" transition="fade-transition">
+    <v-skeleton-loader
+      type="table"
+      :loading="isTableLoading"
+      transition="fade-transition"
+    >
       <v-data-table
         :headers="headers"
         :items="instansi"
@@ -16,7 +20,13 @@
       </v-data-table>
     </v-skeleton-loader>
     <!-- bottom sheet tambah -->
-    <v-bottom-sheet scrollable width="60%" inset overlay-color="#69F0AE" v-model="toggleInstansi">
+    <v-bottom-sheet
+      scrollable
+      width="60%"
+      inset
+      overlay-color="#69F0AE"
+      v-model="toggleInstansi"
+    >
       <v-card>
         <v-card-title>
           <span>Tambah Instansi</span>
@@ -27,12 +37,17 @@
             :loading="btnLoading"
             v-model="toggleInstansi"
             @click="save()"
-          >Simpan</v-btn>
+            >Simpan</v-btn
+          >
         </v-card-title>
-        <v-card-text style="height: 600px;">
+        <v-card-text style="height: 600px">
           <v-row dense class="ml-1 mr-1">
             <v-col>
-              <v-text-field color="#C8E6C9" label="Nama Instansi" v-model="name"></v-text-field>
+              <v-text-field
+                color="#C8E6C9"
+                label="Nama Instansi"
+                v-model="name"
+              ></v-text-field>
             </v-col>
           </v-row>
         </v-card-text>
@@ -51,12 +66,18 @@
           <span>Edit Instansi</span>
           <v-spacer></v-spacer>
           <v-btn @click="batalEdit()" text>batal</v-btn>
-          <v-btn color="#2E7D32" :loading="btnLoading" @click="saveEdit()">Simpan</v-btn>
+          <v-btn color="#2E7D32" :loading="btnLoading" @click="saveEdit()"
+            >Simpan</v-btn
+          >
         </v-card-title>
-        <v-card-text style="height: 600px;">
+        <v-card-text style="height: 600px">
           <v-row dense class="ml-1 mr-1">
             <v-col>
-              <v-text-field color="#C8E6C9" label="Nama Instansi" v-model="nameEdit"></v-text-field>
+              <v-text-field
+                color="#C8E6C9"
+                label="Nama Instansi"
+                v-model="nameEdit"
+              ></v-text-field>
             </v-col>
           </v-row>
         </v-card-text>
@@ -80,7 +101,11 @@
           <v-card-actions>
             <v-btn @click="batalDelete()" color="white" text>batal</v-btn>
             <v-spacer></v-spacer>
-            <v-btn color="red" dark @click="dialogDelete = false,deleteConfirmed()">
+            <v-btn
+              color="red"
+              dark
+              @click="(dialogDelete = false), deleteConfirmed()"
+            >
               <v-icon>delete</v-icon>Hapus
             </v-btn>
           </v-card-actions>
@@ -104,20 +129,19 @@ export default {
       "getInstansi",
       "storeInstansi",
       "deleteInstansi",
-      "editInstansi"
+      "editInstansi",
     ]),
     save() {
       var data = {
-        name: this.name
+        name: this.name,
       };
-      console.log(data);
       this.btnLoading = true;
       this.storeInstansi(data)
-        .then(response => {
+        .then((response) => {
           this.btnLoading = false;
           this.toggleInstansi = false;
         })
-        .catch(error => {
+        .catch((error) => {
           this.btnLoading = false;
         });
     },
@@ -134,11 +158,11 @@ export default {
     deleteConfirmed() {
       this.btnLoading = true;
       this.deleteInstansi(this.id)
-        .then(response => {
+        .then((response) => {
           this.btnLoading = false;
           this.toggleInstansi = false;
         })
-        .catch(error => {
+        .catch((error) => {
           this.btnLoading = false;
         });
     },
@@ -151,20 +175,20 @@ export default {
       this.toggleInstansiEdit = false;
     },
     saveEdit() {
-        var data={
-            id:this.idEdit,
-            name:this.nameEdit
-        }
+      var data = {
+        id: this.idEdit,
+        name: this.nameEdit,
+      };
       this.btnLoading = true;
       this.editInstansi(data)
-        .then(response => {
+        .then((response) => {
           this.btnLoading = false;
           this.toggleInstansi = false;
         })
-        .catch(error => {
+        .catch((error) => {
           this.btnLoading = false;
         });
-    }
+    },
   },
   computed: {
     ...mapState([
@@ -172,16 +196,16 @@ export default {
       "isOpenBeasiswa",
       "instansi",
       "isTableLoading",
-      "isLoading"
+      "isLoading",
     ]),
     toggleInstansi: {
-      get: function() {
+      get: function () {
         return this.isOpenBeasiswa;
       },
-      set: function(data) {
+      set: function (data) {
         this.toggleOpenBeasiswa(data);
-      }
-    }
+      },
+    },
   },
   data() {
     return {
@@ -198,12 +222,12 @@ export default {
           text: "Nama Instansi",
           align: "start",
           sortable: false,
-          value: "name"
+          value: "name",
         },
-        { text: "Actions", value: "actions", sortable: false }
-      ]
+        { text: "Actions", value: "actions", sortable: false },
+      ],
     };
-  }
+  },
 };
 </script>
 

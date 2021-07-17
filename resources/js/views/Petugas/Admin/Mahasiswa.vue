@@ -18,18 +18,14 @@
             class="mr-2"
             @click="showChangePass(item)"
             title="Ubah Pasword"
-          >mdi-textbox-password</v-icon>
-          <v-icon
-            small
-            class="mr-2"
-            @click="editItem(item)"
-            title="Edit"
-          >mdi-pencil</v-icon>
-          <v-icon
-            small
-            @click="deleteItem(item)"
-            title="Delete"
-          >mdi-delete</v-icon>
+            >mdi-textbox-password</v-icon
+          >
+          <v-icon small class="mr-2" @click="editItem(item)" title="Edit"
+            >mdi-pencil</v-icon
+          >
+          <v-icon small @click="deleteItem(item)" title="Delete"
+            >mdi-delete</v-icon
+          >
         </template>
         <template v-slot:no-data>no data</template>
       </v-data-table>
@@ -47,39 +43,22 @@
           <v-card-title>
             <span>Tambah Mahasiswa</span>
             <v-spacer></v-spacer>
-            <v-btn
-              @click="toggleMahasiswa = false"
-              text
-            >batal</v-btn>
-            <v-btn
-              color="#2E7D32"
-              :loading="btnLoading"
-              @click="save()"
-            >Simpan</v-btn>
+            <v-btn @click="toggleMahasiswa = false" text>batal</v-btn>
+            <v-btn color="#2E7D32" :loading="btnLoading" @click="save()"
+              >Simpan</v-btn
+            >
           </v-card-title>
 
-          <v-tabs
-            v-model="tab"
-            fixed-tabs
-            background-color="black"
-            dark
-          >
-            <v-tab href="#single">
-              Tambah Mahasiswa
-            </v-tab>
-            <v-tab href="#mass">
-              Tambah massal Mahasiswa
-            </v-tab>
+          <v-tabs v-model="tab" fixed-tabs background-color="black" dark>
+            <v-tab href="#single"> Tambah Mahasiswa </v-tab>
+            <v-tab href="#mass"> Tambah massal Mahasiswa </v-tab>
           </v-tabs>
           <v-card-text>
             <vue-scroll :ops="ops">
               <v-tabs-items v-model="tab">
                 <v-tab-item :value="'single'">
                   <v-card-text>
-                    <v-row
-                      dense
-                      class="mx-1"
-                    >
+                    <v-row dense class="mx-1">
                       <v-col>
                         <v-text-field
                           color="#C8E6C9"
@@ -88,10 +67,7 @@
                         ></v-text-field>
                       </v-col>
                     </v-row>
-                    <v-row
-                      dense
-                      class="mx-1"
-                    >
+                    <v-row dense class="mx-1">
                       <v-col>
                         <v-text-field
                           color="#C8E6C9"
@@ -102,10 +78,7 @@
                         ></v-text-field>
                       </v-col>
                     </v-row>
-                    <v-row
-                      dense
-                      class="mx-1"
-                    >
+                    <v-row dense class="mx-1">
                       <v-col>
                         <v-text-field
                           color="#C8E6C9"
@@ -115,10 +88,7 @@
                         ></v-text-field>
                       </v-col>
                     </v-row>
-                    <v-row
-                      dense
-                      class="mx-1"
-                    >
+                    <v-row dense class="mx-1">
                       <v-col>
                         <v-select
                           label="Jurusan"
@@ -130,10 +100,7 @@
                         ></v-select>
                       </v-col>
                     </v-row>
-                    <v-row
-                      dense
-                      class="mx-1"
-                    >
+                    <v-row dense class="mx-1">
                       <v-col>
                         <v-text-field
                           color="#C8E6C9"
@@ -143,10 +110,7 @@
                         ></v-text-field>
                       </v-col>
                     </v-row>
-                    <v-row
-                      dense
-                      class="mx-1"
-                    >
+                    <v-row dense class="mx-1">
                       <v-col>
                         <v-text-field
                           color="#C8E6C9"
@@ -181,10 +145,7 @@
                         </v-menu>
                       </v-col>
                     </v-row>
-                    <v-row
-                      dense
-                      class="mx-1"
-                    >
+                    <v-row dense class="mx-1">
                       <v-col>
                         <v-text-field
                           color="#C8E6C9"
@@ -193,10 +154,7 @@
                         ></v-text-field>
                       </v-col>
                     </v-row>
-                    <v-row
-                      dense
-                      class="mx-1"
-                    >
+                    <v-row dense class="mx-1">
                       <v-col>
                         <v-text-field
                           color="#C8E6C9"
@@ -222,46 +180,38 @@
                 </v-tab-item>
                 <v-tab-item :value="'mass'">
                   <v-card-text class="mx-3 my-2">
-                    <v-timeline
-                      align-top
-                      dense
-                    >
-                      <v-timeline-item
-                        color="blue"
-                        small
-                      >
+                    <v-timeline align-top dense>
+                      <v-timeline-item color="blue" small>
                         <div>
                           <div class="font-weight-normal">
                             <strong>Download file .xlx</strong>
                           </div>
                           <div>
-                            <p>
-                              Download file template excel
-                            </p>
+                            <p>Download file template excel</p>
                             <v-btn
                               color="#2E7D32"
                               :loading="btnLoading"
                               @click="downloadTemplate()"
-                            ><i class="mdi mdi-download mr-2"></i> Download template excel kosong</v-btn>
+                              ><i class="mdi mdi-download mr-2"></i> Download
+                              template excel kosong</v-btn
+                            >
                           </div>
                         </div>
                       </v-timeline-item>
-                      <v-timeline-item
-                        color="blue"
-                        small
-                      >
+                      <v-timeline-item color="blue" small>
                         <div>
                           <div class="font-weight-normal">
-                            <strong>Tambahkan info mahasiswa dalam template excel.</strong>
+                            <strong
+                              >Tambahkan info mahasiswa dalam template
+                              excel.</strong
+                            >
                           </div>
                           <div class="pr-5">
                             <p>
-                              Kolom yang wajib diisi adalah nama, nim, password, dan email.
+                              Kolom yang wajib diisi adalah nama, nim, password,
+                              dan email.
                             </p>
-                            <v-simple-table
-                              light
-                              dense
-                            >
+                            <v-simple-table light dense>
                               <thead>
                                 <tr>
                                   <th>A</th>
@@ -288,10 +238,7 @@
                           </div>
                         </div>
                       </v-timeline-item>
-                      <v-timeline-item
-                        color="blue"
-                        small
-                      >
+                      <v-timeline-item color="blue" small>
                         <div>
                           <div class="font-weight-normal">
                             <strong>Upload file .xlx</strong>
@@ -299,16 +246,18 @@
                           <div>
                             <div v-if="file">
                               <p class="text-muted">File terlampir</p>
-                              <p>{{file.name}} <i
-                                  class="mdi mdi-close"
-                                  @click="file=''"
-                                ></i></p>
+                              <p>
+                                {{ file.name }}
+                                <i class="mdi mdi-close" @click="file = ''"></i>
+                              </p>
                             </div>
                             <v-btn
                               color="#2E7D32"
                               :loading="btnLoading"
                               @click="uploadTemplate()"
-                            ><i class="mdi mdi-attachment mr-2"></i> Lampirkan file excel</v-btn>
+                              ><i class="mdi mdi-attachment mr-2"></i> Lampirkan
+                              file excel</v-btn
+                            >
                             <v-file-input
                               id="upload"
                               v-model="file"
@@ -340,21 +289,13 @@
         <v-card-title>
           <span>Edit Mahasiswa</span>
           <v-spacer></v-spacer>
-          <v-btn
-            @click="toggleMahasiswaEdit = false"
-            text
-          >batal</v-btn>
-          <v-btn
-            color="#2E7D32"
-            :loading="btnLoading"
-            @click="saveEdit()"
-          >Simpan</v-btn>
-        </v-card-title>
-        <v-card-text style="height: 600px;">
-          <v-row
-            dense
-            class="mx-1"
+          <v-btn @click="toggleMahasiswaEdit = false" text>batal</v-btn>
+          <v-btn color="#2E7D32" :loading="btnLoading" @click="saveEdit()"
+            >Simpan</v-btn
           >
+        </v-card-title>
+        <v-card-text style="height: 600px">
+          <v-row dense class="mx-1">
             <v-col>
               <v-text-field
                 color="#C8E6C9"
@@ -363,10 +304,7 @@
               ></v-text-field>
             </v-col>
           </v-row>
-          <v-row
-            dense
-            class="mx-1"
-          >
+          <v-row dense class="mx-1">
             <v-col>
               <v-text-field
                 color="#C8E6C9"
@@ -377,10 +315,7 @@
               ></v-text-field>
             </v-col>
           </v-row>
-          <v-row
-            dense
-            class="mx-1"
-          >
+          <v-row dense class="mx-1">
             <v-col>
               <v-text-field
                 color="#C8E6C9"
@@ -390,10 +325,7 @@
               ></v-text-field>
             </v-col>
           </v-row>
-          <v-row
-            dense
-            class="mx-1"
-          >
+          <v-row dense class="mx-1">
             <v-col>
               <v-text-field
                 color="#C8E6C9"
@@ -420,18 +352,12 @@
                     v-on="on"
                   ></v-text-field>
                 </template>
-                <v-date-picker
-                  v-model="form.tgl_lahir"
-                  locale="id-ID"
-                >
+                <v-date-picker v-model="form.tgl_lahir" locale="id-ID">
                 </v-date-picker>
               </v-menu>
             </v-col>
           </v-row>
-          <v-row
-            dense
-            class="mx-1"
-          >
+          <v-row dense class="mx-1">
             <v-col>
               <v-text-field
                 color="#C8E6C9"
@@ -440,10 +366,7 @@
               ></v-text-field>
             </v-col>
           </v-row>
-          <v-row
-            dense
-            class="mx-1"
-          >
+          <v-row dense class="mx-1">
             <v-col>
               <v-text-field
                 color="#C8E6C9"
@@ -470,19 +393,10 @@
     </v-bottom-sheet>
     <!-- Dialog Delete -->
     <div class="text-center">
-      <v-dialog
-        v-model="dialogDelete"
-        width="400"
-      >
+      <v-dialog v-model="dialogDelete" width="400">
         <v-card>
-          <v-card-title
-            class="headline white--text"
-            primary-title
-          >
-            <v-icon
-              color="white"
-              class="mr-2"
-            >delete</v-icon>Hapus Mahasiswa
+          <v-card-title class="headline white--text" primary-title>
+            <v-icon color="white" class="mr-2">delete</v-icon>Hapus Mahasiswa
           </v-card-title>
 
           <v-card-text class="mt-2 white--text">
@@ -493,16 +407,14 @@
           <v-divider></v-divider>
 
           <v-card-actions>
-            <v-btn
-              @click="dialogDelete = false"
-              color="white"
-              text
-            >batal</v-btn>
+            <v-btn @click="dialogDelete = false" color="white" text
+              >batal</v-btn
+            >
             <v-spacer></v-spacer>
             <v-btn
               color="red"
               dark
-              @click="dialogDelete = false, deleteConfirmed()"
+              @click="(dialogDelete = false), deleteConfirmed()"
             >
               <v-icon>delete</v-icon>Hapus
             </v-btn>
@@ -521,21 +433,13 @@
         <v-card-title>
           <span>Ubah Password</span>
           <v-spacer></v-spacer>
-          <v-btn
-            @click="toggleChangePass = false"
-            text
-          >batal</v-btn>
-          <v-btn
-            color="#2E7D32"
-            :loading="btnLoading"
-            @click="changePass()"
-          >Simpan</v-btn>
-        </v-card-title>
-        <v-card-text style="height: 100px;">
-          <v-row
-            dense
-            class="mx-1"
+          <v-btn @click="toggleChangePass = false" text>batal</v-btn>
+          <v-btn color="#2E7D32" :loading="btnLoading" @click="changePass()"
+            >Simpan</v-btn
           >
+        </v-card-title>
+        <v-card-text style="height: 100px">
+          <v-row dense class="mx-1">
             <v-col>
               <v-text-field
                 color="#C8E6C9"
@@ -557,10 +461,7 @@
       </v-card>
     </v-bottom-sheet>
     <!-- Snackbar -->
-    <v-snackbar
-      v-model="snackbar.show"
-      :timeout="2000"
-    >
+    <v-snackbar v-model="snackbar.show" :timeout="2000">
       {{ snackbar.message }}
 
       <template v-slot:action="{ attrs }">
@@ -594,20 +495,19 @@ export default {
       "editMahasiswa",
       "deleteMahasiswa",
       "editPassword",
-      "importMahasiswa"
+      "importMahasiswa",
     ]),
     save() {
       if (this.tab == "single") {
         var data = this.form;
-        console.log(data);
         this.btnLoading = true;
         this.storeMahasiswa(data)
-          .then(response => {
+          .then((response) => {
             this.btnLoading = false;
             this.toggleMahasiswa = false;
             this.form = {};
           })
-          .catch(error => {
+          .catch((error) => {
             this.btnLoading = false;
           });
       } else if (this.tab == "mass") {
@@ -616,7 +516,7 @@ export default {
         formData.append("file", file);
         this.btnLoading = true;
         this.importMahasiswa(formData)
-          .then(response => {
+          .then((response) => {
             this.btnLoading = false;
             this.toggleMahasiswa = false;
             this.form = {};
@@ -625,7 +525,7 @@ export default {
             this.snackbar.color = "blue";
             this.snackbar.message = "Mahasiswa berhasil ditambahkan!";
           })
-          .catch(error => {
+          .catch((error) => {
             this.btnLoading = false;
           });
       }
@@ -637,11 +537,11 @@ export default {
     deleteConfirmed() {
       this.btnLoading = true;
       this.deleteMahasiswa(this.id)
-        .then(response => {
+        .then((response) => {
           this.btnLoading = false;
           this.toggleMahasiswa = false;
         })
-        .catch(error => {
+        .catch((error) => {
           this.btnLoading = false;
         });
     },
@@ -653,12 +553,12 @@ export default {
       var data = this.form;
       this.btnLoading = true;
       this.editMahasiswa(data)
-        .then(response => {
+        .then((response) => {
           this.btnLoading = false;
           this.toggleMahasiswaEdit = false;
           this.form = {};
         })
-        .catch(error => {
+        .catch((error) => {
           this.btnLoading = false;
         });
     },
@@ -672,7 +572,7 @@ export default {
       if (data.password == data.password2) {
         this.btnLoading = true;
         this.editMahasiswa(data)
-          .then(response => {
+          .then((response) => {
             this.btnLoading = false;
             this.toggleChangePass = false;
             this.form = {};
@@ -680,7 +580,7 @@ export default {
             this.snackbar.color = "blue";
             this.snackbar.message = "Ubah password berhasil!";
           })
-          .catch(error => {
+          .catch((error) => {
             this.btnLoading = false;
           });
       } else {
@@ -693,8 +593,8 @@ export default {
       document.getElementById("upload").click();
     },
     downloadTemplate() {
-      location =  "/api/user/export";
-    }
+      location = "/api/user/export";
+    },
   },
   computed: {
     ...mapState([
@@ -702,16 +602,16 @@ export default {
       "isOpenBeasiswa",
       "mhs",
       "isTableLoading",
-      "isLoading"
+      "isLoading",
     ]),
     toggleMahasiswa: {
-      get: function() {
+      get: function () {
         return this.isOpenBeasiswa;
       },
-      set: function(data) {
+      set: function (data) {
         this.toggleOpenBeasiswa(data);
-      }
-    }
+      },
+    },
   },
   data() {
     return {
@@ -719,12 +619,12 @@ export default {
         scrollPanel: {
           easing: "easeInQuad",
           speed: 800,
-          scrollingX: false
+          scrollingX: false,
         },
         vuescroll: {
           wheelScrollDuration: 0,
-          wheelDirectionReverse: true
-        }
+          wheelDirectionReverse: true,
+        },
       },
       btnLoading: false,
       id: "",
@@ -737,31 +637,31 @@ export default {
       dialogDelete: false,
       snackbar: {
         show: false,
-        message: ""
+        message: "",
       },
       headers: [
         {
           text: "Nama Mahasiswa",
           align: "start",
           sortable: false,
-          value: "nama"
+          value: "nama",
         },
         {
           text: "NIM",
           align: "center",
           sortable: false,
-          value: "nim"
+          value: "nim",
         },
         {
           text: "Jurusan",
           align: "center",
           sortable: false,
-          value: "jurusan.nama"
+          value: "jurusan.nama",
         },
-        { text: "Actions", value: "actions", sortable: false }
-      ]
+        { text: "Actions", value: "actions", sortable: false },
+      ],
     };
-  }
+  },
 };
 </script>
 

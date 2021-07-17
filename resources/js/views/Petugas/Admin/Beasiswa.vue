@@ -1,6 +1,10 @@
 <template>
   <v-container>
-    <v-skeleton-loader type="table" :loading="isTableLoading" transition="fade-transition">
+    <v-skeleton-loader
+      type="table"
+      :loading="isTableLoading"
+      transition="fade-transition"
+    >
       <!-- style="background-color: #2e7d323b" -->
       <v-data-table
         :headers="headers"
@@ -21,7 +25,13 @@
 
     <!-- btms -->
 
-    <v-bottom-sheet scrollable :width="width()" inset overlay-color="#69F0AE" v-model="toggleEdit">
+    <v-bottom-sheet
+      scrollable
+      :width="width()"
+      inset
+      overlay-color="#69F0AE"
+      v-model="toggleEdit"
+    >
       <v-card>
         <v-card-title>
           <span>Edit Beasiswa</span>
@@ -32,10 +42,11 @@
             :loading="btnLoading"
             :disabled="isEditDisabled"
             @click="sendEdit()"
-          >Simpan</v-btn>
+            >Simpan</v-btn
+          >
         </v-card-title>
         <vue-scroll :ops="ops">
-          <v-card-text style="height: 600px;">
+          <v-card-text style="height: 600px">
             <v-form ref="editForm" v-model="validationEdit" lazy-validation>
               <v-row dense class="ml-1 mr-1">
                 <v-col>
@@ -69,7 +80,9 @@
                     item-text="name"
                     v-model="selected_instansiEdit"
                   >
-                    <template v-slot:item="{ index, item }">{{item.name}}</template>
+                    <template v-slot:item="{ index, item }">{{
+                      item.name
+                    }}</template>
                   </v-combobox>
                 </v-col>
                 <v-col cols="4">
@@ -84,7 +97,12 @@
                 <v-col cols="4">
                   <v-select
                     v-model="jenjangEdit"
-                    :items="[{i:0, v:'D3'}, {i:1, v:'S1'}, {i:2, v:'S2'}, {i:3, v:'S3'}]"
+                    :items="[
+                      { i: 0, v: 'D3' },
+                      { i: 1, v: 'S1' },
+                      { i: 2, v: 'S2' },
+                      { i: 3, v: 'S3' },
+                    ]"
                     item-text="v"
                     item-value="i"
                     :rules="rules.jenjang"
@@ -203,7 +221,9 @@
 
               <v-expansion-panels>
                 <v-expansion-panel class="grey darken-3">
-                  <v-expansion-panel-header>Syarat lainnya</v-expansion-panel-header>
+                  <v-expansion-panel-header
+                    >Syarat lainnya</v-expansion-panel-header
+                  >
                   <v-expansion-panel-content>
                     <v-row>
                       <v-col cols="6">
@@ -235,9 +255,13 @@
                           type="text"
                           ref="semester"
                           v-model="lainnya.semester"
-                          :disabled="!lainnya.semester || isDisabled(dateBerkasEdit)"
+                          :disabled="
+                            !lainnya.semester || isDisabled(dateBerkasEdit)
+                          "
                         ></v-text-field>
-                        <small class="text-muted">berupa angka dipisah oleh koma, cth: 1,3</small>
+                        <small class="text-muted"
+                          >berupa angka dipisah oleh koma, cth: 1,3</small
+                        >
                       </v-col>
                       <v-col cols="6">
                         <v-checkbox
@@ -272,7 +296,9 @@
               </v-row>
               <v-tabs color="green darken-2" fixed-tabs>
                 <v-tab>
-                  <v-badge content="Wajib diisi!" :value="false" color="red">Buat Form Berkas</v-badge>
+                  <v-badge content="Wajib diisi!" :value="false" color="red"
+                    >Buat Form Berkas</v-badge
+                  >
                 </v-tab>
                 <v-tab :disabled="!is_wawancaraEdit">Interview(Opsional)</v-tab>
                 <v-tab :disabled="!is_surveyEdit">Survey(Opsional)</v-tab>
@@ -280,7 +306,10 @@
                 <v-tab-item>
                   <v-container fluid>
                     <v-row>
-                      <v-subheader>Buat form pendaftaran yang akan diisi oleh mahasiswa</v-subheader>
+                      <v-subheader
+                        >Buat form pendaftaran yang akan diisi oleh
+                        mahasiswa</v-subheader
+                      >
                     </v-row>
                     <!-- Form -->
                     <transition-group name="scale-transition">
@@ -290,11 +319,14 @@
                         elevation="10"
                         color="#388E3C"
                         class="mb-2"
-                        style="padding-bottom:0 !important;"
+                        style="padding-bottom: 0 !important"
                       >
-                        <v-container style="padding-bottom:0 !important;">
-                          <v-row style="padding-bottom:0 !important;">
-                            <v-col cols="7" style="padding-bottom:0 !important;">
+                        <v-container style="padding-bottom: 0 !important">
+                          <v-row style="padding-bottom: 0 !important">
+                            <v-col
+                              cols="7"
+                              style="padding-bottom: 0 !important"
+                            >
                               <v-text-field
                                 color="white"
                                 dense
@@ -303,7 +335,10 @@
                                 v-model="field.pertanyaan"
                               ></v-text-field>
                             </v-col>
-                            <v-col cols="5" style="padding-bottom:0 !important;">
+                            <v-col
+                              cols="5"
+                              style="padding-bottom: 0 !important"
+                            >
                               <v-select
                                 v-model="field.type"
                                 dense
@@ -316,7 +351,7 @@
                             </v-col>
                           </v-row>
                           <v-row>
-                            <v-col style="padding-bottom:0 !important;">
+                            <v-col style="padding-bottom: 0 !important">
                               <v-radio-group
                                 v-if="field.type == 'Pilihan'"
                                 column
@@ -324,7 +359,9 @@
                                 :mandatory="field.pilihan.required"
                               >
                                 <v-row align="center">
-                                  <span class="ml-2 mr-1">Pilihan wajib diisi</span>
+                                  <span class="ml-2 mr-1"
+                                    >Pilihan wajib diisi</span
+                                  >
                                   <v-switch
                                     v-model="field.pilihan.required"
                                     color="white"
@@ -333,7 +370,7 @@
                                 </v-row>
 
                                 <v-radio
-                                  v-for="(item,index) in field.pilihan.items"
+                                  v-for="(item, index) in field.pilihan.items"
                                   :key="index"
                                   :value="item.label"
                                   color="white"
@@ -354,7 +391,9 @@
                                         icon
                                         color="white"
                                         :disabled="isDisabled(dateBerkasEdit)"
-                                        @click="deletePilihanItem(field,item.label)"
+                                        @click="
+                                          deletePilihanItem(field, item.label)
+                                        "
                                       >
                                         <v-icon>mdi-close</v-icon>
                                       </v-btn>
@@ -374,10 +413,13 @@
                               </v-radio-group>
 
                               <!-- checkme -->
-                              <v-container v-if="field.type == 'Multiple Upload'">
+                              <v-container
+                                v-if="field.type == 'Multiple Upload'"
+                              >
                                 <v-row
                                   align="center"
-                                  v-for="(item,index) in field.multiUpload.items"
+                                  v-for="(item, index) in field.multiUpload
+                                    .items"
                                   :key="index"
                                   :value="item.label"
                                 >
@@ -396,13 +438,22 @@
                                     :disabled="isDisabled(dateBerkasEdit)"
                                     label="Nama File"
                                   ></v-text-field>
-                                  <v-file-input disabled filled label="Upload File"></v-file-input>
+                                  <v-file-input
+                                    disabled
+                                    filled
+                                    label="Upload File"
+                                  ></v-file-input>
                                   <v-btn
                                     class="ma-2"
                                     icon
                                     color="white"
                                     :disabled="isDisabled(dateBerkasEdit)"
-                                    @click="deleteMultiUploadItemEdit(field,item.label)"
+                                    @click="
+                                      deleteMultiUploadItemEdit(
+                                        field,
+                                        item.label
+                                      )
+                                    "
                                   >
                                     <v-icon>mdi-close</v-icon>
                                   </v-btn>
@@ -423,7 +474,8 @@
                               <v-container v-if="field.type == 'Checkboxes'">
                                 <v-row
                                   align="center"
-                                  v-for="(item,index) in field.checkboxes.items"
+                                  v-for="(item, index) in field.checkboxes
+                                    .items"
                                   :key="index"
                                   :value="item.label"
                                 >
@@ -446,7 +498,12 @@
                                     icon
                                     color="white"
                                     :disabled="isDisabled(dateBerkasEdit)"
-                                    @click="deleteCheckboxesItemEdit(field,item.label)"
+                                    @click="
+                                      deleteCheckboxesItemEdit(
+                                        field,
+                                        item.label
+                                      )
+                                    "
                                   >
                                     <v-icon>mdi-close</v-icon>
                                   </v-btn>
@@ -547,24 +604,34 @@
                 <v-tab-item>
                   <v-container fluid>
                     <v-row>
-                      <v-subheader>Buat list pertanyaan untuk ditanyakan saat wawancara</v-subheader>
+                      <v-subheader
+                        >Buat list pertanyaan untuk ditanyakan saat
+                        wawancara</v-subheader
+                      >
                     </v-row>
                     <v-img
-                      v-if="fieldsInterviewEdit.length<1"
+                      v-if="fieldsInterviewEdit.length < 1"
                       class="mx-auto"
                       max-width="260"
                       :src="'/images/pertanyaan.png'"
                     ></v-img>
-                    <div style="width:100%" v-if="fieldsInterviewEdit.length<1">
-                      <h4 style="text-align:center">Tambah pertanyaan</h4>
+                    <div
+                      style="width: 100%"
+                      v-if="fieldsInterviewEdit.length < 1"
+                    >
+                      <h4 style="text-align: center">Tambah pertanyaan</h4>
                     </div>
                     <transition-group name="scale-transition">
                       <v-card
-                        v-for="(field) in fieldsInterviewEdit"
+                        v-for="field in fieldsInterviewEdit"
                         :key="field.id"
                         elevation="10"
                         class="mb-2"
-                        :color="is_wawancaraEdit?'orange darken-2':'orange darken-4'"
+                        :color="
+                          is_wawancaraEdit
+                            ? 'orange darken-2'
+                            : 'orange darken-4'
+                        "
                       >
                         <v-container>
                           <v-row justify="center" align="center">
@@ -573,14 +640,19 @@
                               class="ml-3 mr-3"
                               label="Pertanyaan"
                               v-model="field.pertanyaan"
-                              :rules="is_wawancaraEdit?rules.required:[]"
+                              :rules="is_wawancaraEdit ? rules.required : []"
                               :disabled="!is_wawancaraEdit"
                             ></v-text-field>
                             <v-btn
                               class="ma-2"
                               icon
                               color="white"
-                              @click="deleteOptionalField('fieldsInterviewEdit',field)"
+                              @click="
+                                deleteOptionalField(
+                                  'fieldsInterviewEdit',
+                                  field
+                                )
+                              "
                               :disabled="!is_wawancaraEdit"
                             >
                               <v-icon>mdi-close</v-icon>
@@ -595,7 +667,11 @@
                         fab
                         dark
                         small
-                        :color="is_wawancaraEdit?'orange darken-2':'orange darken-4'"
+                        :color="
+                          is_wawancaraEdit
+                            ? 'orange darken-2'
+                            : 'orange darken-4'
+                        "
                         :disabled="!is_wawancaraEdit"
                         @click="addOptionalField('fieldsInterviewEdit')"
                       >
@@ -610,21 +686,25 @@
                       <v-subheader>Buat list survey</v-subheader>
                     </v-row>
                     <v-img
-                      v-if="fieldsSurveyEdit.length<1"
+                      v-if="fieldsSurveyEdit.length < 1"
                       class="mx-auto"
                       max-width="260"
                       :src="'/images/pertanyaan.png'"
                     ></v-img>
-                    <div style="width:100%" v-if="fieldsSurveyEdit.length<1">
-                      <h4 style="text-align:center">Tambah List</h4>
+                    <div style="width: 100%" v-if="fieldsSurveyEdit.length < 1">
+                      <h4 style="text-align: center">Tambah List</h4>
                     </div>
                     <transition-group name="scale-transition">
                       <v-card
-                        v-for="(field) in fieldsSurveyEdit"
+                        v-for="field in fieldsSurveyEdit"
                         :key="field.id"
                         elevation="10"
                         class="mb-2"
-                        :color="is_surveyEdit?'blue-grey darken-2':'blue-grey darken-4'"
+                        :color="
+                          is_surveyEdit
+                            ? 'blue-grey darken-2'
+                            : 'blue-grey darken-4'
+                        "
                       >
                         <v-container>
                           <v-row>
@@ -633,7 +713,7 @@
                               class="ml-3 mr-3"
                               label="Pertanyaan"
                               :disabled="!is_surveyEdit"
-                              :rules="is_surveyEdit?rules.required:[]"
+                              :rules="is_surveyEdit ? rules.required : []"
                               v-model="field.pertanyaan"
                             ></v-text-field>
                             <v-btn
@@ -641,7 +721,9 @@
                               icon
                               color="white"
                               :disabled="!is_surveyEdit"
-                              @click="deleteOptionalField('fieldsSurveyEdit',field)"
+                              @click="
+                                deleteOptionalField('fieldsSurveyEdit', field)
+                              "
                             >
                               <v-icon>mdi-close</v-icon>
                             </v-btn>
@@ -656,7 +738,11 @@
                         dark
                         small
                         :disabled="!is_surveyEdit"
-                        :color="is_surveyEdit?'blue-grey darken-2':'blue-grey darken-4'"
+                        :color="
+                          is_surveyEdit
+                            ? 'blue-grey darken-2'
+                            : 'blue-grey darken-4'
+                        "
                         @click="addOptionalField('fieldsSurveyEdit')"
                       >
                         <v-icon dark>mdi-plus</v-icon>
@@ -689,10 +775,11 @@
             :disabled="isSaveDisabled"
             v-model="toggleBeasiswa"
             @click="save()"
-          >Simpan</v-btn>
+            >Simpan</v-btn
+          >
         </v-card-title>
         <vue-scroll :ops="ops">
-          <v-card-text style="height: 600px;">
+          <v-card-text style="height: 600px">
             <v-form ref="saveForm" v-model="validation" lazy-validation>
               <v-row dense class="ml-1 mr-1">
                 <v-col>
@@ -728,7 +815,9 @@
                     item-text="name"
                     v-model="selected_instansi"
                   >
-                    <template v-slot:item="{ index, item }">{{item.name}}</template>
+                    <template v-slot:item="{ index, item }">{{
+                      item.name
+                    }}</template>
                   </v-combobox>
                 </v-col>
                 <v-col cols="4">
@@ -746,7 +835,12 @@
                     multiple
                     v-model="jenjang"
                     :rules="rules.jenjang"
-                    :items="[{i:0, v:'D3'}, {i:1, v:'S1'}, {i:2, v:'S2'} , {i:3, v:'S3'}]"
+                    :items="[
+                      { i: 0, v: 'D3' },
+                      { i: 1, v: 'S1' },
+                      { i: 2, v: 'S2' },
+                      { i: 3, v: 'S3' },
+                    ]"
                     item-text="v"
                     item-value="i"
                     label="Jenjang"
@@ -825,7 +919,12 @@
               </v-row>
               <v-row>
                 <v-col cols="6">
-                  <v-checkbox color="white" v-model="is_survey" label="Tahap Survey" hide-details></v-checkbox>
+                  <v-checkbox
+                    color="white"
+                    v-model="is_survey"
+                    label="Tahap Survey"
+                    hide-details
+                  ></v-checkbox>
                 </v-col>
                 <v-col cols="6">
                   <v-menu
@@ -858,11 +957,17 @@
               </v-row>
               <v-expansion-panels>
                 <v-expansion-panel class="grey darken-3">
-                  <v-expansion-panel-header>Syarat lainnya</v-expansion-panel-header>
+                  <v-expansion-panel-header
+                    >Syarat lainnya</v-expansion-panel-header
+                  >
                   <v-expansion-panel-content>
                     <v-row>
                       <v-col cols="6">
-                        <v-checkbox label="IPK" v-model="checked.ipk" @></v-checkbox>
+                        <v-checkbox
+                          label="IPK"
+                          v-model="checked.ipk"
+                          @
+                        ></v-checkbox>
                       </v-col>
                       <v-col cols="6">
                         <v-text-field
@@ -874,7 +979,10 @@
                         ></v-text-field>
                       </v-col>
                       <v-col cols="6">
-                        <v-checkbox label="Semester" v-model="checked.semester"></v-checkbox>
+                        <v-checkbox
+                          label="Semester"
+                          v-model="checked.semester"
+                        ></v-checkbox>
                       </v-col>
                       <v-col cols="6">
                         <v-text-field
@@ -887,19 +995,25 @@
                         <small>berupa angka dipisah oleh koma, cth: 1,3</small>
                       </v-col>
                       <v-col cols="6">
-                        <v-checkbox label="UKT" v-model="checked.ukt"></v-checkbox>
+                        <v-checkbox
+                          label="UKT"
+                          v-model="checked.ukt"
+                        ></v-checkbox>
                       </v-col>
                       <v-col cols="6">
                         <v-select
                           label="Batas Gol.UKT"
-                          :items="[1,2,3,4,5,6,7]"
+                          :items="[1, 2, 3, 4, 5, 6, 7]"
                           ref="ukt"
                           v-model="form.ukt"
                           :disabled="!checked.ukt"
                         ></v-select>
                       </v-col>
                       <v-col cols="6">
-                        <v-checkbox label="Tidak menerima beasiswa lain" v-model="form.is_first"></v-checkbox>
+                        <v-checkbox
+                          label="Tidak menerima beasiswa lain"
+                          v-model="form.is_first"
+                        ></v-checkbox>
                       </v-col>
                       <v-col cols="6"></v-col>
                     </v-row>
@@ -911,7 +1025,9 @@
               </v-row>
               <v-tabs color="green darken-2" fixed-tabs>
                 <v-tab>
-                  <v-badge content="!" :value="errorPertanyaan" color="red">Buat Form Berkas</v-badge>
+                  <v-badge content="!" :value="errorPertanyaan" color="red"
+                    >Buat Form Berkas</v-badge
+                  >
                 </v-tab>
                 <v-tab :disabled="!is_wawancara">Interview(Opsional)</v-tab>
                 <v-tab :disabled="!is_survey">Survey(Opsional)</v-tab>
@@ -919,7 +1035,10 @@
                 <v-tab-item>
                   <v-container fluid>
                     <v-row>
-                      <v-subheader>Buat form pendaftaran yang akan diisi oleh mahasiswa</v-subheader>
+                      <v-subheader
+                        >Buat form pendaftaran yang akan diisi oleh
+                        mahasiswa</v-subheader
+                      >
                     </v-row>
 
                     <!-- Form -->
@@ -930,13 +1049,13 @@
                         :key="field.index"
                         elevation="10"
                         class="mb-2"
-                        style="padding-bottom:0 !important;"
+                        style="padding-bottom: 0 !important"
                       >
-                        <v-container style="padding-bottom:0 !important;">
-                          <v-row style="padding-bottom:0 !important;">
+                        <v-container style="padding-bottom: 0 !important">
+                          <v-row style="padding-bottom: 0 !important">
                             <v-col
                               cols="7"
-                              style="padding-bottom:0 !important;"
+                              style="padding-bottom: 0 !important"
                               class="error-form-berkas"
                             >
                               <v-text-field
@@ -947,7 +1066,10 @@
                                 :rules="rules.pertanyaan"
                               ></v-text-field>
                             </v-col>
-                            <v-col cols="5" style="padding-bottom:0 !important;">
+                            <v-col
+                              cols="5"
+                              style="padding-bottom: 0 !important"
+                            >
                               <v-select
                                 v-model="field.type"
                                 dense
@@ -959,19 +1081,24 @@
                             </v-col>
                           </v-row>
                           <v-row>
-                            <v-col style="padding-bottom:0 !important;">
+                            <v-col style="padding-bottom: 0 !important">
                               <v-radio-group
                                 v-if="field.type == 'Pilihan'"
                                 column
                                 :mandatory="field.pilihan.required"
                               >
                                 <v-row align="center">
-                                  <span class="ml-2 mr-1">Pilihan wajib diisi</span>
-                                  <v-switch v-model="field.pilihan.required" color="white"></v-switch>
+                                  <span class="ml-2 mr-1"
+                                    >Pilihan wajib diisi</span
+                                  >
+                                  <v-switch
+                                    v-model="field.pilihan.required"
+                                    color="white"
+                                  ></v-switch>
                                 </v-row>
 
                                 <v-radio
-                                  v-for="(item,index) in field.pilihan.items"
+                                  v-for="(item, index) in field.pilihan.items"
                                   :key="index"
                                   :value="item.label"
                                   color="white"
@@ -990,7 +1117,9 @@
                                         class="ma-2"
                                         icon
                                         color="white"
-                                        @click="deletePilihanItem(field,item.label)"
+                                        @click="
+                                          deletePilihanItem(field, item.label)
+                                        "
                                       >
                                         <v-icon>mdi-close</v-icon>
                                       </v-btn>
@@ -1011,7 +1140,8 @@
                               <v-container v-if="field.type == 'Checkboxes'">
                                 <v-row
                                   align="center"
-                                  v-for="(item,index) in field.checkboxes.items"
+                                  v-for="(item, index) in field.checkboxes
+                                    .items"
                                   :key="index"
                                   :value="item.label"
                                 >
@@ -1032,7 +1162,9 @@
                                     class="ma-2"
                                     icon
                                     color="white"
-                                    @click="deleteCheckboxesItem(field,item.label)"
+                                    @click="
+                                      deleteCheckboxesItem(field, item.label)
+                                    "
                                   >
                                     <v-icon>mdi-close</v-icon>
                                   </v-btn>
@@ -1049,10 +1181,13 @@
                                   </v-btn>
                                 </v-row>
                               </v-container>
-                              <v-container v-if="field.type == 'Multiple Upload'">
+                              <v-container
+                                v-if="field.type == 'Multiple Upload'"
+                              >
                                 <v-row
                                   align="center"
-                                  v-for="(item,index) in field.multiUpload.items"
+                                  v-for="(item, index) in field.multiUpload
+                                    .items"
                                   :key="index"
                                   :value="item.label"
                                 >
@@ -1069,12 +1204,18 @@
                                     filled
                                     label="Nama File"
                                   ></v-text-field>
-                                  <v-file-input disabled filled label="Upload File"></v-file-input>
+                                  <v-file-input
+                                    disabled
+                                    filled
+                                    label="Upload File"
+                                  ></v-file-input>
                                   <v-btn
                                     class="ma-2"
                                     icon
                                     color="white"
-                                    @click="deleteMultiUploadItem(field,item.label)"
+                                    @click="
+                                      deleteMultiUploadItem(field, item.label)
+                                    "
                                   >
                                     <v-icon>mdi-close</v-icon>
                                   </v-btn>
@@ -1138,17 +1279,31 @@
                             </v-col>
                           </v-row>
                           <v-row class="mb-2" align="center" justify="end">
-                            <v-btn icon color="white" @click="deleteField(field)">
+                            <v-btn
+                              icon
+                              color="white"
+                              @click="deleteField(field)"
+                            >
                               <v-icon>mdi-trash-can</v-icon>
                             </v-btn>
                             <span class="ml-2 mr-1">Wajib diisi</span>
-                            <v-switch v-model="field.required" color="white"></v-switch>
+                            <v-switch
+                              v-model="field.required"
+                              color="white"
+                            ></v-switch>
                           </v-row>
                         </v-container>
                       </v-card>
                     </transition-group>
                     <v-row justify="center">
-                      <v-btn class="mt-2" fab dark small color="green" @click="addField()">
+                      <v-btn
+                        class="mt-2"
+                        fab
+                        dark
+                        small
+                        color="green"
+                        @click="addField()"
+                      >
                         <v-icon dark>mdi-plus</v-icon>
                       </v-btn>
                     </v-row>
@@ -1157,25 +1312,30 @@
                 <v-tab-item>
                   <v-container fluid>
                     <v-row>
-                      <v-subheader>Buat list pertanyaan untuk ditanyakan saat wawancara</v-subheader>
+                      <v-subheader
+                        >Buat list pertanyaan untuk ditanyakan saat
+                        wawancara</v-subheader
+                      >
                     </v-row>
 
                     <v-img
-                      v-if="fieldsInterview.length<1"
+                      v-if="fieldsInterview.length < 1"
                       class="mx-auto"
                       max-width="260"
                       :src="'/images/pertanyaan.png'"
                     ></v-img>
-                    <div style="width:100%" v-if="fieldsInterview.length<1">
-                      <h4 style="text-align:center">Tambah pertanyaan</h4>
+                    <div style="width: 100%" v-if="fieldsInterview.length < 1">
+                      <h4 style="text-align: center">Tambah pertanyaan</h4>
                     </div>
                     <transition-group name="scale-transition">
                       <v-card
-                        v-for="(field) in fieldsInterview"
+                        v-for="field in fieldsInterview"
                         :key="field.id"
                         elevation="10"
                         class="mb-2"
-                        :color="is_wawancara?'orange darken-2':'orange darken-4'"
+                        :color="
+                          is_wawancara ? 'orange darken-2' : 'orange darken-4'
+                        "
                       >
                         <v-container>
                           <v-row justify="center" align="center">
@@ -1185,14 +1345,16 @@
                               class="ml-3 mr-3"
                               label="Pertanyaan"
                               v-model="field.pertanyaan"
-                              :rules="is_wawancara?rules.required:[]"
+                              :rules="is_wawancara ? rules.required : []"
                             ></v-text-field>
                             <v-btn
                               class="ma-2"
                               icon
                               color="white"
                               :disabled="!is_wawancara"
-                              @click="deleteOptionalField('fieldsInterview',field)"
+                              @click="
+                                deleteOptionalField('fieldsInterview', field)
+                              "
                             >
                               <v-icon>mdi-close</v-icon>
                             </v-btn>
@@ -1207,7 +1369,9 @@
                         dark
                         small
                         :disabled="!is_wawancara"
-                        :color="is_wawancara?'orange darken-2':'orange darken-4'"
+                        :color="
+                          is_wawancara ? 'orange darken-2' : 'orange darken-4'
+                        "
                         @click="addOptionalField('fieldsInterview')"
                       >
                         <v-icon dark>mdi-plus</v-icon>
@@ -1221,17 +1385,17 @@
                       <v-subheader>Buat list survey</v-subheader>
                     </v-row>
                     <v-img
-                      v-if="fieldsSurvey.length<1"
+                      v-if="fieldsSurvey.length < 1"
                       class="mx-auto"
                       max-width="260"
                       :src="'/images/pertanyaan.png'"
                     ></v-img>
-                    <div style="width:100%" v-if="fieldsSurvey.length<1">
-                      <h4 style="text-align:center">Tambah list</h4>
+                    <div style="width: 100%" v-if="fieldsSurvey.length < 1">
+                      <h4 style="text-align: center">Tambah list</h4>
                     </div>
                     <transition-group name="scale-transition">
                       <v-card
-                        v-for="(field) in fieldsSurvey"
+                        v-for="field in fieldsSurvey"
                         :key="field.id"
                         elevation="10"
                         class="mb-2"
@@ -1243,14 +1407,16 @@
                               color="white"
                               class="ml-3 mr-3"
                               label="Pertanyaan"
-                              :rules="is_survey?rules.required:[]"
+                              :rules="is_survey ? rules.required : []"
                               v-model="field.pertanyaan"
                             ></v-text-field>
                             <v-btn
                               class="ma-2"
                               icon
                               color="white"
-                              @click="deleteOptionalField('fieldsSurvey',field)"
+                              @click="
+                                deleteOptionalField('fieldsSurvey', field)
+                              "
                             >
                               <v-icon>mdi-close</v-icon>
                             </v-btn>
@@ -1282,7 +1448,7 @@
       <v-card>
         <v-card-title class="mt-2">
           Apakah anda yakin ingin menghapus?
-          <p style="font-weight:bold">
+          <p style="font-weight: bold">
             <!-- {{itemtoDelete.nama}}? -->
           </p>
         </v-card-title>
@@ -1299,7 +1465,13 @@
     <v-snackbar v-model="snackbar.show" :timeout="2000">
       {{ snackbar.message }}
       <template v-slot:action="{ attrs }">
-        <v-btn :color="snackbar.color" text v-bind="attrs" @click="snackbar.show = false">Close</v-btn>
+        <v-btn
+          :color="snackbar.color"
+          text
+          v-bind="attrs"
+          @click="snackbar.show = false"
+          >Close</v-btn
+        >
       </template>
     </v-snackbar>
     <!-- Akhir -->
@@ -1319,7 +1491,7 @@ export default {
     },
     validationEdit(v) {
       v ? (this.isEditDisabled = false) : (this.isEditDisabled = true);
-    }
+    },
   },
   methods: {
     ...mapMutations(["toggleOpenBeasiswa"]),
@@ -1328,7 +1500,7 @@ export default {
       "editBeasiswa",
       "getInstansi",
       "storeBeasiswa",
-      "deleteBeasiswa"
+      "deleteBeasiswa",
     ]),
     addOptionalField(dataProperty) {
       // push new empty pertanyaan with new id
@@ -1366,10 +1538,10 @@ export default {
         ipk: item.ipk,
         semester: item.semester,
         ukt: item.ukt,
-        is_first: item.is_first
+        is_first: item.is_first,
       };
 
-      this.instansi.forEach(element => {
+      this.instansi.forEach((element) => {
         if (element.id == item.instansi_id) {
           this.selected_instansiEdit = { id: element.id, name: element.name };
         }
@@ -1443,10 +1615,10 @@ export default {
           fields: this.fieldsEdit,
           fields_interview: this.is_wawancaraEdit
             ? JSON.stringify(this.fieldsInterviewEdit)
-            : '[]',
+            : "[]",
           fields_survey: this.is_surveyEdit
             ? JSON.stringify(this.fieldsSurveyEdit)
-            : '[]',
+            : "[]",
           is_survey: this.is_surveyEdit,
           is_interview: this.is_wawancaraEdit,
           awal_interview: awal_wawancara,
@@ -1458,20 +1630,20 @@ export default {
           ipk: this.lainnya.ipk ?? null,
           semester: this.lainnya.semester ?? null,
           ukt: this.lainnya.ukt ?? null,
-          is_first: this.lainnya.is_first ?? 0
+          is_first: this.lainnya.is_first ?? 0,
         };
         this.btnLoading = true;
         this.editBeasiswa(data)
-          .then(response => {
+          .then((response) => {
             this.btnLoading = false;
             this.toggleEdit = false;
           })
-          .catch(error => {
+          .catch((error) => {
             this.btnLoading = false;
             this.snackbar = {
               show: true,
               color: "red",
-              message: error
+              message: error,
             };
           });
       }
@@ -1494,7 +1666,7 @@ export default {
         var akhir_survey = "";
         var awal_berkas = "";
         var akhir_berkas = "";
-        this.fields.forEach(element => {
+        this.fields.forEach((element) => {
           if (element.type == "Checkboxes") {
             element.value = [];
           }
@@ -1533,10 +1705,10 @@ export default {
           fields: this.fields,
           fields_interview: this.is_wawancara
             ? JSON.stringify(this.fieldsInterview)
-            : '[]',
+            : "[]",
           fields_survey: this.is_survey
             ? JSON.stringify(this.fieldsSurvey)
-            : '[]',
+            : "[]",
           is_survey: this.is_survey,
           is_interview: this.is_wawancara,
           awal_interview: awal_wawancara,
@@ -1548,22 +1720,22 @@ export default {
           ipk: this.form.ipk ?? null,
           ukt: this.form.ukt ?? null,
           semester: this.form.semester ?? null,
-          is_first: this.form.is_first ?? 0
+          is_first: this.form.is_first ?? 0,
         };
         this.btnLoading = true;
         this.storeBeasiswa(data)
-          .then(response => {
+          .then((response) => {
             this.btnLoading = false;
             this.toggleBeasiswa = false;
             this.form = {};
             this.checked = {};
           })
-          .catch(error => {
+          .catch((error) => {
             this.btnLoading = false;
             this.snackbar = {
               show: true,
               color: "red",
-              message: error
+              message: error,
             };
           });
       }
@@ -1595,17 +1767,17 @@ export default {
         value: null,
         date: false,
         multiUpload: {
-          items: [{ label: "", isSelected: false, value: null }]
+          items: [{ label: "", isSelected: false, value: null }],
         },
         checkboxes: {
-          items: [{ label: "" }]
+          items: [{ label: "" }],
         },
         pilihan: {
           required: false,
-          items: [{ label: "" }]
+          items: [{ label: "" }],
         },
         required: true,
-        isLulus: null
+        isLulus: null,
       });
     },
     addField() {
@@ -1619,17 +1791,17 @@ export default {
         value: null,
         date: false,
         checkboxes: {
-          items: [{ label: "" }]
+          items: [{ label: "" }],
         },
         multiUpload: {
-          items: [{ label: "", isSelected: false, value: null }]
+          items: [{ label: "", isSelected: false, value: null }],
         },
         pilihan: {
           required: false,
-          items: [{ label: "" }]
+          items: [{ label: "" }],
         },
         required: true,
-        isLulus: null
+        isLulus: null,
       });
     },
     deleteField(field) {
@@ -1645,7 +1817,7 @@ export default {
       this.fields[field_index - 1].multiUpload.items.push({
         label: "",
         isSelected: false,
-        value: null
+        value: null,
       });
     },
     addCheckboxesItem(field_index) {
@@ -1661,7 +1833,7 @@ export default {
       this.fieldsEdit[field_index - 1].multiUpload.items.push({
         label: "",
         isSelected: false,
-        value: null
+        value: null,
       });
     },
     deletePilihanItemEdit(field, label) {
@@ -1669,8 +1841,8 @@ export default {
       item.splice(item.indexOf(label), 1);
     },
     deleteMultiUploadItemEdit(field, label) {
-      var item = this.fieldsEdit[this.fieldsEdit.indexOf(field)].multiUpload
-        .items;
+      var item =
+        this.fieldsEdit[this.fieldsEdit.indexOf(field)].multiUpload.items;
       item.splice(item.indexOf(label), 1);
     },
     deletePilihanItem(field, label) {
@@ -1686,8 +1858,8 @@ export default {
       item.splice(item.indexOf(label), 1);
     },
     deleteCheckboxesItemEdit(field, label) {
-      var item = this.fieldsEdit[this.fieldsEdit.indexOf(field)].checkboxes
-        .items;
+      var item =
+        this.fieldsEdit[this.fieldsEdit.indexOf(field)].checkboxes.items;
       item.splice(item.indexOf(label), 1);
     },
     hariIni() {
@@ -1699,15 +1871,13 @@ export default {
       return formatedToday;
     },
     setPertanyaanBadgeToError() {
-      // console.log("error");
       this.errorPertanyaan = true;
       return "Field ini wajib diisi!";
     },
     setPertanyaanBadgeToNormal(v) {
-      // console.log("normal",);
       this.errorPertanyaan = false;
       return v;
-    }
+    },
   },
   computed: {
     ...mapState([
@@ -1715,16 +1885,16 @@ export default {
       "isOpenBeasiswa",
       "instansi",
       "isTableLoading",
-      "isLoading"
+      "isLoading",
     ]),
     toggleBeasiswa: {
-      get: function() {
+      get: function () {
         return this.isOpenBeasiswa;
       },
-      set: function(data) {
+      set: function (data) {
         this.toggleOpenBeasiswa(data);
-      }
-    }
+      },
+    },
   },
   data() {
     return {
@@ -1732,23 +1902,23 @@ export default {
         scrollPanel: {
           easing: "easeInQuad",
           speed: 800,
-          scrollingX: false
+          scrollingX: false,
         },
         vuescroll: {
           wheelScrollDuration: 0,
-          wheelDirectionReverse: true
-        }
+          wheelDirectionReverse: true,
+        },
       },
       errorPertanyaan: false,
       rules: {
         pertanyaan: [
-          v =>
+          (v) =>
             !!this.setPertanyaanBadgeToNormal(v) ||
-            this.setPertanyaanBadgeToError()
+            this.setPertanyaanBadgeToError(),
         ],
-        required: [v => !!v || "Field ini wajib diisi"],
-        jenjang: [v => (v || "").length > 0 || "Field ini wajib diisi"],
-        kuota: [v => v > 0 || "Kuota tidak boleh kurang dari 1"]
+        required: [(v) => !!v || "Field ini wajib diisi"],
+        jenjang: [(v) => (v || "").length > 0 || "Field ini wajib diisi"],
+        kuota: [(v) => v > 0 || "Kuota tidak boleh kurang dari 1"],
       },
       isSaveDisabled: false,
       isEditDisabled: false,
@@ -1792,18 +1962,18 @@ export default {
           value: "",
           date: false,
           checkboxes: {
-            items: [{ label: "" }]
+            items: [{ label: "" }],
           },
           multiUpload: {
-            items: [{ label: "", isSelected: false, value: null }]
+            items: [{ label: "", isSelected: false, value: null }],
           },
           pilihan: {
             required: true,
-            items: [{ label: "" }]
+            items: [{ label: "" }],
           },
           required: true,
-          isLulus: null
-        }
+          isLulus: null,
+        },
       ],
       itemTypes: [
         "Jawaban Pendek",
@@ -1813,7 +1983,7 @@ export default {
         "Multiple Upload",
         "Pilihan",
         "Checkboxes",
-        "Tanggal"
+        "Tanggal",
       ],
       sheet: false,
       menuWawancara: false,
@@ -1834,13 +2004,13 @@ export default {
           text: "Beasiswa",
           align: "start",
           sortable: false,
-          value: "nama"
+          value: "nama",
         },
         { text: "Instansi", value: "instansi.name" },
-        { text: "Actions", value: "actions", sortable: false }
-      ]
+        { text: "Actions", value: "actions", sortable: false },
+      ],
     };
-  }
+  },
 };
 </script>
 

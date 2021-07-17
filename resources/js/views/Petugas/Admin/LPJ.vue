@@ -802,7 +802,6 @@ export default {
       this.showLPJ(item.id);
     },
     infoPermohonan(item) {
-      console.log(item);
       this.selectedPermohonan = item;
       this.drawerShow = true;
     },
