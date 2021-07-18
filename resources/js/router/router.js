@@ -50,6 +50,11 @@ import VerificatorHome from "../views/Petugas/Verificator/Home.vue";
 import VerificatorHistory from "../views/Petugas/Verificator/History.vue";
 import VerificatorReport from "../views/Petugas/Verificator/Laporan.vue";
 
+import LPJVerificator from "../views/Petugas/LPJVerificator/LPJVerificator.vue";
+import LPJVerificatorHome from "../views/Petugas/LPJVerificator/LPJHome.vue";
+import LPJVerificatorHistory from "../views/Petugas/LPJVerificator/LPJHistory.vue";
+import LPJVerificatorReport from "../views/Petugas/LPJVerificator/LPJLaporan.vue";
+
 import store from "../store/store";
 
 Vue.use(VueRouter);
@@ -498,6 +503,61 @@ const routes = [
                 name: "Verificator Report",
                 path: "laporan",
                 component: VerificatorReport
+            }
+        ]
+    },
+    {
+        path: "/lpj-verificator/:petugas",
+        component: LPJVerificator,
+        async beforeEnter(to, from, next) {
+            if (from.name == null) {
+                await axios
+                    .get("/api/user/petugas")
+                    .then(response => {
+                        store.state.auth.role = response.data.role;
+                        store.state.auth.nama = response.data.nama_lengkap;
+                        store.state.auth.fakultas = response.data.fakultas;
+                        store.state.auth.id = response.data.id;
+                        store.state.auth.isAuth = true;
+                        console.log(response.data);
+                        response.data.role == 6
+                            ? next()
+                            : next({ name: "Unauthorized" });
+                    })
+                    .catch(error => {
+                        console.log("---------");
+                        console.log(error);
+                        console.log("---------");
+                        next({ name: "Landing Page" });
+                    });
+            } else if (
+                from.name == "Login Petugas" &&
+                store.state.auth.isAuth != true
+            ) {
+                console.log("Op tidak bisa");
+                next(false);
+            } else if (
+                from.name == "Login Petugas" &&
+                store.state.auth.isAuth == true
+            ) {
+                next();
+            }
+        },
+        children: [
+            {
+                name: "Home",
+                path: "home",
+                component: LPJVerificatorHome
+            },
+            {
+                name: "Verificator History",
+                path: "history",
+                component: LPJVerificatorHistory
+            },
+            {
+                name: "Verificator Report",
+                path: "laporan",
+                component: LPJVerificatorReport
             }
         ]
     },

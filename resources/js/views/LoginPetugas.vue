@@ -61,7 +61,7 @@ axios.defaults.withCredentials = true;
 axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 export default {
   computed: {
-    ...mapState(["auth"])
+    ...mapState(["auth"]),
   },
   data() {
     return {
@@ -69,20 +69,20 @@ export default {
       name: "",
       pass: "",
       error: "",
-      loading: false
+      loading: false,
     };
   },
   methods: {
     login() {
       this.loading = true;
-      axios.get("/sanctum/csrf-cookie").then(response => {
+      axios.get("/sanctum/csrf-cookie").then((response) => {
         // console.log(response)
         axios
           .post("/api/authenticate/petugas", {
             name: this.name,
-            password: this.pass
+            password: this.pass,
           })
-          .then(response => {
+          .then((response) => {
             window.localStorage.setItem("user", response.data.role);
             console.log(response.data);
             if (response.data.status == "Authenticated") {
@@ -93,31 +93,35 @@ export default {
               this.$store.state.auth.isAuth = true;
               if (response.data.user.role == 1) {
                 this.$router.push({
-                  path: `admin/${response.data.user.name}/dashboard`
+                  path: `admin/${response.data.user.name}/dashboard`,
                 });
               } else if (response.data.user.role == 2) {
                 console.log("interviewer");
                 this.$router.push({
-                  path: `/interviewer/${response.data.user.name}/home`
+                  path: `/interviewer/${response.data.user.name}/home`,
                 });
               } else if (response.data.user.role == 3) {
                 console.log("interviewer");
                 this.$router.push({
-                  path: `/surveyor/${response.data.user.name}/home`
+                  path: `/surveyor/${response.data.user.name}/home`,
                 });
               } else if (response.data.user.role == 4) {
                 console.log("interviewer");
                 this.$router.push({
-                  path: `/petinggi/${response.data.user.name}/home`
+                  path: `/petinggi/${response.data.user.name}/home`,
                 });
               } else if (response.data.user.role == 5) {
                 this.$router.push({
-                  path: `/verificator/${response.data.user.name}/home`
+                  path: `/verificator/${response.data.user.name}/home`,
+                });
+              } else if (response.data.user.role == 6) {
+                this.$router.push({
+                  path: `/lpj-verificator/${response.data.user.name}/home`,
                 });
               } else if (response.data.user.role == 0) {
                 console.log("asd");
                 this.$router.push({
-                  path: `/super/${response.data.user.name}`
+                  path: `/super/${response.data.user.name}`,
                 });
               }
             } else {
@@ -126,16 +130,16 @@ export default {
             }
           });
       });
-    }
+    },
   },
   created() {
     console.log(this.$store.state.auth.isAuth);
-    axios.get("/sanctum/csrf-cookie").then(response => {
+    axios.get("/sanctum/csrf-cookie").then((response) => {
       // console.log(response)
 
       axios
         .get("/api/user/petugas")
-        .then(response => {
+        .then((response) => {
           console.log(response.data);
           this.$store.state.auth.role = response.data.role;
           this.$store.state.auth.nama = response.data.nama_lengkap;
@@ -144,40 +148,40 @@ export default {
           this.$store.state.auth.isAuth = true;
           if (response.data.role == 1) {
             this.$router.push({
-              path: `admin/${response.data.name}/dashboard`
+              path: `admin/${response.data.name}/dashboard`,
             });
           } else if (response.data.role == 2) {
             console.log("interviewer");
             this.$router.push({
-              path: `/interviewer/${response.data.name}/home`
+              path: `/interviewer/${response.data.name}/home`,
             });
           } else if (response.data.role == 3) {
             console.log("interviewer");
             this.$router.push({
-              path: `/surveyor/${response.data.name}/home`
+              path: `/surveyor/${response.data.name}/home`,
             });
           } else if (response.data.role == 4) {
             console.log("interviewer");
             this.$router.push({
-              path: `/petinggi/${response.data.name}/home`
+              path: `/petinggi/${response.data.name}/home`,
             });
           } else if (response.data.role == 5) {
             this.$router.push({
-              path: `/verificator/${response.data.name}/home`
+              path: `/verificator/${response.data.name}/home`,
             });
           } else if (response.data.role == 0) {
             console.log("asd");
             this.$router.push({
-              path: `/super/${response.data.name}`
+              path: `/super/${response.data.name}`,
             });
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error.response.status);
           // this.$router.push("login");
         });
     });
-  }
+  },
 };
 </script>
 
