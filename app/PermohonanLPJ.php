@@ -17,19 +17,6 @@ class PermohonanLPJ extends Model
         'verificator'
     ];
 
-    protected static function booted()
-    {
-        // static::created(function ($permohonanLPJ) {
-        //     Cache::forget('lpj-', $permohonanLPJ->lpj_id);
-        // });
-        // static::updated(function ($permohonanLPJ) {
-        //     Cache::forget('lpj-', $permohonanLPJ->lpj_id);
-        // });
-        // static::saved(function ($permohonanLPJ) {
-        //     Cache::forget('lpj-', $permohonanLPJ->lpj_id);
-        // });
-    }
-
     public function setFormAttribute($value)
     {
         $this->attributes['form'] = json_encode($value);
@@ -42,6 +29,7 @@ class PermohonanLPJ extends Model
                 $beasiswa = $this->lpj->beasiswa;
                 $permohonan = $beasiswa->permohonan->where('mhs_id', $this->mhs_id)->first();
                 $permohonan->update(['is_selection_passed' => $value]);
+
                 $this->attributes['is_lulus'] = $value;
                 $this->attributes['verificator_id'] = Auth::guard('petugas')->id();
             }

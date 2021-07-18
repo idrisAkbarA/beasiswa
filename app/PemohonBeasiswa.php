@@ -26,40 +26,25 @@ class PemohonBeasiswa extends Model
 
     public function getVerificatorAttribute()
     {
-        $petugas = UserPetugas::find($this->verificator_id);
         if (!$this->is_submitted && $this->beasiswa->status != 'Tahap Berkas') {
             return 'Berkas tdk lengkap';
-        } else if (!$petugas) {
-            return '-';
         }
-        return $petugas->nama_lengkap;
+        return UserPetugas::find($this->verificator_id)->nama_lengkap ?? '-';
     }
 
     public function getInterviewerAttribute()
     {
-        $petugas = UserPetugas::find($this->interviewer_id);
-        if (!$petugas) {
-            return '-';
-        }
-        return $petugas->nama_lengkap;
+        return UserPetugas::find($this->interviewer_id)->nama_lengkap ?? '-';
     }
 
     public function getSurveyorAttribute()
     {
-        $petugas = UserPetugas::find($this->surveyor_id);
-        if (!$petugas) {
-            return '-';
-        }
-        return $petugas->nama_lengkap;
+        return UserPetugas::find($this->surveyor_id)->nama_lengkap ?? '-';
     }
 
     public function getSelectorAttribute()
     {
-        $petugas = UserPetugas::find($this->selector_id);
-        if (!$petugas) {
-            return '-';
-        }
-        return $petugas->nama_lengkap;
+        return UserPetugas::find($this->selector_id)->nama_lengkap ?? '-';
     }
 
     public function setFormAttribute($value)
