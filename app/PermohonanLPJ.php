@@ -15,15 +15,15 @@ class PermohonanLPJ extends Model
     ];
     protected static function booted()
     {
-        static::created(function ($permohonanLPJ) {
-            Cache::forget('lpj-', $permohonanLPJ->lpj->id);
-        });
-        static::updated(function ($permohonanLPJ) {
-            Cache::forget('lpj-', $permohonanLPJ->lpj->id);
-        });
-        static::saved(function ($permohonanLPJ) {
-            Cache::forget('lpj-', $permohonanLPJ->lpj->id);
-        });
+        // static::created(function ($permohonanLPJ) {
+        //     Cache::forget('lpj-', $permohonanLPJ->lpj_id);
+        // });
+        // static::updated(function ($permohonanLPJ) {
+        //     Cache::forget('lpj-', $permohonanLPJ->lpj_id);
+        // });
+        // static::saved(function ($permohonanLPJ) {
+        //     Cache::forget('lpj-', $permohonanLPJ->lpj_id);
+        // });
     }
 
     public function setFormAttribute($value)
