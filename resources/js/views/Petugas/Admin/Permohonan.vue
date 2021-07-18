@@ -1,5 +1,31 @@
 <template>
   <v-container>
+    <v-card>
+      <v-card-title>
+        List Beasiswa Ongoing/Selesai Beserta Permohonannya
+      </v-card-title>
+      <v-card-subtitle>
+        Lihat list beasiswa ongoing/selesai serta kelola permohonan beasiswa tersebut.
+        <br>
+        Beasiswa yang masih dibuka dapat di set/edit ulang pada halaman
+        <v-chip
+          color="green"
+          small
+          label
+          outlined
+        >
+          <router-link
+            class="text-white"
+            to="beasiswa"
+          > Beasiswa</router-link>.
+
+        </v-chip>
+
+      </v-card-subtitle>
+      <v-card-subtitle>
+
+      </v-card-subtitle>
+    </v-card>
     <v-skeleton-loader
       type="table"
       :loading="isTableLoading"
@@ -29,8 +55,15 @@
       transition="dialog-bottom-transition"
     >
       <v-card>
-        <v-toolbar dark color="green">
-          <v-btn icon dark @click="dialog = false">
+        <v-toolbar
+          dark
+          color="green"
+        >
+          <v-btn
+            icon
+            dark
+            @click="dialog = false"
+          >
             <v-icon>mdi-close</v-icon>
           </v-btn>
           <v-toolbar-title>{{ selectedBeasiswa.nama }}</v-toolbar-title>
@@ -49,56 +82,51 @@
                       :outlined="filter != 'permohonan'"
                       class="mr-2 mb-2"
                       @click="filter = 'permohonan'"
-                      >Semua ({{
+                    >Semua ({{
                         undefined !== selectedBeasiswa.permohonan
                           ? selectedBeasiswa.permohonan.length
                           : 0
-                      }})</v-chip
-                    >
+                      }})</v-chip>
                     <v-chip
                       color="orange"
                       :outlined="filter != 'tidak_lengkap'"
                       class="mr-2 mb-2"
                       @click="filter = 'tidak_lengkap'"
-                      >Tidak Lengkap ({{
+                    >Tidak Lengkap ({{
                         undefined !== selectedBeasiswa.tidak_lengkap
                           ? selectedBeasiswa.tidak_lengkap.length
                           : 0
-                      }})</v-chip
-                    >
+                      }})</v-chip>
                     <v-chip
                       color="cyan"
                       :outlined="filter != 'on_progress'"
                       class="mr-2 mb-2"
                       @click="filter = 'on_progress'"
-                      >Proses ({{
+                    >Proses ({{
                         undefined !== selectedBeasiswa.on_progress
                           ? selectedBeasiswa.on_progress.length
                           : 0
-                      }})</v-chip
-                    >
+                      }})</v-chip>
                     <v-chip
                       color="red"
                       :outlined="filter != 'tidak_lulus'"
                       class="mr-2 mb-2"
                       @click="filter = 'tidak_lulus'"
-                      >Tidak Lulus ({{
+                    >Tidak Lulus ({{
                         undefined !== selectedBeasiswa.tidak_lulus
                           ? selectedBeasiswa.tidak_lulus.length
                           : 0
-                      }})</v-chip
-                    >
+                      }})</v-chip>
                     <v-chip
                       color="green"
                       :outlined="filter != 'lulus'"
                       class="mr-2 mb-2"
                       @click="filter = 'lulus'"
-                      >Lulus ({{
+                    >Lulus ({{
                         undefined !== selectedBeasiswa.lulus
                           ? selectedBeasiswa.lulus.length
                           : 0
-                      }})</v-chip
-                    >
+                      }})</v-chip>
                   </div>
                   <div class="col-lg-2 col-md-12 mb-5">
                     <v-spacer></v-spacer>
@@ -111,9 +139,7 @@
                       "
                       @click.stop="drawer = !drawer"
                     >
-                      <v-icon class="mr-2"
-                        >mdi-checkbox-marked-circle-outline</v-icon
-                      >Kelulusan
+                      <v-icon class="mr-2">mdi-checkbox-marked-circle-outline</v-icon>Kelulusan
                     </v-chip>
                   </div>
                 </v-row>
@@ -144,14 +170,15 @@
                       "
                       :color="item.is_berkas_passed ? 'green' : 'red'"
                     >
-                      <i
-                        :class="`mdi ${
+                      <i :class="`mdi ${
                           item.is_berkas_passed ? 'mdi-check' : 'mdi-close'
-                        } mr-2`"
-                      ></i>
+                        } mr-2`"></i>
                       {{ item.verificator }}
                     </v-chip>
-                    <p v-else class="text-caption">-</p>
+                    <p
+                      v-else
+                      class="text-caption"
+                    >-</p>
                   </template>
                   <template v-slot:item.interviewer="{ item }">
                     <v-chip
@@ -159,14 +186,15 @@
                       v-if="item.is_interview_passed != null"
                       :color="item.is_interview_passed ? 'green' : 'red'"
                     >
-                      <i
-                        :class="`mdi ${
+                      <i :class="`mdi ${
                           item.is_interview_passed ? 'mdi-check' : 'mdi-close'
-                        } mr-2`"
-                      ></i>
+                        } mr-2`"></i>
                       {{ item.interviewer }}
                     </v-chip>
-                    <p v-else class="text-caption">-</p>
+                    <p
+                      v-else
+                      class="text-caption"
+                    >-</p>
                   </template>
                   <template v-slot:item.surveyor="{ item }">
                     <v-chip
@@ -174,14 +202,15 @@
                       v-if="item.is_survey_passed != null"
                       :color="item.is_survey_passed ? 'green' : 'red'"
                     >
-                      <i
-                        :class="`mdi ${
+                      <i :class="`mdi ${
                           item.is_survey_passed ? 'mdi-check' : 'mdi-close'
-                        } mr-2`"
-                      ></i>
+                        } mr-2`"></i>
                       {{ item.surveyor }}
                     </v-chip>
-                    <p v-else class="text-caption">-</p>
+                    <p
+                      v-else
+                      class="text-caption"
+                    >-</p>
                   </template>
                   <template v-slot:item.selector="{ item }">
                     <v-chip
@@ -189,14 +218,15 @@
                       v-if="item.is_selection_passed != null"
                       :color="item.is_selection_passed ? 'green' : 'red'"
                     >
-                      <i
-                        :class="`mdi ${
+                      <i :class="`mdi ${
                           item.is_selection_passed ? 'mdi-check' : 'mdi-close'
-                        } mr-2`"
-                      ></i>
+                        } mr-2`"></i>
                       {{ item.selector }}
                     </v-chip>
-                    <p v-else class="text-caption">-</p>
+                    <p
+                      v-else
+                      class="text-caption"
+                    >-</p>
                   </template>
                   <template v-slot:no-data>no data</template>
                 </v-data-table>
@@ -239,8 +269,14 @@
         <v-divider></v-divider>
         <div class="col-12">
           <v-row>
-            <v-timeline align-top dense>
-              <v-timeline-item color="blue" small>
+            <v-timeline
+              align-top
+              dense
+            >
+              <v-timeline-item
+                color="blue"
+                small
+              >
                 <div>
                   <div class="font-weight-normal">
                     <strong>Download file .xlx</strong>
@@ -258,16 +294,20 @@
                   </div>
                 </div>
               </v-timeline-item>
-              <v-timeline-item color="blue" small>
+              <v-timeline-item
+                color="blue"
+                small
+              >
                 <div>
                   <div class="font-weight-normal">
-                    <strong
-                      >Tambahkan info mahasiswa dalam template excel.</strong
-                    >
+                    <strong>Tambahkan info mahasiswa dalam template excel.</strong>
                   </div>
                   <div class="pr-5">
                     <p>Kolom yang wajib diisi adalah nim</p>
-                    <v-simple-table light dense>
+                    <v-simple-table
+                      light
+                      dense
+                    >
                       <thead>
                         <tr>
                           <th>A</th>
@@ -287,7 +327,10 @@
                   </div>
                 </div>
               </v-timeline-item>
-              <v-timeline-item color="blue" small>
+              <v-timeline-item
+                color="blue"
+                small
+              >
                 <div>
                   <div class="font-weight-normal mb-3">
                     <strong>Upload file .xlx</strong>
@@ -299,8 +342,7 @@
                         small
                         @click:close="file = ''"
                         class="my-2"
-                        >{{ file.name }}</v-chip
-                      >
+                      >{{ file.name }}</v-chip>
                     </div>
                     <v-btn
                       color="#2E7D32"
@@ -329,17 +371,24 @@
               class="float-right"
               :loading="btnLoading"
               @click="importPermohonan"
-              >Save</v-btn
-            >
+            >Save</v-btn>
           </div>
         </template>
       </v-navigation-drawer>
     </v-dialog>
-    <v-dialog scrollable width="500" overlay-color="green" v-model="dialogMHS">
+    <v-dialog
+      scrollable
+      width="500"
+      overlay-color="green"
+      v-model="dialogMHS"
+    >
       <v-card v-if="permohonans">
         <v-card-title>Detail Permohonan</v-card-title>
         <v-card-text>
-          <v-col cols="12" v-if="permohonans.mahasiswa">
+          <v-col
+            cols="12"
+            v-if="permohonans.mahasiswa"
+          >
             <h6 class="text-light">
               {{ permohonans.mahasiswa.nama }}
             </h6>
@@ -349,9 +398,18 @@
               }})
             </p>
           </v-col>
-          <v-col cols="12" v-if="permohonans">
-            <v-timeline dense v-if="isShowTimeline(permohonans)">
-              <v-slide-x-reverse-transition group hide-on-leave>
+          <v-col
+            cols="12"
+            v-if="permohonans"
+          >
+            <v-timeline
+              dense
+              v-if="isShowTimeline(permohonans)"
+            >
+              <v-slide-x-reverse-transition
+                group
+                hide-on-leave
+              >
                 <v-timeline-item
                   v-for="(time, index) in permohonans.timeline"
                   :key="index"
@@ -361,7 +419,10 @@
                   :color="time.icon.color"
                 >
                   <v-row>
-                    <v-col cols="12" xl="8">
+                    <v-col
+                      cols="12"
+                      xl="8"
+                    >
                       <v-alert :class="`${time.color} mb-0 pb-0`">
                         {{ time.msg }}
                         <p class="caption">
@@ -374,7 +435,10 @@
               </v-slide-x-reverse-transition>
             </v-timeline>
           </v-col>
-          <v-col cols="12" v-if="permohonans.keterangan">
+          <v-col
+            cols="12"
+            v-if="permohonans.keterangan"
+          >
             <span>Keterangan :</span>
             <br />
             <p>{{ permohonans.keterangan }}</p>
@@ -395,13 +459,22 @@
         <v-card-title>
           <span>Tambah Beasiswa Selesai</span>
           <v-spacer></v-spacer>
-          <v-btn text class="mr-2" @click="toggleBeasiswa = false">Batal</v-btn>
-          <v-btn color="#2E7D32" :loading="btnLoading" @click="store"
-            >Simpan</v-btn
-          >
+          <v-btn
+            text
+            class="mr-2"
+            @click="toggleBeasiswa = false"
+          >Batal</v-btn>
+          <v-btn
+            color="#2E7D32"
+            :loading="btnLoading"
+            @click="store"
+          >Simpan</v-btn>
         </v-card-title>
         <v-card-text style="height: 600px">
-          <v-row dense class="ml-1 mr-1">
+          <v-row
+            dense
+            class="ml-1 mr-1"
+          >
             <v-col cols="12">
               <v-text-field
                 color="#C8E6C9"
@@ -439,7 +512,10 @@
       </v-card>
     </v-bottom-sheet>
     <!-- Snackbar -->
-    <v-snackbar v-model="snackbar.show" :timeout="2000">
+    <v-snackbar
+      v-model="snackbar.show"
+      :timeout="2000"
+    >
       {{ snackbar.message }}
       <template v-slot:action="{ attrs }">
         <v-btn
@@ -447,8 +523,7 @@
           text
           v-bind="attrs"
           @click="snackbar.show = false"
-          >Close</v-btn
-        >
+        >Close</v-btn>
       </template>
     </v-snackbar>
   </v-container>
