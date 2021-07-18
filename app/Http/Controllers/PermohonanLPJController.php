@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\LPJ;
 use App\PermohonanLPJ;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -69,11 +70,18 @@ class PermohonanLPJController extends Controller
      */
     public function update(Request $request, PermohonanLPJ $permohonan)
     {
-        $permohonan->update($request->all());
-        $reply = [
-            'status' => true,
-            'data' => $permohonan
-        ];
+        try {
+            $permohonan->update($request->all());
+            $reply = [
+                'status' => true,
+                'data' => $permohonan
+            ];
+        } catch (Exception $e) {
+            $reply = [
+                'status' => false,
+                'message' => $e->getMessage()
+            ];
+        }
         return response()->json($reply);
     }
 

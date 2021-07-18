@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\LPJ;
 use App\User;
 use App\PermohonanLPJ;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -72,7 +73,6 @@ class LPJController extends Controller
             $lpj->beasiswa = $lpj->beasiswa;
             $lpj->permohonan = $lpj->permohonan;
 
-            // $result = Cache::rememberForever('lpj-' . $lpj->id, function () use ($lpj) {
             $lpj->beasiswa->getLulusAttribute()->each(function ($item) use ($lpj) {
                 if (!in_array($item->mhs_id, $lpj->permohonan->pluck('mhs_id')->toArray())) {
                     $permohonan = new PermohonanLPJ(['mhs_id' => $item->mhs_id, 'form' => [], 'is_lulus' => null]);
@@ -124,9 +124,6 @@ class LPJController extends Controller
         });
 
         return response()->json($result);
-        // return response()->json($lpj);
-        // return $indexes;
-        // return response()->json($this->$indexes);
     }
 
     /**

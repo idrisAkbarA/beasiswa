@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 
@@ -33,12 +34,14 @@ class PermohonanLPJ extends Model
 
     public function setIsLulusAttribute($value)
     {
-        if (!is_null($this->lpj)) {
-            $beasiswa = $this->lpj->beasiswa;
-            $permohonan = $beasiswa->permohonan->where('mhs_id', $this->mhs_id)->first();
+        $beasiswa = $this->lpj->beasiswa;
+        $permohonan = $beasiswa->permohonan->where('mhs_id', $this->mhs_id)->first();
+        try {
             $permohonan->update(['is_selection_passed' => $value]);
+            $this->attributes['is_lulus'] = $value;
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
         }
-        $this->attributes['is_lulus'] = $value;
     }
 
     public function getStatusAttribute()

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 
@@ -99,12 +100,21 @@ class PemohonBeasiswa extends Model
     public function setIsSelectionPassedAttribute($value)
     {
         $petugas = Auth::guard('petugas')->user();
-        if ($value && $this->beasiswa->quota <= count($this->beasiswa->lulus) && $petugas->role) {
-            return;
-        } else {
+        try {
+            if ($this->is_selection_passed !== null && $value == $this->is_selection_passed) {
+                return;
+            }
+            if ($petugas->role !== 1 && $petugas->role !== 4) {
+                throw new Exception('Anda tidak memiliki hak akses');
+            }
+            if ($value && $this->beasiswa->quota <= count($this->beasiswa->lulus)) {
+                throw new Exception('Kuota beasiswa telah terpenuhi');
+            }
             $this->attributes['is_selection_passed'] = $value;
             $this->attributes['selector_id'] = Auth::guard('petugas')->id();
             $this->attributes['selected_at'] = now();
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
         }
     }
 

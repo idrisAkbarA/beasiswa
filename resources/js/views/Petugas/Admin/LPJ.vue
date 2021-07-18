@@ -350,7 +350,7 @@
               text
               :loading="isLoading"
               @click="updatePermohonan(false)"
-              >Tdk Lulus</v-btn
+              >Tidak Lulus</v-btn
             >
             <v-spacer></v-spacer>
             <v-btn
@@ -819,14 +819,22 @@ export default {
         .then((response) => {
           this.drawerShow = false;
           this.showLPJ(this.selectedLPJ.id);
-          const isLulus = response.data.data.is_lulus;
-          this.snackbar = {
-            show: true,
-            color: isLulus ? "blue" : "red",
-            message: `Kelulusan beasiswa : ${
-              isLulus ? "Lulus" : "Tidak Lulus"
-            }`,
-          };
+          if (response.data.status) {
+            const isLulus = response.data.data.is_lulus;
+            this.snackbar = {
+              show: true,
+              color: isLulus ? "blue" : "red",
+              message: `Kelulusan beasiswa : ${
+                isLulus ? "Lulus" : "Tidak Lulus"
+              }`,
+            };
+          } else {
+            this.snackbar = {
+              show: true,
+              color: "red",
+              message: response.data.message,
+            };
+          }
         })
         .catch((error) => {
           console.error(error);
@@ -850,14 +858,22 @@ export default {
         .then((response) => {
           this.drawerShow = false;
           this.showLPJ(this.selectedLPJ.id);
-          const isLulus = response.data.data.is_lulus;
-          this.snackbar = {
-            show: true,
-            color: isLulus ? "blue" : "red",
-            message: `Kelulusan beasiswa : ${
-              isLulus ? "Lulus" : "Tidak Lulus"
-            }`,
-          };
+          if (response.data.status) {
+            const isLulus = response.data.data.is_lulus;
+            this.snackbar = {
+              show: true,
+              color: isLulus ? "blue" : "red",
+              message: `Kelulusan beasiswa : ${
+                isLulus ? "Lulus" : "Tidak Lulus"
+              }`,
+            };
+          } else {
+            this.snackbar = {
+              show: true,
+              color: "red",
+              message: response.data.message,
+            };
+          }
         })
         .catch((error) => {
           console.error(error);
