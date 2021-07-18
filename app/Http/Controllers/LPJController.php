@@ -75,7 +75,7 @@ class LPJController extends Controller
             // $result = Cache::rememberForever('lpj-' . $lpj->id, function () use ($lpj) {
             $lpj->beasiswa->getLulusAttribute()->each(function ($item) use ($lpj) {
                 if (!in_array($item->mhs_id, $lpj->permohonan->pluck('mhs_id')->toArray())) {
-                    $permohonan = new PermohonanLPJ();
+                    $permohonan = new PermohonanLPJ(['mhs_id' => $item->mhs_id, 'form' => [], 'is_lulus' => null]);
                     $permohonan->mahasiswa = $item->mahasiswa ?? new User(['nim' => $item->mhs_id]);
                     $lpj->permohonan->push($permohonan);
                 }
@@ -158,6 +158,34 @@ class LPJController extends Controller
     {
         $lpj->update($request->all());
         return $this->index();
+    }
+
+    /**
+     * Update all permohonan LPJ to lulus if is_submitted == 1.
+     *
+     * @param  \App\LPJ $lpj
+     * @return \Illuminate\Http\Response
+     */
+    public function lulusAll(LPJ $lpj)
+    {
+        $permohonan = $lpj->permohonan->where('is_submitted', 1);
+        try {
+            $count = 0;
+            foreach ($permohonan as $row) {
+                $row->update(['is_lulus' => 1]);
+                $count += 1;
+            }
+            $reply = [
+                'status' => true,
+                'message' => "Berhasil meluluskan {$count} LPJ",
+            ];
+        } catch (Exception $e) {
+            $reply = [
+                'status' => false,
+                'message' => $e->getMessage(),
+            ];
+        }
+        return response()->json($reply);
     }
 
     /**

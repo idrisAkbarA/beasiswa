@@ -28,11 +28,15 @@ class PermohonanLPJController extends Controller
      */
     public function store(Request $request)
     {
-        $user = Auth::guard('mahasiswa')->user();
-        $permohonan = PermohonanLPJ::updateOrCreate(
-            ['mhs_id' => $user->nim, 'lpj_id' => $request->lpj_id],
-            $request->all()
-        );
+        if (!is_null(Auth::guard('petugas')->user())) {
+            $permohonan = PermohonanLPJ::create($request->all());
+        } else {
+            $user = Auth::guard('mahasiswa')->user();
+            $permohonan = PermohonanLPJ::updateOrCreate(
+                ['mhs_id' => $user->nim, 'lpj_id' => $request->lpj_id],
+                $request->all()
+            );
+        }
         $reply = [
             'status' => true,
             'data' => $permohonan

@@ -5,7 +5,6 @@
       type="table"
       transition="fade-transition"
     >
-
       <v-data-table
         :headers="headers"
         :items="cekBerkas"
@@ -14,14 +13,9 @@
         class="elevation-10 mb-10"
       >
         <template v-slot:item.actions="{ item }">
-          <v-btn
-            small
-            @click="detail(item)"
-          >lihat rincian</v-btn>
+          <v-btn small @click="detail(item)">lihat rincian</v-btn>
         </template>
-        <template v-slot:no-data>
-          no data
-        </template>
+        <template v-slot:no-data> no data </template>
       </v-data-table>
     </v-skeleton-loader>
     <v-bottom-sheet
@@ -32,48 +26,46 @@
       v-model="openSheet"
     >
       <v-card>
-        <v-card-title> <span>Cek Berkas</span>
+        <v-card-title>
+          <span>Cek Berkas</span>
           <v-spacer></v-spacer>
-          <v-btn
-            @click="tidakLulusButton"
-            text
-          >Tidak Lulus</v-btn>
+          <v-btn @click="tidakLulusButton" text>Tidak Lulus</v-btn>
           <v-btn
             color="#2E7D32"
             :loading="btnLoading"
             v-model="openSheet"
             @click="lulusButton"
-          >Lulus</v-btn>
+            >Lulus</v-btn
+          >
         </v-card-title>
         <v-card-text>
           <v-row class="ma-5">
             <v-col cols="12">
-              <table style="width:100%">
+              <table style="width: 100%">
                 <tr>
-                  <td style="width:20px">Nama</td>
+                  <td style="width: 20px">Nama</td>
                   <td>:</td>
-                  <td>{{rincian.nama}}</td>
+                  <td>{{ rincian.nama }}</td>
                 </tr>
                 <tr>
-                  <td style="width:20px">NIM</td>
+                  <td style="width: 20px">NIM</td>
                   <td>:</td>
-                  <td>{{rincian.mhs_id}}</td>
+                  <td>{{ rincian.mhs_id }}</td>
                 </tr>
               </table>
             </v-col>
           </v-row>
           <v-row
             class="ma-5"
-            v-for="(field,index) in rincian.form"
+            v-for="(field, index) in rincian.form"
             :key="index"
           >
-
-            <v-col style="padding-bottom:0 !important;">
-              <p>{{field.pertanyaan}}</p>
+            <v-col style="padding-bottom: 0 !important">
+              <p>{{ field.pertanyaan }}</p>
               <v-container v-if="field.type == 'Checkboxes'">
                 <v-row
                   align="center"
-                  v-for="(item,index) in field.checkboxes.items"
+                  v-for="(item, index) in field.checkboxes.items"
                   :key="index"
                 >
                   <v-checkbox
@@ -85,31 +77,31 @@
                     class="shrink mr-2 mt-0"
                   ></v-checkbox>
                   <span>
-                    {{item.label}}
+                    {{ item.label }}
                   </span>
                 </v-row>
-
               </v-container>
-              <p v-if="field.type == 'Pilihan'"><span>
-                  <v-icon>mdi-text-short</v-icon>{{field.value}}
-                </span></p>
-              <p v-if="field.type == 'Jawaban Pendek'"><span>
-                  <v-icon>mdi-text-short</v-icon>{{field.value}}
-                </span></p>
-              <p v-if="field.type == 'Jawaban Angka'"><span>
-                  <v-icon>mdi-text-short</v-icon>{{field.value}}
-                </span></p>
-              <p v-if="field.type == 'Tanggal'"><span>
-                  <v-icon>mdi-text-short</v-icon>{{field.value}}
-                </span></p>
+              <p v-if="field.type == 'Pilihan'">
+                <span> <v-icon>mdi-text-short</v-icon>{{ field.value }} </span>
+              </p>
+              <p v-if="field.type == 'Jawaban Pendek'">
+                <span> <v-icon>mdi-text-short</v-icon>{{ field.value }} </span>
+              </p>
+              <p v-if="field.type == 'Jawaban Angka'">
+                <span> <v-icon>mdi-text-short</v-icon>{{ field.value }} </span>
+              </p>
+              <p v-if="field.type == 'Tanggal'">
+                <span> <v-icon>mdi-text-short</v-icon>{{ field.value }} </span>
+              </p>
               <v-btn
                 v-if="field.type == 'Upload File'"
                 small
                 @click="link(field.value)"
-              >lihat file</v-btn>
-              <p v-if="field.type == 'Paragraf'"><span>
-                  <v-icon>mdi-text-short</v-icon>{{field.value}}
-                </span></p>
+                >lihat file</v-btn
+              >
+              <p v-if="field.type == 'Paragraf'">
+                <span> <v-icon>mdi-text-short</v-icon>{{ field.value }} </span>
+              </p>
             </v-col>
             <v-col cols="12">
               <v-divider></v-divider>
@@ -118,32 +110,18 @@
         </v-card-text>
       </v-card>
     </v-bottom-sheet>
-    <v-dialog
-      width="400"
-      overlay-color="#69F0AE"
-      v-model="dialog"
-    >
+    <v-dialog width="400" overlay-color="#69F0AE" v-model="dialog">
       <v-card>
         <v-card-title class="mt-2">
-          {{msg}}
-          <p style="font-weight:bold">
+          {{ msg }}
+          <p style="font-weight: bold">
             <!-- {{itemtoDelete.nama}}? -->
           </p>
         </v-card-title>
         <v-card-actions>
-
-          <v-btn
-            text
-            @click="dialog = false"
-          >
-            Batal
-          </v-btn>
+          <v-btn text @click="dialog = false"> Batal </v-btn>
           <v-spacer></v-spacer>
-          <v-btn
-            dark
-            class="green"
-            @click="setBerkas"
-          >
+          <v-btn dark class="green" @click="setBerkas">
             <v-icon left>mdi-check</v-icon>
             iya
           </v-btn>
@@ -158,20 +136,18 @@ import { mapActions, mapMutations, mapState } from "vuex";
 export default {
   created() {
     this.getCekBerkas();
-    console.log("ttt");
   },
   computed: {
-    ...mapState(["cekBerkas", "beasiswaSingle", "nim", "isTableLoading"])
+    ...mapState(["cekBerkas", "beasiswaSingle", "nim", "isTableLoading"]),
   },
   methods: {
     ...mapActions(["getCekBerkas"]),
     detail(item) {
-      console.log(item);
       this.openSheet = true;
       this.rincian = item;
     },
     link(url) {
-      var a =  "/" + url;
+      var a = "/" + url;
       var link = a.replace(" ", "%20");
       window.open(link, "_blank");
     },
@@ -189,15 +165,14 @@ export default {
       axios
         .put(`/api/pemohon/set-berkas`, {
           bool: this.bool,
-          id: this.rincian.id
+          id: this.rincian.id,
         })
-        .then(response => {
+        .then((response) => {
           this.getCekBerkas();
-          console.log(response.data);
           this.dialog = false;
           this.openSheet = false;
         });
-    }
+    },
   },
   data() {
     return {
@@ -212,14 +187,14 @@ export default {
           text: "Beasiswa",
           align: "start",
           sortable: false,
-          value: "nama_beasiswa"
+          value: "nama_beasiswa",
         },
         { text: "Nama", value: "nama" },
         { text: "NIM", value: "mhs_id" },
-        { text: "Actions", value: "actions", sortable: false }
-      ]
+        { text: "Actions", value: "actions", sortable: false },
+      ],
     };
-  }
+  },
 };
 </script>
 

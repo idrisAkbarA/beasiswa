@@ -1,15 +1,8 @@
 <template>
   <v-container>
-    <v-card
-      tile
-      color="transparent"
-      flat
-    >
+    <v-card tile color="transparent" flat>
       <v-card-title>
-        <span class="ml-3">
-
-          Laporan
-        </span>
+        <span class="ml-3"> Laporan </span>
       </v-card-title>
       <v-card-text>
         <v-container>
@@ -18,13 +11,8 @@
               Filter Laporan | Isi field untuk melihat laporan
             </span>
           </v-row>
-          <v-form
-            ref="form"
-            v-model="validation"
-            lazy-validation
-          >
+          <v-form ref="form" v-model="validation" lazy-validation>
             <v-row no-gutters>
-
               <v-col>
                 <v-autocomplete
                   v-model="beasiswaSelected"
@@ -98,31 +86,26 @@
                   Set kolom pertanyaan
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
-                  <v-container
-                    class="px-0"
-                    fluid
-                  >
+                  <v-container class="px-0" fluid>
                     <v-checkbox
                       hide-details
                       color="green"
                       v-model="selectUnSelectAllField"
                     >
                       <template v-slot:label>
-                        <div class="mt-3">
-                          Pilih Semua
-                        </div>
+                        <div class="mt-3">Pilih Semua</div>
                       </template>
                     </v-checkbox>
                     <v-checkbox
                       v-model="item.value"
                       hide-details
                       color="green"
-                      v-for="(item,index) in fieldList"
+                      v-for="(item, index) in fieldList"
                       :key="index"
                     >
                       <template v-slot:label>
                         <div class="mt-3">
-                          {{item.pertanyaan}}
+                          {{ item.pertanyaan }}
                         </div>
                       </template>
                     </v-checkbox>
@@ -136,16 +119,15 @@
               :disabled="isDownloadDisabled"
               color="green darken-2"
               @click="getLaporan(false)"
-            >lihat laporan</v-btn>
+              >lihat laporan</v-btn
+            >
             <v-btn
               :disabled="isDownloadDisabled"
               class="ml-1"
               :loading="downloadLoading"
               @click="getLaporan(true)"
             >
-              <v-icon left>
-                mdi-file-download
-              </v-icon>
+              <v-icon left> mdi-file-download </v-icon>
               Download laporan
             </v-btn>
           </v-row>
@@ -162,13 +144,13 @@
         :search="search"
       >
         <template v-slot:top>
-        <v-text-field
-          v-model="search"
-          label="Pencarian"
-          color="green"
-          class="mx-4"
-        ></v-text-field>
-      </template>
+          <v-text-field
+            v-model="search"
+            label="Pencarian"
+            color="green"
+            class="mx-4"
+          ></v-text-field>
+        </template>
       </v-data-table>
     </v-card>
   </v-container>
@@ -176,45 +158,45 @@
 
 <script>
 const FileDownload = require("js-file-download");
-var FileSaver = require('file-saver');
+var FileSaver = require("file-saver");
 import { mapActions, mapState } from "vuex";
 import Axios from "axios";
 export default {
   watch: {
     fieldList: {
       deep: true,
-      handler: function(v) {
-        v.forEach(element => {
+      handler: function (v) {
+        v.forEach((element) => {
           if (!element.value) {
             this.selectAll.value = false;
           }
         });
-      }
+      },
     },
     validation(v) {
       v ? (this.isDownloadDisabled = false) : (this.isDownloadDisabled = true);
-    }
+    },
   },
   computed: {
     ...mapState(["report", "fakultas", "isTableLoading", "beasiswa"]),
     selectUnSelectAllField: {
       // Property description:
       // set value of it's own v-model and select/unselect all corresponding fields
-      set: function(v) {
+      set: function (v) {
         this.selectAll.value = v;
         // v ? this.selectAll.label = "Uncheck semua pilihan" : this.selectAll.label = "Pilih semua" ;
-        this.fieldList.forEach(element => {
+        this.fieldList.forEach((element) => {
           v ? (element.value = true) : (element.value = false);
         });
       },
-      get: function() {
+      get: function () {
         return this.selectAll.value;
-      }
+      },
     },
     isSpesificBeasiswaSelected: {
       // Property description:
       // set expansion panel of pertanyaan list to disable according to beasiswa is selected or not
-      get: function() {
+      get: function () {
         if (this.beasiswaSelected == "all") {
           return true;
         }
@@ -222,68 +204,62 @@ export default {
           return true;
         }
         return false;
-      }
+      },
     },
     headers: {
-      get: function() {
+      get: function () {
         if (this.report.length > 0) {
           var final = [];
           var keys = Object.keys(this.report[0]);
-          keys.forEach(element => {
+          keys.forEach((element) => {
             final.push({
               text: element,
               value: element,
               align: "start",
-              sortable: true
+              sortable: true,
             });
           });
           return final;
         } else {
           return [{ text: "Beasiswa" }, { text: "Nama" }, { text: "NIM" }];
         }
-      }
+      },
     },
     fakItem: {
-      get: function() {
+      get: function () {
         if (this.fakultas.length > 0) {
           this.fakLoading = false;
           var final = [];
-          // console.log(this.fakultas);
           final.push({ id: "all", nama: "Semua" });
-          this.fakultas.forEach(element => {
+          this.fakultas.forEach((element) => {
             final.push({ id: element.id, nama: element.nama });
           });
-          // console.log(final);
           return final;
         } else {
-          console.log("hey");
           this.getFakultas();
           this.fakLoading = true;
           return [{ id: "", nama: "" }];
         }
-      }
+      },
     },
 
     beaItem: {
-      get: function() {
+      get: function () {
         if (this.beasiswa.length > 0) {
           this.beaLoading = false;
           var final = [];
-          // console.log(this.beasiswa);
           final.push({ id: "all", nama: "Semua" });
-          this.beasiswa.forEach(element => {
+          this.beasiswa.forEach((element) => {
             final.push({ id: element.id, nama: element.nama });
           });
-          // console.log(final);
           return final;
         } else {
-          // console.log("hey");
           this.getBeasiswa();
           this.beaLoading = true;
           return [{ id: "", nama: "" }];
         }
-      }
-    }
+      },
+    },
   },
   methods: {
     ...mapActions(["getReport", "getFakultas", "getBeasiswa"]),
@@ -294,20 +270,19 @@ export default {
       if (item != "all") {
         // check if id beasiswa selected
         var beasiswaDetail = {};
-        this.beasiswa.forEach(element => {
+        this.beasiswa.forEach((element) => {
           // loop beasiswa to get the desired beasiswa
           if (element.id == item) beasiswaDetail = element;
         });
 
         this.fieldList = JSON.parse(beasiswaDetail.fields); // set the list
-        console.log(this.fieldList);
       }
     },
     async getLaporan(isDownload) {
       await this.$refs.form.validate();
       if (this.validation) {
         var fieldList = [];
-        this.fieldList.forEach(element => {
+        this.fieldList.forEach((element) => {
           if (element.value) {
             fieldList.push(element.pertanyaan);
           }
@@ -317,7 +292,7 @@ export default {
           fakultas: this.fakultasSelected,
           tahap: this.tahapSelected,
           status: this.statusSelected,
-          field_list: fieldList
+          field_list: fieldList,
         };
         !isDownload
           ? this.getReport(this.params)
@@ -333,23 +308,22 @@ export default {
       this.downloadLoading = true;
       Axios.get("/api/beasiswa/download-report", {
         params: data,
-        responseType: "blob"
-      },
-      ).then(response => {
-        FileDownload(response.data, 'Beasiswa.xlsx');
+        responseType: "blob",
+      }).then((response) => {
+        FileDownload(response.data, "Beasiswa.xlsx");
         this.downloadLoading = false;
       });
-    }
+    },
   },
   data() {
     return {
-      search:null,
+      search: null,
       selectAll: {
         label: "Pilih semua",
-        value: false
+        value: false,
       },
       fieldList: [],
-      rule: [v => !!v || "Field ini wajib diisi"],
+      rule: [(v) => !!v || "Field ini wajib diisi"],
       isDownloadDisabled: false,
       validation: false,
       fakLoading: false,
@@ -360,21 +334,21 @@ export default {
         { value: "all", text: "Semua" },
         { value: "lulus", text: "Lulus" },
         { value: "gagal", text: "Gagal" },
-        { value: "seleksi", text: "Dalam Tahap Seleksi" }
+        { value: "seleksi", text: "Dalam Tahap Seleksi" },
       ],
       tahap: [
         { value: "berkas", text: "Berkas" },
         { value: "wawancara", text: "Wawancara" },
         { value: "survey", text: "Survey" },
-        { value: "seleksi", text: "Seleksi" }
+        { value: "seleksi", text: "Seleksi" },
       ],
       beasiswaSelected: null,
       fakultasSelected: null,
       tahapSelected: null,
       statusSelected: null,
-      params: {}
+      params: {},
     };
-  }
+  },
 };
 </script>
 
