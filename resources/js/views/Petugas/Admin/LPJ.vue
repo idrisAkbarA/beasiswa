@@ -170,6 +170,9 @@
                       {{ item.status.text }}
                     </v-chip>
                   </template>
+                  <!-- <template v-slot:[`item.verificator_id`]="{ item }">
+                    {{ item.verificator_id !== null ? item.verificator_id : "-" }}
+                  </template> -->
                   <template v-slot:[`item.actions`]="{ item }">
                     <v-btn
                       icon
@@ -1175,6 +1178,7 @@ export default {
           { text: "Nama", align: "start", value: "mahasiswa.nama" },
           { text: "Jurusan", value: "mahasiswa.jurusan.nama", sortable: true },
           { text: "Status", value: "is_lulus" },
+          { text: "Verifikator", value: "verificator" },
           { text: "Actions", value: "actions", sortable: false },
         ],
         detailLPJ: [

@@ -14,7 +14,8 @@ class AddKeteranganToPermohonanLpjTable extends Migration
     public function up()
     {
         Schema::table('permohonan_lpj', function (Blueprint $table) {
-            $table->text('keterangan')->nullable()->after('is_lulus');
+            $table->integer('verificator_id')->nullable()->after('is_lulus');
+            $table->text('keterangan')->nullable()->after('verificator_id');
         });
     }
 
@@ -26,6 +27,7 @@ class AddKeteranganToPermohonanLpjTable extends Migration
     public function down()
     {
         Schema::table('permohonan_lpj', function (Blueprint $table) {
+            $table->dropColumn('verificator_id');
             $table->dropColumn('keterangan');
         });
     }

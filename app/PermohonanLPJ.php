@@ -4,6 +4,7 @@ namespace App;
 
 use Exception;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
 class PermohonanLPJ extends Model
@@ -12,8 +13,10 @@ class PermohonanLPJ extends Model
     protected $guarded = ['id'];
 
     protected $appends = [
-        'status'
+        'status',
+        'verificator'
     ];
+
     protected static function booted()
     {
         // static::created(function ($permohonanLPJ) {
@@ -39,9 +42,15 @@ class PermohonanLPJ extends Model
         try {
             $permohonan->update(['is_selection_passed' => $value]);
             $this->attributes['is_lulus'] = $value;
+            $this->attributes['verificator_id'] = Auth::guard('petugas')->id();
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
+    }
+
+    public function getVerificatorAttribute()
+    {
+        return UserPetugas::find($this->verificator_id)->nama_lengkap ?? '-';
     }
 
     public function getStatusAttribute()
