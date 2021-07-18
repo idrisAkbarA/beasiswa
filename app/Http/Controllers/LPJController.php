@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class LPJController extends Controller
 {
@@ -66,60 +67,66 @@ class LPJController extends Controller
      */
     public function show(LPJ $lpj)
     {
-        $lpj->beasiswa = $lpj->beasiswa;
-        $lpj->permohonan = $lpj->permohonan;
+        $result = Cache::rememberForever('lpj-' . $lpj->id, function () use ($lpj) {
+            Log::info("creating cache with key: lpj-" . $lpj->id);
+            $lpj->beasiswa = $lpj->beasiswa;
+            $lpj->permohonan = $lpj->permohonan;
 
-        // $result = Cache::rememberForever('lpj-' . $lpj->id, function () use ($lpj) {
-        $lpj->beasiswa->getLulusAttribute()->each(function ($item) use ($lpj) {
-            if (!in_array($item->mhs_id, $lpj->permohonan->pluck('mhs_id')->toArray())) {
-                $permohonan = new PermohonanLPJ();
-                $permohonan->mahasiswa = $item->mahasiswa ?? new User(['nim' => $item->mhs_id]);
-                $lpj->permohonan->push($permohonan);
-            }
-        });
-        $indexes = [];
-        $lpj->permohonan->each(function ($item, $key) use (&$indexes) {
-            // $item->nomor = $key;
-            if ($item->is_submitted) {
-                //Continue/skip the iteration
-                return true;
-            }
-            if (!$item->form) {
-                return true;
-            }
-
-            $form = json_decode($item->form, true);
-            $is_submitted = false;
-
-            foreach ($form as $value) {
-                if (!$value['required']) {
-                    continue;
+            // $result = Cache::rememberForever('lpj-' . $lpj->id, function () use ($lpj) {
+            $lpj->beasiswa->getLulusAttribute()->each(function ($item) use ($lpj) {
+                if (!in_array($item->mhs_id, $lpj->permohonan->pluck('mhs_id')->toArray())) {
+                    $permohonan = new PermohonanLPJ();
+                    $permohonan->mahasiswa = $item->mahasiswa ?? new User(['nim' => $item->mhs_id]);
+                    $lpj->permohonan->push($permohonan);
                 }
-                if ($value['value'] === null) {
-                    $is_submitted = false;
-                    break;
+            });
+            $indexes = [];
+            $lpj->permohonan->each(function ($item, $key) use (&$indexes) {
+                // $item->nomor = $key;
+                if ($item->is_submitted) {
+                    //Continue/skip the iteration
+                    return true;
                 }
-                $is_submitted = true;
-            }
-            if ($is_submitted) {
-                $permohonan_lpj = PermohonanLPJ::find($item->id);
-                $permohonan_lpj->is_submitted = true;
-                $permohonan_lpj->save();
+                if (!$item->form) {
+                    return true;
+                }
 
-                $indexes[] = $key;
+                $form = json_decode($item->form, true);
+                $is_submitted = false;
+
+                foreach ($form as $value) {
+                    if (!$value['required']) {
+                        continue;
+                    }
+                    if ($value['value'] === null) {
+                        $is_submitted = false;
+                        break;
+                    }
+                    $is_submitted = true;
+                }
+                if ($is_submitted) {
+                    $permohonan_lpj = PermohonanLPJ::find($item->id);
+                    $permohonan_lpj->is_submitted = true;
+                    $permohonan_lpj->save();
+
+                    $indexes[] = $key;
+                }
+            });
+            $lpjArr = $lpj->toArray();
+            foreach ($indexes as $key => $value) {
+                $lpjArr['permohonan'][$value]['status'] = [
+                    'color' => 'blue',
+                    'text' => 'Proses'
+                ];
             }
+
+            return $lpjArr;
         });
-        $lpjArr = $lpj->toArray();
-        foreach ($indexes as $key => $value) {
-            $lpjArr['permohonan'][$value]['status'] = [
-                'color' => 'blue',
-                'text' => 'Proses'
-            ];
-        }
-        return response()->json($lpjArr);
-        return response()->json($lpj);
-        return $indexes;
-        return response()->json($this->$indexes);
+
+        return response()->json($result);
+        // return response()->json($lpj);
+        // return $indexes;
+        // return response()->json($this->$indexes);
     }
 
     /**
