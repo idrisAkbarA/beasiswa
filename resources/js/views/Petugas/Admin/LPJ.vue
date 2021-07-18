@@ -170,9 +170,6 @@
                       {{ item.status.text }}
                     </v-chip>
                   </template>
-                  <!-- <template v-slot:[`item.verificator_id`]="{ item }">
-                    {{ item.verificator_id !== null ? item.verificator_id : "-" }}
-                  </template> -->
                   <template v-slot:[`item.actions`]="{ item }">
                     <v-btn
                       icon
@@ -347,7 +344,7 @@
               </v-row>
             </div>
           </v-card-text>
-          <v-card-actions v-if="selectedPermohonan.is_lulus === null">
+          <v-card-actions v-if="selectedPermohonan.is_lulus === null || selectedPermohonan.is_lulus === undefined">
             <v-btn
               dark
               text

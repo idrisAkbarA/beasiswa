@@ -37,12 +37,14 @@ class PermohonanLPJ extends Model
 
     public function setIsLulusAttribute($value)
     {
-        $beasiswa = $this->lpj->beasiswa;
-        $permohonan = $beasiswa->permohonan->where('mhs_id', $this->mhs_id)->first();
         try {
-            $permohonan->update(['is_selection_passed' => $value]);
-            $this->attributes['is_lulus'] = $value;
-            $this->attributes['verificator_id'] = Auth::guard('petugas')->id();
+            if (!is_null($this->lpj)) {
+                $beasiswa = $this->lpj->beasiswa;
+                $permohonan = $beasiswa->permohonan->where('mhs_id', $this->mhs_id)->first();
+                $permohonan->update(['is_selection_passed' => $value]);
+                $this->attributes['is_lulus'] = $value;
+                $this->attributes['verificator_id'] = Auth::guard('petugas')->id();
+            }
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
