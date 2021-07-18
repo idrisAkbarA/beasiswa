@@ -161,7 +161,7 @@ const routes = [
                 component: LPJ
             },
             {
-                name: "List Permohonan",
+                name: "Beasiswa Ongoing/Selesai",
                 path: "permohonan",
                 component: Permohonan
             },

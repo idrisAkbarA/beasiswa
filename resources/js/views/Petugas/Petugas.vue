@@ -16,15 +16,35 @@
       :permanent="permanent"
       :expand-on-hover="expandOnHover"
       :mini-variant="miniVariant"-->
-      <v-card v-if="windowWidth <= 600" class="d-flex justify-center pt-4 pr-2 pl-2" flat tile>
-        <v-img max-width="70" :src="'/images/LogoUIN.png'"></v-img>
+      <v-card
+        v-if="windowWidth <= 600"
+        class="d-flex justify-center pt-4 pr-2 pl-2"
+        flat
+        tile
+      >
+        <v-img
+          max-width="70"
+          :src="'/images/LogoUIN.png'"
+        ></v-img>
         <v-card-text>Aplikasi Beasiswa UIN Suska Riau</v-card-text>
       </v-card>
-      <v-card v-if="windowWidth<=600" class="d-flex justify-center pr-2 pl-2" flat tile>
+      <v-card
+        v-if="windowWidth<=600"
+        class="d-flex justify-center pr-2 pl-2"
+        flat
+        tile
+      >
         <v-card-text>
           Selamat datang {{$route.params.petugas}}
           <br />
-          <v-btn class="mt-2" outlined color="green darken-2" small block @click="logout">
+          <v-btn
+            class="mt-2"
+            outlined
+            color="green darken-2"
+            small
+            block
+            @click="logout"
+          >
             <v-icon>mdi-logout-variant</v-icon>keluar
           </v-btn>
         </v-card-text>
@@ -49,23 +69,35 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app dense clipped-left>
+    <v-app-bar
+      app
+      dense
+      clipped-left
+    >
       <v-app-bar-nav-icon @click.stop="toggleDrawer(windowWidth<=600)"></v-app-bar-nav-icon>
       <div style="width:100%; -webkit-app-region: drag;">
         <v-toolbar-title>
-          <span v-if="!$vuetify.breakpoint.mobile" class="font-weight-bold ml-4">App Beasiswa</span>
+          <span
+            v-if="!$vuetify.breakpoint.mobile"
+            class="font-weight-bold ml-4"
+          >App Beasiswa</span>
           <!-- Change this automaticly later usig VUEX -->
           <span>{{$route.name}}</span>
         </v-toolbar-title>
       </div>
       <v-slide-y-transition>
-        <v-btn v-if="checkRoute('LPJ')" small class="green darken-3" @click="toggleBeasiswa()">
+        <v-btn
+          v-if="checkRoute('LPJ')"
+          small
+          class="green darken-3"
+          @click="toggleBeasiswa()"
+        >
           <v-icon>mdi-plus</v-icon>tambah LPJ
         </v-btn>
       </v-slide-y-transition>
       <v-slide-y-transition>
         <v-btn
-          v-if="checkRoute('List Permohonan')"
+          v-if="checkRoute('Beasiswa Ongoing/Selesai')"
           small
           class="green darken-3"
           @click="toggleBeasiswa()"
@@ -74,12 +106,22 @@
         </v-btn>
       </v-slide-y-transition>
       <v-slide-y-transition>
-        <v-btn v-if="checkRoute('Beasiswa')" small class="green darken-3" @click="toggleBeasiswa()">
+        <v-btn
+          v-if="checkRoute('Beasiswa')"
+          small
+          class="green darken-3"
+          @click="toggleBeasiswa()"
+        >
           <v-icon>mdi-plus</v-icon>tambah beasiswa
         </v-btn>
       </v-slide-y-transition>
       <v-slide-y-transition>
-        <v-btn v-if="checkRoute('Instansi')" small class="green darken-3" @click="toggleBeasiswa()">
+        <v-btn
+          v-if="checkRoute('Instansi')"
+          small
+          class="green darken-3"
+          @click="toggleBeasiswa()"
+        >
           <v-icon>mdi-plus</v-icon>tambah instansi
         </v-btn>
       </v-slide-y-transition>
@@ -103,13 +145,21 @@
           <v-icon>mdi-plus</v-icon>tambah akun petugas
         </v-btn>
       </v-slide-y-transition>
-      <v-btn v-if="windowWidth>=600" small text @click="logout">
+      <v-btn
+        v-if="windowWidth>=600"
+        small
+        text
+        @click="logout"
+      >
         <v-icon>mdi-logout-variant</v-icon>keluar
       </v-btn>
     </v-app-bar>
 
     <v-main class="bg-pattern">
-      <transition name="slide-fade" mode="out-in">
+      <transition
+        name="slide-fade"
+        mode="out-in"
+      >
         <router-view></router-view>
       </transition>
 
@@ -143,10 +193,10 @@ export default {
       axios
         .get("/api/logout-petugas", {
           params: {
-            user: window.localStorage.getItem("user")
-          }
+            user: window.localStorage.getItem("user"),
+          },
         })
-        .then(response => {
+        .then((response) => {
           this.$store.state.auth.isAuth = false;
           console.log(this.$store.state.auth.isAuth);
 
@@ -157,10 +207,10 @@ export default {
           this.$store.state.auth.isAuth = false;
           this.$router.push({ path: "/login" });
         });
-    }
+    },
   },
   props: {
-    source: String
+    source: String,
   },
   computed: {
     ...mapState(["isOpenBeasiswa"]),
@@ -201,17 +251,17 @@ export default {
         {
           icon: "mdi-view-dashboard",
           title: "Dashboard",
-          to: `/admin/${petugas}/dashboard`
+          to: `/admin/${petugas}/dashboard`,
         },
         {
           icon: "mdi-school",
           title: "Beasiswa",
-          to: `/admin/${petugas}/beasiswa`
+          to: `/admin/${petugas}/beasiswa`,
         },
         {
           icon: "mdi-clipboard-check-multiple",
           title: "Kelulusan",
-          to: `/admin/${petugas}/kelulusan`
+          to: `/admin/${petugas}/kelulusan`,
         },
         // {
         //   icon: "mdi-clipboard-check-multiple",
@@ -220,53 +270,53 @@ export default {
         // },
         {
           icon: "mdi-account-details",
-          title: "List Permohonan",
-          to: `/admin/${petugas}/permohonan`
+          title: "Beasiswa Ongoing/Selesai",
+          to: `/admin/${petugas}/permohonan`,
         },
         {
           icon: "mdi-book-multiple",
           title: "LPJ",
-          to: `/admin/${petugas}/lpj`
+          to: `/admin/${petugas}/lpj`,
         },
         {
           icon: "mdi-account-group",
           title: "Petugas",
-          to: `/admin/${petugas}/petugas`
+          to: `/admin/${petugas}/petugas`,
         },
         {
           icon: "mdi-office-building",
           title: "Instansi",
-          to: `/admin/${petugas}/instansi`
+          to: `/admin/${petugas}/instansi`,
         },
         {
           icon: "mdi-account-supervisor-circle",
           title: "Mahasiswa",
-          to: `/admin/${petugas}/mahasiswa`
+          to: `/admin/${petugas}/mahasiswa`,
         },
         {
           icon: "mdi-file-document",
           title: "Laporan",
-          to: `/admin/${petugas}/Laporan`
+          to: `/admin/${petugas}/Laporan`,
         },
         {
           icon: "mdi-hammer-wrench",
           title: "Pengaturan",
-          to: `/admin/${petugas}/pengaturan`
-        }
+          to: `/admin/${petugas}/pengaturan`,
+        },
       ];
-    }
+    },
   },
   data: () => ({
     drawer: false,
     permanent: true,
     miniVariant: true,
-    expandOnHover: true
+    expandOnHover: true,
   }),
   mounted() {
     console.log(this.$route);
     console.log(this.$route.matched);
     // this.$vuetify.theme.dark = true;
-  }
+  },
 };
 </script>
 

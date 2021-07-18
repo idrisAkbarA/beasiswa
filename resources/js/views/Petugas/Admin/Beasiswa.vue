@@ -1,26 +1,63 @@
 <template>
   <v-container>
+    <v-card>
+      <v-card-title>
+        Kelola Beasiswa Baru
+      </v-card-title>
+      <v-card-subtitle>
+        Kelola beasiswa seperti menambah, meng-edit dan menghapus beasiswa yang akan/sedang dibuka.
+        <br>
+        Lihat list permohonan beasiswa dan beasiswa yang sudah tutup penerimaan pada halaman
+
+        <v-chip
+          color="green"
+          small
+          label
+          outlined
+        >
+          <router-link
+            class="text-white"
+            to="permohonan"
+          > Beasiswa Ongoing/Selesai</router-link>.
+
+        </v-chip>
+
+      </v-card-subtitle>
+      <v-card-subtitle>
+
+      </v-card-subtitle>
+    </v-card>
     <v-skeleton-loader
       type="table"
       :loading="isTableLoading"
       transition="fade-transition"
     >
       <!-- style="background-color: #2e7d323b" -->
-      <v-data-table
-        :headers="headers"
-        :items="beasiswa"
-        style="background-color: #2e7d323b"
-        :items-per-page="10"
-        class="elevation-10 mb-10"
-      >
-        <template v-slot:item.actions="{ item }">
-          <v-btn icon x-small class="mr-2" @click="edit(item)">
-            <v-icon>mdi-pencil</v-icon>
-          </v-btn>
-          <v-icon small @click="deleteBea(item)">mdi-delete</v-icon>
-        </template>
-        <template v-slot:no-data>no data</template>
-      </v-data-table>
+      <div>
+        <v-data-table
+          :headers="headers"
+          :items="beasiswa"
+          style="background-color: #2e7d323b"
+          :items-per-page="10"
+          class="elevation-10 mb-10"
+        >
+          <template v-slot:item.actions="{ item }">
+            <v-btn
+              icon
+              x-small
+              class="mr-2"
+              @click="edit(item)"
+            >
+              <v-icon>mdi-pencil</v-icon>
+            </v-btn>
+            <v-icon
+              small
+              @click="deleteBea(item)"
+            >mdi-delete</v-icon>
+          </template>
+          <template v-slot:no-data>no data</template>
+        </v-data-table>
+      </div>
     </v-skeleton-loader>
 
     <!-- btms -->
@@ -36,19 +73,28 @@
         <v-card-title>
           <span>Edit Beasiswa</span>
           <v-spacer></v-spacer>
-          <v-btn @click="batalEdit()" text>batal</v-btn>
+          <v-btn
+            @click="batalEdit()"
+            text
+          >batal</v-btn>
           <v-btn
             color="#2E7D32"
             :loading="btnLoading"
             :disabled="isEditDisabled"
             @click="sendEdit()"
-            >Simpan</v-btn
-          >
+          >Simpan</v-btn>
         </v-card-title>
         <vue-scroll :ops="ops">
           <v-card-text style="height: 600px">
-            <v-form ref="editForm" v-model="validationEdit" lazy-validation>
-              <v-row dense class="ml-1 mr-1">
+            <v-form
+              ref="editForm"
+              v-model="validationEdit"
+              lazy-validation
+            >
+              <v-row
+                dense
+                class="ml-1 mr-1"
+              >
                 <v-col>
                   <v-text-field
                     color="#C8E6C9"
@@ -58,7 +104,10 @@
                   ></v-text-field>
                 </v-col>
               </v-row>
-              <v-row dense class="ml-1 mr-1">
+              <v-row
+                dense
+                class="ml-1 mr-1"
+              >
                 <v-col>
                   <v-textarea
                     auto-grow
@@ -70,7 +119,10 @@
                   ></v-textarea>
                 </v-col>
               </v-row>
-              <v-row dense class="ml-1 mr-1">
+              <v-row
+                dense
+                class="ml-1 mr-1"
+              >
                 <v-col cols="4">
                   <v-combobox
                     color="white"
@@ -221,9 +273,7 @@
 
               <v-expansion-panels>
                 <v-expansion-panel class="grey darken-3">
-                  <v-expansion-panel-header
-                    >Syarat lainnya</v-expansion-panel-header
-                  >
+                  <v-expansion-panel-header>Syarat lainnya</v-expansion-panel-header>
                   <v-expansion-panel-content>
                     <v-row>
                       <v-col cols="6">
@@ -259,9 +309,7 @@
                             !lainnya.semester || isDisabled(dateBerkasEdit)
                           "
                         ></v-text-field>
-                        <small class="text-muted"
-                          >berupa angka dipisah oleh koma, cth: 1,3</small
-                        >
+                        <small class="text-muted">berupa angka dipisah oleh koma, cth: 1,3</small>
                       </v-col>
                       <v-col cols="6">
                         <v-checkbox
@@ -294,11 +342,16 @@
               <v-row>
                 <v-divider></v-divider>
               </v-row>
-              <v-tabs color="green darken-2" fixed-tabs>
+              <v-tabs
+                color="green darken-2"
+                fixed-tabs
+              >
                 <v-tab>
-                  <v-badge content="Wajib diisi!" :value="false" color="red"
-                    >Buat Form Berkas</v-badge
-                  >
+                  <v-badge
+                    content="Wajib diisi!"
+                    :value="false"
+                    color="red"
+                  >Buat Form Berkas</v-badge>
                 </v-tab>
                 <v-tab :disabled="!is_wawancaraEdit">Interview(Opsional)</v-tab>
                 <v-tab :disabled="!is_surveyEdit">Survey(Opsional)</v-tab>
@@ -306,10 +359,8 @@
                 <v-tab-item>
                   <v-container fluid>
                     <v-row>
-                      <v-subheader
-                        >Buat form pendaftaran yang akan diisi oleh
-                        mahasiswa</v-subheader
-                      >
+                      <v-subheader>Buat form pendaftaran yang akan diisi oleh
+                        mahasiswa</v-subheader>
                     </v-row>
                     <!-- Form -->
                     <transition-group name="scale-transition">
@@ -359,9 +410,7 @@
                                 :mandatory="field.pilihan.required"
                               >
                                 <v-row align="center">
-                                  <span class="ml-2 mr-1"
-                                    >Pilihan wajib diisi</span
-                                  >
+                                  <span class="ml-2 mr-1">Pilihan wajib diisi</span>
                                   <v-switch
                                     v-model="field.pilihan.required"
                                     color="white"
@@ -413,9 +462,7 @@
                               </v-radio-group>
 
                               <!-- checkme -->
-                              <v-container
-                                v-if="field.type == 'Multiple Upload'"
-                              >
+                              <v-container v-if="field.type == 'Multiple Upload'">
                                 <v-row
                                   align="center"
                                   v-for="(item, index) in field.multiUpload
@@ -567,7 +614,11 @@
                               ></v-textarea>
                             </v-col>
                           </v-row>
-                          <v-row class="mb-2" align="center" justify="end">
+                          <v-row
+                            class="mb-2"
+                            align="center"
+                            justify="end"
+                          >
                             <v-btn
                               icon
                               color="white"
@@ -604,10 +655,8 @@
                 <v-tab-item>
                   <v-container fluid>
                     <v-row>
-                      <v-subheader
-                        >Buat list pertanyaan untuk ditanyakan saat
-                        wawancara</v-subheader
-                      >
+                      <v-subheader>Buat list pertanyaan untuk ditanyakan saat
+                        wawancara</v-subheader>
                     </v-row>
                     <v-img
                       v-if="fieldsInterviewEdit.length < 1"
@@ -634,7 +683,10 @@
                         "
                       >
                         <v-container>
-                          <v-row justify="center" align="center">
+                          <v-row
+                            justify="center"
+                            align="center"
+                          >
                             <v-text-field
                               color="white"
                               class="ml-3 mr-3"
@@ -691,7 +743,10 @@
                       max-width="260"
                       :src="'/images/pertanyaan.png'"
                     ></v-img>
-                    <div style="width: 100%" v-if="fieldsSurveyEdit.length < 1">
+                    <div
+                      style="width: 100%"
+                      v-if="fieldsSurveyEdit.length < 1"
+                    >
                       <h4 style="text-align: center">Tambah List</h4>
                     </div>
                     <transition-group name="scale-transition">
@@ -768,20 +823,29 @@
         <v-card-title>
           <span>Buat Beasiswa</span>
           <v-spacer></v-spacer>
-          <v-btn @click="batal()" text>batal</v-btn>
+          <v-btn
+            @click="batal()"
+            text
+          >batal</v-btn>
           <v-btn
             color="#2E7D32"
             :loading="btnLoading"
             :disabled="isSaveDisabled"
             v-model="toggleBeasiswa"
             @click="save()"
-            >Simpan</v-btn
-          >
+          >Simpan</v-btn>
         </v-card-title>
         <vue-scroll :ops="ops">
           <v-card-text style="height: 600px">
-            <v-form ref="saveForm" v-model="validation" lazy-validation>
-              <v-row dense class="ml-1 mr-1">
+            <v-form
+              ref="saveForm"
+              v-model="validation"
+              lazy-validation
+            >
+              <v-row
+                dense
+                class="ml-1 mr-1"
+              >
                 <v-col>
                   <v-text-field
                     color="#C8E6C9"
@@ -791,7 +855,10 @@
                   ></v-text-field>
                 </v-col>
               </v-row>
-              <v-row dense class="ml-1 mr-1">
+              <v-row
+                dense
+                class="ml-1 mr-1"
+              >
                 <v-col>
                   <v-textarea
                     auto-grow
@@ -805,7 +872,10 @@
               </v-row>
               <!-- v-model="select" -->
               <!-- :items="items" -->
-              <v-row dense class="ml-1 mr-1">
+              <v-row
+                dense
+                class="ml-1 mr-1"
+              >
                 <v-col cols="4">
                   <v-combobox
                     color="white"
@@ -957,9 +1027,7 @@
               </v-row>
               <v-expansion-panels>
                 <v-expansion-panel class="grey darken-3">
-                  <v-expansion-panel-header
-                    >Syarat lainnya</v-expansion-panel-header
-                  >
+                  <v-expansion-panel-header>Syarat lainnya</v-expansion-panel-header>
                   <v-expansion-panel-content>
                     <v-row>
                       <v-col cols="6">
@@ -1023,11 +1091,16 @@
               <v-row>
                 <v-divider></v-divider>
               </v-row>
-              <v-tabs color="green darken-2" fixed-tabs>
+              <v-tabs
+                color="green darken-2"
+                fixed-tabs
+              >
                 <v-tab>
-                  <v-badge content="!" :value="errorPertanyaan" color="red"
-                    >Buat Form Berkas</v-badge
-                  >
+                  <v-badge
+                    content="!"
+                    :value="errorPertanyaan"
+                    color="red"
+                  >Buat Form Berkas</v-badge>
                 </v-tab>
                 <v-tab :disabled="!is_wawancara">Interview(Opsional)</v-tab>
                 <v-tab :disabled="!is_survey">Survey(Opsional)</v-tab>
@@ -1035,10 +1108,8 @@
                 <v-tab-item>
                   <v-container fluid>
                     <v-row>
-                      <v-subheader
-                        >Buat form pendaftaran yang akan diisi oleh
-                        mahasiswa</v-subheader
-                      >
+                      <v-subheader>Buat form pendaftaran yang akan diisi oleh
+                        mahasiswa</v-subheader>
                     </v-row>
 
                     <!-- Form -->
@@ -1088,9 +1159,7 @@
                                 :mandatory="field.pilihan.required"
                               >
                                 <v-row align="center">
-                                  <span class="ml-2 mr-1"
-                                    >Pilihan wajib diisi</span
-                                  >
+                                  <span class="ml-2 mr-1">Pilihan wajib diisi</span>
                                   <v-switch
                                     v-model="field.pilihan.required"
                                     color="white"
@@ -1181,9 +1250,7 @@
                                   </v-btn>
                                 </v-row>
                               </v-container>
-                              <v-container
-                                v-if="field.type == 'Multiple Upload'"
-                              >
+                              <v-container v-if="field.type == 'Multiple Upload'">
                                 <v-row
                                   align="center"
                                   v-for="(item, index) in field.multiUpload
@@ -1278,7 +1345,11 @@
                               ></v-textarea>
                             </v-col>
                           </v-row>
-                          <v-row class="mb-2" align="center" justify="end">
+                          <v-row
+                            class="mb-2"
+                            align="center"
+                            justify="end"
+                          >
                             <v-btn
                               icon
                               color="white"
@@ -1312,10 +1383,8 @@
                 <v-tab-item>
                   <v-container fluid>
                     <v-row>
-                      <v-subheader
-                        >Buat list pertanyaan untuk ditanyakan saat
-                        wawancara</v-subheader
-                      >
+                      <v-subheader>Buat list pertanyaan untuk ditanyakan saat
+                        wawancara</v-subheader>
                     </v-row>
 
                     <v-img
@@ -1324,7 +1393,10 @@
                       max-width="260"
                       :src="'/images/pertanyaan.png'"
                     ></v-img>
-                    <div style="width: 100%" v-if="fieldsInterview.length < 1">
+                    <div
+                      style="width: 100%"
+                      v-if="fieldsInterview.length < 1"
+                    >
                       <h4 style="text-align: center">Tambah pertanyaan</h4>
                     </div>
                     <transition-group name="scale-transition">
@@ -1338,7 +1410,10 @@
                         "
                       >
                         <v-container>
-                          <v-row justify="center" align="center">
+                          <v-row
+                            justify="center"
+                            align="center"
+                          >
                             <v-text-field
                               :disabled="!is_wawancara"
                               color="white"
@@ -1390,7 +1465,10 @@
                       max-width="260"
                       :src="'/images/pertanyaan.png'"
                     ></v-img>
-                    <div style="width: 100%" v-if="fieldsSurvey.length < 1">
+                    <div
+                      style="width: 100%"
+                      v-if="fieldsSurvey.length < 1"
+                    >
                       <h4 style="text-align: center">Tambah list</h4>
                     </div>
                     <transition-group name="scale-transition">
@@ -1444,7 +1522,11 @@
         </vue-scroll>
       </v-card>
     </v-bottom-sheet>
-    <v-dialog width="400" overlay-color="#69F0AE" v-model="deleteDialog">
+    <v-dialog
+      width="400"
+      overlay-color="#69F0AE"
+      v-model="deleteDialog"
+    >
       <v-card>
         <v-card-title class="mt-2">
           Apakah anda yakin ingin menghapus?
@@ -1453,16 +1535,26 @@
           </p>
         </v-card-title>
         <v-card-actions>
-          <v-btn text @click="dialogDelete = false">Batal</v-btn>
+          <v-btn
+            text
+            @click="dialogDelete = false"
+          >Batal</v-btn>
           <v-spacer></v-spacer>
-          <v-btn dark class="green" @click="finallyDelete">
+          <v-btn
+            dark
+            class="green"
+            @click="finallyDelete"
+          >
             <v-icon left>mdi-check</v-icon>iya
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
     <!-- Snackbar -->
-    <v-snackbar v-model="snackbar.show" :timeout="2000">
+    <v-snackbar
+      v-model="snackbar.show"
+      :timeout="2000"
+    >
       {{ snackbar.message }}
       <template v-slot:action="{ attrs }">
         <v-btn
@@ -1470,8 +1562,7 @@
           text
           v-bind="attrs"
           @click="snackbar.show = false"
-          >Close</v-btn
-        >
+        >Close</v-btn>
       </template>
     </v-snackbar>
     <!-- Akhir -->
