@@ -809,7 +809,7 @@ export default {
       const data = {
         mhs_id: this.selectedPermohonan.mahasiswa.nim,
         lpj_id: this.selectedLPJ.id,
-        is_submitted: true,
+        is_submitted: false,
         is_lulus: false,
         form: [],
       };

@@ -57,27 +57,22 @@ class PermohonanLPJ extends Model
 
     public function getStatusAttribute()
     {
-        if ($this->is_submitted === 0) {
-            $status = [
-                'color' => 'orange',
-                'text' => 'Tidak Lengkap'
-            ];
-        } elseif ($this->is_submitted === 1) {
-            if ($this->is_lulus === null) {
+        if ($this->is_lulus === null) {
+            if ($this->is_submitted === null) {
                 $status = [
-                    'color' => 'blue',
-                    'text' => 'Proses'
+                    'color' => 'purple',
+                    'text' => 'Belum Mengisi'
                 ];
             } else {
                 $status = [
-                    'color' => $this->is_lulus ? 'green' : 'red',
-                    'text' => $this->is_lulus ? 'Lulus' : 'Tidak Lulus'
+                    'color' => $this->is_submitted ? 'blue' : 'orange',
+                    'text' => $this->is_submitted ? 'Proses' : 'Tidak Lengkap'
                 ];
             }
         } else {
             $status = [
-                'color' => 'purple',
-                'text' => 'Belum Mengisi'
+                'color' => $this->is_lulus ? 'green' : 'red',
+                'text' => $this->is_lulus ? 'Lulus' : 'Tidak Lulus'
             ];
         }
         return $status;
