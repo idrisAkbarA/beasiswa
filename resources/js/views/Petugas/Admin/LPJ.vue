@@ -43,6 +43,7 @@
     <!-- Show LPJ -->
     <v-dialog
       v-model="dialogShow"
+      height="100%"
       fullscreen
       hide-overlay
       transition="dialog-bottom-transition"
@@ -63,7 +64,7 @@
         </v-container>
       </div>
       <vue-scroll :ops="ops">
-        <v-card>
+        <v-card height="100%">
           <v-toolbar
             dark
             color="transparent"
@@ -214,9 +215,13 @@
                   </v-data-table>
                 </v-col>
               </v-tab-item>
-              <v-tab-item>
-                <v-col cols="12">
+              <v-tab-item style="height:100vh">
+                <v-col
+                  style="height:100vh"
+                  cols="12"
+                >
                   <v-data-table
+                    style="height:100%"
                     :headers="headers.detailLPJ"
                     :items="detailLPJ"
                     hide-default-header
