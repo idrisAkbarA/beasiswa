@@ -13,18 +13,29 @@
         class="elevation-10 mb-10"
       >
         <template v-slot:[`item.actions`]="{ item }">
-          <v-btn icon x-small class="mr-2" @click="infoLPJ(item)" title="Info">
+          <v-btn
+            icon
+            x-small
+            class="mr-2"
+            @click="infoLPJ(item)"
+            title="Info"
+          >
             <v-icon>mdi-information</v-icon>
           </v-btn>
-          <v-btn icon x-small class="mr-2" @click="edit(item)" title="Edit">
+          <v-btn
+            icon
+            x-small
+            class="mr-2"
+            @click="edit(item)"
+            title="Edit"
+          >
             <v-icon>mdi-pencil</v-icon>
           </v-btn>
           <v-icon
             small
             @click="(dialogDelete = true), (form = item)"
             title="Hapus"
-            >mdi-delete</v-icon
-          >
+          >mdi-delete</v-icon>
         </template>
         <template v-slot:no-data>no data</template>
       </v-data-table>
@@ -32,187 +43,213 @@
     <!-- Show LPJ -->
     <v-dialog
       v-model="dialogShow"
+      height="100%"
       fullscreen
       hide-overlay
       transition="dialog-bottom-transition"
       v-if="dialogShow"
     >
-      <v-card>
-        <v-toolbar dark color="green">
-          <v-btn icon dark @click="dialogShow = false">
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-          <v-toolbar-title>{{ selectedLPJ.nama }}</v-toolbar-title>
-          <v-spacer></v-spacer>
-        </v-toolbar>
-        <v-card-text class="mt-5">
-          <v-tabs fixed-tabs>
-            <v-tab>Laporan</v-tab>
-            <v-tab>Info</v-tab>
-            <v-tab-item>
-              <v-col cols="12">
-                <v-row>
-                  <div class="col-lg-10 col-md-12 mb-5">
-                    <v-chip
-                      color="blue"
-                      :outlined="filter != 'permohonan'"
-                      class="mr-2 mb-2"
-                      @click="filter = 'permohonan'"
+      <div class="close-dialog">
+        <v-container fluid>
+          <v-row class="align-center">
+            <v-btn
+              icon
+              dark
+              @click="dialogShow = false"
+            >
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+            <v-span>{{ selectedLPJ.nama }}</v-span>
+          </v-row>
+        </v-container>
+      </div>
+      <vue-scroll :ops="ops">
+        <v-card height="100%">
+          <v-toolbar
+            dark
+            color="transparent"
+          >
+            <v-btn
+              icon
+              dark
+              @click="dialogShow = false"
+            >
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+            <v-toolbar-title>{{ selectedLPJ.nama }}</v-toolbar-title>
+            <v-spacer></v-spacer>
+          </v-toolbar>
+          <v-card-text class="mt-5">
+            <v-tabs
+              background-color="#2e7d323b"
+              grow
+              color="white"
+            >
+              <v-tab>Laporan</v-tab>
+              <v-tab>Info</v-tab>
+              <v-tab-item>
+                <v-col cols="12">
+                  <v-row>
+                    <div class="col-lg-10 col-md-12 mb-5">
+                      <v-chip
+                        color="blue"
+                        :outlined="filter != 'permohonan'"
+                        class="mr-2 mb-2"
+                        @click="filter = 'permohonan'"
                       >Semua ({{
                         undefined !== selectedLPJ.permohonan
                           ? selectedLPJ.permohonan.length
                           : 0
-                      }})</v-chip
-                    >
-                    <v-chip
-                      color="purple"
-                      :outlined="filter != 'belum_mengisi'"
-                      class="mr-2 mb-2"
-                      @click="filter = 'belum_mengisi'"
+                      }})</v-chip>
+                      <v-chip
+                        color="purple"
+                        :outlined="filter != 'belum_mengisi'"
+                        class="mr-2 mb-2"
+                        @click="filter = 'belum_mengisi'"
                       >Belum Mengisi ({{
                         undefined !== selectedLPJ.belum_mengisi
                           ? selectedLPJ.belum_mengisi.length
                           : 0
-                      }})</v-chip
-                    >
-                    <v-chip
-                      color="orange"
-                      :outlined="filter != 'tidak_lengkap'"
-                      class="mr-2 mb-2"
-                      @click="filter = 'tidak_lengkap'"
+                      }})</v-chip>
+                      <v-chip
+                        color="orange"
+                        :outlined="filter != 'tidak_lengkap'"
+                        class="mr-2 mb-2"
+                        @click="filter = 'tidak_lengkap'"
                       >Tidak Lengkap ({{
                         undefined !== selectedLPJ.tidak_lengkap
                           ? selectedLPJ.tidak_lengkap.length
                           : 0
-                      }})</v-chip
-                    >
-                    <v-chip
-                      color="cyan"
-                      :outlined="filter != 'proses'"
-                      class="mr-2 mb-2"
-                      @click="filter = 'proses'"
+                      }})</v-chip>
+                      <v-chip
+                        color="cyan"
+                        :outlined="filter != 'proses'"
+                        class="mr-2 mb-2"
+                        @click="filter = 'proses'"
                       >Proses ({{
                         undefined !== selectedLPJ.proses
                           ? selectedLPJ.proses.length
                           : 0
-                      }})</v-chip
-                    >
-                    <v-chip
-                      color="red"
-                      :outlined="filter != 'tidak_lulus'"
-                      class="mr-2 mb-2"
-                      @click="filter = 'tidak_lulus'"
+                      }})</v-chip>
+                      <v-chip
+                        color="red"
+                        :outlined="filter != 'tidak_lulus'"
+                        class="mr-2 mb-2"
+                        @click="filter = 'tidak_lulus'"
                       >Tidak Lulus ({{
                         undefined !== selectedLPJ.tidak_lulus
                           ? selectedLPJ.tidak_lulus.length
                           : 0
-                      }})</v-chip
-                    >
-                    <v-chip
-                      color="green"
-                      :outlined="filter != 'lulus'"
-                      class="mr-2 mb-2"
-                      @click="filter = 'lulus'"
+                      }})</v-chip>
+                      <v-chip
+                        color="green"
+                        :outlined="filter != 'lulus'"
+                        class="mr-2 mb-2"
+                        @click="filter = 'lulus'"
                       >Lulus ({{
                         undefined !== selectedLPJ.lulus
                           ? selectedLPJ.lulus.length
                           : 0
-                      }})</v-chip
-                    >
-                  </div>
-                  <div class="col-lg-2 col-md-12 mb-5">
-                    <v-chip
-                      light
-                      class="float-right"
-                      v-if="
+                      }})</v-chip>
+                    </div>
+                    <div class="col-lg-2 col-md-12 mb-5">
+                      <v-chip
+                        light
+                        class="float-right"
+                        v-if="
                         selectedLPJ.deleted_at &&
                         selectedLPJ.lulus.length < selectedLPJ.quota
                       "
-                      @click.stop="drawer = !drawer"
-                    >
-                      <v-icon class="mr-2"
-                        >mdi-checkbox-marked-circle-outline</v-icon
-                      >Kelulusan
-                    </v-chip>
-                  </div>
-                </v-row>
-                <v-card-title>
-                  <v-btn
-                    @click="dialogLulusAll = true"
-                    class="text-white mr-6"
-                    color="orange darken-2"
-                    >Luluskan Semua LPJ</v-btn
-                  >
-
-                  <v-text-field
-                    v-model="search.permohonan"
-                    append-icon="mdi-magnify"
-                    label="Search"
-                    single-line
-                  ></v-text-field>
-                </v-card-title>
-                <v-data-table
-                  :headers="headers.permohonan"
-                  :items="selectedLPJ[filter]"
-                  :items-per-page="10"
-                  :search="search.permohonan"
-                  :loading="isLoading"
-                  style="background-color: #2e7d323b"
-                  class="elevation-10 mb-10 row-pointer"
-                >
-                  <template v-slot:[`item.is_lulus`]="{ item }">
-                    <v-chip dark :color="item.status.color">
-                      <i
-                        :class="`mdi ${
-                          item.is_lulus ? 'mdi-check' : 'mdi-close'
-                        } mr-2`"
-                      ></i>
-                      {{ item.status.text }}
-                    </v-chip>
-                  </template>
-                  <template v-slot:[`item.actions`]="{ item }">
+                        @click.stop="drawer = !drawer"
+                      >
+                        <v-icon class="mr-2">mdi-checkbox-marked-circle-outline</v-icon>Kelulusan
+                      </v-chip>
+                    </div>
+                  </v-row>
+                  <v-card-title>
                     <v-btn
-                      icon
-                      x-small
-                      class="mr-2"
-                      title="Info"
-                      @click="infoPermohonan(item)"
-                    >
-                      <v-icon>mdi-information</v-icon>
-                    </v-btn>
-                  </template>
-                  <template v-slot:no-data>no data</template>
-                </v-data-table>
-              </v-col>
-            </v-tab-item>
-            <v-tab-item>
-              <v-col cols="12">
-                <v-data-table
-                  :headers="headers.detailLPJ"
-                  :items="detailLPJ"
-                  hide-default-header
-                  hide-default-footer
-                  class="elevation-1"
-                ></v-data-table>
-                <p class="mt-3">{{ selectedLPJ.deskripsi }}</p>
-              </v-col>
-            </v-tab-item>
-          </v-tabs>
-        </v-card-text>
-      </v-card>
+                      @click="dialogLulusAll = true"
+                      class="text-white mr-6"
+                      color="orange darken-2"
+                    >Luluskan Semua LPJ</v-btn>
+
+                    <v-text-field
+                      v-model="search.permohonan"
+                      append-icon="mdi-magnify"
+                      label="Search"
+                      single-line
+                    ></v-text-field>
+                  </v-card-title>
+                  <v-data-table
+                    :headers="headers.permohonan"
+                    :items="selectedLPJ[filter]"
+                    :items-per-page="10"
+                    :search="search.permohonan"
+                    :loading="isLoading"
+                    style="background-color: #2e7d323b"
+                    class="elevation-10 mb-10 row-pointer"
+                  >
+                    <template v-slot:[`item.is_lulus`]="{ item }">
+                      <v-chip
+                        dark
+                        :color="item.status.color"
+                      >
+                        <i :class="`mdi ${
+                          item.is_lulus ? 'mdi-check' : 'mdi-close'
+                        } mr-2`"></i>
+                        {{ item.status.text }}
+                      </v-chip>
+                    </template>
+                    <template v-slot:[`item.actions`]="{ item }">
+                      <v-btn
+                        icon
+                        x-small
+                        class="mr-2"
+                        title="Info"
+                        @click="infoPermohonan(item)"
+                      >
+                        <v-icon>mdi-information</v-icon>
+                      </v-btn>
+                    </template>
+                    <template v-slot:no-data>no data</template>
+                  </v-data-table>
+                </v-col>
+              </v-tab-item>
+              <v-tab-item style="height:100vh">
+                <v-col
+                  style="height:100vh"
+                  cols="12"
+                >
+                  <v-data-table
+                    style="height:100%"
+                    :headers="headers.detailLPJ"
+                    :items="detailLPJ"
+                    hide-default-header
+                    hide-default-footer
+                    class="elevation-1"
+                  ></v-data-table>
+                  <p class="mt-3">{{ selectedLPJ.deskripsi }}</p>
+                </v-col>
+              </v-tab-item>
+            </v-tabs>
+          </v-card-text>
+        </v-card>
+      </vue-scroll>
       <!-- Show Permohonan -->
-      <v-dialog
-        overlay-color="green darken-2"
-        v-if="drawerShow"
-        v-model="drawerShow"
-        width="500px"
-      >
+    </v-dialog>
+    <v-dialog
+      overlay-color="green darken-2"
+      v-if="drawerShow"
+      v-model="drawerShow"
+      width="500px"
+    >
+      <vue-scroll :ops="ops">
         <v-card>
           <v-card-title> Rincian Permohonan LPJ </v-card-title>
           <v-card-subtitle>
             Lihat rincian dan validasi permohonan LPJ
           </v-card-subtitle>
-          <v-card-text>
+          <v-card-text scrollable>
             <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>
@@ -284,8 +321,7 @@
                               v-if="item.file_name"
                               small
                               @click="link(item.file_name)"
-                              >lihat file</v-btn
-                            >
+                            >lihat file</v-btn>
                           </v-col>
                         </v-row>
                       </v-col>
@@ -325,7 +361,10 @@
                   </v-row>
                   <v-row v-if="field.type == 'Upload File'">
                     <v-col cols="9">
-                      <v-btn small @click="link(field.value)">lihat file</v-btn>
+                      <v-btn
+                        small
+                        @click="link(field.value)"
+                      >lihat file</v-btn>
                     </v-col>
                   </v-row>
                   <v-row v-if="field.type == 'Paragraf'">
@@ -350,8 +389,7 @@
               text
               :loading="isLoading"
               @click="updatePermohonan(false)"
-              >Tidak Lulus</v-btn
-            >
+            >Tidak Lulus</v-btn>
             <v-spacer></v-spacer>
             <v-btn
               color="#2E7D32"
@@ -359,20 +397,19 @@
               :loading="isLoading"
               :disabled="selectedPermohonan.form === '[]'"
               @click="updatePermohonan(true)"
-              >Lulus</v-btn
-            >
+            >Lulus</v-btn>
           </v-card-actions>
-          <v-card-actions class="px-2 py-2 mt-auto" v-else>
+          <v-card-actions
+            class="px-2 py-2 mt-auto"
+            v-else
+          >
             <small class="mb-0">
               Status :
-              <strong
-                :class="[
+              <strong :class="[
                   selectedPermohonan.is_lulus ? 'text-success' : 'text-danger',
-                ]"
-                >{{
+                ]">{{
                   selectedPermohonan.is_lulus ? "Lulus" : "Tidak Lulus"
-                }}</strong
-              >
+                }}</strong>
             </small>
             <v-spacer></v-spacer>
             <v-btn
@@ -380,11 +417,11 @@
               class="float-right"
               :loading="isLoading"
               @click="selectedPermohonan.is_lulus = null"
-              >Ubah</v-btn
-            >
+            >Ubah</v-btn>
           </v-card-actions>
         </v-card>
-      </v-dialog>
+      </vue-scroll>
+    </v-dialog>
     </v-dialog>
     <!-- Create and Edit -->
     <v-bottom-sheet
@@ -396,12 +433,20 @@
     >
       <v-card>
         <v-card-title>
-          <span> <v-icon class="mr-2">mdi-book-multiple</v-icon>LPJ </span>
+          <span>
+            <v-icon class="mr-2">mdi-book-multiple</v-icon>LPJ
+          </span>
           <v-spacer></v-spacer>
-          <v-btn @click="bottomSheet = false" class="mr-2" text>batal</v-btn>
-          <v-btn color="#2E7D32" :loading="isLoading" @click="submit"
-            >Simpan</v-btn
-          >
+          <v-btn
+            @click="bottomSheet = false"
+            class="mr-2"
+            text
+          >batal</v-btn>
+          <v-btn
+            color="#2E7D32"
+            :loading="isLoading"
+            @click="submit"
+          >Simpan</v-btn>
         </v-card-title>
         <v-card-text>
           <v-col cols="12">
@@ -695,18 +740,36 @@
                     ></v-textarea>
                   </v-col>
                 </v-row>
-                <v-row class="mb-2" align="center" justify="end">
-                  <v-btn icon color="white" @click="deleteField(field)">
+                <v-row
+                  class="mb-2"
+                  align="center"
+                  justify="end"
+                >
+                  <v-btn
+                    icon
+                    color="white"
+                    @click="deleteField(field)"
+                  >
                     <v-icon>mdi-trash-can</v-icon>
                   </v-btn>
                   <span class="ml-2 mr-1">Wajib diisi</span>
-                  <v-switch v-model="field.required" color="white"></v-switch>
+                  <v-switch
+                    v-model="field.required"
+                    color="white"
+                  ></v-switch>
                 </v-row>
               </v-container>
             </v-card>
           </transition-group>
           <v-row justify="center">
-            <v-btn class="mt-2" fab dark small color="green" @click="addField">
+            <v-btn
+              class="mt-2"
+              fab
+              dark
+              small
+              color="green"
+              @click="addField"
+            >
               <v-icon dark>mdi-plus</v-icon>
             </v-btn>
           </v-row>
@@ -714,23 +777,31 @@
       </v-card>
     </v-bottom-sheet>
     <!-- Dialog Delete -->
-    <v-dialog v-model="dialogDelete" width="500">
+    <v-dialog
+      v-model="dialogDelete"
+      width="500"
+    >
       <v-card>
         <v-card-title>
           <v-icon class="mr-2">mdi-trash-can</v-icon>Hapus LPJ
         </v-card-title>
         <v-card-text class="text-center">
           Apakah anda yakin ingin menghapus
-          <strong>{{ form.nama }}</strong
-          >? Perubahan tidak dapat dikembalikan!
+          <strong>{{ form.nama }}</strong>? Perubahan tidak dapat dikembalikan!
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
-          <v-btn color="secondary" text @click="dialogDelete = false"
-            >Tidak</v-btn
-          >
+          <v-btn
+            color="secondary"
+            text
+            @click="dialogDelete = false"
+          >Tidak</v-btn>
           <v-spacer></v-spacer>
-          <v-btn color="#2E7D32" dark @click="destroy(form)">Ya</v-btn>
+          <v-btn
+            color="#2E7D32"
+            dark
+            @click="destroy(form)"
+          >Ya</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -744,23 +815,27 @@
         <v-card-title> Konfirmasi </v-card-title>
         <v-card-text>
           Apakah anda yakin untuk meluluskan seluruh permohonan LPJ di beasiswa
-          <strong>{{ selectedLPJ.beasiswa.nama }}</strong
-          >?
+          <strong>{{ selectedLPJ.beasiswa.nama }}</strong>?
         </v-card-text>
         <v-card-actions>
-          <v-btn @click="dialogLulusAll = false" text>Batal</v-btn>
+          <v-btn
+            @click="dialogLulusAll = false"
+            text
+          >Batal</v-btn>
           <v-spacer></v-spacer>
           <v-btn
             color="green darken-2"
             class="text-white"
             @click="lulusAll(selectedLPJ.id)"
-            >Luluskan Semua</v-btn
-          >
+          >Luluskan Semua</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
     <!-- Snackbar -->
-    <v-snackbar v-model="snackbar.show" :timeout="2000">
+    <v-snackbar
+      v-model="snackbar.show"
+      :timeout="2000"
+    >
       {{ snackbar.message }}
       <template v-slot:action="{ attrs }">
         <v-btn
@@ -768,8 +843,7 @@
           text
           v-bind="attrs"
           @click="snackbar.show = false"
-          >Close</v-btn
-        >
+        >Close</v-btn>
       </template>
     </v-snackbar>
     <!-- Akhir -->
@@ -1150,6 +1224,17 @@ export default {
   },
   data() {
     return {
+      ops: {
+        scrollPanel: {
+          easing: "easeInQuad",
+          speed: 800,
+          scrollingX: false,
+        },
+        vuescroll: {
+          wheelScrollDuration: 0,
+          wheelDirectionReverse: true,
+        },
+      },
       data: null,
       selectedLPJ: null,
       selectedPermohonan: null,
@@ -1197,3 +1282,13 @@ export default {
   },
 };
 </script>
+<style>
+.close-dialog {
+  position: fixed;
+  z-index: 99;
+  width: 100%;
+  background-color: #4caf50;
+  background-image: url("/images/drawer-bg.jpg");
+  background-size: cover;
+}
+</style>
