@@ -59,7 +59,7 @@
             >
               <v-icon>mdi-close</v-icon>
             </v-btn>
-            <v-span>{{ selectedLPJ.nama }}</v-span>
+            <span>{{ selectedLPJ.nama }}</span>
           </v-row>
         </v-container>
       </div>
@@ -87,8 +87,11 @@
             >
               <v-tab>Laporan</v-tab>
               <v-tab>Info</v-tab>
-              <v-tab-item>
-                <v-col cols="12">
+              <v-tab-item style="height:100vh">
+                <v-col
+                  style="height:100vh"
+                  cols="12"
+                >
                   <v-row>
                     <div class="col-lg-10 col-md-12 mb-5">
                       <v-chip

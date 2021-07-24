@@ -18,6 +18,7 @@ import Kelulusan from "../views/Petugas/Admin/Kelulusan.vue";
 import KelolaMhs from "../views/Petugas/Admin/Mahasiswa.vue";
 import LPJ from "../views/Petugas/Admin/LPJ.vue";
 import Laporan from "../views/Petugas/Admin/Laporan.vue";
+import LaporanLPJ from "../views/Petugas/Admin/LaporanLPJ.vue";
 import Pengaturan from "../views/Petugas/Admin/Pengaturan.vue";
 
 import SuperAdmin from "../views/Petugas/SuperAdmin/SuperAdmin.vue";
@@ -151,9 +152,14 @@ const routes = [
                 component: Pengaturan
             },
             {
-                name: "Laporan",
+                name: "Laporan Beasiswa",
                 path: "laporan",
                 component: Laporan
+            },
+            {
+                name: "Laporan LPJ",
+                path: "laporan-lpj",
+                component: LaporanLPJ
             },
             {
                 name: "Beasiswa",
