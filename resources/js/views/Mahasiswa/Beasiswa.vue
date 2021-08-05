@@ -1,5 +1,8 @@
 <template>
-  <v-sheet color="transparent">
+  <v-sheet
+    style="margin-bottom:100px"
+    color="transparent"
+  >
     <v-overlay
       :absolute="false"
       :value="overlay.show"
@@ -239,7 +242,6 @@
                       <v-text-field
                         color="green"
                         :disabled="!item.isSelected"
-                    
                         prepend-icon="mdi-attachment"
                         :value="item.value ? item.value.name:null"
                         :label="'Upload '+item.label"
@@ -305,7 +307,7 @@
                         filled
                         :label="'Upload '+item.label"
                       ></v-file-input> -->
-                       <v-text-field
+                      <v-text-field
                         hide-details="auto"
                         color="green"
                         :disabled="!item.isSelected"
@@ -336,12 +338,10 @@
                         :disabled="!item.isSelected"
                         :label="'Ganti File '+item.label"
                       ></v-file-input> -->
-                       <v-text-field
-                      
+                      <v-text-field
                         hide-details="auto"
                         color="green"
                         :disabled="!item.isSelected"
-                
                         prepend-icon="mdi-attachment"
                         :value="item.value ? item.value.name:null"
                         :label="'Ganti File '+item.label"
@@ -373,7 +373,7 @@
                 </template>
                 <v-row>
                   <v-alert
-                  class="mt-2"
+                    class="mt-2"
                     outlined
                     width="100%"
                     type="error"
@@ -502,37 +502,58 @@
             </v-col>
           </v-row>
         </v-form>
-        <v-row
-          align="center"
-          justify="start"
+        <v-sheet
+          elevation="20"
+          :style=" windowWidth<1265?'':'padding-left:256px'"
+          color="blue-grey darken-4"
+          class="submit-panel"
         >
-          <v-col v-if="!isSubmitted">
-            <v-btn
-              :disabled="isDisabled"
-              :loading="loadingBtn"
-              @click="checkIsReady()"
-              color="#2E7D32"
-            >Daftar</v-btn>
-          </v-col>
-          <v-col v-if="isSubmitted">
-            <v-btn
-              :disabled="isDisabled"
-              :loading="loadingBtn"
-              @click="editOverlay = true"
-              color="#2E7D32"
-            >Selesai edit</v-btn>
-          </v-col>
-        </v-row>
-        <v-row v-if="!validation">
-          <v-col>
-            <span>Masih ada field yang belum diisi</span>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12">
-            <span class="caption">Field dengan tanda * wajib diisi</span>
-          </v-col>
-        </v-row>
+          <v-container>
+
+            <v-row
+              dense
+              align="center"
+              justify="start"
+            >
+              <v-col v-if="!isSubmitted">
+                <v-btn
+                  :disabled="isDisabled"
+                  :loading="loadingBtn"
+                  @click="checkIsReady()"
+                  color="#2E7D32"
+                >Daftar</v-btn>
+              </v-col>
+              <v-col v-if="isSubmitted">
+                <v-btn
+                  :disabled="isDisabled"
+                  :loading="loadingBtn"
+                  @click="editOverlay = true"
+                  color="#2E7D32"
+                >Selesai edit</v-btn>
+              </v-col>
+            </v-row>
+            <v-row
+              dense
+              v-if="!validation"
+            >
+              <v-col>
+                <v-alert
+                  text
+                  class="mt-2"
+                  border="left"
+                  dense
+                  type="warning"
+                >Masih ada field yang belum diisi</v-alert>
+              </v-col>
+            </v-row>
+            <v-row dense>
+              <v-col cols="12">
+                <span class="caption">Field dengan tanda * wajib diisi</span>
+              </v-col>
+            </v-row>
+          </v-container>
+
+        </v-sheet>
       </v-sheet>
     </v-row>
     <v-dialog
@@ -583,19 +604,19 @@
 import { mapActions, mapState } from "vuex";
 export default {
   created() {
-    axios.get("/api/permohonan/" + this.$route.params.id).then(response => {
+    axios.get("/api/permohonan/" + this.$route.params.id).then((response) => {
       console.log("test", response.data);
     });
     this.getBeasiswaSingle(this.$route.params.id)
-      .then(response => {
+      .then((response) => {
         if (Object.values(response.syarat).includes(false)) {
           this.overlay = {
             show: true,
-            message: response.syarat
+            message: response.syarat,
           };
         }
       })
-      .catch(error => {
+      .catch((error) => {
         if (error.response.status == 401) {
           this.$router.push({ name: "Landing Page" });
         }
@@ -650,9 +671,9 @@ export default {
       axios
         .post(`/api/pemohon`, {
           beasiswa_id: this.$route.params.id,
-          form: this.fields
+          form: this.fields,
         })
-        .then(response => {
+        .then((response) => {
           console.log(response.data);
           this.overlay.message =
             "Permohonan beasiswa berhasil dikirim, lihat status permohonan beasiswa";
@@ -661,7 +682,7 @@ export default {
           this.snackbar = true;
           this.isSure = false;
         })
-        .catch(error => {
+        .catch((error) => {
           this.msg.color = "red";
           this.msg.text =
             "Maaf ada kendala ketika ingin menyimpan, coba lagi nanti..";
@@ -672,18 +693,18 @@ export default {
     async updateFile(item) {
       console.log(item);
       if (item.type == "Multiple Upload") {
-        console.log("multi upload yg diupload itu lo",item.multiUpload.items);
+        console.log("multi upload yg diupload itu lo", item.multiUpload.items);
         for (let j = 0; j < item.multiUpload.items.length; j++) {
           const tempMulti = item.multiUpload.items[j];
           // console.log(tempMulti);
           // console.log(tempMulti.value);
           // if(tempMulti.value=="File") console.log("huray");
-          if (tempMulti.value && tempMulti.value.length!=0) {
-          // console.log("lenght",tempMulti.value.length)
+          if (tempMulti.value && tempMulti.value.length != 0) {
+            // console.log("lenght",tempMulti.value.length)
             var data = new FormData();
             data.append("file", tempMulti.value);
             data.append("id", this.$route.params.id);
-            await this.upload(data).then(response => {
+            await this.upload(data).then((response) => {
               var formTemp = JSON.parse(JSON.stringify(this.fields));
               var index = this.fields.indexOf(item);
               formTemp[index].multiUpload.items[j]["file_name"] =
@@ -691,9 +712,9 @@ export default {
               axios
                 .post(`/api/pemohon`, {
                   beasiswa_id: this.$route.params.id,
-                  form: formTemp
+                  form: formTemp,
                 })
-                .then(response => {
+                .then((response) => {
                   console.log(response.data);
                   this.getUserPermohonan();
                   this.overlay.message =
@@ -703,7 +724,7 @@ export default {
                   this.snackbar = true;
                   this.isSure = false;
                 })
-                .catch(error => {
+                .catch((error) => {
                   this.msg.color = "red";
                   this.msg.text =
                     "Maaf ada kendala ketika ingin menyimpan, coba lagi nanti..";
@@ -720,7 +741,7 @@ export default {
         data.append("file", item.value);
         data.append("id", this.$route.params.id);
         await this.upload(data)
-          .then(response => {
+          .then((response) => {
             console.log(response.data);
             var formTemp = JSON.parse(JSON.stringify(this.fields));
             var index = this.fields.indexOf(item);
@@ -729,9 +750,9 @@ export default {
             axios
               .post(`/api/pemohon`, {
                 beasiswa_id: this.$route.params.id,
-                form: formTemp
+                form: formTemp,
               })
-              .then(response => {
+              .then((response) => {
                 console.log(response.data);
                 this.getUserPermohonan();
                 this.overlay.message =
@@ -741,7 +762,7 @@ export default {
                 this.snackbar = true;
                 this.isSure = false;
               })
-              .catch(error => {
+              .catch((error) => {
                 this.msg.color = "red";
                 this.msg.text =
                   "Maaf ada kendala ketika ingin menyimpan, coba lagi nanti..";
@@ -749,7 +770,7 @@ export default {
                 console.log(error);
               });
           })
-          .catch(error => {
+          .catch((error) => {
             if (error.response.status == 401) {
               this.goToLandingPage();
             }
@@ -757,13 +778,13 @@ export default {
       }
     },
     checkMultipleUpload() {
-      this.fields.forEach(element => {
+      this.fields.forEach((element) => {
         if (element.required == false) {
           return; // kalau tidak required, berhenti
         }
         if (element.type == "Multiple Upload") {
           var isFilled = false;
-          element.multiUpload.items.every(v => {
+          element.multiUpload.items.every((v) => {
             if (v.isSelected) {
               this.updateNonFile();
               console.log("ada yg di ceklis ni");
@@ -812,7 +833,7 @@ export default {
     getUserPermohonan() {
       axios
         .get("/api/permohonan/" + this.$route.params.id)
-        .then(response => {
+        .then((response) => {
           console.log(response.data);
           if (response.data.length > 0) {
             console.log("aku tidak kosong");
@@ -823,12 +844,12 @@ export default {
           } else {
             console.log("aku kosong");
             this.getBeasiswaSingle(this.$route.params.id)
-              .then(response => {
+              .then((response) => {
                 this.defaultFields = JSON.parse(response.fields);
                 this.fields = this.defaultFields;
                 this.refference = JSON.parse(JSON.stringify(this.fields));
               })
-              .then(response => {
+              .then((response) => {
                 console.log("response single ", response.data);
               });
           }
@@ -842,7 +863,7 @@ export default {
           }
           console.log(this.fields, "fields");
         })
-        .catch(error => {
+        .catch((error) => {
           if (error.response.status == 401) {
             this.$router.push({ name: "Landing Page" });
           }
@@ -851,13 +872,13 @@ export default {
     goToLandingPage() {
       this.$router.push({ name: "Landing Page" });
     },
-    upload: async data => {
+    upload: async (data) => {
       var ini = this;
       return axios({
         method: "post",
         url: "/api/pemohon/file",
-        onUploadProgress: function(progressEvent) {},
-        data
+        onUploadProgress: function (progressEvent) {},
+        data,
       });
     },
     isRequired(bool) {
@@ -876,9 +897,9 @@ export default {
         axios
           .post(`/api/pemohon`, {
             beasiswa_id: this.$route.params.id,
-            is_submitted: true
+            is_submitted: true,
           })
-          .then(response => {
+          .then((response) => {
             console.log(response.data);
             this.getUserPermohonan();
             this.overlay.message =
@@ -888,7 +909,7 @@ export default {
             this.snackbar = true;
             this.isSure = false;
           })
-          .catch(error => {
+          .catch((error) => {
             if (error.response.status == 401) {
               this.$router.push({ name: "Landing Page" });
             }
@@ -912,10 +933,10 @@ export default {
       // this.fields.forEach(element => {
       //   finalForm.push(element);
       // });
-    }
+    },
   },
   computed: {
-    ...mapState(["beasiswaSingle", "nim"])
+    ...mapState(["beasiswaSingle", "nim"]),
   },
   watch: {
     beasiswaSingle(val) {
@@ -926,7 +947,7 @@ export default {
     validation(v) {
       console.log(v);
       v ? (this.isDisabled = false) : (this.isDisabled = true);
-    }
+    },
   },
   data() {
     return {
@@ -936,10 +957,10 @@ export default {
       msg: {
         color: "green darken-4",
         text: "Perubahan berhasil disimpan!",
-        icon: "mdi-content-save"
+        icon: "mdi-content-save",
       },
       isSure: false,
-      rule: [v => !!v || "Field ini wajib diisi"],
+      rule: [(v) => !!v || "Field ini wajib diisi"],
       validation: true,
       isDisabled: false,
       loadingBtn: false,
@@ -950,11 +971,19 @@ export default {
       fields: {},
       defaultFields: {},
       loading: 0,
-      loadText: ""
+      loadText: "",
     };
-  }
+  },
 };
 </script>
 
 <style>
+.submit-panel {
+  position: fixed;
+  right: 0;
+  left: 0;
+  width: 100%;
+  bottom: 0;
+  z-index: 3;
+}
 </style>
