@@ -196,4 +196,8 @@ class LPJController extends Controller
         $lpj->delete();
         return $this->index();
     }
+    public function report(Request $request)
+    {
+        return $request;
+    }
 }

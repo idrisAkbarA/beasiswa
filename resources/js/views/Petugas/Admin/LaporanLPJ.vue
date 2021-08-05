@@ -23,7 +23,7 @@
             <v-row no-gutters>
               <v-col>
                 <v-autocomplete
-                  v-model="beasiswaSelected"
+                  v-model="lpjSelected"
                   :rules="rule"
                   auto-select-first
                   @change="getFieldList"
@@ -147,7 +147,7 @@
     <v-card class="ml-7 mr-7">
       <v-data-table
         :headers="headers"
-        :items="report"
+        :items="reportLPJ"
         :items-per-page="5"
         :loading="isTableLoading"
         loading-text="Memuat... Mohon tunggu"
@@ -188,7 +188,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(["report", "fakultas", "isTableLoading", "lpj"]),
+    ...mapState(["reportLPJ", "fakultas", "isTableLoading", "lpj"]),
     selectUnSelectAllField: {
       // Property description:
       // set value of it's own v-model and select/unselect all corresponding fields
@@ -207,10 +207,10 @@ export default {
       // Property description:
       // set expansion panel of pertanyaan list to disable according to beasiswa is selected or not
       get: function () {
-        if (this.beasiswaSelected == "all") {
+        if (this.lpjSelected == "all") {
           return true;
         }
-        if (this.beasiswaSelected == null) {
+        if (this.lpjSelected == null) {
           return true;
         }
         return false;
@@ -218,9 +218,9 @@ export default {
     },
     headers: {
       get: function () {
-        if (this.report.length > 0) {
+        if (this.reportLPJ.length > 0) {
           var final = [];
-          var keys = Object.keys(this.report[0]);
+          var keys = Object.keys(this.reportLPJ[0]);
           keys.forEach((element) => {
             final.push({
               text: element,
@@ -272,7 +272,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["getReport", "getFakultas", "getLPJ"]),
+    ...mapActions(["getReportLPJ", "getFakultas", "getLPJ"]),
     getFieldList(item) {
       // Method Descriptiption:
       // list all pertanyaan of the selected beasiswa
@@ -298,14 +298,14 @@ export default {
           }
         });
         this.params = {
-          beasiswa: this.beasiswaSelected,
+          lpj: this.lpjSelected,
           fakultas: this.fakultasSelected,
-          tahap: this.tahapSelected,
+          // tahap: this.tahapSelected,
           status: this.statusSelected,
           field_list: fieldList,
         };
         !isDownload
-          ? this.getReport(this.params)
+          ? this.getReportLPJ(this.params)
           : this.getReportDownload(this.params);
       }
     },
@@ -348,15 +348,15 @@ export default {
         { value: "tidak lengkap", text: "Tidak Lengkap" },
         { value: "belum mengisi", text: "Belum Mengisi" },
       ],
-      tahap: [
-        { value: "berkas", text: "Berkas" },
-        { value: "wawancara", text: "Wawancara" },
-        { value: "survey", text: "Survey" },
-        { value: "seleksi", text: "Seleksi" },
-      ],
-      beasiswaSelected: null,
+      // tahap: [
+      //   { value: "berkas", text: "Berkas" },
+      //   { value: "wawancara", text: "Wawancara" },
+      //   { value: "survey", text: "Survey" },
+      //   { value: "seleksi", text: "Seleksi" },
+      // ],
+      lpjSelected: null,
       fakultasSelected: null,
-      tahapSelected: null,
+      // tahapSelected: null,
       statusSelected: null,
       params: {},
     };

@@ -1,5 +1,10 @@
 <template>
-  <v-sheet color="transparent">
+  <v-sheet
+    elevation="10"
+    rounded
+    style="margin-bottom:100px"
+    color="transparent"
+  >
     <v-overlay
       :absolute="false"
       :value="isSubmitted"
@@ -408,9 +413,9 @@
                   v-model="field.value"
                 ></v-date-picker>
               </v-menu> -->
-              
+
               <v-dialog
-              v-if="field.type == 'Tanggal'"
+                v-if="field.type == 'Tanggal'"
                 ref="dialog"
                 v-model="modal"
                 :return-value.sync="field.value"
@@ -429,7 +434,7 @@
                     :clearable="!field.required"
                   ></v-text-field>
                 </template>
-                <v-date-picker    
+                <v-date-picker
                   v-model="field.value"
                   scrollable
                 >
@@ -515,39 +520,58 @@
             </v-col>
           </v-row>
         </v-form>
-        <v-row
-          align="center"
-          justify="start"
+        <v-sheet
+          elevation="20"
+          :style=" windowWidth<1265?'':'padding-left:256px'"
+          color="blue-grey darken-4"
+          class="submit-panel"
         >
-          <v-col v-if="lpj">
-            <v-btn
-              :disabled="isDisabled"
-              :loading="isLoading"
-              @click="checkIsReady"
-              color="#2E7D32"
-            >Simpan</v-btn>
-          </v-col>
-          <!-- <v-col v-else>
-            <v-btn
-              :disabled="isDisabled"
-              :loading="isLoading"
-              @click="editOverlay = true"
-              color="#2E7D32"
-            >Selesai edit</v-btn>
-          </v-col>-->
-        </v-row>
-        <v-row v-if="!validation">
+          <v-container fluid>
+            <v-row
+              dense
+              align="center"
+              justify="start"
+            >
+              <v-col
+                cols="12"
+                v-if="lpj"
+              >
+                <v-btn
+                  :disabled="isDisabled"
+                  :loading="isLoading"
+                  @click="checkIsReady"
+                  color="#2E7D32"
+                >Simpan</v-btn>
+              </v-col>
+            </v-row>
+            <!-- <v-row v-if="!validation">
           <v-col>
             <span>Masih ada field yang belum diisi</span>
           </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12">
-            <span class="caption">Field dengan tanda * wajib diisi</span>
-          </v-col>
-        </v-row>
+        </v-row> -->
+            <v-row dense>
+              <v-col
+                cols="12"
+                v-if="!validation"
+              >
+                <v-alert
+                  text
+                  class="mt-2"
+                  border="left"
+                  dense
+                  type="warning"
+                >Masih ada field yang belum diisi</v-alert>
+              </v-col>
+              <v-col>
+
+                <span class="caption">Field dengan tanda * wajib diisi</span>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-sheet>
       </v-sheet>
     </v-row>
+
     <v-dialog
       v-model="isSure"
       overlay-color="green"
@@ -598,21 +622,24 @@ export default {
   created() {
     this.daftarLPJ();
   },
+  mounted() {
+    // console.log("drawer:", this.$el);
+  },
   methods: {
     ...mapActions([""]),
     ...mapMutations(["mutateLoading"]),
     daftarLPJ() {
       axios
         .get(`/api/lpj/daftar/${this.$route.params.id}`)
-        .then(response => {
+        .then((response) => {
           if (!response.data.status) {
             this.overlay = {
               show: true,
-              message: response.data.message
+              message: response.data.message,
             };
           }
           this.lpj = response.data.data;
-          this.fields = JSON.parse(response.data.data.fields)
+          this.fields = JSON.parse(response.data.data.fields);
           this.isSubmitted =
             response.data.data.is_submitted == 0 ||
             response.data.data.is_submitted == null
@@ -620,7 +647,7 @@ export default {
               : true;
           console.log(this.isSubmitted);
         })
-        .catch(error => console.error(error));
+        .catch((error) => console.error(error));
     },
     link(url) {
       var a = "/" + url;
@@ -664,9 +691,9 @@ export default {
       axios
         .post(`/api/permohonan-lpj`, {
           lpj_id: lpj_id,
-          form: this.fields
+          form: this.fields,
         })
-        .then(response => {
+        .then((response) => {
           console.log(response.data);
           this.overlay.message =
             "Permohonan beasiswa berhasil dikirim, lihat status permohonan beasiswa";
@@ -674,7 +701,7 @@ export default {
           this.isSure = false;
           this.mutateLoading(false);
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
           this.msg.color = "red";
           this.msg.text =
@@ -694,7 +721,7 @@ export default {
             var data = new FormData();
             data.append("file", tempMulti.value);
             data.append("id", this.$route.params.id);
-            await this.upload(data).then(response => {
+            await this.upload(data).then((response) => {
               var formTemp = JSON.parse(JSON.stringify(this.fields));
               var index = this.fields.indexOf(item);
               formTemp[index].multiUpload.items[j]["file_name"] =
@@ -702,9 +729,9 @@ export default {
               axios
                 .post(`/api/permohonan-lpj`, {
                   lpj_id: this.$route.params.id,
-                  form: formTemp
+                  form: formTemp,
                 })
-                .then(response => {
+                .then((response) => {
                   console.log(response.data);
                   //   this.getUserPermohonan();
                   this.daftarLPJ();
@@ -715,7 +742,7 @@ export default {
                   this.snackbar = true;
                   this.isSure = false;
                 })
-                .catch(error => {
+                .catch((error) => {
                   this.msg.color = "red";
                   this.msg.text =
                     "Maaf ada kendala ketika ingin menyimpan, coba lagi nanti..";
@@ -732,7 +759,7 @@ export default {
         data.append("file", item.value);
         data.append("id", this.$route.params.id);
         await this.upload(data)
-          .then(response => {
+          .then((response) => {
             console.log(response.data);
             var formTemp = JSON.parse(JSON.stringify(this.fields));
             var index = this.fields.indexOf(item);
@@ -741,9 +768,9 @@ export default {
             axios
               .post(`/api/permohonan-lpj`, {
                 lpj_id: this.$route.params.id,
-                form: formTemp
+                form: formTemp,
               })
-              .then(response => {
+              .then((response) => {
                 console.log(response.data);
                 // this.getUserPermohonan();
                 this.daftarLPJ();
@@ -754,7 +781,7 @@ export default {
                 this.snackbar = true;
                 this.isSure = false;
               })
-              .catch(error => {
+              .catch((error) => {
                 this.msg.color = "red";
                 this.msg.text =
                   "Maaf ada kendala ketika ingin menyimpan, coba lagi nanti..";
@@ -762,7 +789,7 @@ export default {
                 console.log(error);
               });
           })
-          .catch(error => {
+          .catch((error) => {
             if (error.response.status == 401) {
               this.goToLandingPage();
             }
@@ -770,13 +797,13 @@ export default {
       }
     },
     checkMultipleUpload() {
-      this.fields.forEach(element => {
+      this.fields.forEach((element) => {
         if (element.required == false) {
           return; // kalau tidak required, berhenti
         }
         if (element.type == "Multiple Upload") {
           var isFilled = false;
-          element.multiUpload.items.every(v => {
+          element.multiUpload.items.every((v) => {
             if (v.isSelected) {
               this.updateNonFile();
               console.log("ada yg di ceklis ni");
@@ -824,13 +851,13 @@ export default {
     goToLandingPage() {
       this.$router.push({ name: "Landing Page" });
     },
-    upload: async data => {
+    upload: async (data) => {
       var ini = this;
       return axios({
         method: "post",
         url: "/api/permohonan-lpj/file",
-        onUploadProgress: function(progressEvent) {},
-        data
+        onUploadProgress: function (progressEvent) {},
+        data,
       });
     },
     isRequired(bool) {
@@ -848,9 +875,9 @@ export default {
         axios
           .post(`/api/permohonan-lpj`, {
             lpj_id: this.$route.params.id,
-            is_submitted: true
+            is_submitted: true,
           })
-          .then(response => {
+          .then((response) => {
             console.log(response.data);
             // this.getUserPermohonan();
             this.daftarLPJ();
@@ -861,7 +888,7 @@ export default {
             this.snackbar = true;
             this.isSure = false;
           })
-          .catch(error => {
+          .catch((error) => {
             if (error.response.status == 401) {
               this.$router.push({ name: "Landing Page" });
             }
@@ -885,7 +912,7 @@ export default {
       // this.fields.forEach(element => {
       //   finalForm.push(element);
       // });
-    }
+    },
   },
   computed: {
     ...mapState(["isLoading"]),
@@ -905,18 +932,18 @@ export default {
   watch: {
     lpj: {
       deep: true,
-      handler: function(v) {
+      handler: function (v) {
         console.log("LPJ:", JSON.parse(v.fields));
-      }
+      },
     },
     validation(v) {
       console.log(v);
       v ? (this.isDisabled = false) : (this.isDisabled = true);
-    }
+    },
   },
   data() {
     return {
-      fields:{},
+      fields: {},
       modal: false,
       lpj: null,
       editOverlay: false,
@@ -931,16 +958,24 @@ export default {
       defaultFields: {},
       loading: 0,
       loadText: "",
-      rule: [v => !!v || "Field ini wajib diisi"],
+      rule: [(v) => !!v || "Field ini wajib diisi"],
       msg: {
         color: "green darken-4",
         text: "Perubahan berhasil disimpan!",
-        icon: "mdi-content-save"
-      }
+        icon: "mdi-content-save",
+      },
     };
-  }
+  },
 };
 </script>
 
 <style>
+.submit-panel {
+  position: fixed;
+  right: 0;
+  left: 0;
+  width: 100%;
+  bottom: 0;
+  z-index: 3;
+}
 </style>

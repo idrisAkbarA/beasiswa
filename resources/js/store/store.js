@@ -13,6 +13,7 @@ export default new Vuex.Store({
         appSettings: [],
         auth: { name: null, id: null, role: null, isAuth: false },
         report: [],
+        reportLPJ: [],
         url: pack.baseUrl,
         name: "idris",
         akunPetugas: [],
@@ -37,6 +38,9 @@ export default new Vuex.Store({
             state.appSettings = data;
         },
         mutateReport(state, data) {
+            state.report = data;
+        },
+        mutateReportLPJ(state, data) {
             state.report = data;
         },
         mutateAuth(state, data) {
@@ -126,6 +130,16 @@ export default new Vuex.Store({
                 params: data
             }).then(response => {
                 commit("mutateReport", response.data);
+                commit("mutateTableLoading", false);
+            });
+        },
+        getReportLPJ({ commit, dispatch, state }, data) {
+            commit("mutateTableLoading", true);
+            Axios.get("/api/lpj/report", {
+                // params: { data }
+                params: data
+            }).then(response => {
+                commit("mutateReportLPJ", response.data);
                 commit("mutateTableLoading", false);
             });
         },

@@ -1,11 +1,28 @@
 <template>
   <v-app>
-    <v-navigation-drawer style="z-index:11" :src="'/images/drawer-bg.jpg'" v-model="drawer" app>
-      <v-card class="d-flex justify-center pt-4 pr-2 pl-2 pb-4" flat tile>
-        <v-img max-width="70" :src="'/images/LogoUIN.png'"></v-img>
+    <v-navigation-drawer
+      id="navDrawer"
+      style="z-index:11"
+      :src="'/images/drawer-bg.jpg'"
+      v-model="drawer"
+      app
+    >
+      <v-card
+        class="d-flex justify-center pt-4 pr-2 pl-2 pb-4"
+        flat
+        tile
+      >
+        <v-img
+          max-width="70"
+          :src="'/images/LogoUIN.png'"
+        ></v-img>
         <v-card-text>Aplikasi Beasiswa UIN Suska Riau</v-card-text>
       </v-card>
-      <v-card class="d-flex justify-center pr-2 pl-2 mb-5" flat tile>
+      <v-card
+        class="d-flex justify-center pr-2 pl-2 mb-5"
+        flat
+        tile
+      >
         <v-card-text>
           {{user.nama}}
           <br />
@@ -17,7 +34,11 @@
       </v-row>
       <v-list dense>
         <!-- :to="page.to" -->
-        <v-list-item v-if="$route.name!='List Beasiswa'" exact @click="routerPush('List Beasiswa')">
+        <v-list-item
+          v-if="$route.name!='List Beasiswa'"
+          exact
+          @click="routerPush('List Beasiswa')"
+        >
           <v-list-item-action>
             <v-icon>mdi-keyboard-backspace</v-icon>
           </v-list-item-action>
@@ -25,7 +46,11 @@
             <v-list-item-title>kembali</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item router exact @click="routerPush('Permohonan Saya')">
+        <v-list-item
+          router
+          exact
+          @click="routerPush('Permohonan Saya')"
+        >
           <v-list-item-action>
             <v-icon>mdi-text</v-icon>
           </v-list-item-action>
@@ -33,7 +58,11 @@
             <v-list-item-title>Permohonan Saya</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item router exact @click="routerPush('List LPJ')">
+        <v-list-item
+          router
+          exact
+          @click="routerPush('List LPJ')"
+        >
           <v-list-item-action>
             <v-icon>mdi-text</v-icon>
           </v-list-item-action>
@@ -44,8 +73,15 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app dense style="z-index:10">
-      <v-app-bar-nav-icon class="hidden-lg-and-up" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+    <v-app-bar
+      app
+      dense
+      style="z-index:10"
+    >
+      <v-app-bar-nav-icon
+        class="hidden-lg-and-up"
+        @click.stop="drawer = !drawer"
+      ></v-app-bar-nav-icon>
 
       <div style="width:100%; -webkit-app-region: drag;">
         <v-toolbar-title>
@@ -56,7 +92,11 @@
           <!-- <span> | {{$route.name}}</span> -->
         </v-toolbar-title>
       </div>
-      <v-btn small text @click="logout">
+      <v-btn
+        small
+        text
+        @click="logout"
+      >
         <v-icon>mdi-logout-variant</v-icon>keluar
       </v-btn>
     </v-app-bar>
@@ -66,7 +106,10 @@
       <!-- Provides the application the proper gutter -->
       <v-container fluid>
         <!-- If using vue-router -->
-        <transition name="slide-fade" mode="out-in">
+        <transition
+          name="slide-fade"
+          mode="out-in"
+        >
           <router-view></router-view>
         </transition>
       </v-container>
@@ -80,7 +123,7 @@ export default {
   computed: {
     user() {
       return JSON.parse(window.localStorage.getItem("userDetail"));
-    }
+    },
   },
   created() {
     console.log(this.user);
@@ -94,22 +137,22 @@ export default {
       axios
         .get("/api/logout", {
           params: {
-            user: window.localStorage.getItem("user")
-          }
+            user: window.localStorage.getItem("user"),
+          },
         })
-        .then(response => {
+        .then((response) => {
           this.routerPush("Landing Page");
         })
         .catch(() => {
           this.routerPush("Landing Page");
         });
-    }
+    },
   },
   data() {
     return {
-      drawer: null
+      drawer: null,
     };
-  }
+  },
 };
 </script>
 
