@@ -134,12 +134,11 @@
                       light
                       class="float-right"
                       v-if="
-                        selectedBeasiswa.deleted_at &&
-                        selectedBeasiswa.lulus.length < selectedBeasiswa.quota
+                        selectedBeasiswa.deleted_at
                       "
-                      @click.stop="drawer = !drawer"
+                      @click.stop="setKelulusanEditor()"
                     >
-                      <v-icon class="mr-2">mdi-checkbox-marked-circle-outline</v-icon>Kelulusan
+                      <v-icon class="mr-2">mdi-checkbox-marked-circle-outline</v-icon>Edit Kelulusan
                     </v-chip>
                   </div>
                 </v-row>
@@ -249,9 +248,166 @@
       </v-card>
 
       <!-- right sheet -->
-      <v-navigation-drawer
+      <v-dialog
+        overlay-color="green"
         v-if="drawer"
         v-model="drawer"
+        width="600px"
+        scrollable
+      >
+        <v-card>
+          <v-card-title>Edit Kelulusan {{selectedBeasiswa.nama}}</v-card-title>
+          <v-card-subtitle>
+            Edit kelulusan beasiswa seperti menambah dan menghapus mahasiswa
+
+          </v-card-subtitle>
+          <v-card-text style="height: 800px;">
+            <!-- <v-row>
+              <v-col>
+                <p><strong>Set Kuota</strong><br>Kurangi atau tambah kuota penerima beasiswa</p>
+                <v-form>
+                  <v-text-field
+                    required
+                    :rules="ruleKuota"
+                    v-model="kuotaTemp"
+                    dense
+                    color="green"
+                    label="Kuota"
+                    persistent-hint
+                    outlined
+                    type="number"
+                    hide-details="auto"
+                  >
+                    <template v-slot:append-outer>
+                      <v-btn
+                        style="margin: 0px !important"
+                        color="green"
+                        :disabled="kuotaTemp<selectedBeasiswa[filter].length"
+                      >Set Kuota</v-btn>
+                    </template>
+                  </v-text-field>
+                </v-form>
+                <p>Note: Anda tidak dapat menambah mahasiswa jika kuota telah penuh</p>
+              </v-col>
+            </v-row> -->
+            <v-row>
+              <v-col cols="12">
+                <p><strong>Kuota Beasiswa</strong><br>
+                  Dengan menambah atau mengurangi mahasiswa maka jumlah kuota akan ikut menyesuaikan</p>
+                <p><strong>Set Mahasiswa</strong><br>
+                  Tambah atau hapus mahasiswa dari list kelulusan di bawah ini atau
+                  Anda dapat menambah mahasiswa dengan
+                  <v-chip
+                    small
+                    color="green"
+                    outlined
+                    @click="drawer=false; drawerExcel = true;"
+                  >Import Excel</v-chip>
+                </p>
+                <v-text-field
+                  v-model="searchEdit"
+                  label="Cari Mahasiswa"
+                  dense
+                  hide-details
+                  color="green"
+                  outlined
+                  prepend-inner-icon="mdi-magnify"
+                  clearable
+                ></v-text-field>
+
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-data-table
+                style="width:100%"
+                :headers="headersEdit"
+                :items="listMHSTemp"
+                :search="searchEdit"
+                :items-per-page="-1"
+                hide-default-footer
+              >
+                <template v-slot:item.actions="{ item }">
+                  <v-btn
+                    small
+                    color="red"
+                    left
+                    @click="deleteMHS(index,item)"
+                  >
+                    <v-icon>mdi-delete</v-icon> Hapus Mahasiswa
+                  </v-btn>
+                </template>
+              </v-data-table>
+
+              <!-- <v-list-item
+                v-for="(item,index) in listMHSTemp"
+                :key="index"
+              >
+                <v-list-item-content style="padding:0px !important">
+                  <v-row align="center">
+                    <v-col cols="3">{{item.mhs_id}}</v-col>
+                    <v-col cols="4">{{item.mahasiswa?item.mahasiswa.nama:'-'}}</v-col>
+                    <v-col cols="5">
+                      <v-spacer></v-spacer>
+                      <v-btn
+                        small
+                        color="red"
+                        left
+                        @click="deleteMHS(index,item)"
+                      >
+                        <v-icon>mdi-delete</v-icon> Hapus Mahasiswa
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                </v-list-item-content>
+              </v-list-item> -->
+
+            </v-row>
+          </v-card-text>
+          <v-card-actions class="overflow-x-hidden">
+            <v-row>
+              <v-list-item>
+                <v-list-item-content style="padding:0px !important">
+                  <v-row align="center">
+                    <v-col cols="7">
+                      <v-text-field
+                        outlined
+                        color="green"
+                        label="NIM"
+                        dense
+                        hide-details=""
+                        v-model="insertNIM"
+                      >
+                      </v-text-field>
+                    </v-col>
+
+                    <v-col cols="5">
+                      <v-spacer></v-spacer>
+                      <v-btn
+                        :disabled="insertNIM==null||insertNIM==''"
+                        @click="insertMHS()"
+                        small
+                        color="green"
+                        left
+                      >
+                        <v-icon>mdi-plus</v-icon> Tambah Mahasiswa
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                </v-list-item-content>
+              </v-list-item>
+              <v-divider></v-divider>
+              <div class="d-flex ml-4 mt-2">
+                <v-btn color="green">Simpan Perubahan</v-btn>
+                <v-btn text>batal</v-btn>
+              </div>
+
+            </v-row>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+      <v-navigation-drawer
+        v-if="drawerExcel"
+        v-model="drawerExcel"
         absolute
         temporary
         right
@@ -899,8 +1055,117 @@ export default {
       const link = "/template/template_kelulusan.xlsx";
       window.open(link, "_blank");
     },
+    setKelulusanEditor() {
+      this.kuotaTemp = this.selectedBeasiswa.quota;
+      this.deletedMHS = [];
+      this.insertedMHS = [];
+      this.historyStackListMHS.push({
+        listMHS: this.selectedBeasiswa[this.filter],
+        deletedMHS: this.deletedMHS,
+        insertedMHS: this.deletedMHS,
+      });
+      this.listMHSTemp = _.clone(this.selectedBeasiswa[this.filter]);
+      this.listMHS = _.clone(this.selectedBeasiswa[this.filter]);
+      let rule = (v) =>
+        (v || "") >= this.selectedBeasiswa.quota ||
+        `Tidak dapat mengurangi kuota dibawah jumlah yang sudah terdaftar yaitu: ${this.selectedBeasiswa.quota}. Hapus Mahasiswa terlebih dahulu`;
+      this.ruleKuota.push(rule);
+      this.drawer = true;
+    },
+    deleteMHS(index, item) {
+      console.log();
+      console.log("deleting index: ", index);
+      this.listMHSTemp.splice(index, 1);
+      this.listMHS.splice(index, 1);
+      this.deletedMHS = _.clone(this.deletedMHS);
+      this.deletedMHS.push(item.id);
+      // this.historyStackListMHS.unshift(this.listMHS);
+      this.historyStackListMHS.unshift({
+        listMHS: _.clone(this.listMHS),
+        deletedMHS: _.clone(this.deletedMHS),
+        insertedMHS: _.clone(this.insertedMHS),
+      });
+      console.log("list mhs:", this.listMHSTemp);
+    },
+    insertMHS() {
+      console.log("inserting MHS");
+      let item = { mhs_id: this.insertNIM };
+      this.listMHSTemp.unshift(item);
+      this.listMHS.unshift(item);
+      this.insertedMHS = _.clone(this.insertedMHS);
+      this.insertedMHS.push(this.insertNIM);
+      // this.historyStackListMHS.unshift(this.listMHS);
+      this.historyStackListMHS.unshift({
+        listMHS: _.clone(this.listMHS),
+        deletedMHS: _.clone(this.deletedMHS),
+        insertedMHS: _.clone(this.insertedMHS),
+      });
+      this.insertNIM = null;
+      console.log("list mhs:", this.listMHSTemp);
+    },
+    redo() {
+      if (this.historyIndex > 0) {
+        this.historyIndex--;
+        this.listMHSTemp = _.clone(
+          this.historyStackListMHS[this.historyIndex].listMHS
+        );
+        this.listMHS = _.clone(
+          this.historyStackListMHS[this.historyIndex].listMHS
+        );
+        this.deletedMHS = _.clone(
+          this.historyStackListMHS[this.historyIndex].deletedMHS
+        );
+        this.insertedMHS = _.clone(
+          this.historyStackListMHS[this.historyIndex].insertedMHS
+        );
+        console.log("list mhs:", this.listMHSTemp);
+      } else {
+        console.log("no more history");
+      }
+    },
+    undo() {
+      if (this.historyIndex < this.historyStackListMHS.length - 1) {
+        this.historyIndex += 1;
+        this.listMHSTemp = _.clone(
+          this.historyStackListMHS[this.historyIndex].listMHS
+        );
+        this.listMHS = _.clone(
+          this.historyStackListMHS[this.historyIndex].listMHS
+        );
+        this.deletedMHS = _.clone(
+          this.historyStackListMHS[this.historyIndex].deletedMHS
+        );
+        this.insertedMHS = _.clone(
+          this.historyStackListMHS[this.historyIndex].insertedMHS
+        );
+        console.log("list mhs:", this.listMHSTemp);
+        console.log("history:", this.historyStackListMHS[this.historyIndex]);
+      } else {
+        console.log("no more history");
+      }
+    },
+    ctrlZ(event) {
+      console.log(event);
+      if (event.ctrlKey && event.key === "z") {
+        console.log("ctrl+z pressed");
+        this.undo();
+      }
+      if (event.ctrlKey && event.key === "Shift" && event.key === "z") {
+        console.log("ctrl+shift+z pressed");
+        this.redo();
+      }
+    },
   },
   watch: {
+    drawer: function (val) {
+      let self = this;
+      if (val) {
+        window.addEventListener("keyup", this.ctrlZ);
+      } else {
+        console.log("i should be dead now");
+        window.removeEventListener("keyup", this.ctrlZ);
+      }
+    },
     selectedBeasiswa: function (val) {
       if (val) {
         this.detailBeasiswa = [
@@ -939,6 +1204,32 @@ export default {
   },
   data() {
     return {
+      headersEdit: [
+        {
+          text: "NIM",
+          align: "start",
+          value: "mhs_id",
+        },
+        {
+          text: "Nama",
+          align: "start",
+          value: "mahasiswa.nama",
+        },
+        { align: "center", text: "Actions", value: "actions", sortable: false },
+      ],
+      searchEdit: null,
+      insertNIM: null,
+      historyIndex: 0,
+      historyStackDeletedMHS: [],
+      historyStackInsertedMHS: [],
+      historyStackListMHS: [],
+      deletedMHS: [],
+      insertedMHS: [],
+      listMHS: [],
+      listMHSTemp: [],
+      ruleKuota: [],
+      kuotaTemp: null,
+      drawerExcel: false,
       drawer: false,
       permohonans: null,
       beasiswa: null,
