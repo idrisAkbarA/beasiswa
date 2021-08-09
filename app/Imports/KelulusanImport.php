@@ -31,6 +31,20 @@ class KelulusanImport implements ToCollection, WithHeadingRow
     public function collection(Collection $rows)
     {
         $listPermohonan = [];
+        // enlarge quota if quota exceeded
+        $permohonanInDBCount = count(PemohonBeasiswa::where('beasiswa_id', $this->_beasiswa->id)->get());
+        $permohonanNewCount = count($rows);
+        $beasiswa = Beasiswa::withTrashed()->find($this->_beasiswa->id);
+        // return response()->json($beasiswa);
+        // dd($beasiswa);
+        // dd($this->_beasiswa->id);
+        // dd($permohonanInDBCount + $permohonanNewCount);
+        if ($permohonanInDBCount + $permohonanNewCount > $beasiswa->quota) {
+            // dd('im called');
+            $beasiswa->quota = $permohonanInDBCount + $permohonanNewCount;
+            $beasiswa->save();
+            $beasiswa->quota;
+        }
         foreach ($rows as $row) {
             $nim = $row['nim'];
 
