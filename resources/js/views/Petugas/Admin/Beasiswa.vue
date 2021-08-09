@@ -940,7 +940,6 @@
                       ></v-text-field>
                     </template>
                     <v-date-picker
-                      :min="hariIni()"
                       range
                       v-model="dateBerkas"
                       locale="id-ID"

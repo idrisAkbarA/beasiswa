@@ -298,11 +298,11 @@ export default {
           title: "Laporan Beasiswa",
           to: `/admin/${petugas}/Laporan`,
         },
-        {
-          icon: "mdi-file-document-outline",
-          title: "Laporan LPJ",
-          to: `/admin/${petugas}/laporan-lpj`,
-        },
+        // {
+        //   icon: "mdi-file-document-outline",
+        //   title: "Laporan LPJ",
+        //   to: `/admin/${petugas}/laporan-lpj`,
+        // },
         {
           icon: "mdi-hammer-wrench",
           title: "Pengaturan",
