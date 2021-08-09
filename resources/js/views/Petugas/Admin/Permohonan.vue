@@ -258,8 +258,8 @@
         <v-card>
           <v-card-title>Edit Kelulusan {{selectedBeasiswa.nama}}</v-card-title>
           <v-card-subtitle>
-            Edit kelulusan beasiswa seperti menambah dan menghapus mahasiswa
-
+            Edit kelulusan beasiswa seperti menambah dan menghapus mahasiswa. <br>
+            Tekan CTRL + Z untuk Undo
           </v-card-subtitle>
           <v-card-text style="height: 800px;">
             <!-- <v-row>
@@ -397,11 +397,57 @@
               </v-list-item>
               <v-divider></v-divider>
               <div class="d-flex ml-4 mt-2">
-                <v-btn color="green">Simpan Perubahan</v-btn>
-                <v-btn text>batal</v-btn>
+                <v-btn
+                  :disabled="deletedMHS.length==0 && insertedMHS.length==0"
+                  @click="dialogKonfirmasiEdit = true"
+                  color="green"
+                >Simpan</v-btn>
+                <v-spacer></v-spacer>
+                <v-btn
+                  @click="drawer = false"
+                  text
+                >batal</v-btn>
               </div>
 
             </v-row>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+      <v-dialog
+        overlay-color="orange"
+        width="400px"
+        v-model="dialogKonfirmasiEdit"
+      >
+        <v-card>
+          <v-card-title class="text-h5 orange">
+            <v-icon>mdi-alert</v-icon> Konfirmasi Perubahan
+          </v-card-title>
+          <v-card-text>
+            <p class="mt-5">
+              <strong>Perubahan</strong> <br>
+              <span v-if="deletedMHS.length>0">{{ deletedMHS.length+ " mahasiswa akan dihapus"}} <br></span>
+              <span v-if="insertedMHS.length>0">{{ insertedMHS.length+ " mahasiswa akan ditambah"}} <br></span>
+
+              <br>
+              <strong>Peringatan!</strong> <br>
+              Seluruh berkas permohonan beasiswa dari mahasiswa yang dihapus akan ikut dihapus.
+              <br>
+              <br>
+              Apakah anda yakin untuk melakukan pengubahan?
+            </p>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn
+              @click="saveKelulusanChanges()"
+              color="green"
+            >
+              Ubah
+            </v-btn>
+            <v-spacer></v-spacer>
+            <v-btn
+              @click="dialogKonfirmasiEdit = false"
+              text
+            >Batal</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -1155,6 +1201,33 @@ export default {
         this.redo();
       }
     },
+    saveKelulusanChanges() {
+      const payload = {
+        deletedMHSArray: this.deletedMHS,
+        insertedMHSArray: this.insertedMHS,
+      };
+      axios
+        .post("/api/kelulusan-editor/" + this.selectedBeasiswa.id, payload)
+        .then((response) => {
+          this.snackbar = {
+            show: true,
+            color: "green",
+            message: response.data.message,
+          };
+        })
+        .catch((error) => {
+          this.snackbar = {
+            show: true,
+            color: "red",
+            message: error,
+          };
+        })
+        .finally(() => {
+          this.dialogKonfirmasiEdit = false;
+          this.drawer = false;
+          this.dialog = false;
+        });
+    },
   },
   watch: {
     drawer: function (val) {
@@ -1217,6 +1290,7 @@ export default {
         },
         { align: "center", text: "Actions", value: "actions", sortable: false },
       ],
+      dialogKonfirmasiEdit: false,
       searchEdit: null,
       insertNIM: null,
       historyIndex: 0,

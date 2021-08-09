@@ -43,7 +43,6 @@ class KelulusanImport implements ToCollection, WithHeadingRow
             // dd('im called');
             $beasiswa->quota = $permohonanInDBCount + $permohonanNewCount;
             $beasiswa->save();
-            $beasiswa->quota;
         }
         foreach ($rows as $row) {
             $nim = $row['nim'];

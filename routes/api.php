@@ -120,3 +120,6 @@ Route::prefix('/permohonan-lpj')->group(function () {
     Route::put('/{permohonan}', 'PermohonanLPJController@update')->middleware('auth:petugas');
     Route::post('/file', 'PermohonanLPJController@storeFile');
 });
+Route::prefix('/kelulusan-editor')->group(function () {
+    Route::post('/{beasiswaID}', 'KelulusanEditorController@index');
+});
