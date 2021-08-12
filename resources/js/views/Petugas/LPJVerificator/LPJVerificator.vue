@@ -5,60 +5,39 @@
         app
         flat
         elevate-on-scroll
-        style="background:rgba(56, 203, 157, 1) 100%"
+        style="background: rgba(56, 203, 157, 1) 100%"
       >
         <v-avatar :tile="true">
-          <img
-            :src="'/images/LogoUIN.png'"
-            alt="logo"
-          >
+          <img :src="'/images/LogoUIN.png'" alt="logo" />
         </v-avatar>
-        <div style="width:100%; -webkit-app-region: drag;">
+        <div style="width: 100%; -webkit-app-region: drag">
           <v-toolbar-title>
             <v-container>
               <v-row no-gutters>
                 <v-col cols="12">
                   <span v-if="windowWidth >= 600" class="font-weight-bold ml-4">
-                    <router-link
-                      :to="'Home'"
-                      class="text-white"
-                    >
+                    <router-link :to="'Home'" class="text-white">
                       Beasiswa
                     </router-link>
                   </span>
-                  <span v-if="windowWidth >= 600"> | Verifikator</span>
+                  <span v-if="windowWidth >= 600"> | Verifikator LPJ</span>
                 </v-col>
               </v-row>
             </v-container>
             <!-- Change this automaticly later usig VUEX -->
           </v-toolbar-title>
         </div>
-        <v-btn
-          small
-          text
-          @click="laporan"
-        >
+        <v-btn small text @click="laporan">
           <v-icon>mdi-file-document</v-icon>Laporan
         </v-btn>
-        <v-btn
-          small
-          text
-          @click="history"
-        >
+        <v-btn small text @click="history">
           <v-icon>mdi-history</v-icon>History
         </v-btn>
-        <v-btn
-          small
-          text
-          @click="logout"
-        >
+        <v-btn small text @click="logout">
           <v-icon>mdi-logout-variant</v-icon>keluar
         </v-btn>
       </v-app-bar>
-      <v-container
-        fluid
-        fill-height
-      >
+      <v-container fluid fill-height>
         <router-view></router-view>
       </v-container>
     </v-main>
@@ -75,7 +54,7 @@ export default {
     checkMaintenance() {
       axios
         .get("/api/beasiswa/settings")
-        .then(response => {
+        .then((response) => {
           console.log(response.data["isVerificatorMaintenanceMode"]);
           if (response.data["isVerificatorMaintenanceMode"] == 1) {
             console.log("maintenance");
@@ -83,7 +62,7 @@ export default {
             console.log("not maintenance");
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.checkMaintenance();
         });
     },
@@ -97,10 +76,10 @@ export default {
       axios
         .get("/api/logout-petugas", {
           params: {
-            user: window.localStorage.getItem("user")
-          }
+            user: window.localStorage.getItem("user"),
+          },
         })
-        .then(response => {
+        .then((response) => {
           this.$store.state.auth.isAuth = false;
           console.log(this.$store.state.auth.isAuth);
 
@@ -111,8 +90,8 @@ export default {
           this.$store.state.auth.isAuth = false;
           this.$router.push({ path: "/login" });
         });
-    }
-  }
+    },
+  },
 };
 </script>
 
