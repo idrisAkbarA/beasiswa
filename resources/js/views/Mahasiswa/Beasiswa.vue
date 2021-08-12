@@ -557,6 +557,35 @@
       </v-sheet>
     </v-row>
     <v-dialog
+      width="400px"
+      :persistent="loadingSheet.toggle"
+      eager
+      overlay-color="green darken-4"
+      v-model="loadingSheet.toggle"
+      inset
+    >
+      <v-card tile>
+        <v-progress-linear
+          :value="progress"
+          class="my-0"
+          :height="5"
+        ></v-progress-linear>
+
+        <v-list>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title>{{
+                this.loadingSheet.message
+              }}</v-list-item-title>
+              <v-list-item-subtitle>{{
+                this.progress + "%"
+              }}</v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-card>
+    </v-dialog>
+    <v-dialog
       v-model="isSure"
       overlay-color="green"
       :width="width()"
@@ -704,7 +733,7 @@ export default {
             var data = new FormData();
             data.append("file", tempMulti.value);
             data.append("id", this.$route.params.id);
-            await this.upload(data).then((response) => {
+            await this.upload(data, this).then((response) => {
               var formTemp = JSON.parse(JSON.stringify(this.fields));
               var index = this.fields.indexOf(item);
               formTemp[index].multiUpload.items[j]["file_name"] =
@@ -740,7 +769,7 @@ export default {
         var data = new FormData();
         data.append("file", item.value);
         data.append("id", this.$route.params.id);
-        await this.upload(data)
+        await this.upload(data, this)
           .then((response) => {
             console.log(response.data);
             var formTemp = JSON.parse(JSON.stringify(this.fields));
@@ -872,13 +901,26 @@ export default {
     goToLandingPage() {
       this.$router.push({ name: "Landing Page" });
     },
-    upload: async (data) => {
-      var ini = this;
+    upload: async (data, ini) => {
+      ini.progress = 0;
+      ini.loadingSheet.toggle = true;
+      ini.loadingSheet.message = "Mengupload File...";
       return axios({
         method: "post",
         url: "/api/pemohon/file",
-        onUploadProgress: function (progressEvent) {},
+        onUploadProgress: (progressEvent) => {
+          var percentCompleted = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+          );
+          ini.progress = percentCompleted;
+        },
         data,
+      }).finally(() => {
+        setTimeout(() => {
+          console.log("im supposed to died");
+          ini.loadingSheet.toggle = false;
+          console.log("loading: ", ini.loadingSheet.toggle);
+        }, 1000);
       });
     },
     isRequired(bool) {
@@ -951,6 +993,8 @@ export default {
   },
   data() {
     return {
+      progress: 0,
+      loadingSheet: {},
       editOverlay: false,
       isSubmitted: false,
       snackbar: false,
