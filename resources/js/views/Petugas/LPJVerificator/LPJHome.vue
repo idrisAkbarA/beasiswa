@@ -465,16 +465,8 @@
               >
               <v-spacer></v-spacer>
               <v-btn
-                v-if="dialogDelete.value"
                 color="#2E7D32"
-                dark
-                @click="setBerkas(dialogDelete.value)"
-                >Ya</v-btn
-              >
-              <v-btn
-                v-if="!dialogDelete.value"
-                color="#2E7D32"
-                :disabled="!keterangan"
+                :disabled="!dialogDelete.value && !keterangan"
                 dark
                 @click="setBerkas(dialogDelete.value)"
                 >Ya</v-btn
@@ -587,16 +579,16 @@ export default {
         }
       }
     },
-    setBerkas(bool) {
+    setBerkas(val) {
       const id = this.selectedPermohonan.id;
-      if (bool) {
+      if (val) {
         this.keterangan = null;
       }
       this.btnLoading = true;
       this.loading = true;
       axios
         .put(`/api/permohonan-lpj/${id}`, {
-          is_lulus: bool,
+          is_lulus: val,
           keterangan: this.keterangan,
           form: this.parsedForm,
         })

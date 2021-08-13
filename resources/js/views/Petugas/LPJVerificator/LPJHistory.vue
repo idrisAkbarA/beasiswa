@@ -35,51 +35,39 @@
             </v-col>
             <v-col cols="12">Memuat data</v-col>
           </v-row>
-          <p
-            v-if="!beasiswa.length && !loading"
-            class="text-center"
-          >Tidak ada berkas</p>
-          <v-expansion-panels
-            hover
-            inset
-          >
-            <v-expansion-panel
-              v-for="(item,i) in beasiswa"
-              :key="i"
-            >
+          <p v-if="!lpj.length && !loading" class="text-center">
+            Tidak ada berkas
+          </p>
+          <v-expansion-panels hover inset>
+            <v-expansion-panel v-for="(item, i) in lpj" :key="i">
               <v-expansion-panel-header>
-                <v-row
-                  no-gutters
-                  align="center"
-                  justify="space-between"
-                >
+                <v-row no-gutters align="center" justify="space-between">
                   <v-col cols="6">
-                    <strong>{{item.nama}}</strong>
+                    <strong>{{ item.nama }}</strong>
                   </v-col>
                   <v-col
                     class="text-right mr-3"
                     cols="4"
                     v-if="Object.keys(item.permohonan).length < 1"
                   >
-                    <span class="caption text-muted">Belum ada permohonan masuk</span>
+                    <span class="caption text-muted"
+                      >Belum ada permohonan masuk</span
+                    >
                   </v-col>
                   <v-col
                     class="text-right mr-3"
                     cols="4"
                     v-if="Object.keys(item.permohonan).length > 0"
                   >
-                    <v-chip
-                      class="text-center"
-                      small
-                      label
-                      dark
-                      color="green"
-                    >{{Object.keys(item.permohonan).length}} Permohonan diverifikasi</v-chip>
+                    <v-chip class="text-center" small label dark color="green"
+                      >{{ Object.keys(item.permohonan).length }} Permohonan
+                      diverifikasi</v-chip
+                    >
                   </v-col>
                 </v-row>
               </v-expansion-panel-header>
               <v-expansion-panel-content>
-                <span class="text-muted">{{item.deskripsi}}</span>
+                <span class="text-muted">{{ item.deskripsi }}</span>
                 <v-row>
                   <v-divider class="mb-0"></v-divider>
                 </v-row>
@@ -91,36 +79,49 @@
                     v-model="searchQuery"
                     @focus="index = i"
                   ></v-text-field>
-                  <v-subheader>Permohonan ({{!searchQuery ? Object.keys(item.permohonan).length : resultQuery.length}})</v-subheader>
-                  <v-list-item-group
-                    class="bg-white"
-                    color="primary"
+                  <v-subheader
+                    >Permohonan ({{
+                      !searchQuery
+                        ? Object.keys(item.permohonan).length
+                        : resultQuery.length
+                    }})</v-subheader
                   >
-                    <template v-for="(permohonan, index) in !searchQuery ? item.permohonan : resultQuery">
+                  <v-list-item-group class="bg-white" color="primary">
+                    <template
+                      v-for="(permohonan, index) in !searchQuery
+                        ? item.permohonan
+                        : resultQuery"
+                    >
                       <v-list-item
                         :key="index"
-                        @click="sheetDetail = true, selectedPermohonan = permohonan, parsedForm = JSON.parse(permohonan.form)"
+                        @click="
+                          (sheetDetail = true),
+                            (selectedPermohonan = permohonan),
+                            (parsedForm = JSON.parse(permohonan.form))
+                        "
                       >
                         <template>
                           <v-list-item-content>
-                            <v-list-item-title v-text="permohonan.mahasiswa.nama"></v-list-item-title>
-                            <v-list-item-subtitle v-text="`${permohonan.mahasiswa.jurusan.nama} (${permohonan.mahasiswa.fakultas.nama})`"></v-list-item-subtitle>
+                            <v-list-item-title
+                              v-text="permohonan.mahasiswa.nama"
+                            ></v-list-item-title>
+                            <v-list-item-subtitle
+                              v-text="
+                                `${permohonan.mahasiswa.jurusan.nama} (${permohonan.mahasiswa.fakultas.nama})`
+                              "
+                            ></v-list-item-subtitle>
                           </v-list-item-content>
                           <v-list-item-action>
-                            <v-icon
-                              color="blue"
-                              v-if="permohonan.is_berkas_passed"
-                            >mdi-check</v-icon>
-                            <v-icon
-                              color="red"
-                              v-else
-                            >mdi-close</v-icon>
+                            <v-icon color="blue" v-if="permohonan.is_lulus"
+                              >mdi-check</v-icon
+                            >
+                            <v-icon color="red" v-else>mdi-close</v-icon>
                           </v-list-item-action>
                         </template>
                       </v-list-item>
                       <v-divider
                         v-if="index < Object.keys(item.permohonan).length - 1"
-                        :key="'divider '+index"
+                        :key="'divider ' + index"
                         class="my-0"
                       ></v-divider>
                     </template>
@@ -142,17 +143,13 @@
       v-model="sheetDetail"
     >
       <v-card>
-        <v-card-title
-          class="headline white--text"
-          primary-title
-        >
+        <v-card-title class="headline white--text" primary-title>
           <i class="mdi mdi-account mr-2"></i>
-          {{selectedPermohonan.mahasiswa.nama}}
+          {{ selectedPermohonan.mahasiswa.nama }}
           <v-spacer></v-spacer>
-          <v-icon
-            @click="sheetDetail = false"
-            color="red"
-          >mdi-close-box</v-icon>
+          <v-icon @click="sheetDetail = false" color="red"
+            >mdi-close-box</v-icon
+          >
         </v-card-title>
 
         <v-card-text class="mt-2 white--text">
@@ -163,18 +160,18 @@
               <v-row
                 no-gutters
                 class="ma-5"
-                v-for="(field,index) in parsedForm"
+                v-for="(field, index) in parsedForm"
                 :key="index"
               >
-                <v-col style="padding-bottom:0 !important;">
-                  <p>{{field.pertanyaan}}</p>
+                <v-col style="padding-bottom: 0 !important">
+                  <p>{{ field.pertanyaan }}</p>
                   <v-container v-if="field.type == 'Checkboxes'">
-                    {{'pep'+field.isLulus}}
+                    {{ "pep" + field.isLulus }}
                     <v-row>
                       <v-col cols="9">
                         <v-row
                           align="center"
-                          v-for="(item,index) in field.checkboxes.items"
+                          v-for="(item, index) in field.checkboxes.items"
                           :key="index"
                         >
                           <v-checkbox
@@ -185,19 +182,13 @@
                             hide-details
                             class="shrink mr-2 mt-0"
                           ></v-checkbox>
-                          <span>{{item.label}}</span>
+                          <span>{{ item.label }}</span>
                         </v-row>
                       </v-col>
                       <v-col cols="3">
                         <v-radio-group v-model="field.isLulus">
-                          <v-radio
-                            label="Lulus"
-                            :value="true"
-                          ></v-radio>
-                          <v-radio
-                            label="Tidak Lulus"
-                            :value="false"
-                          ></v-radio>
+                          <v-radio label="Lulus" :value="true"></v-radio>
+                          <v-radio label="Tidak Lulus" :value="false"></v-radio>
                         </v-radio-group>
                       </v-col>
                     </v-row>
@@ -207,7 +198,7 @@
                       <v-col cols="9">
                         <v-row
                           align="center"
-                          v-for="(item,index) in field.multiUpload.items"
+                          v-for="(item, index) in field.multiUpload.items"
                           :key="index"
                           :value="item.label"
                           no-gutters
@@ -223,19 +214,22 @@
                             ></v-checkbox>
                           </v-col>
                           <v-col cols="6">
-                            <span>{{item.label}}</span>
+                            <span>{{ item.label }}</span>
                           </v-col>
                           <v-col cols="5">
                             <v-btn
                               v-if="item.file_name"
                               small
                               @click="link(item.file_name)"
-                            >lihat file</v-btn>
+                              >lihat file</v-btn
+                            >
                           </v-col>
                         </v-row>
                       </v-col>
                       <v-col cols="3">
-                        <v-icon>{{field.isLulus ? 'mdi-check' : 'mdi-close'}}</v-icon>
+                        <v-icon>{{
+                          field.isLulus ? "mdi-check" : "mdi-close"
+                        }}</v-icon>
                         <!-- <v-radio-group v-model="field.isLulus">
                           <v-radio label="Lulus" :value="true"></v-radio>
                           <v-radio label="Tidak Lulus" :value="false"></v-radio>
@@ -247,11 +241,13 @@
                     <v-col cols="9">
                       <span>
                         <v-icon>mdi-text-short</v-icon>
-                        {{field.value}}
+                        {{ field.value }}
                       </span>
                     </v-col>
                     <v-col cols="3">
-                      <v-icon>{{field.isLulus ? 'mdi-check' : 'mdi-close'}}</v-icon>
+                      <v-icon>{{
+                        field.isLulus ? "mdi-check" : "mdi-close"
+                      }}</v-icon>
                       <!-- <v-radio-group v-model="field.isLulus">
                         <v-radio label="Lulus" :value="true"></v-radio>
                         <v-radio label="Tidak Lulus" :value="false"></v-radio>
@@ -262,11 +258,13 @@
                     <v-col cols="9">
                       <span>
                         <v-icon>mdi-text-short</v-icon>
-                        {{field.value}}
+                        {{ field.value }}
                       </span>
                     </v-col>
                     <v-col cols="3">
-                      <v-icon>{{field.isLulus ? 'mdi-check' : 'mdi-close'}}</v-icon>
+                      <v-icon>{{
+                        field.isLulus ? "mdi-check" : "mdi-close"
+                      }}</v-icon>
                       <!-- <v-radio-group v-model="field.isLulus">
                         <v-radio label="Lulus" :value="true"></v-radio>
                         <v-radio label="Tidak Lulus" :value="false"></v-radio>
@@ -277,11 +275,13 @@
                     <v-col cols="9">
                       <span>
                         <v-icon>mdi-text-short</v-icon>
-                        {{field.value}}
+                        {{ field.value }}
                       </span>
                     </v-col>
                     <v-col cols="3">
-                      <v-icon>{{field.isLulus ? 'mdi-check' : 'mdi-close'}}</v-icon>
+                      <v-icon>{{
+                        field.isLulus ? "mdi-check" : "mdi-close"
+                      }}</v-icon>
                       <!-- <v-radio-group v-model="field.isLulus">
                         <v-radio label="Lulus" :value="true"></v-radio>
                         <v-radio label="Tidak Lulus" :value="false"></v-radio>
@@ -292,11 +292,13 @@
                     <v-col>
                       <span>
                         <v-icon>mdi-text-short</v-icon>
-                        {{field.value}}
+                        {{ field.value }}
                       </span>
                     </v-col>
                     <v-col cols="3">
-                      <v-icon>{{field.isLulus ? 'mdi-check' : 'mdi-close'}}</v-icon>
+                      <v-icon>{{
+                        field.isLulus ? "mdi-check" : "mdi-close"
+                      }}</v-icon>
                       <!-- <v-radio-group v-model="field.isLulus">
                         <v-radio label="Lulus" :value="true"></v-radio>
                         <v-radio label="Tidak Lulus" :value="false"></v-radio>
@@ -305,13 +307,12 @@
                   </v-row>
                   <v-row v-if="field.type == 'Upload File'">
                     <v-col cols="9">
-                      <v-btn
-                        small
-                        @click="link(field.value)"
-                      >lihat file</v-btn>
+                      <v-btn small @click="link(field.value)">lihat file</v-btn>
                     </v-col>
                     <v-col cols="3">
-                      <v-icon>{{field.isLulus ? 'mdi-check' : 'mdi-close'}}</v-icon>
+                      <v-icon>{{
+                        field.isLulus ? "mdi-check" : "mdi-close"
+                      }}</v-icon>
                       <!-- <v-radio-group v-model="field.isLulus">
                         <v-radio label="Lulus" :value="true"></v-radio>
                         <v-radio label="Tidak Lulus" :value="false"></v-radio>
@@ -322,11 +323,13 @@
                     <v-col cols="9">
                       <span>
                         <v-icon>mdi-text-short</v-icon>
-                        {{field.value}}
+                        {{ field.value }}
                       </span>
                     </v-col>
                     <v-col cols="3">
-                      <v-icon>{{field.isLulus ? 'mdi-check' : 'mdi-close'}}</v-icon>
+                      <v-icon>{{
+                        field.isLulus ? "mdi-check" : "mdi-close"
+                      }}</v-icon>
                       <!-- <v-radio-group v-model="field.isLulus">
                         <v-radio label="Lulus" :value="true"></v-radio>
                         <v-radio label="Tidak Lulus" :value="false"></v-radio>
@@ -355,16 +358,13 @@
 
         <v-card-actions v-if="!editMode">
           <v-spacer></v-spacer>
-          <v-btn
-            light
-            @click="editMode = true"
-          >Edit</v-btn>
+          <v-btn light @click="editMode = true">Edit</v-btn>
         </v-card-actions>
         <v-card-actions v-else>
           <v-btn
             color="red"
             :loading="loading"
-            @click="dialogDelete = { show : true, value : false}"
+            @click="dialogDelete = { show: true, value: false }"
           >
             <v-icon class="mr-2">close</v-icon>Tidak Lulus
           </v-btn>
@@ -373,7 +373,7 @@
             color="#2E7D32"
             dark
             :loading="loading"
-            @click="dialogDelete = { show : true, value : true}"
+            @click="dialogDelete = { show: true, value: true }"
           >
             <v-icon class="mr-2">check</v-icon>Lulus
           </v-btn>
@@ -381,30 +381,26 @@
       </v-card>
     </v-bottom-sheet>
     <!-- Dialog Delete -->
-    <div
-      class="text-center"
-      v-if="dialogDelete.show"
-    >
-      <v-dialog
-        v-model="dialogDelete.show"
-        width="400"
-        overlay-color="#2E7D32"
-      >
+    <div class="text-center" v-if="dialogDelete.show">
+      <v-dialog v-model="dialogDelete.show" width="400" overlay-color="#2E7D32">
         <v-card>
-          <v-card-title
-            class="headline white--text"
-            primary-title
-          >
-            <i class="mdi mdi-checkbox-marked-circle-outline mr-2"></i> Varifikasi Berkas
+          <v-card-title class="headline white--text" primary-title>
+            <i class="mdi mdi-checkbox-marked-circle-outline mr-2"></i>
+            Verifikasi Berkas
           </v-card-title>
           <v-card-text class="white--text mt-2 pb-0">
-            <strong class="d-block">{{this.selectedPermohonan.mahasiswa.nama}}</strong> akan dinyatakan
-            <strong>{{dialogDelete.value ? 'Lolos' : 'Tidak Lolos'}}</strong> tahap berkas ?
+            <strong class="d-block">{{
+              this.selectedPermohonan.mahasiswa.nama
+            }}</strong>
+            akan dinyatakan
+            <strong>{{ dialogDelete.value ? "Lolos" : "Tidak Lolos" }}</strong>
+            ?
             <v-textarea
               v-model="keterangan"
               class="mt-2"
               hint="Wajib diisi"
               :persistent-hint="true"
+              v-if="!dialogDelete.value"
               label="Keterangan"
               rows="1"
               auto-grow
@@ -416,35 +412,30 @@
 
           <v-card-actions>
             <v-btn
-              @click="dialogDelete = false, keterangan = null"
+              @click="(dialogDelete = false), (keterangan = null)"
               color="white"
               text
-            >Batal</v-btn>
+              >Batal</v-btn
+            >
             <v-spacer></v-spacer>
             <v-btn
               color="#2E7D32"
-              :disabled="!keterangan"
+              :disabled="!dialogDelete.value && !keterangan"
               dark
               @click="setBerkas(dialogDelete.value)"
-            >Ya</v-btn>
+              >Ya</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-dialog>
     </div>
     <!-- Snackbar -->
-    <v-snackbar
-      v-model="snackbar.show"
-      :timeout="2000"
-      :color="snackbar.color"
-    >
+    <v-snackbar v-model="snackbar.show" :timeout="2000" :color="snackbar.color">
       {{ snackbar.message }}
       <template v-slot:action="{ attrs }">
-        <v-btn
-          small
-          text
-          v-bind="attrs"
-          @click="snackbar.show = false"
-        >tutup</v-btn>
+        <v-btn small text v-bind="attrs" @click="snackbar.show = false"
+          >tutup</v-btn
+        >
       </template>
     </v-snackbar>
   </v-card>
@@ -456,24 +447,24 @@ export default {
   computed: {
     resultQuery() {
       if (this.searchQuery) {
-        if (typeof this.beasiswa[this.index].permohonan == "object") {
-          this.beasiswa[this.index].permohonan = Object.values(
-            this.beasiswa[this.index].permohonan
+        if (typeof this.lpj[this.index].permohonan == "object") {
+          this.lpj[this.index].permohonan = Object.values(
+            this.lpj[this.index].permohonan
           );
         }
-        return this.beasiswa[this.index].permohonan.filter(item => {
+        return this.lpj[this.index].permohonan.filter((item) => {
           return this.searchQuery
             .toLowerCase()
             .split(" ")
-            .every(v => item.mahasiswa.nama.toLowerCase().includes(v));
+            .every((v) => item.mahasiswa.nama.toLowerCase().includes(v));
         });
       } else {
-        return this.beasiswa.permohonan;
+        return this.lpj.permohonan;
       }
-    }
+    },
   },
   watch: {
-    selectedPermohonan: function(val) {
+    selectedPermohonan: function (val) {
       if (val) {
         this.selectedMahasiswa = [
           { judul: "Nama", isi: val.mahasiswa.nama },
@@ -482,34 +473,30 @@ export default {
           { judul: "Jurusan", isi: val.mahasiswa.jurusan.nama },
           { judul: "Fakultas", isi: val.mahasiswa.fakultas.nama },
           { judul: "IPS", isi: val.mahasiswa.ips },
-          { judul: "IPK", isi: val.mahasiswa.ipk }
+          { judul: "IPK", isi: val.mahasiswa.ipk },
         ];
       }
     },
-    sheetDetail: function(val) {
+    sheetDetail: function (val) {
       if (!val) {
         this.keterangan = null;
         this.editMode = false;
       }
-    }
+    },
   },
   created() {
     this.getHistory();
   },
   methods: {
     getHistory() {
+      this.lpj = [];
       this.loading = true;
-      this.beasiswa = [];
       axios
-        .get(`/api/permohonan/my-history`, {
-          params: {
-            key: "berkas"
-          }
+        .get(`/api/permohonan-lpj/my-history`)
+        .then((response) => {
+          this.lpj = response.data;
         })
-        .then(response => {
-          this.beasiswa = response.data;
-        })
-        .catch(error => {
+        .catch((error) => {
           if (error.response.status == 401) {
             this.$router.push({ name: "Login Petugas" });
           }
@@ -518,7 +505,7 @@ export default {
           this.snackbar = {
             show: true,
             color: "red",
-            message: error
+            message: error,
           };
         })
         .then(() => {
@@ -526,16 +513,19 @@ export default {
         });
     },
     setBerkas(val) {
+      const id = this.selectedPermohonan.id;
+      if (val) {
+        this.keterangan = null;
+      }
       this.btnLoading = true;
       this.loading = true;
       axios
-        .put(`/api/pemohon/set-berkas`, {
-          id: this.selectedPermohonan.id,
-          is_berkas_passed: val,
-          keterangan_edit: this.keterangan,
-          form: this.parsedForm
+        .put(`/api/permohonan-lpj/${id}`, {
+          is_lulus: val,
+          keterangan: this.keterangan,
+          form: this.parsedForm,
         })
-        .then(response => {
+        .then((response) => {
           this.sheetDetail = false;
           this.dialogDelete = false;
           this.snackbar = {
@@ -543,24 +533,26 @@ export default {
             color: response.data.status ? "blue" : "red",
             message: response.data.status
               ? "Berhasil!"
-              : "Opps! terjadi kesalahan"
+              : "Opps! terjadi kesalahan",
           };
         })
-        .catch(error => {
+        .catch((error) => {
+          if (error.response.status == 401) {
+            this.$router.push({ name: "Login Petugas" });
+          }
           console.error(error);
           this.snackbar = {
             show: true,
             color: "red",
-            message: error
+            message: error,
           };
         })
         .then(() => {
           this.getHistory();
           this.btnLoading = false;
-          this.editMode = false;
           this.keterangan = null;
         });
-    }
+    },
   },
   data() {
     return {
@@ -573,16 +565,16 @@ export default {
       selectedPermohonan: {},
       selectedMahasiswa: {},
       snackbar: { show: false },
-      beasiswa: [],
+      lpj: [],
       headers: [
         {
           text: "Judul",
-          value: "judul"
+          value: "judul",
         },
-        { text: "Isi", value: "isi" }
-      ]
+        { text: "Isi", value: "isi" },
+      ],
     };
-  }
+  },
 };
 </script>
 

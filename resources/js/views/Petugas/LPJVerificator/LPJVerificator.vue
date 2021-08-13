@@ -67,10 +67,11 @@ export default {
         });
     },
     history() {
-      this.$router.push({ name: "Verificator History" });
+      console.log("asd");
+      this.$router.push({ name: "Verificator LPJ History" });
     },
     laporan() {
-      this.$router.push({ name: "Verificator Report" });
+      this.$router.push({ name: "Verificator LPJ Report" });
     },
     logout() {
       axios
