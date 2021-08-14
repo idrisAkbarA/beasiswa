@@ -84,12 +84,13 @@ class PemohonBeasiswa extends Model
 
     public function setIsSelectionPassedAttribute($value)
     {
+        $roles = [1, 4, 6]; // Admin, Petinggi, Verificator LPJ
         $petugas = Auth::guard('petugas')->user();
         try {
             if ($this->is_selection_passed !== null && $value == $this->is_selection_passed) {
                 return;
             }
-            if ($petugas->role !== 1 && $petugas->role !== 4) {
+            if (!in_array($petugas->role, $roles)) {
                 throw new Exception('Anda tidak memiliki hak akses');
             }
             if ($value && $this->beasiswa->quota <= count($this->beasiswa->lulus)) {

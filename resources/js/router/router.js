@@ -556,12 +556,12 @@ const routes = [
                 component: LPJVerificatorHome
             },
             {
-                name: "Verificator History",
+                name: "Verificator LPJ History",
                 path: "history",
                 component: LPJVerificatorHistory
             },
             {
-                name: "Verificator Report",
+                name: "Verificator LPJ Report",
                 path: "laporan",
                 component: LPJVerificatorReport
             }

@@ -425,7 +425,6 @@
         </v-card>
       </vue-scroll>
     </v-dialog>
-    </v-dialog>
     <!-- Create and Edit -->
     <v-bottom-sheet
       scrollable

@@ -19,9 +19,17 @@ class LPJController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $lpj = LPJ::with('beasiswa')->orderBy('id', 'DESC')->get();
+        $lpj = LPJ::with('beasiswa')
+            ->when($request->verificator, function ($q) {
+                return $q->whereDate('awal', '<=', date('Y-m-d'))
+                    ->whereDate('akhir', '>=', date('Y-m-d'))
+                    ->with(['permohonan' => function ($que) {
+                        $que->whereNull('is_lulus');
+                    }]);
+            })
+            ->orderBy('id', 'DESC')->get();
         return response()->json($lpj);
     }
 
@@ -57,7 +65,7 @@ class LPJController extends Controller
     public function store(Request $request)
     {
         LPJ::create($request->all());
-        return $this->index();
+        return $this->index($request);
     }
 
     /**
@@ -154,7 +162,7 @@ class LPJController extends Controller
     public function update(Request $request, LPJ $lpj)
     {
         $lpj->update($request->all());
-        return $this->index();
+        return $this->index($request);
     }
 
     /**
@@ -194,8 +202,9 @@ class LPJController extends Controller
     public function destroy(LPJ $lpj)
     {
         $lpj->delete();
-        return $this->index();
+        return $this->index(new Request);
     }
+
     public function report(Request $request)
     {
         return $request;

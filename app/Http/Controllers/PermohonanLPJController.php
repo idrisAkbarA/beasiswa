@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\LPJ;
+use App\UserPetugas;
 use App\PermohonanLPJ;
 use Exception;
 use Illuminate\Http\Request;
@@ -11,16 +12,6 @@ use Illuminate\Support\Facades\Auth;
 
 class PermohonanLPJController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -85,25 +76,18 @@ class PermohonanLPJController extends Controller
         return response()->json($reply);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\PermohonanLPJ  $permohonanLPJ
-     * @return \Illuminate\Http\Response
-     */
-    public function show(PermohonanLPJ $permohonanLPJ)
+    public function history(Request $request, UserPetugas $petugas)
     {
-        //
+        $LPJ = LPJ::with('permohonan')
+            ->whereHas('permohonan', function ($q) use ($petugas) {
+                return $q->where('verificator_id', $petugas->id);
+            })->get();
+        return response()->json($LPJ);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\PermohonanLPJ  $permohonanLPJ
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(PermohonanLPJ $permohonanLPJ)
+    public function myHistory(Request $request)
     {
-        //
+        $petugas = Auth::guard('petugas')->user();
+        return $this->history($request, $petugas);
     }
 }
