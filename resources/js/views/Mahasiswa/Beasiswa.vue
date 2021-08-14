@@ -503,6 +503,7 @@
           </v-row>
         </v-form>
         <v-sheet
+          v-if="isSyaratPassed"
           elevation="20"
           :style=" windowWidth<1265?'':'padding-left:256px'"
           color="blue-grey darken-4"
@@ -643,6 +644,8 @@ export default {
             show: true,
             message: response.syarat,
           };
+        } else {
+          this.isSyaratPassed = true;
         }
       })
       .catch((error) => {
@@ -672,6 +675,9 @@ export default {
       this.getUserPermohonan();
     },
     updateField(item) {
+      if (!this.isSyaratPassed) {
+        return;
+      }
       if (item.type != "Multiple Upload" && item.type != "Upload File") {
         console.log("huy non upload");
         if (this.isSubmitted) {
@@ -993,6 +999,7 @@ export default {
   },
   data() {
     return {
+      isSyaratPassed: false,
       progress: 0,
       loadingSheet: {},
       editOverlay: false,
