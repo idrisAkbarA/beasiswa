@@ -2,8 +2,12 @@
 
 namespace App\Providers;
 
-use App\Observers\PermohonanLPJObserver;
+use App\LPJ;
+use App\Beasiswa;
+use App\Observers\BeasiswaObserver;
 use App\PermohonanLPJ;
+use App\Observers\LPJObserver;
+use App\Observers\PermohonanLPJObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,6 +29,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Beasiswa::observe(BeasiswaObserver::class);
         PermohonanLPJ::observe(PermohonanLPJObserver::class);
+        LPJ::observe(LPJObserver::class);
     }
 }

@@ -4,11 +4,13 @@ namespace App;
 
 use Exception;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 
 class PermohonanLPJ extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'permohonan_lpj';
     protected $guarded = ['id'];
 
