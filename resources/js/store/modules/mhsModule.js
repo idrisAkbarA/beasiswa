@@ -15,14 +15,14 @@ export default {
     actions: {
         getMahasiswa({ commit, dispatch, rootState }) {
             commit("mutateTableLoading", true);
-            Axios.get(rootState.url + "/api/user").then(response => {
+            Axios.get("/api/user").then(response => {
                 commit('mutateMahasiswa', response.data)
                 commit("mutateTableLoading", false);
             })
         },
         storeMahasiswa({ commit, dispatch, rootState }, data) {
             return new Promise((resolve, reject) => {
-                Axios.post(rootState.url + "/api/user", data).then(response => {
+                Axios.post("/api/user", data).then(response => {
                     dispatch('getMahasiswa')
                     resolve(response)
                 }).catch(error => {
@@ -32,7 +32,7 @@ export default {
         },
         editMahasiswa({ commit, dispatch, rootState }, data) {
             return new Promise((resolve, reject) => {
-                Axios.put(rootState.url + "/api/user/" + data.nim, data).then(response => {
+                Axios.put("/api/user/" + data.nim, data).then(response => {
                     dispatch('getMahasiswa')
                     resolve(response)
                 }).catch(error => {
@@ -41,12 +41,12 @@ export default {
             })
         },
         deleteMahasiswa({ commit, dispatch, rootState }, nim) {
-            Axios.delete(rootState.url + "/api/user/" + nim).then(response => {
+            Axios.delete("/api/user/" + nim).then(response => {
                 dispatch('getMahasiswa')
             })
         },
         importMahasiswa({ commit, dispatch, rootState }, data) {
-            Axios.post(rootState.url + "/api/user/import", data, {
+            Axios.post("/api/user/import", data, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -56,7 +56,7 @@ export default {
         },
         getBeasiswaProgress({ commit, dispatch, rootState }) {
             commit("mutateTableLoading", true);
-            Axios.get(rootState.url + "/api/beasiswa/progress").then(response => {
+            Axios.get("/api/beasiswa/progress").then(response => {
                 commit('mutateBeasiswaProgress', response.data);
                 commit("mutateTableLoading", false);
             })

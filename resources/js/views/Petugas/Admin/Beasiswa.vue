@@ -278,6 +278,7 @@
                     <v-row>
                       <v-col cols="6">
                         <v-checkbox
+                          color="green"
                           label="IPK"
                           v-model="lainnya.ipk"
                           :disabled="isDisabled(dateBerkasEdit)"
@@ -294,6 +295,7 @@
                       </v-col>
                       <v-col cols="6">
                         <v-checkbox
+                          color="green"
                           label="Semester"
                           v-model="lainnya.semester"
                           :disabled="isDisabled(dateBerkasEdit)"
@@ -313,6 +315,7 @@
                       </v-col>
                       <v-col cols="6">
                         <v-checkbox
+                          color="green"
                           label="UKT"
                           v-model="lainnya.ukt"
                           :disabled="isDisabled(dateBerkasEdit)"
@@ -327,10 +330,19 @@
                           :disabled="!lainnya.ukt || isDisabled(dateBerkasEdit)"
                         ></v-text-field>
                       </v-col>
-                      <v-col cols="6">
+                      <v-col cols="12">
                         <v-checkbox
+                          color="green"
                           label="Tidak menerima beasiswa lain"
                           v-model="lainnya.is_first"
+                          :disabled="isDisabled(dateBerkasEdit)"
+                        ></v-checkbox>
+                      </v-col>
+                      <v-col cols="12">
+                        <v-checkbox
+                          color="green"
+                          label="Tidak sedang mendaftar beasiswa lain"
+                          v-model="lainnya.is_applying_other"
                           :disabled="isDisabled(dateBerkasEdit)"
                         ></v-checkbox>
                       </v-col>
@@ -1031,6 +1043,7 @@
                     <v-row>
                       <v-col cols="6">
                         <v-checkbox
+                          color="green"
                           label="IPK"
                           v-model="checked.ipk"
                           @
@@ -1047,6 +1060,7 @@
                       </v-col>
                       <v-col cols="6">
                         <v-checkbox
+                          color="green"
                           label="Semester"
                           v-model="checked.semester"
                         ></v-checkbox>
@@ -1063,6 +1077,7 @@
                       </v-col>
                       <v-col cols="6">
                         <v-checkbox
+                          color="green"
                           label="UKT"
                           v-model="checked.ukt"
                         ></v-checkbox>
@@ -1076,10 +1091,18 @@
                           :disabled="!checked.ukt"
                         ></v-select>
                       </v-col>
-                      <v-col cols="6">
+                      <v-col cols="12">
                         <v-checkbox
+                          color="green"
                           label="Tidak menerima beasiswa lain"
                           v-model="form.is_first"
+                        ></v-checkbox>
+                      </v-col>
+                      <v-col cols="12">
+                        <v-checkbox
+                          color="green"
+                          label="Tidak sedang mendaftar beasiswa lain"
+                          v-model="form.is_applying_other"
                         ></v-checkbox>
                       </v-col>
                       <v-col cols="6"></v-col>
@@ -1629,6 +1652,7 @@ export default {
         semester: item.semester,
         ukt: item.ukt,
         is_first: item.is_first,
+        is_applying_other: item.is_applying_other,
       };
 
       this.instansi.forEach((element) => {
@@ -1720,6 +1744,7 @@ export default {
           ipk: this.lainnya.ipk ?? null,
           semester: this.lainnya.semester ?? null,
           ukt: this.lainnya.ukt ?? null,
+          is_applying_other: this.lainnya.is_applying_other ?? null,
           is_first: this.lainnya.is_first ?? 0,
         };
         this.btnLoading = true;
@@ -1811,6 +1836,7 @@ export default {
           ukt: this.form.ukt ?? null,
           semester: this.form.semester ?? null,
           is_first: this.form.is_first ?? 0,
+          is_applying_other: this.form.is_applying_other ?? 0,
         };
         this.btnLoading = true;
         this.storeBeasiswa(data)

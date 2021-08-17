@@ -141,6 +141,8 @@
                     <span v-if="item.semester">{{"Semester "+ item.semester}}</span>
                     <br v-if="item.is_first">
                     <span v-if="item.is_first">Belum pernah mengikuti beasiswa</span>
+                    <br v-if="item.is_applying_other">
+                    <span v-if="item.is_applying_other">Tidak sedang mendaftar pada beasiswa lain</span>
                     <br v-if="item.ukt">
                     <span v-if="item.ukt"> Golongan UKT {{item.ukt }} kebawah</span>
                   </p>
@@ -178,6 +180,8 @@
                     <span v-if="beasiswaSingle.semester">{{"Semester "+ beasiswaSingle.semester}}</span>
                     <br v-if="beasiswaSingle.is_first">
                     <span v-if="beasiswaSingle.is_first">Belum pernah mengikuti beasiswa</span>
+                    <br v-if="beasiswaSingle.is_applying_other">
+                    <span v-if="beasiswaSingle.is_applying_other">Tidak sedang mendaftar pada beasiswa lain</span>
                     <br v-if="beasiswaSingle.ukt">
                     <span v-if="beasiswaSingle.ukt">Golongan UKT {{beasiswaSingle.ukt }} kebawah</span>
                     <br><br>
@@ -430,13 +434,13 @@ export default {
       } else {
         return "20%";
       }
-    }
+    },
   },
   computed: {
     ...mapState(["beasiswa"]),
     count() {
       return this.beasiswa.length;
-    }
+    },
   },
   data() {
     return {
@@ -447,28 +451,28 @@ export default {
       ops: {
         scrollPanel: {
           easing: "easeInQuad",
-          speed: 800
+          speed: 800,
         },
         vuescroll: {
           wheelScrollDuration: 0,
-          wheelDirectionReverse: true
-        }
+          wheelDirectionReverse: true,
+        },
       },
       opsSheet: {
         scrollPanel: {
           easing: "easeInQuad",
-          speed: 800
+          speed: 800,
         },
         vuescroll: {
           wheelScrollDuration: 0,
-          wheelDirectionReverse: false
-        }
-      }
+          wheelDirectionReverse: false,
+        },
+      },
     };
   },
   components: {
-    LoginComponent
-  }
+    LoginComponent,
+  },
 };
 </script>
 

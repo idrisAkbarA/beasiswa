@@ -219,11 +219,60 @@ class Beasiswa extends Model
         // First
         $first = $this->is_first && $user->permohonan->where('is_selection_passed', 1)->count() > 0;
         if ($this->is_first) $syarat['Tidak mengikuti beasiswa lain'] = !$first;
+        // is applying other beasiswa
+        $is_applying_other = self::isApplyingOther($this, $user);
+        if ($is_applying_other) {
+            $this->sedang_mendaftar = self::getPermohonanViolatedTheRule($this, $user);
+            $syarat['Tidak sedang mendaftar pada beasiswa lain'] = !$is_applying_other;
+        }
         // Semester
         $semester = self::cekSemester($this, $user);
         if ($this->semester) $syarat['Semester ' . $this->semester] = $semester;
 
         $this->syarat = $syarat;
+    }
+    public static function getPermohonanViolatedTheRule(Beasiswa $beasiswa, User $user)
+    {
+        $permohonans = PemohonBeasiswa::with('beasiswa')
+            ->where(
+                [
+                    'mhs_id' => $user->nim
+                ]
+            )
+            ->get();
+        $permohonansWithoutCorespondingBeasiswa = $permohonans->filter(function ($item, $key) use ($beasiswa) {
+            return $item->beasiswa_id != $beasiswa->id;
+        });
+        $now = Carbon::now();
+        $permohonansViolatedTheRule = $permohonansWithoutCorespondingBeasiswa->filter(function ($item, $key) use ($now) {
+            // $isInterview = $item->beasiswa->is_interview;
+            // $isSurvey = $item->beasiswa->is_survey;
+            $isBerkasPassed = $item->is_berkas_passed;
+            $isSurveyPassed = $item->is_survey_passed;
+            $isInterviewPassed = $item->is_interview_passed;
+            $isSelectionPassed = $item->is_selection_passed;
+
+            if ($isBerkasPassed === 0 || $isBerkasPassed === false) return false;
+            if ($isSelectionPassed === 0 || $isSelectionPassed === false) return false;
+            if ($isSurveyPassed === 0 || $isSurveyPassed === false) return false;
+            if ($isInterviewPassed === 0 || $isInterviewPassed === false) return false;
+
+            // check if beasiswa already closed
+            if ($item->beasiswa->deleted_at != null) return false;
+            return true;
+        });
+        return $permohonansViolatedTheRule;
+    }
+    public static function isApplyingOther(Beasiswa $beasiswa, User $user)
+    {
+        if (!$beasiswa->is_applying_other) {
+            return false;
+        }
+        $permohonansViolatedTheRule = self::getPermohonanViolatedTheRule($beasiswa, $user);
+
+        // dd($permohonans);
+        // dd($permohonansViolatedTheRule);
+        return $permohonansViolatedTheRule->count() > 0;
     }
 
     public function close()
