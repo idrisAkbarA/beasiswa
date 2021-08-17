@@ -3,8 +3,8 @@
 namespace App\Observers;
 
 use App\PermohonanLPJ;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cache;
 
 class PermohonanLPJObserver
 {
@@ -33,19 +33,18 @@ class PermohonanLPJObserver
         }
         // Cache::forget('lpj-' . $permohonanLPJ->getOriginal('lpj_id'));
     }
+
     public function updating(PermohonanLPJ $permohonanLPJ)
     {
-        // Cache::forget('lpj-' . $permohonanLPJ->getOriginal('lpj_id'));
-        // Cache::forget('lpj-' . $permohonanLPJ->lpj_id);
-        // Log::info("(Updating) Deleting cache key, key: lpj-" . $permohonanLPJ->getOriginal('lpj_id') . ", lpj-" . $permohonanLPJ->lpj_id);
+        //
     }
+
     public function saving(PermohonanLPJ $permohonanLPJ)
     {
         Cache::forget('lpj-' . $permohonanLPJ->getOriginal('lpj_id'));
         Cache::forget('lpj-' . $permohonanLPJ->lpj_id);
         Log::info("(saving) Deleting cache key, key: lpj-" . $permohonanLPJ->getOriginal('lpj_id') . ", lpj-" . $permohonanLPJ->lpj_id);
     }
-
 
     /**
      * Handle the permohonan l p j "deleted" event.

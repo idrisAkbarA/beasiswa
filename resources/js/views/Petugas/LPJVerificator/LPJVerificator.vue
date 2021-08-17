@@ -27,9 +27,9 @@
             <!-- Change this automaticly later usig VUEX -->
           </v-toolbar-title>
         </div>
-        <v-btn small text @click="laporan">
+        <!-- <v-btn small text @click="laporan">
           <v-icon>mdi-file-document</v-icon>Laporan
-        </v-btn>
+        </v-btn> -->
         <v-btn small text @click="history">
           <v-icon>mdi-history</v-icon>History
         </v-btn>
