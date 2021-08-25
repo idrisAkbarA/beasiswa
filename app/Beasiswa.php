@@ -258,7 +258,11 @@ class Beasiswa extends Model
             if ($isInterviewPassed === 0 || $isInterviewPassed === false) return false;
 
             // check if beasiswa already closed
-            if ($item->beasiswa->deleted_at != null) return false;
+            try {
+                if ($item->beasiswa->deleted_at != null) return false;
+            } catch (\Throwable $th) {
+                return false;
+            }
             return true;
         });
         return $permohonansViolatedTheRule;
