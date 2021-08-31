@@ -236,7 +236,8 @@ class Beasiswa extends Model
         $permohonans = PemohonBeasiswa::with('beasiswa')
             ->where(
                 [
-                    'mhs_id' => $user->nim
+                    'mhs_id' => $user->nim,
+                    'is_submitted' => 1
                 ]
             )
             ->get();
