@@ -7,6 +7,7 @@ import Test from "../views/Test.vue";
 import NotFound from "../views/404.vue";
 import Login from "../views/Login.vue";
 import LoginPetugas from "../views/LoginPetugas.vue";
+import LoginWithoutIraise from "../views/LoginWithoutIraise.vue";
 import Petugas from "../views/Petugas/Petugas.vue";
 import Dashboard from "../views/Petugas/Admin/Dashboard.vue";
 import Beasiswa from "../views/Petugas/Admin/Beasiswa.vue";
@@ -85,6 +86,11 @@ const routes = [
         path: "/login-petugas",
         name: "Login Petugas",
         component: LoginPetugas
+    },
+    {
+        path: "/login-without-iraise",
+        name: "Login Without Iraise",
+        component: LoginWithoutIraise
     },
     {
         path: "/admin/:petugas",
