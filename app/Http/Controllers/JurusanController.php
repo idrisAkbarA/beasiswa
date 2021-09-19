@@ -12,4 +12,10 @@ class JurusanController extends Controller
         $jurusan = Jurusan::all();
         return response()->json($jurusan);
     }
+
+    public function getJurusanByFakultas($fakultas_id)
+    {
+        $jurusan = Jurusan::getJurusanByFakultas($fakultas_id);
+        return response()->json($jurusan);
+    }
 }

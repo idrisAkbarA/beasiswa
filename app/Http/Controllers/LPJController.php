@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\LPJ;
 use App\User;
+use App\Jurusan;
 use App\PermohonanLPJ;
 use Exception;
 use Illuminate\Http\Request;
@@ -21,12 +22,18 @@ class LPJController extends Controller
      */
     public function index(Request $request)
     {
+        $petugas = Auth::guard('petugas')->user();
+        $jurusan = Jurusan::getJurusanByFakultas($petugas->fakultas_id);
         $lpj = LPJ::with('beasiswa')
-            ->when($request->verificator, function ($q) {
+            ->when($petugas->role == 6, function ($q) use ($jurusan) {
                 return $q->whereDate('awal', '<=', date('Y-m-d'))
                     ->whereDate('akhir', '>=', date('Y-m-d'))
-                    ->with(['permohonan' => function ($que) {
-                        $que->whereNull('is_lulus');
+                    ->with(['permohonan' => function ($que) use ($jurusan) {
+                        $que->where('is_submitted', 1)
+                            ->whereNull('is_lulus')
+                            ->whereHas('mahasiswa', function ($query) use ($jurusan) {
+                                $query->whereIn('jurusan_id', $jurusan);
+                            });
                     }]);
             })
             ->orderBy('id', 'DESC')->get();

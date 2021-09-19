@@ -75,8 +75,6 @@ Route::middleware('auth:petugas')->post('/user/import', 'UserController@import')
 
 Route::get('/fakultas', 'FakultasController@getAll');
 
-Route::get('/jurusan', 'JurusanController@getAll');
-
 Route::middleware('auth:petugas')->get('/permohonan/my-history', 'PemohonBeasiswaController@myHistory');
 Route::middleware('auth:petugas')->post('/permohonan/import/{id}', 'PemohonBeasiswaController@import');
 Route::middleware('auth:mahasiswa')->get('/permohonan/{id}', 'PemohonBeasiswaController@get');
@@ -102,6 +100,11 @@ Route::get('/pemohon/count-submit', 'PemohonBeasiswaController@countSubmit');
 Route::get('/pemohon/count-berkas', 'PemohonBeasiswaController@countBerkas');
 Route::get('/pemohon/count-interview', 'PemohonBeasiswaController@countInterview');
 Route::get('/pemohon/count-lulus', 'PemohonBeasiswaController@countLulus');
+
+Route::prefix('/jurusan')->group(function () {
+    Route::get('/', 'JurusanController@getAll');
+    Route::get('/{fakultas_id}', 'JurusanController@getJurusanByFakultas');
+});
 
 Route::prefix('/lpj')->group(function () {
     Route::get('/', 'LPJController@index');
