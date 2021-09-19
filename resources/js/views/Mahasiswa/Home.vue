@@ -1,8 +1,20 @@
 <template>
-  <v-container fluid class="main pa-0 ma-0">
-    <v-row class="fill-height" style="height:100%" align="center" v-if="beasiswa.length<1">
+  <v-container
+    fluid
+    class="main pa-0 ma-0"
+  >
+    <v-row
+      class="fill-height"
+      style="height:100%"
+      align="center"
+      v-if="beasiswa.length<1"
+    >
       <v-col cols="12">
-        <v-img class="mx-auto" max-width="340" :src="'/images/nothing.png'"></v-img>
+        <v-img
+          class="mx-auto"
+          max-width="340"
+          :src="'/images/nothing.png'"
+        ></v-img>
       </v-col>
       <v-col cols="12">
         <div style="width:100%">
@@ -10,7 +22,10 @@
         </div>
       </v-col>
     </v-row>
-    <v-row v-else justify="center">
+    <v-row
+      v-else
+      justify="center"
+    >
       <v-card
         @click="goto(item)"
         ripple
@@ -25,7 +40,12 @@
           :src="'https://picsum.photos/200/300?random='+index"
         >
           <template v-slot:placeholder>
-            <v-skeleton-loader ref="skeleton" :loading="loading" type="image" class="ma-auto"></v-skeleton-loader>
+            <v-skeleton-loader
+              ref="skeleton"
+              :loading="loading"
+              type="image"
+              class="ma-auto"
+            ></v-skeleton-loader>
           </template>
           <v-card-title>
             <span>{{index+1}}</span>
@@ -33,17 +53,25 @@
             <span class="caption">Tersedia</span>
           </v-card-title>
           <v-card-text>
-            <h1>{{item.nama.length>60 ? item.nama.substring(0,50) + " ..." : item.nama}}</h1>
+            <h4>{{item.nama.length>100 ? item.nama.substring(0,100) + " ..." : item.nama}}</h4>
           </v-card-text>
         </v-img>
       </v-card>
     </v-row>
 
     <!-- Snackbar -->
-    <v-snackbar v-model="snackbar.show" :timeout="2000">
+    <v-snackbar
+      v-model="snackbar.show"
+      :timeout="2000"
+    >
       {{ snackbar.message }}
       <template v-slot:action="{ attrs }">
-        <v-btn :color="snackbar.color" text v-bind="attrs" @click="snackbar.show = false">Close</v-btn>
+        <v-btn
+          :color="snackbar.color"
+          text
+          v-bind="attrs"
+          @click="snackbar.show = false"
+        >Close</v-btn>
       </template>
     </v-snackbar>
   </v-container>
@@ -57,22 +85,22 @@ export default {
 
     goto(item) {
       this.$router.push({
-        path: "/mahasiswa/daftar-beasiswa/" + item.id
+        path: "/mahasiswa/daftar-beasiswa/" + item.id,
       });
-    }
+    },
   },
   created() {
     this.getBeasiswaActive();
   },
   computed: {
-    ...mapState(["beasiswa"])
+    ...mapState(["beasiswa"]),
   },
   data() {
     return {
       loading: true,
-      snackbar: { show: false }
+      snackbar: { show: false },
     };
-  }
+  },
 };
 </script>
 

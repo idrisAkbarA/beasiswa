@@ -1,4 +1,4 @@
-<template>
+script<template>
   <v-container fill-height>
     <v-row
       class="fill-height"
@@ -15,15 +15,13 @@
         </v-img>
       </v-col>
       <v-col cols="12">
-        <div
-          style="width:100%"
-        >
+        <div style="width:100%">
           <h4 style="text-align:center">Anda belum memiliki permohonan beasiswa</h4>
         </div>
       </v-col>
     </v-row>
     <v-row
-    v-else
+      v-else
       justify="center"
       v-for="(item,index) in permohonans"
       :key="index"
@@ -174,12 +172,16 @@ export default {
     getUserPermohonan() {
       axios
         .get("/api/pemohon/cek-isHas")
-        .then(response => {
+        .then((response) => {
           console.log(response.data);
-          this.permohonans = response.data;
-          this.addTimeline(response.data);
+          // if some how beasiswa get deleted, filter it out from applicant's list
+          let Validpermohonans = response.data.filter((item) => {
+            return item.beasiswa;
+          });
+          this.permohonans = Validpermohonans;
+          this.addTimeline(Validpermohonans);
         })
-        .catch(error => {
+        .catch((error) => {
           if (error.response.status == 401) {
             this.$router.push({ name: "Landing Page" });
           }
@@ -193,7 +195,7 @@ export default {
           awal_tgl: element.beasiswa.awal_berkas,
           akhir_tgl: element.beasiswa.akhir_berkas,
           msg: "Pengisian berkas",
-          is_done: true
+          is_done: true,
         });
         if (element.beasiswa.is_interview == 1) {
           var is_done = false;
@@ -210,7 +212,7 @@ export default {
               element.beasiswa.awal_interview
                 ? this.parseDate(element.beasiswa.awal_interview) + " sampai "
                 : ""
-            }  ${this.parseDate(element.beasiswa.akhir_interview)}`
+            }  ${this.parseDate(element.beasiswa.akhir_interview)}`,
           });
         }
         if (element.beasiswa.is_survey == 1) {
@@ -230,7 +232,7 @@ export default {
                 : ""
             }  ${this.parseDate(
               element.beasiswa.akhir_survey
-            )}, harap menunggu.`
+            )}, harap menunggu.`,
           });
         }
         var is_done = false;
@@ -242,19 +244,19 @@ export default {
           awal_tgl: null,
           akhir_tgl: null,
           is_done,
-          msg: "Harap menunggu hasil seleksi pimpinan."
+          msg: "Harap menunggu hasil seleksi pimpinan.",
         });
         permohonans[index]["timeline"] = timeline;
         timeline = [];
       });
-    }
+    },
   },
   data() {
     return {
       permohonans: [],
-      color: ""
+      color: "",
     };
-  }
+  },
 };
 </script>
 

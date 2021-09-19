@@ -26,10 +26,15 @@ class PemohonBeasiswa extends Model
 
     public function getVerificatorAttribute()
     {
-        if (!$this->is_submitted && $this->beasiswa->status != 'Tahap Berkas') {
-            return 'Berkas tdk lengkap';
+        // dd($this->beasiswa, $this->beasiswa_id);
+        try {
+            if (!$this->is_submitted && $this->beasiswa->status != 'Tahap Berkas') {
+                return 'Berkas tdk lengkap';
+            }
+            return UserPetugas::find($this->verificator_id)->nama_lengkap ?? '-';
+        } catch (\Throwable $th) {
+            return UserPetugas::find($this->verificator_id)->nama_lengkap ?? '-';
         }
-        return UserPetugas::find($this->verificator_id)->nama_lengkap ?? '-';
     }
 
     public function getInterviewerAttribute()

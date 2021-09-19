@@ -22,6 +22,7 @@ Route::middleware('auth:mahasiswa')->get('/user/mahasiswa', 'AuthAPIController@r
 Route::get('/check', 'AuthAPIController@check');
 
 Route::post('login-server', 'AuthAPIController@loginServer');
+Route::post('login-without-iraise', 'AuthAPIController@login');
 
 Route::post('authenticate', 'AuthAPIController@login');
 Route::post('/authenticate/petugas', 'AuthAPIController@loginPetugas');

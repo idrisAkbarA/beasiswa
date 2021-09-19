@@ -130,7 +130,7 @@
                       <v-spacer></v-spacer><span class="caption">{{isTersedia(item)}}</span>
                     </v-card-title>
                     <v-card-text style="height:100%">
-                      <h2>{{item.nama.length>60 ? item.nama.substring(0,60) + " ..." : item.nama}}</h2>
+                      <h4>{{item.nama.length>100 ? item.nama.substring(0,100) + " ..." : item.nama}}</h4>
                     </v-card-text>
                   </v-img>
                   <p class="caption pa-1">
