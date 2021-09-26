@@ -109,9 +109,9 @@ Route::prefix('/lpj')->group(function () {
     Route::get('/active', 'LPJController@indexMahasiswa');
     Route::get('/daftar/{lpj}', 'LPJController@daftar');
     Route::put('/lulus/{lpj}', 'LPJController@lulusAll');
+    Route::get('/report', 'LPJController@report');
     Route::get('/{lpj}', 'LPJController@show');
     Route::post('/', 'LPJController@store');
-    Route::get('/report', 'LPJController@report');
     Route::put('/{lpj}', 'LPJController@update');
     Route::delete('/{lpj}', 'LPJController@destroy');
 });

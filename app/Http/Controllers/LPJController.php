@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\LPJ;
 use App\User;
 use App\PermohonanLPJ;
+use App\Services\LPJReport;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -207,6 +208,10 @@ class LPJController extends Controller
 
     public function report(Request $request)
     {
-        return $request;
+        // return $request;
+        $report = (new LPJReport($request))->getCollection();
+        // dd($report);
+        return response()->json($report);
+        return $report;
     }
 }

@@ -29,7 +29,7 @@
                   @change="getFieldList"
                   filled
                   color="white"
-                  label="Beasiswa"
+                  label="LPJ"
                   :loading="lpjLoading"
                   :disabled="lpjLoading"
                   :items="lpjItem"
@@ -276,16 +276,17 @@ export default {
     getFieldList(item) {
       // Method Descriptiption:
       // list all pertanyaan of the selected beasiswa
+      console.log("item", item);
 
       if (item != "all") {
         // check if id beasiswa selected
-        var beasiswaDetail = {};
-        this.beasiswa.forEach((element) => {
+        var lpjDetail = {};
+        this.lpj.forEach((element) => {
           // loop beasiswa to get the desired beasiswa
-          if (element.id == item) beasiswaDetail = element;
+          if (element.id == item) lpjDetail = element;
         });
 
-        this.fieldList = JSON.parse(beasiswaDetail.fields); // set the list
+        this.fieldList = JSON.parse(lpjDetail.fields); // set the list
       }
     },
     async getLaporan(isDownload) {
