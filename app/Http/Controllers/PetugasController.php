@@ -22,7 +22,8 @@ class PetugasController extends Controller
         $petugas->nama_lengkap = $request['nama_lengkap'];
         $petugas->role = $request['role'];
         $petugas->password = Hash::make($request['password']);
-        if ($request['role'] == 5) {
+
+        if (in_array($request['role'], [5, 6])) {
             $petugas->fakultas_id = $request['fakultas_id'];
         }
         $petugas->save();

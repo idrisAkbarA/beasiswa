@@ -46,7 +46,7 @@
     >
       <v-card-text>
         <v-subheader>
-          <strong class="text-dark">Berkas LPJ</strong>
+          <strong class="text-dark">Berkas LPJ Fakultas {{ petugas.fakultas.nama }}</strong>
         </v-subheader>
         <v-row class="pl-8 pr-8">
           <v-text-field
@@ -513,14 +513,9 @@ export default {
       }
     },
     getLPJ() {
-      const params = {
-        params: {
-          verificator: true,
-        },
-      };
       this.loading = true;
       axios
-        .get("/api/lpj", params)
+        .get("/api/lpj")
         .then((response) => {
           console.log(response.data);
           this.lpj = response.data;

@@ -13,26 +13,22 @@
         class="elevation-10 mb-10"
       >
         <template v-slot:item.actions="{ item }">
-          <v-icon
-            small
-            class="mr-2"
-            @click="info(item)"
-            title="Info"
-          >mdi-information-outline
+          <v-icon small class="mr-2" @click="info(item)" title="Info"
+            >mdi-information-outline
           </v-icon>
           <v-icon
             small
             class="mr-2"
             @click="showChangePass(item)"
             title="Ubah Pasword"
-          >mdi-textbox-password
+            >mdi-textbox-password
           </v-icon>
           <v-icon
             small
             v-if="item.id != petugas.id"
             title="Hapus Akun"
             @click="deleteItem(item)"
-          >mdi-delete
+            >mdi-delete
           </v-icon>
         </template>
         <template v-slot:item.role="{ item }">
@@ -55,21 +51,13 @@
         <v-card-title>
           <span>Ubah Password</span>
           <v-spacer></v-spacer>
-          <v-btn
-            @click="toggleChangePass = false"
-            text
-          >batal</v-btn>
-          <v-btn
-            color="#2E7D32"
-            :loading="btnLoading"
-            @click="changePass()"
-          >Simpan</v-btn>
+          <v-btn @click="toggleChangePass = false" text>batal</v-btn>
+          <v-btn color="#2E7D32" :loading="btnLoading" @click="changePass()"
+            >Simpan</v-btn
+          >
         </v-card-title>
         <v-card-text style="height: 100px">
-          <v-row
-            dense
-            class="mx-1"
-          >
+          <v-row dense class="mx-1">
             <v-col>
               <v-text-field
                 color="#C8E6C9"
@@ -102,22 +90,14 @@
         <v-card-title>
           <span>Tambah Petugas</span>
           <v-spacer></v-spacer>
-          <v-btn
-            @click="toggleAkunPetugas = false"
-            text
-          >Batal</v-btn>
-          <v-btn
-            color="#2E7D32"
-            :loading="btnLoading"
-            @click="store()"
-          >Tambah Petugas</v-btn>
+          <v-btn @click="toggleAkunPetugas = false" text>Batal</v-btn>
+          <v-btn color="#2E7D32" :loading="btnLoading" @click="store()"
+            >Tambah Petugas</v-btn
+          >
         </v-card-title>
         <v-card-text>
           <v-row class="ma-5">
-            <v-col
-              cols="4"
-              xs="12"
-            >
+            <v-col cols="4" xs="12">
               <v-text-field
                 color="white"
                 label="Nama Lengkap"
@@ -125,10 +105,7 @@
               >
               </v-text-field>
             </v-col>
-            <v-col
-              cols="4"
-              xs="12"
-            >
+            <v-col cols="4" xs="12">
               <v-text-field
                 color="white"
                 label="Username"
@@ -136,10 +113,7 @@
               >
               </v-text-field>
             </v-col>
-            <v-col
-              cols="4"
-              xs="12"
-            >
+            <v-col cols="4" xs="12">
               <v-text-field
                 color="white"
                 label="Password"
@@ -148,11 +122,7 @@
               >
               </v-text-field>
             </v-col>
-            <v-col
-              cols="4"
-              xs="12"
-              class="mx-auto"
-            >
+            <v-col cols="4" xs="12" class="mx-auto">
               <v-select
                 label="Role"
                 color="white"
@@ -162,7 +132,7 @@
                 v-model="storeItem.role"
               ></v-select>
             </v-col>
-            <v-col v-if="storeItem.role == 5">
+            <v-col v-if="[5, 6].includes(storeItem.role)">
               <v-select
                 label="Fakultas"
                 color="white"
@@ -176,54 +146,32 @@
         </v-card-text>
       </v-card>
     </v-bottom-sheet>
-    <v-dialog
-      width="400"
-      overlay-color="#69F0AE"
-      v-model="dialogDelete"
-    >
+    <v-dialog width="400" overlay-color="#69F0AE" v-model="dialogDelete">
       <v-card>
         <v-card-title class="mt-2">
-          <v-icon
-            color="white"
-            class="mr-2"
-          >delete</v-icon> Hapus Akun
+          <v-icon color="white" class="mr-2">delete</v-icon> Hapus Akun
         </v-card-title>
         <v-card-text class="mt-2 white--text text-center">
           Apakah anda yakin akan menghapus akun ini ?
         </v-card-text>
         <v-card-actions>
-          <v-btn
-            text
-            @click="dialogDelete = false"
-            :loading="btnLoading"
-          >
+          <v-btn text @click="dialogDelete = false" :loading="btnLoading">
             Batal
           </v-btn>
           <v-spacer></v-spacer>
-          <v-btn
-            dark
-            class="green"
-            @click="deleteConfirmed()"
-          >
+          <v-btn dark class="green" @click="deleteConfirmed()">
             <v-icon left>mdi-check</v-icon>
             Ya
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-dialog
-      v-model="dialogInfo"
-      width="500"
-    >
+    <v-dialog v-model="dialogInfo" width="500">
       <v-card>
         <v-card-title>
           Info Petugas
           <v-spacer></v-spacer>
-          <v-btn
-            icon
-            dark
-            @click="dialogInfo = false"
-          >
+          <v-btn icon dark @click="dialogInfo = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -240,10 +188,7 @@
       </v-card>
     </v-dialog>
     <!-- Snackbar -->
-    <v-snackbar
-      v-model="snackbar.show"
-      :timeout="2000"
-    >
+    <v-snackbar v-model="snackbar.show" :timeout="2000">
       {{ snackbar.message }}
 
       <template v-slot:action="{ attrs }">

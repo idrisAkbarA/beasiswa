@@ -27,9 +27,9 @@ class BeasiswaController extends Controller
         // echo "making job";
         $process = new pull();
         dispatch($process);
-       
     }
-    public function startQueueDaemon(){
+    public function startQueueDaemon()
+    {
         $process = new startQueueDaemon();
         dispatch($process);
     }
@@ -442,15 +442,6 @@ class BeasiswaController extends Controller
         $beasiswa->cekPersyaratan($user);
         $beasiswa->makeHidden(['berkas', 'interview', 'survey', 'selection', 'lulus']);
         return response()->json($beasiswa);
-    }
-
-    public function responseProdi($input)
-    {
-        return
-            [
-                'Kamu lalai sih',
-                'solusinya gada solusi'
-            ][random_int(0, 1)];
     }
 
     public function store(Request $request)
