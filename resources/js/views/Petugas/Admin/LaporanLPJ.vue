@@ -317,11 +317,11 @@ export default {
     },
     getReportDownload(data) {
       this.downloadLoading = true;
-      Axios.get("/api/beasiswa/download-report", {
+      Axios.get("/api/lpj/download-report", {
         params: data,
         responseType: "blob",
       }).then((response) => {
-        FileDownload(response.data, "Beasiswa.xlsx");
+        FileDownload(response.data, "LPJ.xlsx");
         this.downloadLoading = false;
       });
     },
@@ -342,12 +342,12 @@ export default {
       tableLoading: false,
       downloadLoading: false,
       status: [
-        { value: "all", text: "Semua" },
-        { value: "proses", text: "Menunggu Validasi" },
-        { value: "lulus", text: "Lulus" },
-        { value: "gagal", text: "Gagal" },
-        { value: "tidak lengkap", text: "Tidak Lengkap" },
-        { value: "belum mengisi", text: "Belum Mengisi" },
+        { value: "All", text: "Semua" },
+        { value: "Menunggu Validasi", text: "Menunggu Validasi" },
+        { value: "Lulus", text: "Lulus" },
+        { value: "Gagal", text: "Gagal" },
+        { value: "Tidak Lengkap", text: "Tidak Lengkap" },
+        { value: "Belum Mengisi", text: "Belum Mengisi" },
       ],
       // tahap: [
       //   { value: "berkas", text: "Berkas" },

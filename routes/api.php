@@ -113,6 +113,7 @@ Route::prefix('/lpj')->group(function () {
     Route::get('/daftar/{lpj}', 'LPJController@daftar');
     Route::put('/lulus/{lpj}', 'LPJController@lulusAll');
     Route::get('/report', 'LPJController@report');
+    Route::get('/download-report', 'LPJController@downloadReport');
     Route::get('/{lpj}', 'LPJController@show');
     Route::post('/', 'LPJController@store');
     Route::put('/{lpj}', 'LPJController@update');
