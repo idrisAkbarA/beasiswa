@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\PermohonanLPJExport;
 use App\LPJ;
 use App\User;
 use App\Jurusan;
 use App\PermohonanLPJ;
+use App\Services\LPJReport;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
 
 class LPJController extends Controller
 {
@@ -214,6 +217,15 @@ class LPJController extends Controller
 
     public function report(Request $request)
     {
-        return $request;
+
+        $report = (new LPJReport($request))->getArray();
+        return $report;
+        return response()->json($report);
+    }
+    public function downloadReport(Request $request)
+    {
+
+        $report = (new LPJReport($request))->getCollection();
+        return Excel::download(new PermohonanLPJExport($report), 'LPJ.xlsx');
     }
 }

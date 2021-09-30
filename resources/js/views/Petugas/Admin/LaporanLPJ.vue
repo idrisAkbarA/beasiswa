@@ -29,7 +29,7 @@
                   @change="getFieldList"
                   filled
                   color="white"
-                  label="Beasiswa"
+                  label="LPJ"
                   :loading="lpjLoading"
                   :disabled="lpjLoading"
                   :items="lpjItem"
@@ -276,16 +276,17 @@ export default {
     getFieldList(item) {
       // Method Descriptiption:
       // list all pertanyaan of the selected beasiswa
+      console.log("item", item);
 
       if (item != "all") {
         // check if id beasiswa selected
-        var beasiswaDetail = {};
-        this.beasiswa.forEach((element) => {
+        var lpjDetail = {};
+        this.lpj.forEach((element) => {
           // loop beasiswa to get the desired beasiswa
-          if (element.id == item) beasiswaDetail = element;
+          if (element.id == item) lpjDetail = element;
         });
 
-        this.fieldList = JSON.parse(beasiswaDetail.fields); // set the list
+        this.fieldList = JSON.parse(lpjDetail.fields); // set the list
       }
     },
     async getLaporan(isDownload) {
@@ -316,11 +317,11 @@ export default {
     },
     getReportDownload(data) {
       this.downloadLoading = true;
-      Axios.get("/api/beasiswa/download-report", {
+      Axios.get("/api/lpj/download-report", {
         params: data,
         responseType: "blob",
       }).then((response) => {
-        FileDownload(response.data, "Beasiswa.xlsx");
+        FileDownload(response.data, "LPJ.xlsx");
         this.downloadLoading = false;
       });
     },
@@ -341,12 +342,12 @@ export default {
       tableLoading: false,
       downloadLoading: false,
       status: [
-        { value: "all", text: "Semua" },
-        { value: "proses", text: "Menunggu Validasi" },
-        { value: "lulus", text: "Lulus" },
-        { value: "gagal", text: "Gagal" },
-        { value: "tidak lengkap", text: "Tidak Lengkap" },
-        { value: "belum mengisi", text: "Belum Mengisi" },
+        { value: "All", text: "Semua" },
+        { value: "Menunggu Validasi", text: "Menunggu Validasi" },
+        { value: "Lulus", text: "Lulus" },
+        { value: "Gagal", text: "Gagal" },
+        { value: "Tidak Lengkap", text: "Tidak Lengkap" },
+        { value: "Belum Mengisi", text: "Belum Mengisi" },
       ],
       // tahap: [
       //   { value: "berkas", text: "Berkas" },

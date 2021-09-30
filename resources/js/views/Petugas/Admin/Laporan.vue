@@ -1,6 +1,10 @@
 <template>
   <v-container>
-    <v-card tile color="transparent" flat>
+    <v-card
+      tile
+      color="transparent"
+      flat
+    >
       <v-card-title>
         <span class="ml-3"> Laporan </span>
       </v-card-title>
@@ -11,7 +15,11 @@
               Filter Laporan | Isi field untuk melihat laporan
             </span>
           </v-row>
-          <v-form ref="form" v-model="validation" lazy-validation>
+          <v-form
+            ref="form"
+            v-model="validation"
+            lazy-validation
+          >
             <v-row no-gutters>
               <v-col>
                 <v-autocomplete
@@ -86,7 +94,10 @@
                   Set kolom pertanyaan
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
-                  <v-container class="px-0" fluid>
+                  <v-container
+                    class="px-0"
+                    fluid
+                  >
                     <v-checkbox
                       hide-details
                       color="green"
@@ -119,8 +130,7 @@
               :disabled="isDownloadDisabled"
               color="green darken-2"
               @click="getLaporan(false)"
-              >lihat laporan</v-btn
-            >
+            >lihat laporan</v-btn>
             <v-btn
               :disabled="isDownloadDisabled"
               class="ml-1"
@@ -266,7 +276,7 @@ export default {
     getFieldList(item) {
       // Method Descriptiption:
       // list all pertanyaan of the selected beasiswa
-
+      console.log(item);
       if (item != "all") {
         // check if id beasiswa selected
         var beasiswaDetail = {};

@@ -41,7 +41,7 @@ export default new Vuex.Store({
             state.report = data;
         },
         mutateReportLPJ(state, data) {
-            state.report = data;
+            state.reportLPJ = data;
         },
         mutateAuth(state, data) {
             state.Auth = data;
