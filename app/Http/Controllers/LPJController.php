@@ -26,15 +26,14 @@ class LPJController extends Controller
         $jurusan = Jurusan::getJurusanByFakultas($petugas->fakultas_id);
         $lpj = LPJ::with('beasiswa')
             ->when($petugas->role == 6, function ($q) use ($jurusan) {
-                return $q->whereDate('awal', '<=', date('Y-m-d'))
-                    ->whereDate('akhir', '>=', date('Y-m-d'))
-                    ->with(['permohonan' => function ($que) use ($jurusan) {
+                return $q->whereDate('akhir', '<', date('Y-m-d'))
+                    ->whereHas('permohonan', function ($que) use ($jurusan) {
                         $que->where('is_submitted', 1)
                             ->whereNull('is_lulus')
                             ->whereHas('mahasiswa', function ($query) use ($jurusan) {
                                 $query->whereIn('jurusan_id', $jurusan);
                             });
-                    }]);
+                    });
             })
             ->orderBy('id', 'DESC')->get();
         return response()->json($lpj);
